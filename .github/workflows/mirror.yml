@@ -1,0 +1,22 @@
+name: Update Mirror
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+          ref: main
+      - name: Push to Epitech repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url:
+            git@github.com:EpitechPromo2024/B-YEP-500-NAN-5-1-yearendproject-zoe1.roux.git
+          ssh_private_key:
+            ${{ secrets.SSH_KEY }}
