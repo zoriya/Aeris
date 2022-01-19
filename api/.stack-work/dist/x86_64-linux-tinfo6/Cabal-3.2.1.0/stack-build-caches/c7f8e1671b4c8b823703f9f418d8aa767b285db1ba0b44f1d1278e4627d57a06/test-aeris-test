@@ -1,0 +1,16 @@
+? /home/anonymus-raccoon/projects/tek3/appdev/aeris/api/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.2.1.0/build/aeris-test/autogen/cabal_macros.h
+: hash: 23ca0a417d457a416ed308e41fcd385fc5363cd607ed971a56bb4543a3c47eae
+/home/anonymus-raccoon/projects/tek3/appdev/aeris/api/package.yaml:
+  hash: c5c842afeb5f4868ae7dcdf3e67910d91aa95ea639a9e5e38eab4242c898d6db
+/home/anonymus-raccoon/projects/tek3/appdev/aeris/api/README.md:
+  hash: e973ae02da2d57898a194bfc00a1e29ad577cf4189e8a589c24062e97dc289d5
+/home/anonymus-raccoon/.local/share/stack/programs/x86_64-linux/ghc-tinfo6-8.10.7/lib/ghc-8.10.7/include/ghcversion.h:
+  hash: c013160c9aa8a98f4638616496dce720c23ceca8ef9d6b3212b654642fbda5e4
+/home/anonymus-raccoon/projects/tek3/appdev/aeris/api/aeris.cabal:
+  hash: 1f1b5cdb6813281b1a275108f25d26eb1dd90af804c3ac5eeaa17711c9d0257a
+/usr/include/stdc-predef.h:
+  hash: 38bac01c137da3ec6623c5166d420cd0bdee18e1d6605921f138f74ef902f102
+/home/anonymus-raccoon/projects/tek3/appdev/aeris/api/test/Spec.hs:
+  hash: 0939d425d35b64f16f627208b2120badd703880f601e6f7b60fd030b79190981
+? /home/anonymus-raccoon/projects/tek3/appdev/aeris/api/.stack-work/dist/x86_64-linux-tinfo6/Cabal-3.2.1.0/build/aeris-test/autogen/Paths_aeris.hs
+: hash: 623f4f5a6627151fd71fd2e473f2c88f00083c9c638414d40ada812a564eda01
