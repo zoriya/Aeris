@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/widgets/overlayed_texts.dart';
 
@@ -36,7 +37,9 @@ class HomePage extends StatelessWidget {
                   primary: Theme.of(context).colorScheme.primary,
                 ),
                 onPressed: () {
-                  print("On clique sur 'se connecter'!");
+                  if (kDebugMode) {
+                    print("On clique sur 'se connecter'!");
+                  }
                 },
                 child: const Tooltip(
                     message: 'Connexion',
