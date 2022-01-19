@@ -20,7 +20,7 @@ jobs:
         with:
           channel: 'stable'
       - name: Get Flutter dependencies
-        run: flutter pub get
+        run: flutter upgrade ; flutter pub get
       - name: Build APK
         run: flutter build apk lib/src/main.dart
       - name: Set Build name
