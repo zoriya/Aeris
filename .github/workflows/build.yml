@@ -19,7 +19,6 @@ jobs:
       - uses: subosito/flutter-action@v2.2.0
         with:
           flutter-version: '2.9.0'
-          channel: 'stable'
       - name: Get Flutter dependencies
         run: flutter upgrade ; flutter pub get
       - name: Build APK
