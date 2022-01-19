@@ -28,11 +28,8 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Release Mobile APK
-        uses: actions/create-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
+          files: flapp.apk
           body: ${{steps.github_release.outputs.changelog}}
-          artifacts: ./aeris.apk
