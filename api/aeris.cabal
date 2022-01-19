@@ -7,8 +7,8 @@ cabal-version: 1.12
 name:           aeris
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/aeris#readme>
-homepage:       https://github.com/githubuser/aeris#readme
-bug-reports:    https://github.com/githubuser/aeris/issues
+homepage:       https://github.com/AnonymusRaccoon/aeris#readme
+bug-reports:    https://github.com/AnonymusRaccoon/aeris/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2022 Author name here
@@ -20,7 +20,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/aeris
+  location: https://github.com/AnonymusRaccoon/aeris
 
 library
   exposed-modules:
