@@ -25,7 +25,6 @@ jobs:
         with:
           commit: ${{env.COMMIT_SHA}}
           workflow: build.yml
-          path: ./artifacts
           github_token: ${{secrets.GITHUB_TOKEN}}
       - name: "Build Changelog"
         id: build_changelog
@@ -39,4 +38,4 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
           body: ${{steps.github_release.outputs.changelog}}
-          artifacts: ./artifacts/aeris.apk
+          artifacts: ./aeris.apk
