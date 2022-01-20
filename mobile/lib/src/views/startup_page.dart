@@ -3,9 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/widgets/overlayed_texts.dart';
 
-class HomePage extends StatelessWidget {
+class StartupPage extends StatelessWidget {
 
-  const HomePage({Key? key}) : super(key: key);
+  const StartupPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
