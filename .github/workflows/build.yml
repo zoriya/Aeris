@@ -23,12 +23,14 @@ jobs:
         run: flutter upgrade ; flutter pub get
       - name: Build APK - Release
         if: github.ref == 'refs/heads/master'
-        run: flutter build apk lib/src/main.dart
+        run: |
+          flutter build apk lib/src/main.dart
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
       - name: Build APK - Debug
         if: github.ref != 'refs/heads/master'
-        run: flutter build apk lib/src/main.dart --profile
-      - name: Set Build name
-        run: mv ./build/app/outputs/flutter-apk/app-release.apk aeris_android.apk
+        run: |
+          flutter build apk lib/src/main.dart --profile
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
       - name: Upload build artifact
         # if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
