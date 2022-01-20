@@ -9,8 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_mobile_apk:
+  build:
     runs-on: ${{ matrix.os }}
+    name: "Build ${{matrix.runtime}}"
     defaults:
       run:
         working-directory: ./mobile
