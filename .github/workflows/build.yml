@@ -23,7 +23,7 @@ jobs:
             build: apk
           - os: macos-latest
             runtime: ios
-            build: ios
+            build: ipa
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.0
