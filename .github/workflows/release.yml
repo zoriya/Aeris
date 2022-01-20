@@ -31,5 +31,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: aeris.apk
+          files: aeris_apk/aeris.apk
           body: ${{steps.github_release.outputs.changelog}}
