@@ -1,7 +1,8 @@
-[![Aeris](assets/logo-black.png)](assets/logo-black.png)
+[![Aeris](assets/logo-white.png)](assets/logo-white.png)
 
-# Aeris
+# Professional, personnal action-reaction manager
 
-## Why this name
+## Introduction
 
-This name was selected because it sounds like [Aergia]( https://en.wikipedia.org/wiki/Aergia), the goddess of sloth and this tool is an automatisation tool.
+This project's name is inspired by [Aergia]( https://en.wikipedia.org/wiki/Aergia), the goddess of sloth.
+This tool is an automatisation tool.
