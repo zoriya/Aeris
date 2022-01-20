@@ -29,7 +29,9 @@ jobs:
         working-directory: ${{ matrix.project_dir }}
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: 'subosito/flutter-action@v1.5.3'
+      - uses: subosito/flutter-action@v2.2.0
+        with:
+          channel: 'dev'
         if: matrix.project_dir == 'mobile'
       - name: Warmup
         run: ${{ matrix.warm_up }}
