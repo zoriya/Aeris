@@ -17,7 +17,7 @@ jobs:
             run_name: 'Backend'
             doc_dir: 'docs'
             warm_up: curl -sSL https://get.haskellstack.org/ | sh -s - -f
-            doc_generation: stack haddock --haddock-arguments --odir="${{matrix.doc_dir}}"
+            doc_generation: stack haddock --haddock-arguments --odir="docs"
           - project_dir: mobile
             run_name: 'Mobile client'
             doc_dir: 'doc/api'
