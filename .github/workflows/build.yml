@@ -24,10 +24,10 @@ jobs:
       - name: Build APK
         run: flutter build apk lib/src/main.dart
       - name: Set Build name
-        run: mv ./build/app/outputs/flutter-apk/app-release.apk aeris.apk
+        run: mv ./build/app/outputs/flutter-apk/app-release.apk aeris_android.apk
       - name: Upload build artifact
         # if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
         with:
           name: aeris_apk
-          path: mobile/aeris.apk
+          path: mobile/aeris_android.apk
