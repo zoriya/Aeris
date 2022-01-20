@@ -34,13 +34,12 @@ jobs:
           channel: 'dev'
         if: matrix.project_dir == 'mobile'
       - name: Warmup
-        run: ${{ matrix.warm_up }}
+        run: ${{ matrix.warm_up }} ; ls -l
       - name: Generate documentation
         run: ${{ matrix.doc_generation }}
       - name: Deploy
         run: |
           cd "${{ matrix.doc_dir }}"
-          ls -l
           git config --global user.email "${GITHUB_ACTOR}@github.com";
           git config --global user.name "${GITHUB_ACTOR}";
           git init
