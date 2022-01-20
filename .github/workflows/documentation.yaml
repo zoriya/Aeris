@@ -8,6 +8,7 @@ on:
 jobs:
   DeployDocumentation:
     name: "Generate ${{matrix.artifact}}'s documentation"
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -23,7 +24,6 @@ jobs:
             use: 'subosito/flutter-action@v1.5.3'
             warm_up: flutter pub global activate dartdoc; rm -rf doc
             doc_generation: dartdoc
-    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ matrix.project_dir }}
@@ -34,7 +34,7 @@ jobs:
       - name: Warmup
         run: ${{ matrix.warm_up }}
       - name: Generate documentation
-        name: ${{ matrix.doc_generation }}
+        run: ${{ matrix.doc_generation }}
       - name: Deploy
         run: |
           cd ${{ matrix.docs }}
