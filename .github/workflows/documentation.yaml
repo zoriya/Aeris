@@ -30,7 +30,7 @@ jobs:
         working-directory: ${{ matrix.project_dir }}
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: "${{ matrix.use }}"
+      - uses: "${{matrix.use}}"
       - name: Warmup
         run: ${{ matrix.warm_up }}
       - name: Generate documentation
