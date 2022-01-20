@@ -1,3 +1,5 @@
+[![Aeris](assets/logo-black.png)](assets/logo-black.png)
+
 # Aeris
 
 ## Why this name
