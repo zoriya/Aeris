@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           back
+name:           aeris-back
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/back#readme>
-homepage:       https://github.com/githubuser/back#readme
-bug-reports:    https://github.com/githubuser/back/issues
-author:         Author name here
+description:    Please see the README on GitHub at <https://github.com/AnonymusRaccoon/aeris/back#readme>
+homepage:       https://github.com/AnonymusRaccoon/Aeris#readme
+bug-reports:    https://github.com/AnonymusRaccoon/Aeris/issues
+author:         Anonymus Raccoon
 maintainer:     example@example.com
-copyright:      2022 Author name here
+copyright:      2022 AnonymusRaccoon/Aeris
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -21,40 +21,40 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/back
+  location: https://github.com/AnonymusRaccoon/Aeris
 
 library
   exposed-modules:
       Lib
   other-modules:
-      Paths_back
+      Paths_aeris_back
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable back-exe
+executable aeris-back-exe
   main-is: Main.hs
   other-modules:
-      Paths_back
+      Paths_aeris_back
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      back
+      aeris-back
     , base >=4.7 && <5
   default-language: Haskell2010
 
-test-suite back-test
+test-suite aeris-back-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_back
+      Paths_aeris_back
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      back
+      aeris-back
     , base >=4.7 && <5
   default-language: Haskell2010
