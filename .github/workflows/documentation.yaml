@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - documentation_workflow
+
 jobs:
   DeployDocumentation:
     name: "Generate ${{matrix.artifact}}'s documentation"
@@ -14,13 +15,13 @@ jobs:
           - project_dir: back
             run_name: 'Backend'
             doc_dir: 'docs'
-            uses: mstksg/setup-stack@v1
+            use: mstksg/setup-stack@v1
             warm_up: '' #curl -sSL https://get.haskellstack.org/ | sh -s - -f
             doc_generation: stack haddock --haddock-arguments --odir="${{matrix.doc_dir}}"
           - project_dir: mobile
             run_name: 'Mobile client'
             doc_dir: 'doc/api'
-            uses: subosito/flutter-action@v1.5.3
+            use: subosito/flutter-action@v1.5.3
             warm_up: flutter pub global activate dartdoc; rm -rf doc
             doc_generation: dartdoc
     runs-on: ubuntu-latest
@@ -29,7 +30,7 @@ jobs:
         working-directory: ${{ matrix.project_dir }}
     steps:
       - uses: actions/checkout@v2.3.4
-      - uses: "${{ matrix.uses }}"
+      - uses: "${{ matrix.use }}"
       - name: Warmup
         run: ${{ matrix.warm_up }}
       - name: Generate documentation
