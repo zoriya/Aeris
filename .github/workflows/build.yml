@@ -9,10 +9,19 @@ on:
 
 jobs:
   build_mobile_apk:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: ./mobile
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            runtime: android
+            build: apk
+          - os: macos-latest
+            runtime: ios
+            build: ios
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2.2.0
@@ -20,19 +29,18 @@ jobs:
           channel: 'dev'
       - name: Get Flutter dependencies
         run: flutter upgrade ; flutter pub get
-      - name: Build APK - Release
-        if: github.ref == 'refs/heads/master'
+      - name: Build App
         run: |
-          flutter build apk lib/src/main.dart
-          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
-      - name: Build APK - Debug
-        if: github.ref != 'refs/heads/master'
-        run: |
-          flutter build apk lib/src/main.dart --profile
-          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+          if [[ ${{github.ref}} == 'refs/heads/master' ]]; then 
+            flutter build ${{matrix.build}} lib/src/main.dart
+          else
+            flutter build ${{matrix.build}} lib/src/main.dart --profile
+          fi
+          ls -lR build/app/outputs
+          mv ./build/app/outputs/flutter-${{matrix.build}}/app-profile.${{matrix.build}} aeris_${{matrix.ios}}.${{matrix.build}}
       - name: Upload build artifact
         # if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
         with:
           name: aeris_apk
-          path: mobile/aeris_android.apk
+          path: mobile/aeris_${{matrix.ios}}.${{matrix.build}}
