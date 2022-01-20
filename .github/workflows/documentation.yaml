@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-      - documentation_workflow
+      - dev
 
 jobs:
   DeployDocumentation:
