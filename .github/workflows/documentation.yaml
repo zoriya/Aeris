@@ -37,7 +37,7 @@ jobs:
         run: ${{ matrix.doc_generation }}
       - name: Deploy
         run: |
-          cd ${{ matrix.docs }}
+          cd ${{ matrix.doc_dir }}
           git config --global user.email "${GITHUB_ACTOR}@github.com";
           git config --global user.name "${GITHUB_ACTOR}";
           git init
