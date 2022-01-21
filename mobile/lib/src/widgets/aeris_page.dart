@@ -5,21 +5,23 @@ import 'package:mobile/src/widgets/aeris_page_menu.dart';
 class AerisPage extends StatelessWidget {
   /// Body of the page
   final Widget body;
-  const AerisPage({Key? key, required this.body}) : super(key: key);
+  /// Display appbar or not
+  final bool displayAppbar;
+  const AerisPage({Key? key, required this.body, required this.displayAppbar}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: body,
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      appBar: AppBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: displayAppbar ? AppBar(
         title: const Text("AERIS"),
         centerTitle: true,
         elevation: 0,
         actions: const [
           Padding(child: AerisPageMenu(), padding: EdgeInsets.only(right: 10.0))
         ],
-      ),
+      ) : null ,
     );
   }
 }
