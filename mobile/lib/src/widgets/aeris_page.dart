@@ -7,7 +7,7 @@ class AerisPage extends StatelessWidget {
   final Widget body;
   /// Display appbar or not
   final bool displayAppbar;
-  const AerisPage({Key? key, required this.body, required this.displayAppbar}) : super(key: key);
+  const AerisPage({Key? key, required this.body, this.displayAppbar = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
