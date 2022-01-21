@@ -1,3 +1,4 @@
+import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => const StartupPage()
+        '/': (BuildContext context) => const HomePage()
       }
     );
   }
