@@ -7,8 +7,9 @@ class HomePageMenu extends StatelessWidget {
   /// Function to create an item for the menu
   PopupMenuItem createMenuItem(IconData icon, String title, void Function() onTap) {
     return PopupMenuItem(
-        child: ListTile(leading: Icon(icon), title: Text(title)),
-        onTap: onTap
+      child: ListTile(
+        leading: Icon(icon), title: Text(title)
+      ), onTap: onTap
     );
   }
 
@@ -18,9 +19,9 @@ class HomePageMenu extends StatelessWidget {
       Navigator.pushNamed(context, route);
     };
     return PopupMenuButton(
-        itemBuilder: (context) => [
-          createMenuItem(Icons.access_time, "Hello", () => navigateTo("/"))
-        ]
+        itemBuilder: (context) => [createMenuItem(
+          Icons.access_time, "Hello", () => navigateTo("/"))
+        ],
     );
   }
 }

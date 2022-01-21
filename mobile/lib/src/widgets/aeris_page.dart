@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widgets/home_page/menu.dart';
 
 /// Application base page, holds scaffold and background
 class AerisPage extends StatelessWidget {
@@ -10,7 +11,11 @@ class AerisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: body,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        appBar: AppBar(
+          title: const Text("AERIS"),
+          titleSpacing: 20,
+          actions: const [Padding(child: HomePageMenu(), padding: EdgeInsets.only(right: 10.0),)],
+        ),
     );
   }
 }
