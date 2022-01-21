@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Menu for the Home Page
 class AerisPageMenu extends StatelessWidget {
@@ -21,6 +20,7 @@ class AerisPageMenu extends StatelessWidget {
       itemBuilder: (context) =>
           [createMenuItem(Icons.access_time, "Hello", () => navigateTo("/"))],
       offset: const Offset(0, 50),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 }
