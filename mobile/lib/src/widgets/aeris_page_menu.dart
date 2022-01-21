@@ -8,7 +8,16 @@ class AerisPageMenu extends StatelessWidget {
   PopupMenuItem createMenuItem(
       IconData icon, String title, void Function() onTap) {
     return PopupMenuItem(
-        child: ListTile(leading: Icon(icon), title: Text(title)), onTap: onTap);
+        child: Row(
+          children: <Widget>[
+            Container(child: Icon(
+              icon,
+              color: Colors.black,
+            ), padding: const EdgeInsets.only(left: 10, right: 10)),
+            Text(title),
+          ],
+        ),
+        onTap: onTap);
   }
 
   @override
@@ -17,10 +26,14 @@ class AerisPageMenu extends StatelessWidget {
       Navigator.pushNamed(context, route);
     };
     return PopupMenuButton(
-      itemBuilder: (context) =>
-          [createMenuItem(Icons.access_time, "Hello", () => navigateTo("/"))],
+      itemBuilder: (context) => [
+        // TODO Define nav routes
+        createMenuItem(Icons.electrical_services, "Services", () => navigateTo("")),
+        createMenuItem(Icons.logout, "Logout", () => navigateTo("")),
+      ],
       offset: const Offset(0, 50),
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 }
