@@ -29,9 +29,11 @@ class AerisPageMenu extends StatelessWidget {
       itemBuilder: (context) => [
         // TODO Define nav routes
         createMenuItem(Icons.electrical_services, "Services", () => navigateTo("")),
+
         createMenuItem(Icons.logout, "Logout", () => navigateTo("")),
       ],
       offset: const Offset(0, 50),
+      child: const Icon(Icons.more_horiz),
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(20))),
     );

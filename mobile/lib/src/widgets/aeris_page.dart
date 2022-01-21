@@ -11,9 +11,11 @@ class AerisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: body,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text("AERIS"),
-        titleSpacing: 20,
+        centerTitle: true,
+        elevation: 0,
         actions: const [
           Padding(child: AerisPageMenu(), padding: EdgeInsets.only(right: 10.0))
         ],
