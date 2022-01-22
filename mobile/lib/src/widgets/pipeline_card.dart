@@ -11,7 +11,7 @@ class PipelineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
-    int elapsedDays = now.difference(pipeline.lastTrigger).inDays;
+    int elapsedDays = now.difference(pipeline.trigger.last).inDays;
     return Card(
         child: Container(
             width: double.infinity,
