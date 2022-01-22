@@ -13,6 +13,14 @@ class PipelineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int elapsedDays = DateTime.now().difference(pipeline.trigger.last).inDays;
+    List<Widget> reactionLogos = pipeline.reactions
+        .take(3)
+        .map((reaction) => reaction.service.getLogo())
+        .fold<List<Widget>>(
+            [],
+            (array, logo) =>
+                array + [logo, const SizedBox(height: 5)]).toList();
+    reactionLogos.removeLast();
     return Card(
         elevation: 40,
         child: Container(
@@ -41,27 +49,18 @@ class PipelineCard extends StatelessWidget {
                   )),
               Expanded(
                   flex: 4,
-                  child: Row(children: [
-                    pipeline.trigger.service.getLogo(),
-                    const SizedBox(width: 10),
-                    const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(width: 10),
-                    Column(
-                        children: pipeline.reactions
-                            .take(3)
-                            .map((reaction) => reaction.service.getLogo())
-                            .fold<List<Widget>>(
-                                [],
-                                (array, logo) =>
-                                    array +
-                                    [
-                                      logo,
-                                      const SizedBox(height: 10)
-                                    ]).toList())
-                  ])),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        pipeline.trigger.service.getLogo(),
+                        const SizedBox(width: 10),
+                        const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        Column(children: reactionLogos)
+                      ])),
               Expanded(
                   flex: 2,
                   child: Column(
