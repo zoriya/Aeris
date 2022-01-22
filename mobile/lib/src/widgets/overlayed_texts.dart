@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class OverlayedText extends StatelessWidget {
@@ -9,13 +8,14 @@ class OverlayedText extends StatelessWidget {
   final double fontSize;
   final double strokeWidth;
 
-  OverlayedText({
+  const OverlayedText({
+    Key? key,
     required this.text,
     required this.overlayedColor,
     required this.textColor,
     required this.fontSize,
     this.strokeWidth = 3.0
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
