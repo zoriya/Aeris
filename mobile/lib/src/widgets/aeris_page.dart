@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/widgets/aeris_page_menu.dart';
+import 'package:mobile/src/widgets/background/animated_background.dart';
 
 /// Application base page, holds scaffold and background
 class AerisPage extends StatelessWidget {
@@ -12,7 +13,16 @@ class AerisPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: body,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: <Widget>[
+            const AnimatedBackground(),
+            body
+          ]
+        )
+      ),
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: displayAppbar ? AppBar(
         title: const Text("AERIS"),
