@@ -9,6 +9,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var pipeline1 = Pipeline(
+        id: 10,
+        name: "My Action",
+        triggerCount: 10,
+        lastTrigger: DateTime.now(),
+        enabled: true,
+        parameters: {});
     var pipeline2 = Pipeline(
         id: 10,
         name: "My very long action Action",
@@ -18,7 +25,7 @@ class HomePage extends StatelessWidget {
         parameters: {});
     return AerisPage(
         body: Column(children: [
-      PipelineCard(pipeline: pipeline2),
+      PipelineCard(pipeline: pipeline1),
       PipelineCard(pipeline: pipeline2)
     ]));
   }

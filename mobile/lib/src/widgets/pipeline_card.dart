@@ -27,6 +27,7 @@ class PipelineCard extends StatelessWidget {
                             color: Colors.grey,
                             fontSize: 25,
                           )),
+                      const SizedBox(height: 10),
                       Text(
                           elapsedDays == 0
                               ? 'Last :Today'
