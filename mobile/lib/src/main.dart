@@ -1,4 +1,3 @@
-import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -44,7 +43,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (BuildContext context) => const HomePage()
+        '/': (BuildContext context) => const StartupPage()
       }
     );
   }
