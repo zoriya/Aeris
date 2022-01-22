@@ -10,15 +10,31 @@ class PipelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var now = DateTime.now();
+    int elapsedDays = now.difference(pipeline.lastTrigger).inDays;
     return Card(
         child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
             child: Row(children: [
               Expanded(
                   flex: 4,
                   child: Column(
-                    children: [Text(pipeline.name)],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(pipeline.name,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 25,
+                          )),
+                      Text(
+                          elapsedDays == 0
+                              ? 'Last :Today'
+                              : 'Last: ${elapsedDays.toString()}d ago',
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 83, 83, 83),
+                              fontSize: 15)),
+                    ],
                   )),
               Expanded(flex: 4, child: Column(children: [Text(pipeline.name)])),
               Expanded(

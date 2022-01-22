@@ -9,12 +9,17 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AerisPage(body: PipelineCard(pipeline: Pipeline(
+    var pipeline2 = Pipeline(
         id: 10,
-        name: "My Action",
+        name: "My very long action Action",
         triggerCount: 10,
-        lastTrigger: DateTime.now(),
+        lastTrigger: DateTime.parse("2022-01-01"),
         enabled: true,
-        parameters: {})));
+        parameters: {});
+    return AerisPage(
+        body: Column(children: [
+      PipelineCard(pipeline: pipeline2),
+      PipelineCard(pipeline: pipeline2)
+    ]));
   }
 }
