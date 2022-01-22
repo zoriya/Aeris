@@ -53,7 +53,14 @@ class PipelineCard extends StatelessWidget {
                         children: pipeline.reactions
                             .take(3)
                             .map((reaction) => reaction.service.getLogo())
-                            .toList())
+                            .fold<List<Widget>>(
+                                [],
+                                (array, logo) =>
+                                    array +
+                                    [
+                                      logo,
+                                      const SizedBox(height: 10)
+                                    ]).toList())
                   ])),
               Expanded(
                   flex: 2,
