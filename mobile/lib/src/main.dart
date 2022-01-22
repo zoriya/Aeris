@@ -1,3 +1,4 @@
+import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -27,24 +28,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Aeris',
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('fr', '')
-      ],
-      theme: ThemeData(
-        colorScheme: aerisScheme
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (BuildContext context) => const StartupPage()
-      }
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Aeris',
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+        theme: ThemeData(colorScheme: aerisScheme),
+        initialRoute: '/',
+        routes: {'/': (BuildContext context) => const HomePage()});
   }
 }

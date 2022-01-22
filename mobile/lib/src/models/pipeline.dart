@@ -33,5 +33,6 @@ class Pipeline {
       required this.triggerCount,
       required this.enabled,
       required this.parameters,
-      required this.trigger, required this.reactions});
+      required this.trigger,
+      required this.reactions});
 }

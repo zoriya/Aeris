@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/pipeline.dart';
+import 'package:mobile/src/models/service.dart';
 
 /// Widget for Action-reaction card on home page
 class PipelineCard extends StatelessWidget {
@@ -10,9 +12,9 @@ class PipelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var now = DateTime.now();
-    int elapsedDays = now.difference(pipeline.trigger.last).inDays;
+    int elapsedDays = DateTime.now().difference(pipeline.trigger.last).inDays;
     return Card(
+        elevation: 40,
         child: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
@@ -30,14 +32,29 @@ class PipelineCard extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                           elapsedDays == 0
-                              ? 'Last :Today'
+                              ? 'Last: Today'
                               : 'Last: ${elapsedDays.toString()}d ago',
                           style: const TextStyle(
                               color: Color.fromARGB(255, 83, 83, 83),
                               fontSize: 15)),
                     ],
                   )),
-              Expanded(flex: 4, child: Column(children: [Text(pipeline.name)])),
+              Expanded(
+                  flex: 4,
+                  child: Row(children: [
+                    pipeline.trigger.service.getLogo(),
+                    const SizedBox(width: 10),
+                    const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 10),
+                    Column(
+                        children: pipeline.reactions
+                            .take(3)
+                            .map((reaction) => reaction.service.getLogo())
+                            .toList())
+                  ])),
               Expanded(
                   flex: 2,
                   child: Column(
