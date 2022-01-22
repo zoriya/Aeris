@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/reaction.dart';
+import 'package:mobile/src/models/trigger.dart';
 
 /// Object representation of a pipeline
 class Pipeline {
@@ -12,9 +14,6 @@ class Pipeline {
   /// How many times the pipeline was triggered
   final int triggerCount;
 
-  /// Last time the pipeline was triggered
-  final DateTime lastTrigger;
-
   /// Is the pipeline enabled
   final bool enabled;
 
@@ -22,14 +21,18 @@ class Pipeline {
   // The parameters
   final Object parameters;
 
-  // TODO How is the reaction linked, of the triggering service?
+  // The pipeline's reactions
+  final List<Reaction> reactions;
 
+  // TODO How is the reaction linked, of the triggering service?
+  final Trigger trigger;
   const Pipeline(
       {Key? key,
       required this.id,
       required this.name,
       required this.triggerCount,
-      required this.lastTrigger,
       required this.enabled,
-      required this.parameters});
+      required this.parameters,
+      required this.trigger,
+      required this.reactions});
 }

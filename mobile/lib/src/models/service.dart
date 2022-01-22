@@ -1,5 +1,7 @@
-
 // Class for a service (Youtube, Gmail, ...)
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+
 class Service {
   // Name of the service
   final String name;
@@ -10,33 +12,41 @@ class Service {
   // URL To a service's logo
   final String logoUrl;
 
+  Widget getLogo({double logoSize = 40}) => ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: CachedNetworkImage(
+        imageUrl: logoUrl,
+        width: logoSize,
+        height: logoSize,
+      ));
+
   const Service.spotify()
       : name = "Spotify",
         url = "https://www.spotify.com",
         logoUrl =
-            "https://upload.wikimedia.org/wikipedia/commons/7/74/Spotify_App_Logo.svg";
+            "https://www.presse-citron.net/app/uploads/2020/06/spotify-une-.jpg";
   const Service.gmail()
       : name = "Gmail",
         url = "https://mail.google.com/",
         logoUrl =
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Gmail_Icon_%282013-2020%29.svg/2048px-Gmail_Icon_%282013-2020%29.svg.png";
+            "https://play-lh.googleusercontent.com/KSuaRLiI_FlDP8cM4MzJ23ml3og5Hxb9AapaGTMZ2GgR103mvJ3AAnoOFz1yheeQBBI";
   const Service.discord()
       : name = "Discord",
         url = "https://discord.com/app",
         logoUrl =
-            "https://seeklogo.com/images/D/discord-logo-134E148657-seeklogo.com.png";
+            "https://play-lh.googleusercontent.com/fbrWR4LbtB_1Ulgz3_rw8bY3tx_zPU7A9ZOB5WYG_QmqOUUjA6JEzE_20GA4YBDWMx4";
   const Service.twitter()
       : name = "Twitter",
         url = "https://twitter.com",
-        logoUrl = "https://static.cdnlogo.com/logos/t/96/twitter-icon.svg";
+        logoUrl =
+            "https://f.hellowork.com/blogdumoderateur/2019/11/twitter-logo-1200x1200.jpg";
   const Service.github()
       : name = "GitHub",
         url = "https://github.com/",
-        logoUrl =
-            "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg";
+        logoUrl = "https://avatars.githubusercontent.com/u/9919?s=280&v=4";
   const Service.youtube()
       : name = "Youtube",
         url = "https://youtube.com",
         logoUrl =
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/159px-YouTube_full-color_icon_%282017%29.svg.png";
+            "https://play-lh.googleusercontent.com/lMoItBgdPPVDJsNOVtP26EKHePkwBg-PkuY9NOrc-fumRtTFP4XhpUNk_22syN4Datc";
 }
