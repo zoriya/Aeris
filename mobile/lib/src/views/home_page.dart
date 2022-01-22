@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
 
@@ -8,6 +9,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AerisPage(body: ARCard());
+    return AerisPage(body: PipelineCard(pipeline: Pipeline(
+        id: 10,
+        name: "My Action",
+        triggerCount: 10,
+        lastTrigger: DateTime.now(),
+        enabled: true,
+        parameters: {})));
   }
 }

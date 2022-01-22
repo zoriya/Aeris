@@ -1,5 +1,3 @@
-/// Enumeration of Services that trigger pipelines
-enum Service { youtube, discord, gmail, github, twitter, spotify }
 
 // Class for a service (Youtube, Gmail, ...)
 class Service {

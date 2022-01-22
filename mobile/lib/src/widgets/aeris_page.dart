@@ -13,7 +13,7 @@ class AerisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: body,
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: displayAppbar ? AppBar(
         title: const Text("AERIS"),
         centerTitle: true,
