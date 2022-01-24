@@ -1,0 +1,23 @@
+services:
+  db:
+    container_name: db
+    image: postgres:alpine3.14
+    environment:
+    - POSTGRES_USER=${POSTGRES_USER}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+    - "${POSTGRES_PORT}:5432"
+  mobile:
+    build: ./mobile
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    depends_on:
+      - "mobile"
+  back:
+    build: ./back
+    ports:
+      - "3000:81"
+    depends_on:
+      - "db"
