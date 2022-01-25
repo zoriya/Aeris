@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/pipeline.dart';
+import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 
 /// Widget for Action-reaction card on home page
@@ -22,9 +23,13 @@ class PipelineCard extends StatelessWidget {
     reactionLogos.removeLast();
     return ClickableCard(
         onTap: () {
+          Navigator.pushNamed(context, '/pipeline',
+              arguments: PipelineDetailPageArguments(pipeline.name));
           print("Card clicked!");
         },
-        color: pipeline.enabled == false ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8) : null,
+        color: pipeline.enabled == false
+            ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
+            : null,
         body: Container(
             width: double.infinity,
             padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
