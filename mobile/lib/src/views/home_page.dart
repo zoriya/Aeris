@@ -78,8 +78,6 @@ class HomePage extends StatelessWidget {
                   "Create a Pipeline",
                   textAlign: TextAlign.center, // TODO Seems a bit on the right
                   style: TextStyle(
-                      // TODO Check with Art.
-                      // color: Colors.white,
                       color: Theme.of(context).colorScheme.onSecondary,
                       fontSize: 20,
                       fontWeight: FontWeight.w600),
