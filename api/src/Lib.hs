@@ -29,7 +29,7 @@ startApp :: IO ()
 startApp = run 8080 app
 
 app :: Application
-app = serve api server
+app = serve api Lib.server
 
 api :: Proxy API
 api = Proxy

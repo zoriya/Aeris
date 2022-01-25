@@ -33,6 +33,7 @@ library
   build-depends:
       aeson
     , base >=4.7 && <5
+    , bytestring
     , servant-server
     , time
     , wai
@@ -50,6 +51,7 @@ executable aeris-exe
       aeris
     , aeson
     , base
+    , bytestring
     , servant-server
     , time
     , wai
@@ -68,6 +70,7 @@ test-suite aeris-test
       aeris
     , aeson
     , base
+    , bytestring
     , hspec
     , hspec-wai
     , hspec-wai-json

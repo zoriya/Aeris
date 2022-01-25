@@ -25,6 +25,7 @@ dependencies:
 - wai
 - warp
 - time
+- bytestring
 
 library:
   source-dirs: src
