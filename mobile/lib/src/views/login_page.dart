@@ -53,7 +53,8 @@ class LoginPage extends StatelessWidget {
         onRecoverPassword: _recoverPassword,
         theme: LoginTheme(
           pageColorLight: Colors.transparent,
-          pageColorDark: Colors.transparent
+          pageColorDark: Colors.transparent,
+          primaryColor: Theme.of(context).colorScheme.primary
         ),
         onLogin: _authUser,
         onSignup: _signupUser,
