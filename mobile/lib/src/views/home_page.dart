@@ -50,7 +50,17 @@ class HomePage extends StatelessWidget {
         trigger: trigger3,
         parameters: {},
         reactions: [reaction]);
-    List<Pipeline> pipelines = [pipeline3, pipeline2, pipeline1];
+    List<Pipeline> pipelines = [
+      pipeline3,
+      pipeline2,
+      pipeline1,
+      pipeline3,
+      pipeline2,
+      pipeline1,
+      pipeline3,
+      pipeline2,
+      pipeline1
+    ];
     pipelines.sort((a, b) {
       if (a.enabled == b.enabled) {
         return b.trigger.last.compareTo(a.trigger.last);
@@ -58,9 +68,7 @@ class HomePage extends StatelessWidget {
       return b.enabled ? 1 : -1;
     });
     return AerisPage(
-        body: Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(children: [
+      body: ListView(padding: const EdgeInsets.all(10), children: [
         for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
         // Add button
         ClickableCard(
@@ -82,6 +90,6 @@ class HomePage extends StatelessWidget {
               print("Create new pipeline"); // TODO page transition
             })
       ]),
-    ));
+    );
   }
 }
