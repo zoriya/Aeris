@@ -4,6 +4,7 @@ import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
+import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
 
 /// Home Page
@@ -53,7 +54,24 @@ class HomePage extends StatelessWidget {
         body: Column(children: [
       PipelineCard(pipeline: pipeline1),
       PipelineCard(pipeline: pipeline2),
-      PipelineCard(pipeline: pipeline3)
+      PipelineCard(pipeline: pipeline3),
+      // Add button
+      ClickableCard(
+          color: Colors.green,
+          body: Container(
+              child: const Text(
+                "Create a Pipeline",
+                textAlign: TextAlign.center, // TODO Seems a bit on the right
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600),
+              ),
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
+          onTap: () {
+            print("Create new pipeline"); // TODO
+          })
     ]));
   }
 }
