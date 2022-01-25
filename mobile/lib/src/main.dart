@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('en', ''), Locale('fr', '')],
       theme: ThemeData(colorScheme: aerisScheme),
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
         '/': (BuildContext context) => const StartupPage(),
         '/login': (BuildContext context) => const LoginPage(),

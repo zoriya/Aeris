@@ -23,56 +23,61 @@ class PipelineCard extends StatelessWidget {
     reactionLogos.removeLast();
     return Card(
         elevation: 40,
-        child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
-            child: Row(children: [
-              Expanded(
-                  flex: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(pipeline.name,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 25,
-                          )),
-                      const SizedBox(height: 10),
-                      Text(
-                          elapsedDays == 0
-                              ? 'Last: Today'
-                              : 'Last: ${elapsedDays.toString()}d ago',
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 15)),
-                    ],
-                  )),
-              Expanded(
-                  flex: 4,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+        child: InkWell(
+          onTap: () {
+            print("Card Clicked"); // TODO: implement page transition
+          },
+          child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
+              child: Row(children: [
+                Expanded(
+                    flex: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        pipeline.trigger.service.getLogo(),
-                        const SizedBox(width: 10),
-                        const Icon(
-                          Icons.arrow_forward,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 10),
-                        Column(children: reactionLogos)
-                      ])),
-              Expanded(
-                  flex: 2,
-                  child: Column(
-                      children: const [
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey,
-                        )
+                        Text(pipeline.name,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 25,
+                            )),
+                        const SizedBox(height: 10),
+                        Text(
+                            elapsedDays == 0
+                                ? 'Last: Today'
+                                : 'Last: ${elapsedDays.toString()}d ago',
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 83, 83, 83),
+                                fontSize: 15)),
                       ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center)),
-            ])),
+                    )),
+                Expanded(
+                    flex: 4,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          pipeline.trigger.service.getLogo(),
+                          const SizedBox(width: 10),
+                          const Icon(
+                            Icons.arrow_forward,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 10),
+                          Column(children: reactionLogos)
+                        ])),
+                Expanded(
+                    flex: 2,
+                    child: Column(
+                        children: const [
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                          )
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center)),
+              ])),
+        ),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))));
   }
