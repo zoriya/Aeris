@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/pipeline.dart';
-import 'package:mobile/src/models/service.dart';
 
 /// Widget for Action-reaction card on home page
 class PipelineCard extends StatelessWidget {
@@ -12,6 +10,7 @@ class PipelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BorderRadius borderRadius = const BorderRadius.all(Radius.circular(25));
     int elapsedDays = DateTime.now().difference(pipeline.trigger.last).inDays;
     List<Widget> reactionLogos = pipeline.reactions
         .take(3)
@@ -23,10 +22,15 @@ class PipelineCard extends StatelessWidget {
     reactionLogos.removeLast();
     return Card(
         elevation: 40,
+        color: pipeline.enabled == false
+            ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
+            : null,
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
         child: InkWell(
           onTap: () {
             print("Card Clicked"); // TODO: implement page transition
           },
+          borderRadius: borderRadius,
           child: Container(
               width: double.infinity,
               padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
@@ -46,8 +50,10 @@ class PipelineCard extends StatelessWidget {
                             elapsedDays == 0
                                 ? 'Last: Today'
                                 : 'Last: ${elapsedDays.toString()}d ago',
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 83, 83, 83),
+                            style: TextStyle(
+                                color: pipeline.enabled == false
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 83, 83, 83),
                                 fontSize: 15)),
                       ],
                     )),
@@ -77,8 +83,6 @@ class PipelineCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center)),
               ])),
-        ),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(25))));
+        ));
   }
 }
