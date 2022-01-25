@@ -2,15 +2,20 @@ import "./PipelineBox.css"
 
 interface PipelineBoxProps
 {
-	num: number
+	// title of the pipeline box
+	title: string,
+	// utc in seconds
+	lastExecutionTime: string
 }
 
 
-export default function PipelineBox({ num }: PipelineBoxProps)
+export default function PipelineBox({ title, lastExecutionTime }: PipelineBoxProps)
 {
 	return (
-	<div className="PipelineBox">
-		slt {num}
-	</div>
+	<article className="PipelineBox">
+		<div className="PipelineBoxImage">logo</div>
+		<header className="PipelineBoxHeader" >{title}</header>
+		<footer className="PipelineBoxFooter" >Triggered {lastExecutionTime} ago</footer>
+	</article>
 	);
 }

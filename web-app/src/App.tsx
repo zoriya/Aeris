@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <PipelineBox num={34} />
+        <PipelineBox title='Like me' lastExecutionTime={"10 min"} />
       </header>
     </div>
   );
