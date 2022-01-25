@@ -58,25 +58,30 @@ class HomePage extends StatelessWidget {
       return b.enabled ? 1 : -1;
     });
     return AerisPage(
-        body: Column(children: [
-      for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
-      // Add button
-      ClickableCard(
-          color: Colors.green,
-          body: Container(
-              child: const Text(
-                "Create a Pipeline",
-                textAlign: TextAlign.center, // TODO Seems a bit on the right
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
-          onTap: () {
-            print("Create new pipeline"); // TODO page transition
-          })
-    ]));
+        body: Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(children: [
+        for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
+        // Add button
+        ClickableCard(
+            color: Theme.of(context).colorScheme.secondary,
+            body: Container(
+                child: Text(
+                  "Create a Pipeline",
+                  textAlign: TextAlign.center, // TODO Seems a bit on the right
+                  style: TextStyle(
+                      // TODO Check with Art.
+                      // color: Colors.white,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
+            onTap: () {
+              print("Create new pipeline"); // TODO page transition
+            })
+      ]),
+    ));
   }
 }
