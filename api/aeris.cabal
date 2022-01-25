@@ -24,6 +24,7 @@ source-repository head
 
 library
   exposed-modules:
+      About
       Lib
   other-modules:
       Paths_aeris
