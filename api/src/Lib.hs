@@ -23,7 +23,7 @@ $(deriveJSON defaultOptions ''User)
 
 
 type API = "users" :> Get '[JSON] [User]
-        :<|> "about.json" :> Get '[JSON] About
+        :<|> "about.json" :> RemoteHost :> Get '[JSON] About
 
 startApp :: IO ()
 startApp = run 8080 app

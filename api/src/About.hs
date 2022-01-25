@@ -8,9 +8,10 @@ import Data.Aeson
 import Data.Aeson.TH ( deriveJSON )
 import Data.Time.Clock.POSIX (getPOSIXTime, POSIXTime)
 import qualified Data.Aeson.Parser
-import Servant (Handler)
+import Servant (Handler, RemoteHost)
 import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString.Lazy as B
+import Network.Socket (SockAddr)
 import GHC.Generics
 
 data ClientAbout = ClientAbout
@@ -44,11 +45,11 @@ $(deriveJSON defaultOptions ''ServicesAbout)
 $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
-about :: Handler About
-about = do
+about :: SockAddr -> Handler About
+about host = do
     now <- liftIO getPOSIXTime
     s <- liftIO (readFile "services.json")
     d <- liftIO ((eitherDecode <$> B.readFile "services.json") :: IO (Either String [ServicesAbout]))
     case d of
-        Left err -> return $ About (ClientAbout "l") (ServerAbout now [])
-        Right services -> return $ About (ClientAbout "r") (ServerAbout now services)
+        Left err -> return $ About (ClientAbout $ show host) (ServerAbout now [])
+        Right services -> return $ About (ClientAbout $ show host) (ServerAbout now services)

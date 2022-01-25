@@ -26,6 +26,7 @@ dependencies:
 - warp
 - time
 - bytestring
+- network
 
 library:
   source-dirs: src

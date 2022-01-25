@@ -34,6 +34,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , network
     , servant-server
     , time
     , wai
@@ -52,6 +53,7 @@ executable aeris-exe
     , aeson
     , base
     , bytestring
+    , network
     , servant-server
     , time
     , wai
@@ -74,6 +76,7 @@ test-suite aeris-test
     , hspec
     , hspec-wai
     , hspec-wai-json
+    , network
     , servant-server
     , time
     , wai
