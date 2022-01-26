@@ -28,6 +28,7 @@ class AerisPage extends StatelessWidget {
         title: const Text("AERIS"),
         centerTitle: true,
         elevation: 0,
+        leading: Container(),
         actions: const [
           Padding(child: AerisPageMenu(), padding: EdgeInsets.only(right: 10.0)),
         ],
