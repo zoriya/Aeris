@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
     ScrollController listController = ScrollController();
     var listView = ListView(
         controller: listController,
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         children: [
           for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
           // Add button
@@ -109,21 +109,15 @@ class _HomePageState extends State<HomePage> {
         body: NotificationListener<ScrollEndNotification>(
       onNotification: (notification) {
         if (listController.position.atEdge) {
-          loading = true;
-          print("Loading");
-          setState(() {});
           if (listController.position.pixels == 0) {
+            loading = true;
+            print("Loading");
+            setState(() {});
             Future.delayed(const Duration(seconds: 2)).then((_) => setState(() {
                   loading = false;
                   print("Loaded");
                 }));
             // TODO Call API
-          } else {
-            Future.delayed(const Duration(seconds: 2)).then((_) => setState(() {
-                  loading = false;
-                  print("Loaded");
-                }));
-            // TODO Infinite list ?
           }
         }
         return true;
@@ -135,9 +129,7 @@ class _HomePageState extends State<HomePage> {
                 filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                 child: Container())
             : Container(),
-        loading
-            ? const LoadingWidget()
-            : Container()
+        loading ? const LoadingWidget() : Container()
       ]),
     ));
   }
