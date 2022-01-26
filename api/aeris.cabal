@@ -25,7 +25,9 @@ source-repository head
 library
   exposed-modules:
       About
+      Auth
       Lib
+      User
   other-modules:
       Paths_aeris
   hs-source-dirs:
@@ -35,6 +37,8 @@ library
     , base >=4.7 && <5
     , bytestring
     , network
+    , servant-auth
+    , servant-auth-server
     , servant-server
     , time
     , wai
@@ -54,6 +58,8 @@ executable aeris-exe
     , base
     , bytestring
     , network
+    , servant-auth
+    , servant-auth-server
     , servant-server
     , time
     , wai
@@ -77,6 +83,8 @@ test-suite aeris-test
     , hspec-wai
     , hspec-wai-json
     , network
+    , servant-auth
+    , servant-auth-server
     , servant-server
     , time
     , wai
