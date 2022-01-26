@@ -20,7 +20,8 @@ class AerisCardPage extends StatelessWidget {
               Container(
                 child: const AerisPageCloseButton(),
                 alignment: Alignment.centerRight,
-              )
+              ),
+              body
             ],
           )),
     );
@@ -35,12 +36,11 @@ class AerisPageCloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => Navigator.pop(context),
-      child:
-          Icon(Icons.close, color: Theme.of(context).colorScheme.onSecondary),
+      child: Icon(Icons.close,
+          color: Theme.of(context).colorScheme.onSecondary, size: 20),
       style: ElevatedButton.styleFrom(
           elevation: 0,
           shape: const CircleBorder(),
-          padding: const EdgeInsets.all(5),
           primary: Theme.of(context).colorScheme.secondary),
     );
   }
