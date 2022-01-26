@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 
@@ -60,16 +60,26 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 flex: 3,
                 child: Column(
                   children: [
-                    Switch(
-                      value: pipeline.enabled,
-                      onChanged: (value) {
-                        setState(() {
-                          pipeline.enabled = !pipeline.enabled;
-                        });
-                      },
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: FlutterSwitch(
+                        activeColor: Colors.green,
+                        width: 60,
+                        value: pipeline.enabled,
+                        onToggle: (value) {
+                          setState(() {
+                            pipeline.enabled = !pipeline.enabled;
+                          });
+                        },
+                      ),
                     ),
-                    Text(pipeline.enabled ? "Enabled" : "Disabed",
-                        style: const TextStyle(fontSize: 10))
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(pipeline.enabled ? "Enabled" : "Disabed",
+                          style: const TextStyle(fontSize: 13)),
+                    ),
                   ],
                 ))
           ],
