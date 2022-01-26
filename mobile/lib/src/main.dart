@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Map routes = {
             '/': () => const StartupPage(),
@@ -34,21 +34,13 @@ class MyApp extends StatelessWidget {
             '/home': () => const HomePage(),
             '/pipeline': () => const PipelineDetailPage(),
           };
-          if (settings.name == Navigator.defaultRouteName) {
-            return null;
+          // if (settings.name == Navigator.defaultRouteName) {
+          //   return null;
+          // }
+          Offset pageTransistion = const Offset(1, 0);
+          if (settings.name == '/pipeline') {
+            pageTransistion = const Offset(0, 1);
           }
-          // return PageRouteBuilder(
-          //     settings: settings,
-          //     opaque: false,
-          //     pageBuilder: (_, __, ___) => routes[settings.name].call(),
-          //     transitionDuration: const Duration(milliseconds: 500),
-          //     transitionsBuilder: (context, animation, secAnimation, child) {
-          //       return ScaleTransition(
-          //           scale: CurvedAnimation(
-          //               parent: animation, curve: Curves.easeOutBack),
-          //           child: child,
-          //           alignment: Alignment.center);
-          //     });
           return PageRouteBuilder(
               opaque: false,
               settings: settings,
@@ -58,7 +50,7 @@ class MyApp extends StatelessWidget {
                   (context, animation, secondaryAnimation, child) =>
                       SlideTransition(
                         position: animation.drive(
-                            Tween(begin: const Offset(0, 1.0), end: Offset.zero)
+                            Tween(begin: pageTransistion, end: Offset.zero)
                                 .chain(CurveTween(curve: Curves.ease))),
                         child: child,
                       ));
