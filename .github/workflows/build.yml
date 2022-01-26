@@ -24,7 +24,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
         run: |
           flutter build apk lib/src/main.dart
-          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+          mv ./build/app/outputs/flutter-apk/app-debug.apk aeris_android.apk
       - name: Build APK - Debug
         if: github.ref != 'refs/heads/master'
         run: |
