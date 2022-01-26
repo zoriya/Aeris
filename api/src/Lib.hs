@@ -1,38 +1,48 @@
 {-# LANGUAGE DataKinds       #-}
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators   #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Lib
     ( startApp
-    , app
     ) where
 
 import Data.Aeson
 import Data.Aeson.TH ( deriveJSON )
+import Servant.Auth.Server (CookieSettings, JWTSettings, JWT, defaultJWTSettings, defaultCookieSettings, generateKey)
 import Network.Wai
+import Servant.API.Generic        ((:-), ToServantApi)
 import Network.Wai.Handler.Warp
 import Servant
 import Auth
 import About
 import User
+import GHC.Generics (Generic)
 
-type API = "users" :> Get '[JSON] [User]
-      :<|> "about.json" :> RemoteHost :> Get '[JSON] About
+-- type API = "users" :> Get '[JSON] [User]
+--       :<|> "about.json" :> RemoteHost :> Get '[JSON] About
+
+data API mode = API
+    { users :: mode :- "users" :> Get '[JSON] [User]
+    , about :: mode :- "about;json" :> RemoteHost :> Get '[JSON] About
+    , auth :: mode :- "auth" :> NamedRoutes AuthAPI
+    } deriving stock Generic
+
+type NamedAPI = NamedRoutes API
 
 startApp :: IO ()
-startApp = run 8080 app
+startApp = do
+    key <- generateKey
+    let jwtCfg = defaultJWTSettings key
+        cfg = defaultCookieSettings :. jwtCfg :. EmptyContext
+    run 8080 $ serveWithContext api cfg $ Lib.server defaultCookieSettings jwtCfg
 
-app :: Application
-app = serve api Lib.server
-
-api :: Proxy API
+api :: Proxy NamedAPI
 api = Proxy
 
-server :: Server API
-server = return users
-    :<|> about
-
-users :: [User]
-users = [ User 1 "Isaac" "Newton"
-        , User 2 "Albert" "Einstein"
-        ]
+server :: CookieSettings -> JWTSettings -> ServerT NamedAPI Handler
+server cs jwts = API {
+    Lib.users = return User.users
+    , Lib.about = About.about
+    , Lib.auth = Auth.authHandler cs jwts
+}
