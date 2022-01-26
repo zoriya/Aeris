@@ -37,6 +37,7 @@ library
     , base >=4.7 && <5
     , bytestring
     , network
+    , servant
     , servant-auth
     , servant-auth-server
     , servant-server
@@ -58,6 +59,7 @@ executable aeris-exe
     , base
     , bytestring
     , network
+    , servant
     , servant-auth
     , servant-auth-server
     , servant-server
@@ -83,6 +85,7 @@ test-suite aeris-test
     , hspec-wai
     , hspec-wai-json
     , network
+    , servant
     , servant-auth
     , servant-auth-server
     , servant-server

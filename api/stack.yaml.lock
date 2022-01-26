@@ -3,10 +3,36 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    git: https://github.com/haskell-servant/servant.git
+    name: servant
+    subdir: servant
+    pantry-tree:
+      sha256: 4117d3e09f19f29ea429a1516e8bf7d64644cd8a0ecc026a5931865c3b1da61d
+      size: 2949
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+    version: 0.18.3
+  original:
+    git: https://github.com/haskell-servant/servant.git
+    subdir: servant
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+- completed:
+    git: https://github.com/haskell-servant/servant.git
+    name: servant-server
+    subdir: servant-server
+    pantry-tree:
+      sha256: 43d23c42011f5c3ff3f298b1910d7f2b43a66144e92e2e762b0efffe63634af4
+      size: 2727
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+    version: 0.18.3
+  original:
+    git: https://github.com/haskell-servant/servant.git
+    subdir: servant-server
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
 snapshots:
 - completed:
+    sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb
     size: 586120
     url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/22.yaml
-    sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb
   original: lts-18.22
