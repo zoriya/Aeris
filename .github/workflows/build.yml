@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+  workflow_dispatch:
+
+jobs:
+  build_mobile_apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mobile
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2.2.0
+        with:
+          channel: 'dev'
+      - name: Get Flutter dependencies
+        run: flutter upgrade ; flutter pub get
+      - name: Build APK - Release
+        if: github.ref == 'refs/heads/master'
+        run: |
+          flutter build apk lib/src/main.dart
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+      - name: Build APK - Debug
+        if: github.ref != 'refs/heads/master'
+        run: |
+          flutter build apk lib/src/main.dart --profile
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+      - name: Upload build artifact
+        if: github.ref == 'refs/head/master'
+        uses: actions/upload-artifact@v2
+        with:
+          name: aeris_apk
+          path: mobile/aeris_android.apk
