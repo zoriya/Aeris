@@ -9,21 +9,15 @@ module Lib
 
 import Data.Aeson
 import Data.Aeson.TH ( deriveJSON )
-import About
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
-data User = User
-  { userId        :: Int
-  , userFirstName :: String
-  , userLastName  :: String
-  } deriving (Eq, Show)
-
-$(deriveJSON defaultOptions ''User)
-
+import Auth
+import About
+import User
 
 type API = "users" :> Get '[JSON] [User]
-        :<|> "about.json" :> RemoteHost :> Get '[JSON] About
+      :<|> "about.json" :> RemoteHost :> Get '[JSON] About
 
 startApp :: IO ()
 startApp = run 8080 app
