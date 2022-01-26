@@ -15,5 +15,5 @@ const ColorScheme aerisScheme = ColorScheme(
   onSecondary: Colors.white,
   onBackground: Colors.white,
   surface: Color(0xFF808080),
-  onSurface: Color(0xFF241E30),
+  onSurface: Colors.grey,
 );

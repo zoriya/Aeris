@@ -12,10 +12,15 @@ class PipelineDetailPageArguments {
 }
 
 // Page for a Pipeline's details
-class PipelineDetailPage extends StatelessWidget {
+class PipelineDetailPage extends StatefulWidget {
   //final String pipelineName; // TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
 
+  @override
+  State<PipelineDetailPage> createState() => _PipelineDetailPageState();
+}
+
+class _PipelineDetailPageState extends State<PipelineDetailPage> {
   @override
   Widget build(BuildContext context) {
     final PipelineDetailPageArguments arguments = ModalRoute.of(context)!
@@ -37,7 +42,6 @@ class PipelineDetailPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(pipeline.name,
                         style: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 25,
                         )),
                   ),
@@ -46,13 +50,28 @@ class PipelineDetailPage extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(pipeline.trigger.lastToString(),
                         style: const TextStyle(
-                          color: Colors.grey,
                           fontSize: 17,
                         )),
                   ),
                 ],
               ),
             ),
+            Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Switch(
+                      value: pipeline.enabled,
+                      onChanged: (value) {
+                        setState(() {
+                          pipeline.enabled = !pipeline.enabled;
+                        });
+                      },
+                    ),
+                    Text(pipeline.enabled ? "Enabled" : "Disabed",
+                        style: const TextStyle(fontSize: 10))
+                  ],
+                ))
           ],
         )
       ],
