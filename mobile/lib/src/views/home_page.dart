@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
       return b.enabled ? 1 : -1;
     });
     return AerisPage(
-      body: ListView(padding: const EdgeInsets.all(10), children: [
+      body: ListView(padding: const EdgeInsets.all(20), children: [
         for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
         // Add button
         ClickableCard(

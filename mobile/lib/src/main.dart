@@ -27,11 +27,41 @@ class MyApp extends StatelessWidget {
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
         initialRoute: '/home',
-        routes: {
-          '/': (BuildContext context) => const StartupPage(),
-          '/login': (BuildContext context) => const LoginPage(),
-          '/home': (BuildContext context) => const HomePage(),
-          '/pipeline': (BuildContext context) => const PipelineDetailPage(),
+        onGenerateRoute: (settings) {
+          Map routes = {
+            '/': () => const StartupPage(),
+            '/login': () => const LoginPage(),
+            '/home': () => const HomePage(),
+            '/pipeline': () => const PipelineDetailPage(),
+          };
+          if (settings.name == Navigator.defaultRouteName) {
+            return null;
+          }
+          // return PageRouteBuilder(
+          //     settings: settings,
+          //     opaque: false,
+          //     pageBuilder: (_, __, ___) => routes[settings.name].call(),
+          //     transitionDuration: const Duration(milliseconds: 500),
+          //     transitionsBuilder: (context, animation, secAnimation, child) {
+          //       return ScaleTransition(
+          //           scale: CurvedAnimation(
+          //               parent: animation, curve: Curves.easeOutBack),
+          //           child: child,
+          //           alignment: Alignment.center);
+          //     });
+          return PageRouteBuilder(
+              opaque: false,
+              settings: settings,
+              pageBuilder: (_, __, ___) => routes[settings.name].call(),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      SlideTransition(
+                        position: animation.drive(
+                            Tween(begin: const Offset(0, 1.0), end: Offset.zero)
+                                .chain(CurveTween(curve: Curves.ease))),
+                        child: child,
+                      ));
         });
   }
 }
