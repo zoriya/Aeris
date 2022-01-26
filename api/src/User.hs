@@ -13,6 +13,12 @@ data User = User
   , userLastName  :: String
   } deriving (Eq, Show, Read, Generic)
 
+
+users :: [User]
+users = [ User 1 "Isaac" "Newton"
+        , User 2 "Albert" "Einstein"
+        ]
+
 instance ToJSON User
 instance ToJWT User
 instance FromJSON User
