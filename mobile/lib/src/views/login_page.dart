@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(data.name)) {
-        return 'User not exists';
+        return 'User does not exists';
       }
       if (users[data.name] != data.password) {
         return 'Password does not match';
@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(name)) {
-        return 'User not exists';
+        return 'User does not exists';
       }
       return null;
     });
@@ -59,7 +59,8 @@ class LoginPage extends StatelessWidget {
         onLogin: _authUser,
         onSignup: _signupUser,
         onSubmitAnimationCompleted: () {
-          Navigator.of(context).pushNamed('/home');
+          Navigator.of(context).popUntil((route) => route.isFirst);
+          Navigator.of(context).popAndPushNamed("/home");
         }
       )
     );
