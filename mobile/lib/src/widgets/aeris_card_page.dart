@@ -16,7 +16,7 @@ class AerisCardPage extends StatelessWidget {
             topLeft: Radius.circular(radius),
             topRight: Radius.circular(radius)),
         child: Container(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             padding:
                 const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
             child: Column(

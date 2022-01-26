@@ -39,16 +39,15 @@ class PipelineCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(pipeline.name,
-                          style: const TextStyle(
-                            color: Colors.grey,
+                          style: TextStyle(
                             fontSize: 25,
+                            color: Theme.of(context).colorScheme.onSurface,
                           )),
                       const SizedBox(height: 10),
-                      Text(
-                          pipeline.trigger.lastToString(),
+                      Text(pipeline.trigger.lastToString(),
                           style: TextStyle(
                               color: pipeline.enabled == false
-                                  ? Colors.grey
+                                  ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
                               fontSize: 15)),
                     ],
@@ -60,9 +59,9 @@ class PipelineCard extends StatelessWidget {
                       children: [
                         pipeline.trigger.service.getLogo(),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           Icons.arrow_forward,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         const SizedBox(width: 10),
                         Column(children: reactionLogos)
@@ -70,10 +69,10 @@ class PipelineCard extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: Column(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.arrow_forward_ios,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onSurface,
                         )
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,

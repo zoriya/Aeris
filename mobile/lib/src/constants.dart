@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 const Color primaryColor = Color.fromRGBO(55, 71, 79, 1);
 
@@ -14,6 +15,6 @@ const ColorScheme aerisScheme = ColorScheme(
   onPrimary: Colors.white,
   onSecondary: Colors.white,
   onBackground: Colors.white,
-  surface: Color(0xFF808080),
+  surface: Colors.white, //Color(0xFF808080),
   onSurface: Colors.grey,
 );

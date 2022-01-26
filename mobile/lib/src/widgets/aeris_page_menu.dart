@@ -6,13 +6,13 @@ class AerisPageMenu extends StatelessWidget {
 
   /// Function to create an item for the menu
   PopupMenuItem createMenuItem(
-      IconData icon, String title, void Function() onTap) {
+      IconData icon, String title, void Function() onTap, BuildContext context) {
     return PopupMenuItem(
         child: Row(
           children: <Widget>[
             Container(child: Icon(
               icon,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onSurface,
             ), padding: const EdgeInsets.only(left: 10, right: 10)),
             Text(title),
           ],
@@ -28,8 +28,8 @@ class AerisPageMenu extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         // TODO Define nav routes
-        createMenuItem(Icons.electrical_services, "Services", () => navigateTo("")),
-        createMenuItem(Icons.logout, "Logout", () => navigateTo("")),
+        createMenuItem(Icons.electrical_services, "Services", () => navigateTo(""), context),
+        createMenuItem(Icons.logout, "Logout", () => navigateTo(""), context),
       ],
       offset: const Offset(0, 50),
       child: const Icon(Icons.more_horiz),

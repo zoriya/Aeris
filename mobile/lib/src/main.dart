@@ -34,9 +34,6 @@ class MyApp extends StatelessWidget {
             '/home': () => const HomePage(),
             '/pipeline': () => const PipelineDetailPage(),
           };
-          // if (settings.name == Navigator.defaultRouteName) {
-          //   return null;
-          // }
           Offset pageTransistion = const Offset(1, 0);
           if (settings.name == '/pipeline') {
             pageTransistion = const Offset(0, 1);
