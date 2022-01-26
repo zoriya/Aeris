@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobile/src/widgets/aeris_card_page.dart';
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
@@ -19,14 +20,8 @@ class PipelineDetailPage extends StatelessWidget {
     final PipelineDetailPageArguments arguments = ModalRoute.of(context)!
         .settings
         .arguments as PipelineDetailPageArguments;
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.only(top: 40, bottom: 0),
-        child: Text(arguments.pipelineName, textAlign: TextAlign.center),
-      ),
+    return AerisCardPage(
+      body: Text(arguments.pipelineName, textAlign: TextAlign.center),
     );
   }
 }
