@@ -9,21 +9,28 @@ class AerisCardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double radius = 30;
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(radius), topRight: Radius.circular(radius)),
-      child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.only(top: 30, bottom: 0),
-          child: Column(
-            children: [
-              Container(
-                child: const AerisPageCloseButton(),
-                alignment: Alignment.centerRight,
-              ),
-              body
-            ],
-          )),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            topRight: Radius.circular(radius)),
+        child: Container(
+            color: Colors.white,
+            padding:
+                const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
+            child: Column(
+              children: [
+                Container(
+                  child: const AerisPageCloseButton(),
+                  alignment: Alignment.centerRight,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    child: body)
+              ],
+            )),
+      ),
     );
   }
 }

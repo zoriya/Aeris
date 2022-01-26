@@ -12,7 +12,6 @@ class PipelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int elapsedDays = DateTime.now().difference(pipeline.trigger.last).inDays;
     List<Widget> reactionLogos = pipeline.reactions
         .take(3)
         .map((reaction) => reaction.service.getLogo())
@@ -24,7 +23,7 @@ class PipelineCard extends StatelessWidget {
     return ClickableCard(
         onTap: () {
           Navigator.pushNamed(context, '/pipeline',
-              arguments: PipelineDetailPageArguments(pipeline.name));
+              arguments: PipelineDetailPageArguments(pipeline));
           print("Card clicked!");
         },
         color: pipeline.enabled == false
@@ -46,9 +45,7 @@ class PipelineCard extends StatelessWidget {
                           )),
                       const SizedBox(height: 10),
                       Text(
-                          elapsedDays == 0
-                              ? 'Last: Today'
-                              : 'Last: ${elapsedDays.toString()}d ago',
+                          pipeline.trigger.lastToString(),
                           style: TextStyle(
                               color: pipeline.enabled == false
                                   ? Colors.grey
