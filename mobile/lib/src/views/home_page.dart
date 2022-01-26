@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/models/reaction.dart';
@@ -5,11 +7,21 @@ import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/loading_widget.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 /// Home Page
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  // Refresh/loading state
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,27 +79,66 @@ class HomePage extends StatelessWidget {
       }
       return b.enabled ? 1 : -1;
     });
+    ScrollController listController = ScrollController();
+    var listView = ListView(
+        controller: listController,
+        padding: const EdgeInsets.all(20),
+        children: [
+          for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
+          // Add button
+          ClickableCard(
+              color: Theme.of(context).colorScheme.secondary,
+              body: Container(
+                  child: Text(
+                    "Create a Pipeline",
+                    textAlign:
+                        TextAlign.center, // TODO Seems a bit on the right
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  width: double.infinity,
+                  padding:
+                      const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
+              onTap: () {
+                print("Create new pipeline"); // TODO page transition
+              })
+        ]);
     return AerisPage(
-      body: ListView(padding: const EdgeInsets.all(20), children: [
-        for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
-        // Add button
-        ClickableCard(
-            color: Theme.of(context).colorScheme.secondary,
-            body: Container(
-                child: Text(
-                  "Create a Pipeline",
-                  textAlign: TextAlign.center, // TODO Seems a bit on the right
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600),
-                ),
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
-            onTap: () {
-              print("Create new pipeline"); // TODO page transition
-            })
+        body: NotificationListener<ScrollEndNotification>(
+      onNotification: (notification) {
+        if (listController.position.atEdge) {
+          loading = true;
+          print("Loading");
+          setState(() {});
+          if (listController.position.pixels == 0) {
+            Future.delayed(const Duration(seconds: 2)).then((_) => setState(() {
+                  loading = false;
+                  print("Loaded");
+                }));
+            // TODO Call API
+          } else {
+            Future.delayed(const Duration(seconds: 2)).then((_) => setState(() {
+                  loading = false;
+                  print("Loaded");
+                }));
+            // TODO Infinite list ?
+          }
+        }
+        return true;
+      },
+      child: Stack(children: [
+        listView,
+        loading
+            ? BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                child: Container())
+            : Container(),
+        loading
+            ? const LoadingWidget()
+            : Container()
       ]),
-    );
+    ));
   }
 }
