@@ -92,15 +92,14 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Create a Pipeline",
                     textAlign:
-                        TextAlign.center, // TODO Seems a bit on the right
+                        TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 20,
                         fontWeight: FontWeight.w600),
                   ),
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20)),
               onTap: () {
                 print("Create new pipeline"); // TODO page transition
               })
