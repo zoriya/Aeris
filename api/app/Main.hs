@@ -6,7 +6,9 @@ import qualified Hasql.Connection as Connection
 
 main :: IO ()
 main = do
-    Right conn <- Connection.acquire connectionSettings
-    startApp
+    conn <- Connection.acquire connectionSettings
+    case conn of
+        Left _ -> putStrLn "Connection failed"
+        Right c -> startApp
     where
-        connectionSettings = Connection.settings "db" 5432 "postgres" "" "postgres"
+        connectionSettings = Connection.settings "localhost" 5432 "postgres" "password" "postgres"
