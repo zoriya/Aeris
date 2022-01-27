@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/',
+        initialRoute: '/login',
         onGenerateRoute: (settings) {
           Map routes = {
             '/': () => const StartupPage(),
@@ -35,23 +35,25 @@ class MyApp extends StatelessWidget {
             '/home': () => const HomePage(),
             '/pipeline': () => const PipelineDetailPage(),
           };
-          Offset pageTransistion = const Offset(1, 0);
+          Offset pageTransistionDirection = const Offset(1, 0);
+          Curve pageTransitionCurve = Curves.easeInSine;
           if (settings.name == '/pipeline') {
-            pageTransistion = const Offset(0, 1);
+            pageTransistionDirection = const Offset(0, 1);
+            pageTransitionCurve = Curves.ease;
           }
           return PageRouteBuilder(
               opaque: false,
               settings: settings,
               pageBuilder: (_, __, ___) => routes[settings.name].call(),
               transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) =>
-                      SlideTransition(
-                        position: animation.drive(
-                          Tween(begin: pageTransistion, end: Offset.zero)
-                            .chain(CurveTween(curve: Curves.ease))),
-                        child: child,
-                      ));
+              transitionsBuilder: (context, animation, secondaryAnimation,
+                      child) =>
+                  SlideTransition(
+                    position: animation.drive(
+                        Tween(begin: pageTransistionDirection, end: Offset.zero)
+                            .chain(CurveTween(curve: pageTransitionCurve))),
+                    child: child,
+                  ));
         });
   }
 }
