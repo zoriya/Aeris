@@ -23,7 +23,7 @@ jobs:
       - name: Build APK - Release
         if: github.ref == 'refs/heads/master'
         run: |
-          flutter build apk lib/src/main.dart
+          flutter build apk lib/src/main.dart --release
           mv ./build/app/outputs/flutter-apk/app-release.apk aeris_android.apk
       - name: Build APK - Debug
         if: github.ref != 'refs/heads/master'
