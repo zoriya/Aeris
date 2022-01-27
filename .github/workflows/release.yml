@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  create:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Wait for builds & tests to finish
+        uses: lewagon/wait-on-check-action@master
+        with:
+          ref: ${{github.ref}}
+          repo-token: ${{secrets.GITHUB_TOKEN}}
+          running-workflow-name: release
+          allowed-conclusions: success,skipped,cancelled,neutral
+      - name: Download artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          commit: ${{env.COMMIT_SHA}}
+          workflow: build.yml
+          github_token: ${{secrets.GITHUB_TOKEN}}
+      - name: "Build Changelog"
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: aeris_apk/aeris_android.apk
+          body: ${{steps.github_release.outputs.changelog}}
