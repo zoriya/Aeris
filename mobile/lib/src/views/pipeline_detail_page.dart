@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/pipeline.dart';
+import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 
@@ -85,6 +86,11 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       ),
       const SizedBox(height: 40),
       const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
+      ActionCard(
+          leading: pipeline.trigger.service.getLogo(),
+          title: pipeline.trigger.action,
+          trailing: Container()),
+      const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
       ClickableCard(
