@@ -5,6 +5,13 @@
 
 packages:
 - completed:
+    hackage: rel8-1.1.0.0@sha256:c31ad1bfbd7446ccbe39075d66dc89c8de3b3788c144247c9de269cfc55e1428,5023
+    pantry-tree:
+      sha256: 11aca3bab6462b5997acb4a9969625e839d5369ff1c7cb687db86a729d5b4c00
+      size: 9096
+  original:
+    hackage: rel8-1.1.0.0@sha256:c31ad1bfbd7446ccbe39075d66dc89c8de3b3788c144247c9de269cfc55e1428,5023
+- completed:
     git: https://github.com/haskell-servant/servant.git
     name: servant
     subdir: servant

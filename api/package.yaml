@@ -30,6 +30,8 @@ dependencies:
 - time
 - bytestring
 - network
+- hasql
+- rel8
 
 library:
   source-dirs: src

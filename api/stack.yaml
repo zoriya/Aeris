@@ -40,6 +40,7 @@ packages:
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
 extra-deps:
+- rel8-1.1.0.0@sha256:c31ad1bfbd7446ccbe39075d66dc89c8de3b3788c144247c9de269cfc55e1428,5023
 - git: https://github.com/haskell-servant/servant.git
   commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
   subdirs:
