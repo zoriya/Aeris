@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
         service: const Service.spotify(),
         action: "Play song",
         last: DateTime.parse("2022-01-01"));
-    var reaction = const Reaction(service: Service.twitter(), parameters: {});
+    var reaction = const Reaction(
+        service: Service.twitter(), parameters: {}, name: "Post a tweet");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -91,8 +92,7 @@ class _HomePageState extends State<HomePage> {
               body: Container(
                   child: Text(
                     "Create a Pipeline",
-                    textAlign:
-                        TextAlign.center,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 20,

@@ -17,25 +17,25 @@ class ActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Row(
-        children: [
-          Expanded(child: leading, flex: 2),
-          Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 20),
+        elevation: 5,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 15, top: 15, left: 10),
+          child: Row(
+            children: [
+              Expanded(child: leading, flex: 2),
+              Expanded(
                   child: Text(
                     title,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface),
                     textAlign: TextAlign.center,
-                  )),
-              flex: 8),
-          Expanded(child: trailing, flex: 2),
-        ],
-      ),
-    );
+                  ),
+                  flex: 8),
+              Expanded(child: trailing, flex: 2),
+            ],
+          ),
+        ));
   }
 }

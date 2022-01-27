@@ -89,8 +89,13 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       ActionCard(
           leading: pipeline.trigger.service.getLogo(),
           title: pipeline.trigger.action,
-          trailing: Container()),
+          trailing: Container()), //TODO Popup menu
       const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
+      for (var reaction in pipeline.reactions)
+        ActionCard(
+            leading: reaction.service.getLogo(),
+            title: reaction.name,
+            trailing: Container()), //TODO Popup menu
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
       ClickableCard(
