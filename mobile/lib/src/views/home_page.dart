@@ -9,7 +9,6 @@ import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/loading_widget.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 /// Home Page
 class HomePage extends StatefulWidget {

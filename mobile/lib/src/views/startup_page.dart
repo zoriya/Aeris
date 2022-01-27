@@ -1,3 +1,4 @@
+import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../widgets/aeris_page.dart';
@@ -19,6 +20,24 @@ class _StartupPageState extends State<StartupPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: FadeIn(
+              child: Image.asset('assets/logo.png'),
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(25),
+            child: OverlayedText(
+              text: "Aeris is the best AREA in Nantes!",
+              overlayedColor: Colors.black,
+              textColor: Theme.of(context).colorScheme.secondary,
+              fontSize: 20,
+              strokeWidth: 2.15
+            )
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: ElevatedButton(
@@ -34,13 +53,6 @@ class _StartupPageState extends State<StartupPage> {
                 child: Text("Se connecter")
               ),
             ),
-          ),
-          OverlayedText(
-            text: "Aeris your new Action Dashboard!",
-            overlayedColor: Colors.black,
-            textColor: Theme.of(context).colorScheme.secondary,
-            fontSize: 20,
-            strokeWidth: 2.15
           )
         ]
       )
