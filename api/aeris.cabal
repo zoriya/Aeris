@@ -4,11 +4,11 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           back
+name:           aeris
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/back#readme>
-homepage:       https://github.com/githubuser/back#readme
-bug-reports:    https://github.com/githubuser/back/issues
+description:    Please see the README on GitHub at <https://github.com/githubuser/aeris#readme>
+homepage:       https://github.com/AnonymusRaccoon/aeris#readme
+bug-reports:    https://github.com/AnonymusRaccoon/aeris/issues
 author:         Author name here
 maintainer:     example@example.com
 copyright:      2022 Author name here
@@ -17,44 +17,62 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    ChangeLog.md
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/back
+  location: https://github.com/AnonymusRaccoon/aeris
 
 library
   exposed-modules:
+      About
       Lib
   other-modules:
-      Paths_back
+      Paths_aeris
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , servant-server
+    , time
+    , wai
+    , warp
   default-language: Haskell2010
 
-executable back-exe
+executable aeris
   main-is: Main.hs
   other-modules:
-      Paths_back
+      Paths_aeris
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      back
-    , base >=4.7 && <5
+      aeris
+    , aeson
+    , base
+    , servant-server
+    , time
+    , wai
+    , warp
   default-language: Haskell2010
 
-test-suite back-test
+test-suite aeris-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_back
+      Paths_aeris
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      back
-    , base >=4.7 && <5
+      aeris
+    , aeson
+    , base
+    , hspec
+    , hspec-wai
+    , hspec-wai-json
+    , servant-server
+    , time
+    , wai
+    , warp
   default-language: Haskell2010
