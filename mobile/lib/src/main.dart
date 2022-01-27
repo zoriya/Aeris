@@ -5,6 +5,7 @@ import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widgets/background/animated_background.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Map routes = {
             '/': () => const StartupPage(),
@@ -47,8 +48,8 @@ class MyApp extends StatelessWidget {
                   (context, animation, secondaryAnimation, child) =>
                       SlideTransition(
                         position: animation.drive(
-                            Tween(begin: pageTransistion, end: Offset.zero)
-                                .chain(CurveTween(curve: Curves.ease))),
+                          Tween(begin: pageTransistion, end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.ease))),
                         child: child,
                       ));
         });

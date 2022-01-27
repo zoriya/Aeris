@@ -88,8 +88,11 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with TickerProv
 
   @override
   void dispose() {
-    topAnimController.dispose();
-    bottomAnimController.dispose();
+    if (mounted) {
+      // topAnimController.dispose();
+      bottomAnimController.dispose();
+      super.dispose();
+    }
   }
 
   @override
