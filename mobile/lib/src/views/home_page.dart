@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
     ScrollController listController = ScrollController();
     var listView = ListView(
         controller: listController,
-        padding: const EdgeInsets.all(10),
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
         children: [
           for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
           // Add button
