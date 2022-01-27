@@ -28,7 +28,7 @@ class _StartupPageState extends State<StartupPage> {
             )
           ),
           const Padding(
-            padding: EdgeInsets.all(70),
+            padding: EdgeInsets.all(20),
             child: OverlayedText(
               text: "Aeris is the best AREA in Nantes! Control each of your social network with Aeris, your new Action / Reaction app.",
               overlayedColor: Color.fromRGBO(50, 0, 27, 1),
