@@ -15,6 +15,7 @@ class Service {
   Widget getLogo({double logoSize = 40}) => ClipRRect(
       borderRadius: BorderRadius.circular(8.0),
       child: CachedNetworkImage(
+        fit: BoxFit.contain,
         imageUrl: logoUrl,
         width: logoSize,
         height: logoSize,

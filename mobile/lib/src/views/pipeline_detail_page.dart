@@ -87,13 +87,13 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       const SizedBox(height: 40),
       const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
       ActionCard(
-          leading: pipeline.trigger.service.getLogo(),
+          leading: pipeline.trigger.service.getLogo(logoSize: 50),
           title: pipeline.trigger.action,
           trailing: Container()), //TODO Popup menu
       const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
       for (var reaction in pipeline.reactions)
         ActionCard(
-            leading: reaction.service.getLogo(),
+            leading: reaction.service.getLogo(logoSize: 50),
             title: reaction.name,
             trailing: Container()), //TODO Popup menu
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
