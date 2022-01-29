@@ -1,4 +1,5 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mobile/src/views/service_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:mobile/src/views/login_page.dart';
 import 'package:mobile/src/views/home_page.dart';
@@ -34,10 +35,12 @@ class MyApp extends StatelessWidget {
             '/login': () => const LoginPage(),
             '/home': () => const HomePage(),
             '/pipeline': () => const PipelineDetailPage(),
+            '/services': () => const ServicePage()
           };
+          // TODO MORE GENERIC MANAGEMENT ('is')
           Offset pageTransistionDirection = const Offset(1, 0);
           Curve pageTransitionCurve = Curves.easeInSine;
-          if (settings.name == '/pipeline') {
+          if (settings.name == '/pipeline' || settings.name == '/services') {
             pageTransistionDirection = const Offset(0, 1);
             pageTransitionCurve = Curves.ease;
           }

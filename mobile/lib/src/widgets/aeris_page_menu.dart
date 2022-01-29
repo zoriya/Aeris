@@ -6,31 +6,32 @@ class AerisPageMenu extends StatelessWidget {
 
   /// Function to create an item for the menu
   PopupMenuItem createMenuItem(
-      IconData icon, String title, void Function() onTap, BuildContext context) {
+      IconData icon, String title, String route, BuildContext context) {
     return PopupMenuItem(
-        child: Row(
-          children: <Widget>[
-            Container(child: Icon(
-              icon,
-              color: Theme.of(context).colorScheme.onSurface,
-            ), padding: const EdgeInsets.only(left: 10, right: 10)),
-            Text(title),
-          ],
-        ),
-        onTap: onTap);
+      value: route,
+      child: Row(
+        children: <Widget>[
+          Container(
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              padding: const EdgeInsets.only(left: 10, right: 10)),
+          Text(title),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    void Function(String) navigateTo = (String route) {
-      Navigator.pushNamed(context, route);
-    };
     return PopupMenuButton(
       itemBuilder: (context) => [
-        // TODO Define nav routes
-        createMenuItem(Icons.electrical_services, "Services", () => navigateTo(""), context),
-        createMenuItem(Icons.logout, "Logout", () => navigateTo(""), context),
+        createMenuItem(
+            Icons.electrical_services, "Services", "/services", context),
+        createMenuItem(Icons.logout, "Logout", "/logout", context),
       ],
+      onSelected: (route) => Navigator.pushNamed(context, route as String),
       offset: const Offset(0, 50),
       child: const Icon(Icons.more_horiz),
       shape: const RoundedRectangleBorder(
