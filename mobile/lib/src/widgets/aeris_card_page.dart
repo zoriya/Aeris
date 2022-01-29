@@ -17,17 +17,17 @@ class AerisCardPage extends StatelessWidget {
             topRight: Radius.circular(radius)),
         child: Container(
             color: Theme.of(context).colorScheme.surface,
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
             child: Column(
               children: [
                 Container(
                   child: const AerisPageCloseButton(),
                   alignment: Alignment.centerRight,
                 ),
-                Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: body)
+                Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: body))
               ],
             )),
       ),

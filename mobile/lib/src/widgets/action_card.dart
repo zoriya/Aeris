@@ -21,7 +21,8 @@ class ActionCard extends StatelessWidget {
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20))),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 15, top: 15, left: 10),
+          padding:
+              const EdgeInsets.only(bottom: 15, top: 15, left: 15, right: 6),
           child: Row(
             children: [
               Expanded(child: leading, flex: 2),
