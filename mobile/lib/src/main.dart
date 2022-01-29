@@ -6,6 +6,8 @@ import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/background/animated_background.dart';
 
 void main() {
@@ -28,22 +30,20 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/login',
         onGenerateRoute: (settings) {
-          Map routes = {
+          Map pageRoutes = {
             '/': () => const StartupPage(),
             '/login': () => const LoginPage(),
             '/home': () => const HomePage(),
+          };
+          Map cardRoutes = {
             '/pipeline': () => const PipelineDetailPage(),
             '/services': () => const ServicePage()
           };
-          // TODO MORE GENERIC MANAGEMENT ('is')
-          Offset pageTransistionDirection = const Offset(1, 0);
-          Curve pageTransitionCurve = Curves.easeInSine;
-          if (settings.name == '/pipeline' || settings.name == '/services') {
-            pageTransistionDirection = const Offset(0, 1);
-            pageTransitionCurve = Curves.ease;
-          }
+          Map routes = {}
+            ..addAll(cardRoutes)
+            ..addAll(pageRoutes);
           return PageRouteBuilder(
               opaque: false,
               settings: settings,
@@ -51,12 +51,19 @@ class MyApp extends StatelessWidget {
               transitionDuration: const Duration(milliseconds: 500),
               transitionsBuilder: (context, animation, secondaryAnimation,
                       child) =>
-                  SlideTransition(
-                    position: animation.drive(
-                        Tween(begin: pageTransistionDirection, end: Offset.zero)
-                            .chain(CurveTween(curve: pageTransitionCurve))),
-                    child: child,
-                  ));
+                  pageRoutes.containsKey(settings.name)
+                      ? ScaleTransition(
+                          child: child,
+                          scale: CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.ease,
+                          ))
+                      : SlideTransition(
+                          position: animation.drive(
+                              Tween(begin: const Offset(0, 1), end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.ease))),
+                          child: child,
+                        ));
         });
   }
 }
