@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Map pageRoutes = {
             '/': () => const StartupPage(),
