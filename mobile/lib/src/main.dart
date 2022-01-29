@@ -6,9 +6,6 @@ import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
-import 'package:mobile/src/widgets/aeris_page.dart';
-import 'package:mobile/src/widgets/background/animated_background.dart';
 
 void main() {
   runApp(const MyApp());
