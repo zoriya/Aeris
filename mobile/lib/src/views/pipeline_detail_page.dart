@@ -28,74 +28,79 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
     final PipelineDetailPageArguments arguments = ModalRoute.of(context)!
         .settings
         .arguments as PipelineDetailPageArguments;
+
     Pipeline pipeline = arguments.pipeline;
-    return AerisCardPage(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 10),
-      Row(
-        children: [
-          Expanded(
-            flex: 7,
+    final cardHeader = Row(
+      children: [
+        Expanded(
+          flex: 7,
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(pipeline.name,
+                    style: const TextStyle(
+                      fontSize: 25,
+                    )),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(pipeline.trigger.lastToString(),
+                    style: const TextStyle(
+                      fontSize: 17,
+                    )),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+            flex: 3,
             child: Column(
               children: [
+                const SizedBox(height: 10),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(pipeline.name,
-                      style: const TextStyle(
-                        fontSize: 25,
-                      )),
+                  alignment: Alignment.center,
+                  child: FlutterSwitch(
+                    activeColor: Colors.green,
+                    width: 60,
+                    value: pipeline.enabled,
+                    onToggle: (value) {
+                      setState(() {
+                        pipeline.enabled = !pipeline.enabled;
+                      });
+                    },
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(pipeline.trigger.lastToString(),
-                      style: const TextStyle(
-                        fontSize: 17,
-                      )),
+                  alignment: Alignment.center,
+                  child: Text(pipeline.enabled ? "Enabled" : "Disabed",
+                      style: const TextStyle(fontSize: 13)),
                 ),
               ],
-            ),
-          ),
-          Expanded(
-              flex: 3,
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: FlutterSwitch(
-                      activeColor: Colors.green,
-                      width: 60,
-                      value: pipeline.enabled,
-                      onToggle: (value) {
-                        setState(() {
-                          pipeline.enabled = !pipeline.enabled;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(pipeline.enabled ? "Enabled" : "Disabed",
-                        style: const TextStyle(fontSize: 13)),
-                  ),
-                ],
-              ))
-        ],
-      ),
+            ))
+      ],
+    );
+
+    return AerisCardPage(
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const SizedBox(height: 10),
+      cardHeader,
       const SizedBox(height: 40),
       const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
       ActionCard(
           leading: pipeline.trigger.service.getLogo(logoSize: 50),
           title: pipeline.trigger.action,
           trailing: Container()), //TODO Popup menu
+      const SizedBox(height: 25),
       const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
       for (var reaction in pipeline.reactions)
         ActionCard(
             leading: reaction.service.getLogo(logoSize: 50),
             title: reaction.name,
             trailing: Container()), //TODO Popup menu
+      const SizedBox(height: 30),
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
       ClickableCard(
