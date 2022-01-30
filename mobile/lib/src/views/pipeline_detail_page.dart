@@ -4,7 +4,7 @@ import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
-import 'package:mobile/src/widgets/warining_dialog.dart';
+import 'package:mobile/src/widgets/warning_dialog.dart';
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
@@ -121,7 +121,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
         onTap: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => WarningDialog(
-                message: "ok",
+                message:
+                    "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
                 onAccept: () =>
                     print("Delete pipeline") /*TODO remove pipeline*/,
                 warnedAction: "Delete")),
