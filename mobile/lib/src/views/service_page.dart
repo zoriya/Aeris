@@ -24,7 +24,7 @@ class ServicePage extends StatelessWidget {
               splashColor: trailingIcon.color!.withAlpha(100),
               splashRadius: 20,
               icon: trailingIcon,
-              onPressed: onTap /* TODO Delete action*/,
+              onPressed: onTap,
             )),
       const SizedBox(height: 30),
     ];
