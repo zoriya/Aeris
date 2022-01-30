@@ -15,7 +15,7 @@ class Pipeline {
   final int triggerCount;
 
   /// Is the pipeline enabled
-  final bool enabled;
+  bool enabled;
 
   // TODO Is the data type of the parameters correct?
   // The parameters
@@ -26,7 +26,7 @@ class Pipeline {
 
   // TODO How is the reaction linked, of the triggering service?
   final Trigger trigger;
-  const Pipeline(
+  Pipeline(
       {Key? key,
       required this.id,
       required this.name,

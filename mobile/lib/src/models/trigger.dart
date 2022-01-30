@@ -8,11 +8,19 @@ class Trigger {
   // Triggering Action name;
   // TODO Might be an enum
   final String action;
+
   /// Last time the triggered was done
   final DateTime last;
   const Trigger(
       {Key? key,
       required this.service,
-      required this.action, required this.last});
+      required this.action,
+      required this.last});
   // TODO Constructor from DB 'Type' field
+  String lastToString() {
+    int elapsedDays = DateTime.now().difference(last).inDays;
+    return elapsedDays == 0
+        ? 'Last: Today'
+        : 'Last: ${elapsedDays.toString()}d ago';
+  }
 }

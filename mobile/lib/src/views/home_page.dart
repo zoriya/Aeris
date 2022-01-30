@@ -36,7 +36,8 @@ class _HomePageState extends State<HomePage> {
         service: const Service.spotify(),
         action: "Play song",
         last: DateTime.parse("2022-01-01"));
-    var reaction = const Reaction(service: Service.twitter(), parameters: {});
+    var reaction = const Reaction(
+        service: Service.twitter(), parameters: {}, name: "Post a tweet");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -81,7 +82,8 @@ class _HomePageState extends State<HomePage> {
     ScrollController listController = ScrollController();
     var listView = ListView(
         controller: listController,
-        padding: const EdgeInsets.all(10),
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
         children: [
           for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
           // Add button
@@ -90,16 +92,14 @@ class _HomePageState extends State<HomePage> {
               body: Container(
                   child: Text(
                     "Create a Pipeline",
-                    textAlign:
-                        TextAlign.center, // TODO Seems a bit on the right
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSecondary,
                         fontSize: 20,
                         fontWeight: FontWeight.w600),
                   ),
                   width: double.infinity,
-                  padding:
-                      const EdgeInsets.only(top: 20, bottom: 20, left: 40)),
+                  padding: const EdgeInsets.only(top: 20, bottom: 20)),
               onTap: () {
                 print("Create new pipeline"); // TODO page transition
               })

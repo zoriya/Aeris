@@ -9,20 +9,28 @@ class AerisCardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double radius = 30;
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(radius), topRight: Radius.circular(radius)),
-      child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.only(top: 30, bottom: 0),
-          child: Column(
-            children: [
-              Container(
-                child: const AerisPageCloseButton(),
-                alignment: Alignment.centerRight,
-              )
-            ],
-          )),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: ClipRRect(
+        borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(radius),
+            topRight: Radius.circular(radius)),
+        child: Container(
+            color: Theme.of(context).colorScheme.surface,
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
+            child: Column(
+              children: [
+                Container(
+                  child: const AerisPageCloseButton(),
+                  alignment: Alignment.centerRight,
+                ),
+                Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: body))
+              ],
+            )),
+      ),
     );
   }
 }
@@ -35,12 +43,11 @@ class AerisPageCloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () => Navigator.pop(context),
-      child:
-          Icon(Icons.close, color: Theme.of(context).colorScheme.onSecondary),
+      child: Icon(Icons.close,
+          color: Theme.of(context).colorScheme.onSecondary, size: 20),
       style: ElevatedButton.styleFrom(
           elevation: 0,
           shape: const CircleBorder(),
-          padding: const EdgeInsets.all(5),
           primary: Theme.of(context).colorScheme.secondary),
     );
   }

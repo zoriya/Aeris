@@ -7,7 +7,7 @@ class ClickableCard extends StatelessWidget {
   // Tap callback
   final Function() onTap;
   // Card elevation
-  final int elevation;
+  final double elevation;
   // Card rounded corners
   final int borderRadius;
   // The color of the card
@@ -25,7 +25,7 @@ class ClickableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     BorderRadius bordersRadius = const BorderRadius.all(Radius.circular(25));
     return Card(
-        elevation: 40,
+        elevation: elevation,
         color: color,
         shape: RoundedRectangleBorder(borderRadius: bordersRadius),
         child: InkWell(onTap: onTap, borderRadius: bordersRadius, child: body));

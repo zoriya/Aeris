@@ -88,8 +88,11 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with TickerProv
 
   @override
   void dispose() {
-    topAnimController.dispose();
-    bottomAnimController.dispose();
+    if (mounted) {
+      // topAnimController.dispose();
+      bottomAnimController.dispose();
+      super.dispose();
+    }
   }
 
   @override
@@ -109,7 +112,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with TickerProv
                 gradientRight: const Color(0xffC43990)))),
           Positioned(
             top: size.height * .98,
-            left: size.width * .1,
+            left: size.width * (-0.05),
             child: CustomPaint(
               painter: AnimPainter(
                 radius: botLeftAnimation.value - 30,

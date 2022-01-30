@@ -12,7 +12,6 @@ class PipelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int elapsedDays = DateTime.now().difference(pipeline.trigger.last).inDays;
     List<Widget> reactionLogos = pipeline.reactions
         .take(3)
         .map((reaction) => reaction.service.getLogo())
@@ -24,7 +23,7 @@ class PipelineCard extends StatelessWidget {
     return ClickableCard(
         onTap: () {
           Navigator.pushNamed(context, '/pipeline',
-              arguments: PipelineDetailPageArguments(pipeline.name));
+              arguments: PipelineDetailPageArguments(pipeline));
           print("Card clicked!");
         },
         color: pipeline.enabled == false
@@ -40,18 +39,15 @@ class PipelineCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(pipeline.name,
-                          style: const TextStyle(
-                            color: Colors.grey,
+                          style: TextStyle(
                             fontSize: 25,
+                            color: Theme.of(context).colorScheme.onSurface,
                           )),
                       const SizedBox(height: 10),
-                      Text(
-                          elapsedDays == 0
-                              ? 'Last: Today'
-                              : 'Last: ${elapsedDays.toString()}d ago',
+                      Text(pipeline.trigger.lastToString(),
                           style: TextStyle(
                               color: pipeline.enabled == false
-                                  ? Colors.grey
+                                  ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
                               fontSize: 15)),
                     ],
@@ -63,9 +59,9 @@ class PipelineCard extends StatelessWidget {
                       children: [
                         pipeline.trigger.service.getLogo(),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           Icons.arrow_forward,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         const SizedBox(width: 10),
                         Column(children: reactionLogos)
@@ -73,10 +69,10 @@ class PipelineCard extends StatelessWidget {
               Expanded(
                   flex: 2,
                   child: Column(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.arrow_forward_ios,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.onSurface,
                         )
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
