@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:mobile/src/widgets/warning_dialog.dart';
 
 // Page listing connected & available services
 class ServicePage extends StatelessWidget {
   const ServicePage({Key? key}) : super(key: key);
 
   List<Widget> getServiceGroup(String groupName, List<Service> services,
-      Icon trailingIcon, void Function() onTap) {
+      Icon trailingIcon, void Function() onTap, BuildContext context) {
     return [
       Text(
         "$groupName:",
@@ -59,18 +60,25 @@ class ServicePage extends StatelessWidget {
                   const SizedBox(height: 60)
                 ],
                 ...getServiceGroup(
-                  "Connected",
-                  services,
-                  const Icon(Icons.delete, color: Colors.red),
-                  () => print("DELETED") /* TODO Delete action*/,
-                ),
+                    "Connected",
+                    services,
+                    const Icon(Icons.delete, color: Colors.red),
+                    () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) => WarningDialog(
+                            message:
+                                "You are about to disconnect to a service. Once disconnected, every related pipeline will be deleted. This action cannot be undone.",
+                            onAccept: () =>
+                                print("Disconnect") /* TODO Delete action*/,
+                            warnedAction: "Disconnect")),
+                    context),
                 ...getServiceGroup(
-                  "Available",
-                  services,
-                  const Icon(Icons.connect_without_contact,
-                      color: Colors.green),
-                  () => print("Connected") /* TODO Add action*/,
-                ),
+                    "Available",
+                    services,
+                    const Icon(Icons.connect_without_contact,
+                        color: Colors.green),
+                    () => print("Connected") /* TODO Add action*/,
+                    context),
               ],
             )));
   }
