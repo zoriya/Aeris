@@ -4,6 +4,7 @@ import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/warining_dialog.dart';
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
@@ -104,22 +105,27 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
       ClickableCard(
-          color: Theme.of(context).colorScheme.error,
-          elevation: 5,
-          body: Container(
-              child: Text(
-                "Delete a Pipeline",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 15, bottom: 15)),
-          onTap: () {
-            print("Delete pipeline"); // TODO remove pipeline
-          }),
+        color: Theme.of(context).colorScheme.error,
+        elevation: 5,
+        body: Container(
+            child: Text(
+              "Delete a Pipeline",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600),
+            ),
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 15, bottom: 15)),
+        onTap: () => showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => WarningDialog(
+                message: "ok",
+                onAccept: () =>
+                    print("Delete pipeline") /*TODO remove pipeline*/,
+                warnedAction: "Delete")),
+      )
     ]));
   }
 }
