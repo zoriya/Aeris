@@ -150,7 +150,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
     );
 
     return AerisCardPage(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        body: ListView(children: [
       const SizedBox(height: 10),
       cardHeader,
       const SizedBox(height: 40),
@@ -170,7 +170,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       const SizedBox(height: 30),
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
-      deleteButton
+      deleteButton,
+      const SizedBox(height: 20),
     ]));
   }
 }
