@@ -67,32 +67,43 @@ class _SetupActionPageState extends State<SetupActionPage> {
     );
 
     return AerisCardPage(
-        body: ListView(
-      children: [
-        const Text("Setup Action",
-            style: TextStyle(
-              fontSize: 25,
-            )),
-        const SizedBox(height: 60),
-        Align(alignment: Alignment.centerRight, child: serviceDropdown),
-        const SizedBox(height: 10),
-        Align(
-            alignment: Alignment.centerLeft,
-            child: Text("${availableActions.length} available actions")),
-        const SizedBox(height: 20),
-        for (aeris.Action availableAction in availableActions)
-          ExpandablePanel(
-              header: Text(availableAction.name),
-              collapsed: const SizedBox(height: 10),
-              expanded: ActionForm(
-                  name: availableAction.name,
-                  parametersNames: availableAction.parameters.keys.toList(),
-                  onValidate: (parameters) {
-                    action.parameters = parameters;
-                    print(action.parameters);
-                  })),
-        const SizedBox(height: 20)
-      ],
+        body: Padding(
+      padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+      child: ListView(
+        children: [
+          const Text("Setup Action",
+              style: TextStyle(
+                fontSize: 25,
+              )),
+          const SizedBox(height: 60),
+          Align(alignment: Alignment.centerRight, child: serviceDropdown),
+          const SizedBox(height: 10),
+          Align(
+              alignment: Alignment.centerLeft,
+              child: Text("${availableActions.length} available actions:")),
+          const SizedBox(height: 40),
+          for (aeris.Action availableAction in availableActions) ...[
+            ExpandablePanel(
+                header: Padding(
+                    padding: EdgeInsets.only(left: 30),
+                    child: Text(availableAction.name,
+                        style: TextStyle(fontSize: 15))),
+                collapsed: const SizedBox(height: 10),
+                expanded: ActionForm(
+                    name: availableAction.name,
+                    parametersNames: availableAction.parameters.keys.toList(),
+                    onValidate: (parameters) {
+                      action.parameters = parameters;
+                      print(action.parameters);
+                    })),
+            Container(
+              height: 1,
+              color: Theme.of(context).colorScheme.primary.withAlpha(100),
+            ),
+            const SizedBox(height: 10)
+          ]
+        ],
+      ),
     ));
   }
 }
