@@ -107,6 +107,24 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       ],
     );
 
+    final Widget addReactionbutton = ClickableCard(
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        elevation: 5,
+        body: Container(
+            child: Text(
+              "Add a reaction",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600),
+            ),
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 15, bottom: 15)),
+        onTap: () {
+          print("add reaction pipeline"); // TODO add reaction
+        });
+
     return AerisCardPage(
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const SizedBox(height: 10),
@@ -117,7 +135,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           leading: pipeline.trigger.service.getLogo(logoSize: 50),
           title: pipeline.trigger.name,
           trailing: widget.actionPopupMenu(
-              pipeline.trigger, context)), //TODO Popup menu
+              pipeline.trigger, context)),
       const SizedBox(height: 25),
       const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
       for (var reaction in pipeline.reactions)
@@ -125,7 +143,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             leading: reaction.service.getLogo(logoSize: 50),
             title: reaction.name,
             trailing:
-                widget.actionPopupMenu(reaction, context)), //TODO Popup menu
+                widget.actionPopupMenu(reaction, context)),
+      addReactionbutton,
       const SizedBox(height: 30),
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
