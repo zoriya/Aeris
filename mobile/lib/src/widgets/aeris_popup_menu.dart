@@ -21,7 +21,7 @@ class AerisPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopupMenuButton(
       itemBuilder: itemBuilder,
-      onSelected: (route) => onSelected,
+      onSelected: (route) => onSelected(route),
       offset: menuOffset,
       child: Icon(icon),
       shape: const RoundedRectangleBorder(
