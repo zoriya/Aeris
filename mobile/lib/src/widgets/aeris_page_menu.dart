@@ -1,41 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widgets/aeris_popup_menu.dart';
+import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 
 /// Menu for the Home Page
 class AerisPageMenu extends StatelessWidget {
   const AerisPageMenu({Key? key}) : super(key: key);
 
-  /// Function to create an item for the menu
-  PopupMenuItem createMenuItem(
-      IconData icon, String title, String route, BuildContext context) {
-    return PopupMenuItem(
-      value: route,
-      child: Row(
-        children: <Widget>[
-          Container(
-              child: Icon(
-                icon,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              padding: const EdgeInsets.only(left: 10, right: 10)),
-          Text(title),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
+    return AerisPopupMenu(
       itemBuilder: (context) => [
-        createMenuItem(
-            Icons.electrical_services, "Services", "/services", context),
-        createMenuItem(Icons.logout, "Logout", "/logout", context),
+        AerisPopupMenuItem(
+          context: context, 
+            icon: Icons.electrical_services, title: "Services", value: "/services"),
+        AerisPopupMenuItem(
+          context: context, icon: Icons.logout, title: "Logout", value: "/logout"),
       ],
       onSelected: (route) => Navigator.pushNamed(context, route as String),
-      offset: const Offset(0, 50),
-      child: const Icon(Icons.more_horiz),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+      icon: Icons.more_horiz,
+      menuOffset: const Offset(0, 50),
     );
   }
 }
