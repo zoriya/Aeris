@@ -13,23 +13,24 @@ import 'package:mobile/src/models/action.dart' as aeris;
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
-  final Pipeline
-      pipeline; // TODO Should be later defined as an int, to fetch from db, or as the object
+  final Pipeline pipeline;
+
+  ///TODO Should be later defined as an int, to fetch from db, or as the object
 
   PipelineDetailPageArguments(this.pipeline);
 }
 
 // Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
-
-  //final String pipelineName; // TODO Define as int later on
+  //final String pipelineName;///TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
 
   AerisPopupMenu actionPopupMenu(aeris.Action action, BuildContext context) {
     return AerisPopupMenu(
         onSelected: (value) {
-          Map object = value as Map; 
-          Navigator.pushNamed(context, object['route'] as String, arguments: object['params']);
+          Map object = value as Map;
+          Navigator.pushNamed(context, object['route'] as String,
+              arguments: object['params']);
         },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
@@ -40,7 +41,7 @@ class PipelineDetailPage extends StatefulWidget {
                   value: {
                     'route': "/pipeline/action/mod",
                     'params': SetupActionPageArguments(action),
-                  } /* TODO Define mod route*/),
+                  }),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
@@ -131,7 +132,9 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             width: double.infinity,
             padding: const EdgeInsets.only(top: 15, bottom: 15)),
         onTap: () {
-          print("add reaction pipeline"); // TODO add reaction
+          print("add reaction pipeline");
+
+          ///TODO add reaction
         });
 
     final Widget deleteButton = ClickableCard(

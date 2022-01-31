@@ -3,11 +3,13 @@ import 'package:mobile/src/models/service.dart';
 
 // Base class for reactions and trigger
 abstract class Action {
-  // Action's service
+  ///Action's service
   final Service service;
-  // Name fo the action
+
+  ///Name fo the action
   final String name;
-  // Action's parameters
+
+  ///Action's parameters
   final Object parameters;
   const Action(
       {Key? key,

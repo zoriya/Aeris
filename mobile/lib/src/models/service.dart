@@ -3,13 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class Service {
-  // Name of the service
+  ///Name of the service
   final String name;
 
-  // URL To the service
+  ///URL To the service
   final String url;
 
-  // URL To a service's logo
+  ///URL To a service's logo
   final String logoUrl;
 
   Widget getLogo({double logoSize = 40}) => ClipRRect(
@@ -50,4 +50,14 @@ class Service {
         url = "https://youtube.com",
         logoUrl =
             "https://play-lh.googleusercontent.com/lMoItBgdPPVDJsNOVtP26EKHePkwBg-PkuY9NOrc-fumRtTFP4XhpUNk_22syN4Datc";
+
+  /// Returns a list of all the available services
+  static all() => const [
+        Service.discord(),
+        Service.github(),
+        Service.gmail(),
+        Service.youtube(),
+        Service.twitter(),
+        Service.spotify()
+      ];
 }

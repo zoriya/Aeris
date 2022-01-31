@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 
 // A Card that can be clicked
 class ClickableCard extends StatelessWidget {
-  // The body of the card
+  ///The body of the card
   final Widget body;
-  // Tap callback
+
+  ///Tap callback
   final Function() onTap;
-  // Card elevation
+
+  ///Card elevation
   final double elevation;
-  // Card rounded corners
+
+  ///Card rounded corners
   final int borderRadius;
-  // The color of the card
+
+  ///The color of the card
   final Color? color;
   const ClickableCard(
       {Key? key,

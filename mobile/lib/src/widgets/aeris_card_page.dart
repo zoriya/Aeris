@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Popup Card page
 class AerisCardPage extends StatelessWidget {
-  // Body of the card
+  ///Body of the card
   final Widget body;
   const AerisCardPage({Key? key, required this.body}) : super(key: key);
 
