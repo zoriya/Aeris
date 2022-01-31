@@ -3,6 +3,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 
 /// Class to get the pipeline's name in route's arguments
@@ -91,7 +92,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
       ActionCard(
           leading: pipeline.trigger.service.getLogo(logoSize: 50),
-          title: pipeline.trigger.action,
+          title: pipeline.trigger.name,
           trailing: Container()), //TODO Popup menu
       const SizedBox(height: 25),
       const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
