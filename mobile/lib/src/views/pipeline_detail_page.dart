@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/models/reaction.dart';
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
@@ -20,24 +21,31 @@ class PipelineDetailPageArguments {
 
 // Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
+
   //final String pipelineName; // TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
 
   AerisPopupMenu actionPopupMenu(aeris.Action action, BuildContext context) {
     return AerisPopupMenu(
-        onSelected: (route) => Navigator.pushNamed(context, route as String),
+        onSelected: (value) {
+          Map object = value as Map; 
+          Navigator.pushNamed(context, object['route'] as String, arguments: object['params']);
+        },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
               AerisPopupMenuItem(
                   context: context,
                   icon: Icons.settings,
                   title: "Modify",
-                  value: "/mod" /* TODO Define mod route*/),
+                  value: {
+                    'route': "/pipeline/action/mod",
+                    'params': SetupActionPageArguments(action),
+                  } /* TODO Define mod route*/),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
                 title: "Delete",
-                value: "/delete",
+                value: "/pipeline/action/del",
                 enabled: action is Reaction, /* TODO Define delete route*/
               ),
             ]);

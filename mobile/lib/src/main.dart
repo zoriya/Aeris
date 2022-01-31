@@ -1,5 +1,6 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mobile/src/views/service_page.dart';
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:mobile/src/views/login_page.dart';
 import 'package:mobile/src/views/home_page.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           };
           Map cardRoutes = {
             '/pipeline': () => const PipelineDetailPage(),
-            '/services': () => const ServicePage()
+            '/services': () => const ServicePage(),
+            '/pipeline/action/mod': () => const SetupActionPage()
           };
           Map routes = {}
             ..addAll(cardRoutes)
