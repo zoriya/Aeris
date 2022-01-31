@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
+import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -66,7 +65,6 @@ class _SetupActionPageState extends State<SetupActionPage> {
         );
       }).toList(),
     );
-    final _formKey = GlobalKey<FormBuilderState>();
 
     return AerisCardPage(
         body: ListView(
@@ -82,50 +80,17 @@ class _SetupActionPageState extends State<SetupActionPage> {
             alignment: Alignment.centerLeft,
             child: Text("${availableActions.length} available actions")),
         const SizedBox(height: 20),
-        for (aeris.Action action in availableActions)
+        for (aeris.Action availableAction in availableActions)
           ExpandablePanel(
-              header: Text(action.name),
+              header: Text(availableAction.name),
               collapsed: const SizedBox(height: 10),
-              expanded: FormBuilder(
-                  key: _formKey,
-                  child: Column(children: [
-                    ...action.parameters
-                        .map((key, value) => MapEntry(
-                            key,
-                            FormBuilderTextField(
-                              initialValue:
-                                  (action.parameters.containsKey(key) &&
-                                          action.parameters[key] != null)
-                                      ? action.parameters[key] as String
-                                      : null,
-                              name: key,
-                              decoration: InputDecoration(
-                                labelText: key,
-                              ),
-                              onChanged: (value) {
-                                print(value);
-                              } /*TODO apply on object*/,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(context),
-                              ]),
-                            )))
-                        .values
-                        .toList(),
-                    ...[
-                      ElevatedButton(
-                        child: Text("Save"),
-                        onPressed: () {
-                          _formKey.currentState!.save();
-                          if (_formKey.currentState!.validate()) {
-                            print(_formKey.currentState!.value);
-                          } else {
-                            print("validation failed");
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 10)
-                    ]
-                  ]))),
+              expanded: ActionForm(
+                  name: availableAction.name,
+                  parametersNames: availableAction.parameters.keys.toList(),
+                  onValidate: (parameters) {
+                    action.parameters = parameters;
+                    print(action.parameters);
+                  })),
         const SizedBox(height: 20)
       ],
     ));

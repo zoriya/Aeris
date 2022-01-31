@@ -10,8 +10,8 @@ abstract class Action {
   final String name;
 
   ///Action's parameters
-  final Map<String, Object?> parameters;
-  const Action(
+  Map<String, Object?> parameters;
+  Action(
       {Key? key,
       required this.service,
       required this.name,

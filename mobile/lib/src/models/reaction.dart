@@ -4,7 +4,7 @@ import 'package:mobile/src/models/service.dart';
 
 ///Object representation of a reaction
 class Reaction extends aeris_action.Action {
-  const Reaction(
+  Reaction(
       {Key? key,
       required Service service,
       required String name,

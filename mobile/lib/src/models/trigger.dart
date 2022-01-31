@@ -6,7 +6,7 @@ import 'package:mobile/src/models/action.dart' as aeris_action;
 class Trigger extends aeris_action.Action {
   /// Last time the triggered was done
   final DateTime last;
-  const Trigger(
+  Trigger(
       {Key? key,
       required Service service,
       required String action,
