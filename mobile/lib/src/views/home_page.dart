@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> {
                   controller: listController,
                   itemCount: provider.pipelines.length + 1,
                   itemBuilder: (BuildContext context, int index) {
-                    if (index == (provider.pipelines.length + 1)) {
+                    if (index == provider.pipelines.length) {
                       return ClickableCard(
                         color: Theme.of(context).colorScheme.secondary,
                         body: Padding(
