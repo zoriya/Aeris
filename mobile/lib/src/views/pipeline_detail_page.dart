@@ -7,6 +7,7 @@ import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/warning_dialog.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 
 /// Class to get the pipeline's name in route's arguments
@@ -149,22 +150,28 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
       const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
       ClickableCard(
-          color: Theme.of(context).colorScheme.error,
-          elevation: 5,
-          body: Container(
-              child: Text(
-                "Delete a Pipeline",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 15, bottom: 15)),
-          onTap: () {
-            print("Delete pipeline"); // TODO remove pipeline
-          }),
+        color: Theme.of(context).colorScheme.error,
+        elevation: 5,
+        body: Container(
+            child: Text(
+              "Delete a Pipeline",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600),
+            ),
+            width: double.infinity,
+            padding: const EdgeInsets.only(top: 15, bottom: 15)),
+        onTap: () => showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => WarningDialog(
+                message:
+                    "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
+                onAccept: () =>
+                    print("Delete pipeline") /*TODO remove pipeline*/,
+                warnedAction: "Delete")),
+      )
     ]));
   }
 }
