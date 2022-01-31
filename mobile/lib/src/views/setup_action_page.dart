@@ -1,8 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/models/service.dart';
+import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:expandable/expandable.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -11,7 +14,7 @@ class SetupActionPageArguments {
   SetupActionPageArguments(this.action);
 }
 
-// Page to setup an action
+///Page to setup an action
 class SetupActionPage extends StatefulWidget {
   const SetupActionPage({Key? key}) : super(key: key);
 
@@ -24,13 +27,17 @@ class _SetupActionPageState extends State<SetupActionPage> {
   Widget build(BuildContext context) {
     final SetupActionPageArguments arguments =
         ModalRoute.of(context)!.settings.arguments as SetupActionPageArguments;
-
-    Map<String, <Map<String, String?>>> availableActions;
-
-    for (int i = 0; i <= 10; i++) {"action $i": {'key1': 'value1', 'key2': null}}
-    ;
-
     aeris.Action action = arguments.action;
+
+    // TODO Call provider
+    List<aeris.Action> availableActions = [
+      for (int i = 0; i <= 10; i++)
+        Trigger(
+            last: DateTime.now(),
+            service: action.service,
+            action: "action",
+            parameters: {'key1': 'value1', 'key2': null})
+    ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
       value: action.service,
@@ -59,9 +66,10 @@ class _SetupActionPageState extends State<SetupActionPage> {
         );
       }).toList(),
     );
+    final _formKey = GlobalKey<FormBuilderState>();
 
     return AerisCardPage(
-        body: Column(
+        body: ListView(
       children: [
         const Text("Setup Action",
             style: TextStyle(
@@ -69,12 +77,56 @@ class _SetupActionPageState extends State<SetupActionPage> {
             )),
         const SizedBox(height: 60),
         Align(alignment: Alignment.centerRight, child: serviceDropdown),
+        const SizedBox(height: 10),
         Align(
             alignment: Alignment.centerLeft,
-            child: Text("${availableActions.length} available actions"))
-        const SizedBox(height: 10),
-        for (var action in availableActions)
-          ExpansionPanel( headerBuilder: (context, _) => Text(""),body: Container())
+            child: Text("${availableActions.length} available actions")),
+        const SizedBox(height: 20),
+        for (aeris.Action action in availableActions)
+          ExpandablePanel(
+              header: Text(action.name),
+              collapsed: const SizedBox(height: 10),
+              expanded: FormBuilder(
+                  key: _formKey,
+                  child: Column(children: [
+                    ...action.parameters
+                        .map((key, value) => MapEntry(
+                            key,
+                            FormBuilderTextField(
+                              initialValue:
+                                  (action.parameters.containsKey(key) &&
+                                          action.parameters[key] != null)
+                                      ? action.parameters[key] as String
+                                      : null,
+                              name: key,
+                              decoration: InputDecoration(
+                                labelText: key,
+                              ),
+                              onChanged: (value) {
+                                print(value);
+                              } /*TODO apply on object*/,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(context),
+                              ]),
+                            )))
+                        .values
+                        .toList(),
+                    ...[
+                      ElevatedButton(
+                        child: Text("Save"),
+                        onPressed: () {
+                          _formKey.currentState!.save();
+                          if (_formKey.currentState!.validate()) {
+                            print(_formKey.currentState!.value);
+                          } else {
+                            print("validation failed");
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10)
+                    ]
+                  ]))),
+        const SizedBox(height: 20)
       ],
     ));
   }

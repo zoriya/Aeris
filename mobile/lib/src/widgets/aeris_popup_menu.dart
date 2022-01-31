@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Base class for every popup menu in application
+///Base class for every popup menu in application
 class AerisPopupMenu extends StatelessWidget {
   ///Selection callback
   final void Function(Object?) onSelected;

@@ -4,7 +4,7 @@ import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/warning_dialog.dart';
 
-// Page listing connected & available services
+///Page listing connected & available services
 class ServicePage extends StatelessWidget {
   const ServicePage({Key? key}) : super(key: key);
 

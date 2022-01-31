@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// A Card that can be clicked
+///A Card that can be clicked
 class ClickableCard extends StatelessWidget {
   ///The body of the card
   final Widget body;

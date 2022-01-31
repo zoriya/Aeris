@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mobile/src/models/service.dart';
 
-// Base class for reactions and trigger
+///Base class for reactions and trigger
 abstract class Action {
   ///Action's service
   final Service service;
@@ -10,7 +10,7 @@ abstract class Action {
   final String name;
 
   ///Action's parameters
-  final Object parameters;
+  final Map<String, Object?> parameters;
   const Action(
       {Key? key,
       required this.service,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Dialog for a warning (for example, a deletion)
+///Dialog for a warning (for example, a deletion)
 class WarningDialog extends StatelessWidget {
   ///The content of the dialog
   final String message;

@@ -20,7 +20,7 @@ class PipelineDetailPageArguments {
   PipelineDetailPageArguments(this.pipeline);
 }
 
-// Page for a Pipeline's details
+///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   //final String pipelineName;///TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
