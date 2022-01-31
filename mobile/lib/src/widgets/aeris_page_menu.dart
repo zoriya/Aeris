@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 
 /// Menu for the Home Page
 class AerisPageMenu extends StatelessWidget {
@@ -25,17 +26,15 @@ class AerisPageMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton(
+    return AerisPopupMenu(
       itemBuilder: (context) => [
         createMenuItem(
             Icons.electrical_services, "Services", "/services", context),
         createMenuItem(Icons.logout, "Logout", "/logout", context),
       ],
       onSelected: (route) => Navigator.pushNamed(context, route as String),
-      offset: const Offset(0, 50),
-      child: const Icon(Icons.more_horiz),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+      icon: Icons.more_horiz,
+      menuOffset: const Offset(0, 50),
     );
   }
 }
