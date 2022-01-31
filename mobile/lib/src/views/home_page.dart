@@ -1,14 +1,16 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
+import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
-import 'package:mobile/src/widgets/loading_widget.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
+import 'package:provider/provider.dart';
 
 /// Home Page
 class HomePage extends StatefulWidget {
@@ -19,9 +21,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Refresh/loading state
-  bool loading = false;
-
   @override
   Widget build(BuildContext context) {
     var trigger1 = Trigger(
@@ -73,63 +72,61 @@ class _HomePageState extends State<HomePage> {
       pipeline2,
       pipeline1
     ];
-    pipelines.sort((a, b) {
-      if (a.enabled == b.enabled) {
-        return b.trigger.last.compareTo(a.trigger.last);
-      }
-      return b.enabled ? 1 : -1;
-    });
+
+    PipelineProvider pipelineProvider = Provider.of<PipelineProvider>(context, listen: true);
+    pipelineProvider.setPipelineProvider(pipelines);
     ScrollController listController = ScrollController();
-    var listView = ListView(
-        controller: listController,
-        padding:
-            const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
-        children: [
-          for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
-          // Add button
-          ClickableCard(
-              color: Theme.of(context).colorScheme.secondary,
-              body: Container(
-                  child: Text(
-                    "Create a Pipeline",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 20, bottom: 20)),
-              onTap: () {
-                print("Create new pipeline"); // TODO page transition
-              })
-        ]);
     return AerisPage(
-        body: NotificationListener<ScrollEndNotification>(
-      onNotification: (notification) {
-        if (listController.position.atEdge) {
-          if (listController.position.pixels == 0) {
-            loading = true;
-            print("Loading");
-            setState(() {});
-            Future.delayed(const Duration(seconds: 2)).then((_) => setState(() {
-                  loading = false;
-                  print("Loaded");
-                }));
-            // TODO Call API
-          }
-        }
-        return true;
-      },
-      child: Stack(children: [
-        listView,
-        loading
-            ? BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                child: Container())
-            : Container(),
-        loading ? const LoadingWidget() : Container()
-      ]),
-    ));
+      body: Consumer<PipelineProvider>(
+        builder: (context, provider, _) =>
+          NotificationListener<ScrollEndNotification>(
+            onNotification: (notification) {
+              if (listController.position.atEdge) {
+                if (listController.position.pixels == 0) {
+                  print("Loading");
+                  Future.delayed(const Duration(seconds: 2));
+                  // TODO Call API
+                }
+              }
+              return true;
+            },
+            child: Stack(
+              children: [
+                ListView.builder(
+                  controller: listController,
+                  itemCount: provider.pipelines.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == (provider.pipelines.length + 1)) {
+                      return ClickableCard(
+                        color: Theme.of(context).colorScheme.secondary,
+                        body: Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 20),
+                          child: Text(
+                            "Create a pipeline",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600
+                            )
+                          ),
+                        ),
+                        onTap: () {
+                          if (kDebugMode) {
+                            print("Create a pipeline");
+                          }
+                        },
+                      );
+                    }
+                    return PipelineCard(
+                      pipeline: provider.pipelines[index]
+                    );
+                  },
+                ),
+              ],
+            )
+          )
+      ),
+    );
   }
 }

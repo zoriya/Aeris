@@ -11,13 +11,25 @@ class PipelineProvider extends ChangeNotifier {
   /// Adds a pipeline in the Provider
   addPipelineInProvider(Pipeline newPipeline) {
     pipelines.add(newPipeline);
+    _sortsPipelines();
     notifyListeners();
   }
 
   /// Sets a new list of pipelines into the Provider
   setPipelineProvider(List<Pipeline> newPipelines) {
+    pipelines = [];
     pipelines = newPipelines;
+    _sortsPipelines();
     notifyListeners();
+  }
+
+  _sortsPipelines() {
+    pipelines.sort((a, b) {
+      if (a.enabled == b.enabled) {
+        return b.trigger.last.compareTo(a.trigger.last);
+      }
+      return b.enabled ? 1 : -1;
+    });
   }
 
   /// Removes a specific pipeline from the Provider
