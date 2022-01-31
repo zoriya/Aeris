@@ -20,7 +20,6 @@ class PipelineProvider extends ChangeNotifier {
     pipelines = [];
     pipelines = newPipelines;
     _sortsPipelines();
-    notifyListeners();
   }
 
   _sortsPipelines() {

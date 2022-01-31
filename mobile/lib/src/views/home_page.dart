@@ -21,8 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     var trigger1 = Trigger(
         service: const Service.spotify(),
         action: "Play song",
@@ -73,8 +74,13 @@ class _HomePageState extends State<HomePage> {
       pipeline1
     ];
 
-    PipelineProvider pipelineProvider = Provider.of<PipelineProvider>(context, listen: true);
+    PipelineProvider pipelineProvider = Provider.of<PipelineProvider>(context, listen: false);
     pipelineProvider.setPipelineProvider(pipelines);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ScrollController listController = ScrollController();
     return AerisPage(
       body: Consumer<PipelineProvider>(
