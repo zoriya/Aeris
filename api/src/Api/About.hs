@@ -2,7 +2,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module About where
+module Api.About where
 
 import Data.Aeson
 import Data.Aeson.TH ( deriveJSON )

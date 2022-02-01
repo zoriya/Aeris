@@ -16,7 +16,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# OPTIONS_GHC -Wno-missing-methods #-}
 
-module User where
+module Api.User where
 
 import GHC.Generics (Generic)
 import Servant.Auth.JWT

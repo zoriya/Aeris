@@ -2,14 +2,14 @@
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DeriveGeneric #-}
-module Auth where
+module Api.Auth where
 
 import Servant
 
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
 import Control.Monad.IO.Class (liftIO)
-import User
+import Api.User
 import GHC.Generics
 import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)

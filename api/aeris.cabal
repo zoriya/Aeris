@@ -24,10 +24,11 @@ source-repository head
 
 library
   exposed-modules:
-      About
-      Auth
+      Api
+      Api.About
+      Api.Auth
+      Api.User
       Lib
-      User
   other-modules:
       Paths_aeris
   hs-source-dirs:
