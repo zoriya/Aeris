@@ -24,9 +24,9 @@ instance ToJSON Login
 instance FromJSON Login
 
 type Protected
-  = "me" :> Get '[JSON] User
+  = "me" :> Get '[JSON] User'
 
-protected :: Servant.Auth.Server.AuthResult User -> Server Protected
+protected :: Servant.Auth.Server.AuthResult User' -> Server Protected
 protected (Servant.Auth.Server.Authenticated user)= return user
 protected _ = throwAll err401
 
@@ -50,14 +50,14 @@ checkCreds cookieSettings jwtSettings (Login username password) = do
 unprotected :: CookieSettings -> JWTSettings -> Server Unprotected
 unprotected cookieSettings jwtSetting = checkCreds cookieSettings jwtSetting
 
-type API' auths = (Servant.Auth.Server.Auth auths User :> Protected)
+type API' auths = (Servant.Auth.Server.Auth auths User' :> Protected)
               :<|> Unprotected
 
 server :: CookieSettings -> JWTSettings -> Server (API' auths)
 server cs jwts = protected :<|> unprotected cs jwts
 
 data AuthAPI mode = AuthAPI
-    { login :: mode :- (Servant.Auth.Server.Auth '[JWT] User :> Protected)
+    { login :: mode :- (Servant.Auth.Server.Auth '[JWT] User' :> Protected)
     , me :: mode :- Unprotected
     } deriving stock Generic
 

@@ -23,7 +23,7 @@ import GHC.Generics (Generic)
 --       :<|> "about.json" :> RemoteHost :> Get '[JSON] About
 
 data API mode = API
-    { users :: mode :- "users" :> Get '[JSON] [User]
+    { users :: mode :- "users" :> Get '[JSON] [User']
     , about :: mode :- "about.json" :> RemoteHost :> Get '[JSON] About
     , auth :: mode :- "auth" :> NamedRoutes AuthAPI
     } deriving stock Generic
