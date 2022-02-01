@@ -1,24 +1,25 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:mobile/src/models/pipeline.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/widgets/action_card.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
+import 'package:mobile/src/widgets/aeris_popup_menu.dart';
+import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/warning_dialog.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:mobile/src/widgets/action_card.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:mobile/src/models/reaction.dart';
+import 'package:mobile/src/models/pipeline.dart';
+import 'package:flutter/material.dart';
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
-  final Pipeline
-      pipeline; // TODO Should be later defined as an int, to fetch from db, or as the object
+  final Pipeline pipeline;
+
+  ///TODO Should be later defined as an int, to fetch from db, or as the object
 
   PipelineDetailPageArguments(this.pipeline);
 }
 
-// Page for a Pipeline's details
+///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   //final String pipelineName; // TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class PipelineDetailPage extends StatefulWidget {
                 context: context,
                 icon: Icons.delete,
                 title: "Delete",
-                value: "/delete",
+                value: "/pipeline/action/del",
                 enabled: action is Reaction, /* TODO Define delete route*/
               ),
             ]);
@@ -150,27 +151,43 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
     );
 
     return AerisCardPage(
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 10),
-      cardHeader,
-      const SizedBox(height: 40),
-      const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
-      ActionCard(
-          leading: pipeline.trigger.service.getLogo(logoSize: 50),
-          title: pipeline.trigger.name,
-          trailing: widget.actionPopupMenu(pipeline.trigger, context)),
-      const SizedBox(height: 25),
-      const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
-      for (var reaction in pipeline.reactions)
-        ActionCard(
-            leading: reaction.service.getLogo(logoSize: 50),
-            title: reaction.name,
-            trailing: widget.actionPopupMenu(reaction, context)),
-      addReactionbutton,
-      const SizedBox(height: 30),
-      const Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500)),
-      const SizedBox(height: 5),
-      deleteButton
-    ]));
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 40),
+            child: cardHeader,
+          ),
+          const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
+          ActionCard(
+            leading: pipeline.trigger.service.getLogo(logoSize: 50),
+            title: pipeline.trigger.name,
+            trailing: widget.actionPopupMenu(pipeline.trigger, context)),
+          const SizedBox(height: 25),
+          const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
+          Expanded(
+            child: ListView.builder(
+              controller: ScrollController(),
+              itemCount: pipeline.reactions.length,
+              itemBuilder: (BuildContext _, int index) {
+                return ActionCard(
+                    leading: pipeline.reactions[index].service.getLogo(
+                        logoSize: 50),
+                    title: pipeline.reactions[index].name,
+                    trailing: widget.actionPopupMenu(
+                        pipeline.reactions[index], context)
+                );
+              }
+            ),
+          ),
+          addReactionbutton,
+          const Padding(
+            padding: EdgeInsets.only(top: 30, bottom: 5),
+            child: Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500))
+          ),
+          deleteButton
+        ]
+      )
+    );
   }
 }

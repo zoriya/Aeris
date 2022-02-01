@@ -4,8 +4,8 @@ import 'package:mobile/src/models/trigger.dart';
 
 /// Object representation of a pipeline
 class Pipeline {
-  // TODO Is the data type of the id correct?
-  // Unique identifier
+  ///TODO Is the data type of the id correct?
+  ///Unique identifier
   final int id;
 
   /// Name of the pipeline, defined by the user
@@ -17,14 +17,14 @@ class Pipeline {
   /// Is the pipeline enabled
   bool enabled;
 
-  // TODO Is the data type of the parameters correct?
-  // The parameters
+  ///TODO Is the data type of the parameters correct?
+  ///The parameters
   final Object parameters;
 
-  // The pipeline's reactions
+  ///The pipeline's reactions
   final List<Reaction> reactions;
 
-  // TODO How is the reaction linked, of the triggering service?
+  ///TODO How is the reaction linked, of the triggering service?
   final Trigger trigger;
   Pipeline(
       {Key? key,

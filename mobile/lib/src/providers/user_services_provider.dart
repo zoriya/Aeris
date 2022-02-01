@@ -1,4 +1,5 @@
 import 'package:mobile/src/models/user_service.dart';
+import 'package:mobile/src/models/service.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
 
@@ -13,14 +14,33 @@ class UserServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  createUserService(Service serviceToSet, {String accountId = "", String accUsername = "", String accountSlug = "", String externalToken = ""}) {
+    UserService newService = UserService(
+      serviceAccountId: accountId,
+      accountUsername: accUsername,
+      accountSlug: accountSlug,
+      userExternalToken: externalToken,
+      serviceProvider: serviceToSet
+    );
+    userServices.add(newService);
+    // notifyListeners(); /// TODO Get the notifyListeners method back.
+  }
+
+  /// Sets a list of service into the Provider
+  setServiceForUser(List<UserService> newServices) {
+    userServices = [];
+    userServices = newServices;
+    notifyListeners();
+  }
+
   /// Modifies a service given as argument
   modifyService(UserService toModify, String serviceAccountId, String accountUsername, String accountSlug, String userExternalToken) {
     for (int i = 0; i < userServices.length; i++) {
-      if (userServices[i].serviceName == toModify.serviceName &&
+      if (userServices[i].serviceProvider.name == toModify.serviceProvider.name &&
           userServices[i].serviceAccountId == toModify.serviceAccountId &&
           userServices[i].userExternalToken == toModify.userExternalToken) {
         UserService newService = UserService(
-          serviceName: userServices[i].serviceName,
+          serviceProvider: userServices[i].serviceProvider,
           serviceAccountId: serviceAccountId,
           accountUsername: accountUsername,
           accountSlug: accountSlug,
@@ -37,7 +57,7 @@ class UserServiceProvider extends ChangeNotifier {
   /// Removes a service from the Provider
   removeService(UserService toRemove) {
     for (UserService uService in userServices) {
-      if (uService.serviceName == toRemove.serviceName &&
+      if (uService.serviceProvider.name == toRemove.serviceProvider.name &&
           uService.serviceAccountId == toRemove.serviceAccountId &&
           uService.userExternalToken == toRemove.userExternalToken) {
         userServices.remove(uService);

@@ -5,7 +5,7 @@ import 'package:mobile/src/widgets/clickable_card.dart';
 
 /// Widget for Action-reaction card on home page
 class PipelineCard extends StatelessWidget {
-  // Pipeline base object
+  ///Pipeline base object
   final Pipeline pipeline;
 
   const PipelineCard({Key? key, required this.pipeline}) : super(key: key);

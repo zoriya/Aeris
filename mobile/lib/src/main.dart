@@ -3,6 +3,7 @@ import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/providers/user_services_provider.dart';
 import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/views/service_page.dart';
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:mobile/src/views/login_page.dart';
 import 'package:mobile/src/views/home_page.dart';
@@ -25,7 +26,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  ///This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
           };
           Map cardRoutes = {
             '/pipeline': () => const PipelineDetailPage(),
-            '/services': () => const ServicePage()
+            '/services': () => const ServicePage(),
+            '/pipeline/action/mod': () => const SetupActionPage()
           };
           Map routes = {}
             ..addAll(cardRoutes)
