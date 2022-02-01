@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/widgets/action_card.dart';
+import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
+import 'package:provider/provider.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {

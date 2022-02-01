@@ -1,15 +1,26 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mobile/src/providers/pipelines_provider.dart';
+import 'package:mobile/src/providers/user_services_provider.dart';
+import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/views/service_page.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/views/startup_page.dart';
 import 'package:mobile/src/views/login_page.dart';
 import 'package:mobile/src/views/home_page.dart';
-import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PipelineProvider()),
+        ChangeNotifierProvider(create: (_) => UserServiceProvider())
+      ],
+      child: const MyApp()
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
