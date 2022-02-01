@@ -26,8 +26,9 @@ import Prelude
 import Data.Int
 import Data.Functor.Identity (Identity)
 newtype UserId = UserId { toInt64 :: Int64 }
-  deriving newtype (DBEq, DBType, Eq, Show)
+  deriving newtype (DBEq, DBType, Eq, Show, Num)
   deriving stock (Generic)
+
 data User f = User
   { userId        :: Column f UserId
   , username      :: Column f String
@@ -55,7 +56,7 @@ type User' = User Identity
 users :: [User']
 users = [
   User
-    { userId = UserId 1
+    { userId = 1
     , username = "admin"
     , password = "passwd"
     , slug = "admin"
