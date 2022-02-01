@@ -4,7 +4,7 @@ module Main where
 
 import Lib
 import qualified Hasql.Connection as Connection
-import Api.User (userSchema, User (userId))
+import Db.User (userSchema, User (userId))
 import Rel8(each, select)
 import Control.Monad.IO.Class (liftIO)
 

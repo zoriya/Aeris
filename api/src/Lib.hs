@@ -1,7 +1,5 @@
 {-# LANGUAGE DataKinds       #-}
-{-# LANGUAGE TypeOperators   #-}
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DeriveGeneric #-}
 
 module Lib
     ( startApp
@@ -10,7 +8,7 @@ module Lib
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
-import Servant.Auth.Server (CookieSettings, JWTSettings, JWT, defaultJWTSettings, defaultCookieSettings, generateKey)
+import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey)
 import Api
 
 api :: Proxy NamedAPI

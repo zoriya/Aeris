@@ -1,67 +1,8 @@
-
-
-{-# language BlockArguments #-}
-{-# language DeriveAnyClass #-}
-{-# language DeriveGeneric #-}
-{-# language DerivingStrategies #-}
-{-# language DerivingVia #-}
-{-# language DuplicateRecordFields #-}
-{-# language GeneralizedNewtypeDeriving #-}
 {-# language OverloadedStrings #-}
-{-# language StandaloneDeriving #-}
-{-# language TypeApplications #-}
-{-# language TypeFamilies #-}
-{-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# OPTIONS_GHC -Wno-missing-methods #-}
-
 module Api.User where
 
-import GHC.Generics (Generic)
-import Servant.Auth.JWT
--- import Servant.Auth.Server as SAS
-import Data.Aeson (FromJSON, ToJSON)
-import Rel8
-import Prelude
-import Data.Int
-import Data.Functor.Identity (Identity)
-import Data.Text (Text)
-newtype UserId = UserId { toInt64 :: Int64 }
-  deriving newtype (DBEq, DBType, Eq, Show, Num)
-  deriving stock (Generic)
+import Db.User
 
-data User f = User
-  {
-                -- | 
-                userId        :: Column f UserId
-  ,
-                -- | 
-                username      :: Column f Text
-  ,
-                -- | 
-                password      :: Column f Text
-  ,
-                -- | 
-                slug          :: Column f Text
-  } deriving stock (Generic)
-    deriving anyclass (Rel8able)
-
-deriving stock instance f ~ Result => Show (User f)
-
-userSchema :: TableSchema (User Name)
-userSchema = TableSchema
-  { name = "users"
-  , schema = Nothing
-  , columns = User
-      { userId = "id"
-      , username = "username"
-      , password = "password"
-      , slug = "slug"
-      }
-  }
-
-type User' = User Identity
 
 users :: [User']
 users = [
@@ -72,10 +13,3 @@ users = [
     , slug = "admin"
     }
   ]
-
-instance ToJSON UserId
-instance FromJSON UserId
-instance ToJSON User'
-instance ToJWT User'
-instance FromJSON User'
-instance FromJWT User'

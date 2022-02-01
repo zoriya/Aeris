@@ -28,6 +28,7 @@ library
       Api.About
       Api.Auth
       Api.User
+      Db.User
       Lib
   other-modules:
       Paths_aeris

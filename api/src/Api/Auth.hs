@@ -9,11 +9,14 @@ import Servant
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
 import Control.Monad.IO.Class (liftIO)
-import Api.User
-import GHC.Generics
+import Db.User ( User' )
+import GHC.Generics ( Generic )
 import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)
 import Servant.Server.Generic (AsServerT)
+
+-- TODO: remove and use the user from db and not hardcoded users
+import Api.User
 
 data Login = Login
   { username :: String

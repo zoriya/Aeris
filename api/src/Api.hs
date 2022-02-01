@@ -14,7 +14,9 @@ import GHC.Generics (Generic)
 
 import Api.Auth
 import Api.About
-import Api.User
+
+import Db.User ( User' )
+import Api.User ( users )
 
 data API mode = API
     { users :: mode :- "users" :> Get '[JSON] [User']
