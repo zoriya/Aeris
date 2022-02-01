@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
+import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
@@ -65,7 +66,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
 
     return AerisCardPage(
         body: Padding(
-      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+      padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
       child: ListView(
         children: [
           const Text("Setup Action",
@@ -86,22 +87,26 @@ class _SetupActionPageState extends State<SetupActionPage> {
           ),
           const SizedBox(height: 30),
           for (aeris.Action availableAction in availableActions) ...[
-            ExpandablePanel(
-                header: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 10),
-                    child: Text(availableAction.name,
-                        style: const TextStyle(fontSize: 15))),
-                collapsed: const SizedBox(height: 10),
-                expanded: ActionForm(
-                    name: availableAction.name,
-                    parametersNames: availableAction.parameters.keys.toList(),
-                    onValidate: (parameters) {
-                      action.parameters = parameters;
-                      print(action.parameters);
-                    })),
-            Container(
-              height: 1,
-              color: Theme.of(context).colorScheme.primary.withAlpha(100),
+            Card(
+              elevation: 5,
+              child: ExpandablePanel(
+                  header: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                      child: Text(availableAction.name,
+                          style: const TextStyle(fontSize: 15))),
+                  collapsed: Container(),
+                  expanded: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ActionForm(
+                        name: availableAction.name,
+                        parametersNames:
+                            availableAction.parameters.keys.toList(),
+                        onValidate: (parameters) {
+                          action.parameters = parameters;
+                          print(action.parameters);
+                        }),
+                  )),
             ),
             const SizedBox(height: 10)
           ]
