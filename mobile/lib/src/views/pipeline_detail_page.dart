@@ -1,3 +1,4 @@
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
@@ -26,14 +27,21 @@ class PipelineDetailPage extends StatefulWidget {
 
   AerisPopupMenu actionPopupMenu(aeris.Action action, BuildContext context) {
     return AerisPopupMenu(
-        onSelected: (route) => Navigator.pushNamed(context, route as String),
+        onSelected: (value) {
+          Map object = value as Map;
+          Navigator.pushNamed(context, object['route'] as String,
+              arguments: object['params']);
+        },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
               AerisPopupMenuItem(
                   context: context,
                   icon: Icons.settings,
                   title: "Modify",
-                  value: "/pipeline/action/mod" /* TODO Define mod route*/),
+                  value: {
+                    'route': "/pipeline/action/mod",
+                    'params': SetupActionPageArguments(action),
+                  } /* TODO Define mod route*/),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,

@@ -66,50 +66,6 @@ class _SetupActionPageState extends State<SetupActionPage> {
     );
 
     return AerisCardPage(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-            child: Consumer<PipelineProvider>(
-              builder: (context, provider, _) =>
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: provider.pipelines.length,
-                    itemBuilder: (BuildContext _, int index) {
-                      return Card(
-                        elevation: 5,
-                        child: ExpandablePanel(
-                          header: Padding(
-                            padding: const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                            child: Text(provider.pipelines[index].trigger.name,
-                              style: const TextStyle(fontSize: 15)
-                            )
-                          ),
-                          collapsed: Container(),
-                          expanded: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: ActionForm(
-                              name: provider.pipelines[index].trigger.name,
-                              parametersNames: provider.pipelines[index].trigger.parameters.keys.toList(),
-                              onValidate: (parameters) {
-                                action.parameters = parameters;
-                                print(action.parameters);
-                              },
-                            )
-                          ),
-                        )
-                      );
-                    },
-                  )
-                )
-            )
-          )
-        ],
-      )
-    );
-
-    return AerisCardPage(
         body: Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
       child: ListView(
