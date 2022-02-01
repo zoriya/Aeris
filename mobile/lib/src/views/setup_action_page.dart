@@ -60,7 +60,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               width: 10,
               height: 100,
             ),
-            Text(service.name, style: TextStyle(fontSize: 20))
+            Text(service.name, style: const TextStyle(fontSize: 20))
           ]),
         );
       }).toList(),
@@ -68,16 +68,16 @@ class _SetupActionPageState extends State<SetupActionPage> {
 
     return AerisCardPage(
         body: Padding(
-      padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
       child: ListView(
         children: [
           const Text("Setup Action",
               style: TextStyle(
                 fontSize: 25,
               )),
-          const SizedBox(height: 60),
+          const SizedBox(height: 40),
           Align(alignment: Alignment.centerRight, child: serviceDropdown),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Align(
               alignment: Alignment.centerLeft,
               child: Text("${availableActions.length} available actions:")),
@@ -85,9 +85,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
           for (aeris.Action availableAction in availableActions) ...[
             ExpandablePanel(
                 header: Padding(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 30, top: 10),
                     child: Text(availableAction.name,
-                        style: TextStyle(fontSize: 15))),
+                        style: const TextStyle(fontSize: 15))),
                 collapsed: const SizedBox(height: 10),
                 expanded: ActionForm(
                     name: availableAction.name,
