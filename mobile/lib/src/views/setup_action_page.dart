@@ -41,10 +41,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
     final Widget serviceDropdown = DropdownButton<Service>(
       value: action.service,
       elevation: 8,
-      underline: Container(
-        height: 1,
-        color: Theme.of(context).colorScheme.secondary,
-      ),
+      underline: Container(),
       onChanged: (service) {
         print("Selected ${service!.name}");
         setState(() {
@@ -55,7 +52,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
         return DropdownMenuItem<Service>(
           value: service,
           child: Row(children: [
-            service.getLogo(logoSize: 40),
+            service.getLogo(logoSize: 30),
             const SizedBox(
               width: 10,
               height: 100,
@@ -76,12 +73,18 @@ class _SetupActionPageState extends State<SetupActionPage> {
                 fontSize: 25,
               )),
           const SizedBox(height: 40),
-          Align(alignment: Alignment.centerRight, child: serviceDropdown),
-          const SizedBox(height: 20),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: Text("${availableActions.length} available actions:")),
-          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "${availableActions.length} available actions for ",
+                  )),
+              Align(alignment: Alignment.centerRight, child: serviceDropdown),
+            ],
+          ),
+          const SizedBox(height: 30),
           for (aeris.Action availableAction in availableActions) ...[
             ExpandablePanel(
                 header: Padding(
