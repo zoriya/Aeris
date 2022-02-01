@@ -97,7 +97,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                           style: const TextStyle(fontSize: 15))),
                   collapsed: Container(),
                   expanded: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(20),
                     child: ActionForm(
                         name: availableAction.name,
                         parametersNames:
