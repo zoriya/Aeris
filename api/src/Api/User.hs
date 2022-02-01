@@ -3,7 +3,6 @@ module Api.User where
 
 import Db.User
 
-
 users :: [User']
 users = [
   User

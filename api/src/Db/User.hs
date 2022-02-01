@@ -1,12 +1,12 @@
-{-# language BlockArguments #-}
-{-# language DeriveAnyClass #-}
-{-# language DeriveGeneric #-}
-{-# language DerivingVia #-}
-{-# language DuplicateRecordFields #-}
-{-# language GeneralizedNewtypeDeriving #-}
-{-# language OverloadedStrings #-}
-{-# language StandaloneDeriving #-}
-{-# language TypeFamilies #-}
+{-# LANGUAGE BlockArguments #-}
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
 
@@ -19,6 +19,7 @@ import Data.Functor.Identity (Identity)
 import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
 import Rel8
+import Rel8 (Insert(onConflict))
 
 newtype UserId = UserId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num)
@@ -55,3 +56,16 @@ userSchema = TableSchema
       , slug = "slug"
       }
   }
+
+insertUser :: User' -> Insert [UserId]
+insertUser usr = Insert
+    { into = userSchema
+    , rows = values [ User {
+        userId = unsafeCastExpr $ nextval "users_id_seq",
+        username = lit "bobby",
+        password = lit "a",
+        slug = lit "bobby"
+    } ]
+    , onConflict = DoNothing
+    , returning = Projection userId
+    }

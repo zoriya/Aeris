@@ -34,24 +34,33 @@ protected (Servant.Auth.Server.Authenticated user)= return user
 protected _ = throwAll err401
 
 type Unprotected
-  = "login"
+  =    "login"
     :> ReqBody '[JSON] Login
     :> Post '[JSON] (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
+  :<|> "signup"
+    :> ReqBody '[JSON] User'
+    :> Post '[JSON] NoContent
 
 checkCreds  :: CookieSettings
             -> JWTSettings
             -> Login
             -> Handler (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
-checkCreds cookieSettings jwtSettings (Login username password) = do
+checkCreds cs jwts (Login username password) = do
   let usr = head users
-  mApplyCookies <- liftIO $ acceptLogin cookieSettings jwtSettings usr
+  mApplyCookies <- liftIO $ acceptLogin cs jwts usr
   case mApplyCookies of
     Nothing -> throwError err401
     Just applyCookies -> return $ applyCookies NoContent
 -- checkCreds _ _ _ = throwError err401
 
+signup  :: User'
+        -> Handler NoContent
+signup usr = return NoContent
+
 unprotected :: CookieSettings -> JWTSettings -> Server Unprotected
-unprotected cookieSettings jwtSetting = checkCreds cookieSettings jwtSetting
+unprotected cookieSettings jwtSetting =
+  checkCreds cookieSettings jwtSetting
+  :<|> signup
 
 type API' auths = (Servant.Auth.Server.Auth auths User' :> Protected)
               :<|> Unprotected
