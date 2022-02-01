@@ -33,7 +33,7 @@ class PipelineDetailPage extends StatefulWidget {
                   context: context,
                   icon: Icons.settings,
                   title: "Modify",
-                  value: "/mod" /* TODO Define mod route*/),
+                  value: "/pipeline/action/mod" /* TODO Define mod route*/),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
+import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
+import 'package:provider/provider.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -61,6 +63,50 @@ class _SetupActionPageState extends State<SetupActionPage> {
           ]),
         );
       }).toList(),
+    );
+
+    return AerisCardPage(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+            child: Consumer<PipelineProvider>(
+              builder: (context, provider, _) =>
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: provider.pipelines.length,
+                    itemBuilder: (BuildContext _, int index) {
+                      return Card(
+                        elevation: 5,
+                        child: ExpandablePanel(
+                          header: Padding(
+                            padding: const EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                            child: Text(provider.pipelines[index].trigger.name,
+                              style: const TextStyle(fontSize: 15)
+                            )
+                          ),
+                          collapsed: Container(),
+                          expanded: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: ActionForm(
+                              name: provider.pipelines[index].trigger.name,
+                              parametersNames: provider.pipelines[index].trigger.parameters.keys.toList(),
+                              onValidate: (parameters) {
+                                action.parameters = parameters;
+                                print(action.parameters);
+                              },
+                            )
+                          ),
+                        )
+                      );
+                    },
+                  )
+                )
+            )
+          )
+        ],
+      )
     );
 
     return AerisCardPage(
