@@ -151,43 +151,33 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
     );
 
     return AerisCardPage(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 40),
-            child: cardHeader,
-          ),
-          const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
-          ActionCard(
+        body: Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 40),
+          child: cardHeader,
+        ),
+        const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
+        ActionCard(
             leading: pipeline.trigger.service.getLogo(logoSize: 50),
             title: pipeline.trigger.name,
             trailing: widget.actionPopupMenu(pipeline.trigger, context)),
-          const SizedBox(height: 25),
-          const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
-          Expanded(
-            child: ListView.builder(
-              controller: ScrollController(),
-              itemCount: pipeline.reactions.length,
-              itemBuilder: (BuildContext _, int index) {
-                return ActionCard(
-                    leading: pipeline.reactions[index].service.getLogo(
-                        logoSize: 50),
-                    title: pipeline.reactions[index].name,
-                    trailing: widget.actionPopupMenu(
-                        pipeline.reactions[index], context)
-                );
-              }
-            ),
-          ),
-          addReactionbutton,
-          const Padding(
+        const SizedBox(height: 25),
+        const Text("Reactions", style: TextStyle(fontWeight: FontWeight.w500)),
+        for (var reaction in pipeline.reactions)
+          ActionCard(
+              leading: reaction.service.getLogo(logoSize: 50),
+              title: reaction.name,
+              trailing: widget.actionPopupMenu(reaction, context)),
+        addReactionbutton,
+        const Padding(
             padding: EdgeInsets.only(top: 30, bottom: 5),
-            child: Text("Danger Zone", style: TextStyle(fontWeight: FontWeight.w500))
-          ),
-          deleteButton
-        ]
-      )
-    );
+            child: Text("Danger Zone",
+                style: TextStyle(fontWeight: FontWeight.w500))),
+        deleteButton,
+        const SizedBox(height: 25),
+      ]),
+    ));
   }
 }
