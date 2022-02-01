@@ -37,12 +37,14 @@ library
     , base >=4.7 && <5
     , bytestring
     , hasql
+    , hasql-transaction
     , network
     , rel8
     , servant
     , servant-auth
     , servant-auth-server
     , servant-server
+    , text
     , time
     , wai
     , warp
@@ -61,12 +63,14 @@ executable aeris-exe
     , base
     , bytestring
     , hasql
+    , hasql-transaction
     , network
     , rel8
     , servant
     , servant-auth
     , servant-auth-server
     , servant-server
+    , text
     , time
     , wai
     , warp
@@ -86,6 +90,7 @@ test-suite aeris-test
     , base
     , bytestring
     , hasql
+    , hasql-transaction
     , hspec
     , hspec-wai
     , hspec-wai-json
@@ -95,6 +100,7 @@ test-suite aeris-test
     , servant-auth
     , servant-auth-server
     , servant-server
+    , text
     , time
     , wai
     , warp

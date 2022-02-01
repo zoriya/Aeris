@@ -14,6 +14,7 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
+{-# OPTIONS_GHC -Wno-missing-methods #-}
 
 module User where
 
@@ -25,15 +26,24 @@ import Rel8
 import Prelude
 import Data.Int
 import Data.Functor.Identity (Identity)
+import Data.Text (Text)
 newtype UserId = UserId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num)
   deriving stock (Generic)
 
 data User f = User
-  { userId        :: Column f UserId
-  , username      :: Column f String
-  , password      :: Column f String
-  , slug          :: Column f String
+  {
+                -- | 
+                userId        :: Column f UserId
+  ,
+                -- | 
+                username      :: Column f Text
+  ,
+                -- | 
+                password      :: Column f Text
+  ,
+                -- | 
+                slug          :: Column f Text
   } deriving stock (Generic)
     deriving anyclass (Rel8able)
 
@@ -41,11 +51,11 @@ deriving stock instance f ~ Result => Show (User f)
 
 userSchema :: TableSchema (User Name)
 userSchema = TableSchema
-  { name = "user"
+  { name = "users"
   , schema = Nothing
   , columns = User
       { userId = "id"
-      , username = "name"
+      , username = "username"
       , password = "password"
       , slug = "slug"
       }

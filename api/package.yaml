@@ -30,7 +30,9 @@ dependencies:
 - time
 - bytestring
 - network
+- text
 - hasql
+- hasql-transaction
 - rel8
 
 library:
