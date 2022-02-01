@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Refresh/loading state
+  ///Refresh/loading state
   bool loading = false;
 
   @override
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         service: const Service.spotify(),
         action: "Play song",
         last: DateTime.parse("2022-01-01"));
-    var reaction = const Reaction(
+    var reaction = Reaction(
         service: Service.twitter(), parameters: {}, name: "Post a tweet");
     var pipeline1 = Pipeline(
         id: 10,
@@ -86,7 +86,8 @@ class _HomePageState extends State<HomePage> {
             const EdgeInsets.only(top: 20, bottom: 20, left: 10, right: 10),
         children: [
           for (var pipeline in pipelines) PipelineCard(pipeline: pipeline),
-          // Add button
+
+          ///Add button
           ClickableCard(
               color: Theme.of(context).colorScheme.secondary,
               body: Container(
@@ -101,7 +102,9 @@ class _HomePageState extends State<HomePage> {
                   width: double.infinity,
                   padding: const EdgeInsets.only(top: 20, bottom: 20)),
               onTap: () {
-                print("Create new pipeline"); // TODO page transition
+                print("Create new pipeline");
+
+                ///TODO page transition
               })
         ]);
     return AerisPage(
@@ -116,7 +119,8 @@ class _HomePageState extends State<HomePage> {
                   loading = false;
                   print("Loaded");
                 }));
-            // TODO Call API
+
+            ///TODO Call API
           }
         }
         return true;

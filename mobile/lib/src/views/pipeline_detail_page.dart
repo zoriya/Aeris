@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:mobile/src/models/reaction.dart';
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
@@ -12,32 +13,40 @@ import 'package:mobile/src/models/action.dart' as aeris;
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
-  final Pipeline
-      pipeline; // TODO Should be later defined as an int, to fetch from db, or as the object
+  final Pipeline pipeline;
+
+  ///TODO Should be later defined as an int, to fetch from db, or as the object
 
   PipelineDetailPageArguments(this.pipeline);
 }
 
-// Page for a Pipeline's details
+///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
-  //final String pipelineName; // TODO Define as int later on
+  //final String pipelineName;///TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
 
   AerisPopupMenu actionPopupMenu(aeris.Action action, BuildContext context) {
     return AerisPopupMenu(
-        onSelected: (route) => Navigator.pushNamed(context, route as String),
+        onSelected: (value) {
+          Map object = value as Map;
+          Navigator.pushNamed(context, object['route'] as String,
+              arguments: object['params']);
+        },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
               AerisPopupMenuItem(
                   context: context,
                   icon: Icons.settings,
                   title: "Modify",
-                  value: "/mod" /* TODO Define mod route*/),
+                  value: {
+                    'route': "/pipeline/action/mod",
+                    'params': SetupActionPageArguments(action),
+                  }),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
                 title: "Delete",
-                value: "/delete",
+                value: "/pipeline/action/del",
                 enabled: action is Reaction, /* TODO Define delete route*/
               ),
             ]);
@@ -123,7 +132,9 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             width: double.infinity,
             padding: const EdgeInsets.only(top: 15, bottom: 15)),
         onTap: () {
-          print("add reaction pipeline"); // TODO add reaction
+          print("add reaction pipeline");
+
+          ///TODO add reaction
         });
 
     final Widget deleteButton = ClickableCard(

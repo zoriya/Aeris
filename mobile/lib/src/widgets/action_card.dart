@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ActionCard extends StatelessWidget {
-  // Leading widget (like an icon) on the left
+  ///Leading widget (like an icon) on the left
   final Widget leading;
-  // Title, displayed at the center
+
+  ///Title, displayed at the center
   final String title;
-  // Widge ton the right of the card
+
+  ///Widge ton the right of the card
   final Widget trailing;
   const ActionCard(
       {Key? key,
