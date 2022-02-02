@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
+import 'package:mobile/src/widgets/aeris_page_menu.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/loading_widget.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     ScrollController listController = ScrollController();
     return AerisPage(
+      actions: const [AerisPageMenu()],
       body: Consumer<PipelineProvider>(
           builder: (context, provider, _) => NotificationListener<
                   ScrollEndNotification>(
