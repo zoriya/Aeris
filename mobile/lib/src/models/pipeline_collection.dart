@@ -15,7 +15,13 @@ class PipelineCollection {
   /// Seperate disabled pipelines from enabled ones
   bool sortingSplitDisabled;
 
-  PipelineCollection({Key? key, required this.pipelines, required this.sortingMethod, required this.sortingSplitDisabled});
+  PipelineCollection(
+      {Key? key,
+      required this.pipelines,
+      required this.sortingMethod,
+      required this.sortingSplitDisabled}) {
+    sort();
+  }
 
   /// Sorts the pipeline, returns a reference to list
   List<Pipeline> sort() {
@@ -26,7 +32,7 @@ class PipelineCollection {
     enabled = pipelines.where((pipeline) => pipeline.enabled).toList();
     disabled =
         pipelines.where((pipeline) => pipeline.enabled == false).toList();
-    if (sortingSplitDisabled) {
+    if (sortingSplitDisabled == false) {
       enabled.addAll(disabled);
       disabled.clear();
     }

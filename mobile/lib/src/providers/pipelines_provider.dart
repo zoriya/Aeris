@@ -49,7 +49,7 @@ class PipelineProvider extends ChangeNotifier {
         trigger: trigger3,
         parameters: {},
         reactions: [reaction]);
-    pipelineCollection.pipelines = [
+    pipelineCollection = PipelineCollection(pipelines: [
       pipeline3,
       pipeline2,
       pipeline1,
@@ -59,7 +59,7 @@ class PipelineProvider extends ChangeNotifier {
       pipeline3,
       pipeline2,
       pipeline1
-    ];
+    ], sortingMethod: PipelineCollectionSort.last, sortingSplitDisabled: true);
   }
 
   /// Adds a pipeline in the Provider
