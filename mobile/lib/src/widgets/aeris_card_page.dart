@@ -16,31 +16,39 @@ class AerisCardPage extends StatelessWidget {
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(radius),
               topRight: Radius.circular(radius)),
-          child: Container(
-              color: Theme.of(context).colorScheme.surface,
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
-              child: Column(
-                children: [
-                  Container(
-                    width: 30,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(100)),
-                      color:
-                          Theme.of(context).colorScheme.primary.withAlpha(70),
+          child: GestureDetector(
+            onVerticalDragUpdate: (details) {
+              if (details.delta.dy > 8) {
+                Navigator.of(context).pop();
+              }
+            },
+            child: Container(
+                color: Theme.of(context).colorScheme.surface,
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(100)),
+                        color:
+                            Theme.of(context).colorScheme.primary.withAlpha(70),
+                      ),
+                      alignment: Alignment.center,
                     ),
-                    alignment: Alignment.center,
-                  ),
-                  Container(
-                    child: const AerisPageCloseButton(),
-                    alignment: Alignment.centerRight,
-                  ),
-                  Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: body))
-                ],
-              )),
+                    Container(
+                      child: const AerisPageCloseButton(),
+                      alignment: Alignment.centerRight,
+                    ),
+                    Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: body))
+                  ],
+                )),
+          ),
         ),
       ),
     );
