@@ -28,7 +28,7 @@ class PipelineProvider extends ChangeNotifier {
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
-        triggerCount: 10,
+        triggerCount: 1,
         enabled: true,
         parameters: {},
         trigger: trigger1,
@@ -44,7 +44,7 @@ class PipelineProvider extends ChangeNotifier {
     var pipeline3 = Pipeline(
         id: 10,
         name: "Disabled",
-        triggerCount: 10,
+        triggerCount: 3,
         enabled: false,
         trigger: trigger3,
         parameters: {},
@@ -65,7 +65,7 @@ class PipelineProvider extends ChangeNotifier {
   /// Adds a pipeline in the Provider
   addPipelineInProvider(Pipeline newPipeline) {
     pipelineCollection.pipelines.add(newPipeline);
-    sortsPipelines();
+    sortPipelines();
     notifyListeners();
   }
 
@@ -73,10 +73,10 @@ class PipelineProvider extends ChangeNotifier {
   setPipelineProvider(List<Pipeline> newPipelines) {
     pipelineCollection.pipelines = [];
     pipelineCollection.pipelines = newPipelines;
-    sortsPipelines();
+    sortPipelines();
   }
 
-  sortsPipelines() {
+  sortPipelines() {
     pipelineCollection.sort();
     notifyListeners();
   }

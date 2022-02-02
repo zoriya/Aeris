@@ -105,6 +105,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         onToggle: (value) {
                           setState(() {
                             pipeline.enabled = !pipeline.enabled;
+                            provider.sortPipelines();
                             provider.notifyListeners();
                             // TODO call api
                           });

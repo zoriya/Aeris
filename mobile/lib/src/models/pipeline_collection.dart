@@ -45,7 +45,7 @@ class PipelineCollection {
         break;
       case PipelineCollectionSort.name:
         sortingFunction =
-            (a, b) => b.name.toLowerCase().compareTo(a.name.toLowerCase());
+            (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase());
         break;
       case PipelineCollectionSort.triggeringService:
         sortingFunction = (a, b) => b.trigger.name.compareTo(a.trigger.name);

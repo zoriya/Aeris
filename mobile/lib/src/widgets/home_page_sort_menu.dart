@@ -40,7 +40,7 @@ class HomePageSortMenu extends StatelessWidget {
       onSelected: (sortingMethod) {
         collectionProvider.pipelineCollection.sortingMethod =
             sortingMethod as PipelineCollectionSort;
-        collectionProvider.sortsPipelines();
+        collectionProvider.sortPipelines();
       },
       icon: Icons.sort,
       menuOffset: const Offset(0, 50),
