@@ -23,7 +23,7 @@ class PipelineProvider extends ChangeNotifier {
         action: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
-        service: Service.twitter(), parameters: {}, name: "Post a tweet");
+        service: const Service.twitter(), parameters: {}, name: "Post a tweet");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
