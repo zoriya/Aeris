@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(
                         top: 20, bottom: 20, left: 10, right: 10),
                     controller: listController,
-                    itemCount: provider.pipelines.length + 1,
+                    itemCount: provider.pipelineCollection.pipelines.length + 1,
                     itemBuilder: (BuildContext context, int index) {
-                      if (index == provider.pipelines.length) {
+                      if (index == provider.pipelineCollection.pipelines.length) {
                         return ClickableCard(
                           color: Theme.of(context).colorScheme.secondary,
                           body: Padding(
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         );
                       }
-                      return PipelineCard(pipeline: provider.pipelines[index]);
+                      return PipelineCard(pipeline: provider.pipelineCollection.pipelines[index]);
                     },
                   ),
                   loading
