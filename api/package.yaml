@@ -38,6 +38,7 @@ dependencies:
 - rel8
 - cryptonite
 - memory
+- transformers
 
 library:
   source-dirs: src
