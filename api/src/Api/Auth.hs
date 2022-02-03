@@ -17,6 +17,7 @@ import Servant.Server.Generic (AsServerT)
 
 -- TODO: remove and use the user from db and not hardcoded users
 import Api.User
+import App (AppM)
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -37,8 +38,8 @@ instance FromJSON SignupUser
 type Protected
   = "me" :> Get '[JSON] User'
 
-protected :: Servant.Auth.Server.AuthResult User' -> Server Protected
-protected (Servant.Auth.Server.Authenticated user)= return user
+protected :: Servant.Auth.Server.AuthResult User' -> ServerT Protected AppM
+protected (Servant.Auth.Server.Authenticated user) = return user
 protected _ = throwAll err401
 
 type Unprotected
@@ -52,7 +53,7 @@ type Unprotected
 loginHandler  :: CookieSettings
             -> JWTSettings
             -> LoginUser
-            -> Handler (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
+            -> AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
 loginHandler cs jwts (LoginUser username password) = do
   let usr = head users
   mApplyCookies <- liftIO $ acceptLogin cs jwts usr
@@ -61,10 +62,10 @@ loginHandler cs jwts (LoginUser username password) = do
     Just applyCookies -> return $ applyCookies NoContent
 
 signupHandler  :: SignupUser
-        -> Handler NoContent
+        -> AppM NoContent
 signupHandler usr = return NoContent
 
-unprotected :: CookieSettings -> JWTSettings -> Server Unprotected
+unprotected :: CookieSettings -> JWTSettings -> ServerT Unprotected AppM
 unprotected cs jwts =
         loginHandler cs jwts
   :<|>  signupHandler
@@ -74,7 +75,7 @@ data AuthAPI mode = AuthAPI
     , me :: mode :- Unprotected
     } deriving stock Generic
 
-authHandler :: CookieSettings -> JWTSettings -> AuthAPI (AsServerT Handler)
+authHandler :: CookieSettings -> JWTSettings -> AuthAPI (AsServerT AppM)
 authHandler cs jwts = AuthAPI
   { login = protected
   , me = unprotected cs jwts

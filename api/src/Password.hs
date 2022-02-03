@@ -1,15 +1,20 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE AllowAmbiguousTypes #-}
 
 module Password where
 
 import Rel8 ( DBEq, DBType )
 import Data.Aeson ( FromJSON, ToJSON )
-import Data.Text ( Text )
+import Data.Text ( Text, unpack )
 
+import Crypto.Random ( MonadRandom(getRandomBytes) )
 import Crypto.KDF.BCrypt
+import qualified Data.ByteString.Char8 as B
 import Data.ByteString (ByteString)
 import Data.Text.Encoding (decodeUtf8, encodeUtf8)
+import Control.Monad.IO.Class (MonadIO, liftIO)
+import Data.ByteArray (Bytes, convert)
 
 newtype HashedPassword = HashedPassword { getHashedPasswd :: Text }
     deriving newtype (Eq, Show, Read, DBEq, DBType)
@@ -21,11 +26,20 @@ newtype Password = Password { getPassword :: Text }
 toPassword :: Text -> Password
 toPassword = Password
 
-bytesToText :: ByteString -> Text
-bytesToText = decodeUtf8
+-- Convert from bytes to bytestring and decode from bytestring to Text
+bytesToText :: Bytes -> Text
+bytesToText = decodeUtf8 . convert
 
-textToBytes :: Text -> ByteString
-textToBytes = encodeUtf8
+-- Text to bytestring and convert to bytes
+textToBytes :: Text -> Bytes
+textToBytes = convert . encodeUtf8
 
+{--
+hashPassword' :: Password -> HashedPassword
+hashPassword' (Password p) =
+    HashedPassword $ bytesToText hash
+    where
+        hash = hashPassword 10 $ B.pack $ unpack p
+--}
 validatePassword' :: Password -> HashedPassword -> Bool
 validatePassword' (Password p) (HashedPassword hp) = validatePassword (textToBytes p) (textToBytes hp)

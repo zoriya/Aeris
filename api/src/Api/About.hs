@@ -13,6 +13,7 @@ import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString.Lazy as B
 import Network.Socket (SockAddr)
 import GHC.Generics ( Generic )
+import App (AppM)
 
 data ClientAbout = ClientAbout
   { host :: String
@@ -45,7 +46,7 @@ $(deriveJSON defaultOptions ''ServicesAbout)
 $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
-about :: SockAddr -> Handler About
+about :: SockAddr -> AppM About
 about host = do
     now <- liftIO getPOSIXTime
     s <- liftIO (readFile "services.json")

@@ -1,22 +1,27 @@
 {-# LANGUAGE DataKinds       #-}
 {-# LANGUAGE DerivingStrategies #-}
 
-module Lib
-    ( startApp
-    ) where
+module Lib where
 
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
-import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey)
-import Api
+import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey, JWTSettings, CookieSettings)
+import qualified Hasql.Connection as Connection
+import Api ( server, NamedAPI )
+import App
+import Control.Monad.Trans.Reader  (ReaderT, ask, runReaderT)
+import Hasql.Pool (acquire)
+
 
 api :: Proxy NamedAPI
 api = Proxy
 
-startApp :: IO ()
-startApp = do
-    key <- generateKey
-    let jwtCfg = defaultJWTSettings key
+app :: JWTSettings -> State -> Application 
+app jwtCfg state = 
+    serveWithContext api cfg $
+        hoistServerWithContext api (Proxy :: Proxy '[CookieSettings, JWTSettings])
+            (flip runReaderT state) (Api.server cs jwtCfg)
+    where
         cfg = defaultCookieSettings :. jwtCfg :. EmptyContext
-    run 8080 $ serveWithContext api cfg $ Api.server defaultCookieSettings jwtCfg
+        cs = defaultCookieSettings

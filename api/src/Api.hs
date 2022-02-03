@@ -17,6 +17,8 @@ import Api.About
 
 import Db.User ( User' )
 import Api.User ( users )
+import App
+import Control.Monad.Trans.Reader (ReaderT(runReaderT))
 
 data API mode = API
     { users :: mode :- "users" :> Get '[JSON] [User']
@@ -27,9 +29,12 @@ data API mode = API
 type NamedAPI = NamedRoutes API
 
 
-server :: CookieSettings -> JWTSettings -> ServerT NamedAPI Handler
+server :: CookieSettings -> JWTSettings -> ServerT NamedAPI AppM
 server cs jwts = API {
     Api.users = return Api.User.users
     , Api.about = Api.About.about
     , Api.auth = Api.Auth.authHandler cs jwts
 }
+
+nt :: State -> AppM a -> Handler a
+nt s x = runReaderT x s
