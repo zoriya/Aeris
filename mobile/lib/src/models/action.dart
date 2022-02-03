@@ -7,7 +7,7 @@ abstract class Action {
   final Service service;
 
   ///Name fo the action
-  final String name;
+  String name;
 
   ///Action's parameters
   Map<String, Object?> parameters;
@@ -16,4 +16,5 @@ abstract class Action {
       required this.service,
       required this.name,
       this.parameters = const {}});
+
 }

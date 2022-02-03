@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
             '/pipeline': () => const PipelineDetailPage(),
             '/services': () => const ServicePage(),
             '/pipeline/action/mod': () => const SetupActionPage(),
+            '/pipeline/action/new': () => const SetupActionPage(),
             '/pipeline/new': () => const CreatePipelinePage()
           };
           Map routes = {}

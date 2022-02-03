@@ -5,10 +5,13 @@ import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
+import 'package:mobile/src/views/pipeline_detail_page.dart';
+import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/colored_clickable_card.dart';
+import 'package:mobile/src/widgets/warning_dialog.dart';
 import 'package:provider/provider.dart';
 
 /// Page to create a new pipeline
@@ -20,6 +23,10 @@ class CreatePipelinePage extends StatefulWidget {
 }
 
 class _CreatePipelinePageState extends State<CreatePipelinePage> {
+  Trigger trigger = Trigger.template();
+  List<Reaction> reactions = [];
+  String? name;
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormBuilderState>();
@@ -39,6 +46,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                         child: Column(children: [
                           FormBuilderTextField(
                             name: 'name',
+                            initialValue: name,
                             decoration: const InputDecoration(
                               labelText: 'Name of the pipeline',
                             ),
@@ -46,6 +54,9 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               FormBuilderValidators.required(context),
                               FormBuilderValidators.minLength(context, 5),
                             ]),
+                            onChanged: (value) {
+                              name = value;
+                            },
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -54,10 +65,13 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     .colorScheme
                                     .secondaryContainer,
                                 text: "Add Trigger",
-                                
                                 onTap: () {
-                                  print(
-                                      "add trigger"); // TODO add reaction
+                                  print("add trigger"); // TODO add reaction
+                                  Navigator.of(context)
+                                      .pushNamed('/pipeline/action/new',
+                                          arguments:
+                                              SetupActionPageArguments(trigger))
+                                      .then((_) => setState(() {}));
                                 }),
                           ),
                           Padding(
@@ -67,10 +81,14 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     .colorScheme
                                     .secondaryContainer,
                                 text: "Add Reaction",
-                                
-                                onTap: () {
-                                  print(
-                                      "add reaction"); // TODO add reaction
+                                onTap: () async {
+                                  print("add reaction"); // TODO add reaction
+                                  reactions.add(Reaction.template());
+                                  await Navigator.of(context).pushNamed(
+                                      '/pipeline/action/new',
+                                      arguments: SetupActionPageArguments(
+                                          reactions.last));
+                                  setState(() {});
                                 }),
                           ),
                           ElevatedButton(
@@ -78,22 +96,29 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             onPressed: () {
                               _formKey.currentState!.save();
                               if (_formKey.currentState!.validate()) {
-                                print(_formKey.currentState!.value);
-                                provider.addPipelineInProvider(Pipeline(
-                                    id: 0,
-                                    name: _formKey.currentState!.value['name'],
-                                    triggerCount: 0,
-                                    enabled: true,
-                                    parameters: {},
-                                    trigger: Trigger(
-                                        service: Service.youtube(),
-                                        action: 'template'),
-                                    reactions: [
-                                      Reaction(
-                                          service: Service.github(),
-                                          name: 'lol')
-                                    ]));
-                                Navigator.of(context).pop();
+                                if (trigger == Trigger.template() ||
+                                    reactions.isEmpty ||
+                                    reactions
+                                        .where((element) =>
+                                            element == Reaction.template())
+                                        .isNotEmpty) {
+                                  ///TODO Warning
+                                } else {
+                                  Pipeline newPipeline = Pipeline(
+                                      id: 0,
+                                      name:
+                                          _formKey.currentState!.value['name'],
+                                      triggerCount: 0,
+                                      enabled: true,
+                                      parameters: {},
+                                      trigger: trigger,
+                                      reactions: reactions);
+                                  provider.addPipelineInProvider(newPipeline);
+                                  Navigator.of(context).popAndPushNamed(
+                                      '/pipeline',
+                                      arguments: PipelineDetailPageArguments(
+                                          newPipeline));
+                                }
                               }
                             },
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
-  final aeris.Action action;
+  aeris.Action action;
 
   SetupActionPageArguments(this.action);
 }
@@ -28,20 +29,19 @@ class _SetupActionPageState extends State<SetupActionPage> {
   Widget build(BuildContext context) {
     final SetupActionPageArguments arguments =
         ModalRoute.of(context)!.settings.arguments as SetupActionPageArguments;
-    aeris.Action action = arguments.action;
 
     // TODO Call provider
     List<aeris.Action> availableActions = [
       for (int i = 0; i <= 10; i++)
         Trigger(
             last: DateTime.now(),
-            service: action.service,
+            service: arguments.action.service,
             action: "action",
             parameters: {'key1': 'value1', 'key2': null})
     ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
-      value: action.service,
+      value: arguments.action.service,
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
@@ -104,8 +104,10 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         parametersNames:
                             availableAction.parameters.keys.toList(),
                         onValidate: (parameters) {
-                          action.parameters = parameters;
-                          print(action.parameters);
+                          arguments.action.parameters = parameters;
+                          arguments.action.name = availableAction.name;
+                          print(arguments.action.parameters);
+                          Navigator.of(context).pop();
                         }),
                   )),
             ),

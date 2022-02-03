@@ -23,4 +23,6 @@ class Trigger extends aeris_action.Action {
         ? 'Last: Today'
         : 'Last: ${elapsedDays.toString()}d ago';
   }
+  /// Template trigger, used as an 'empty' trigger
+  Trigger.template({Key? key, this.last}): super(service: const Service.twitter(), name: '', parameters: {});
 }
