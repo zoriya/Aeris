@@ -60,6 +60,19 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                       "add trigger"); // TODO add reaction
                                 }),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ColoredClickableCard(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                                text: "Add Reaction",
+                                
+                                onTap: () {
+                                  print(
+                                      "add reaction"); // TODO add reaction
+                                }),
+                          ),
                           ElevatedButton(
                             child: const Text("Save"),
                             onPressed: () {
