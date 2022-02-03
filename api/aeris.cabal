@@ -30,6 +30,7 @@ library
       Api.User
       Db.User
       Lib
+      Password
   other-modules:
       Paths_aeris
   hs-source-dirs:
