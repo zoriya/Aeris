@@ -36,7 +36,9 @@ class ActionCardPopupMenu extends StatelessWidget {
                 icon: Icons.delete,
                 title: "Delete",
                 value: "/pipeline/action/del",
-                enabled: action is Reaction, /* TODO Define delete route*/
+                enabled: action is Reaction
+                // TODO Delete from parent pipeline
+                /* TODO Define delete route*/
               ),
             ]);
   }
