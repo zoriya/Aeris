@@ -34,114 +34,114 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
     final _formKey = GlobalKey<FormBuilderState>();
     return Consumer<PipelineProvider>(
         builder: (context, provider, _) => AerisCardPage(
-                body: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                  const Text("Create a new pipeline",
-                      style: TextStyle(
-                        fontSize: 25,
-                      )),
-                  FormBuilder(
-                      key: _formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(children: [
-                          FormBuilderTextField(
-                            name: 'name',
-                            initialValue: name,
-                            decoration: const InputDecoration(
-                              labelText: 'Name of the pipeline',
-                            ),
-                            validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.required(context),
-                              FormBuilderValidators.minLength(context, 5),
-                            ]),
-                            onChanged: (value) {
-                              name = value;
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: trigger == Trigger.template()
-                                ? ColoredClickableCard(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer,
-                                    text: "Add Trigger",
-                                    onTap: () {
-                                      print("add trigger"); // TODO add reaction
-                                      Navigator.of(context)
-                                          .pushNamed('/pipeline/action/new',
-                                              arguments:
-                                                  SetupActionPageArguments(
-                                                      trigger))
-                                          .then((_) => setState(() {}));
-                                    })
-                                : ActionCard(
-                                    leading:
-                                        trigger.service.getLogo(logoSize: 50),
-                                    title: trigger.service.name,
-                                    trailing:
-                                        ActionCardPopupMenu(action: trigger),
-                                  ),
-                          ),
-                          ...[for (Reaction reaction in reactions) ActionCard(
-                                    leading:
-                                        reaction.service.getLogo(logoSize: 50),
-                                    title: reaction.service.name,
-                                    trailing:
-                                        ActionCardPopupMenu(action: reaction),
-                                  )],
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ColoredClickableCard(
+                body: ListView(children: [
+              const Text("Create a new pipeline",
+                  style: TextStyle(
+                    fontSize: 25,
+                  )),
+              FormBuilder(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(children: [
+                      FormBuilderTextField(
+                        name: 'name',
+                        initialValue: name,
+                        decoration: const InputDecoration(
+                          labelText: 'Name of the pipeline',
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(context),
+                          FormBuilderValidators.minLength(context, 5),
+                        ]),
+                        onChanged: (value) {
+                          name = value;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: trigger == Trigger.template()
+                            ? ColoredClickableCard(
                                 color: Theme.of(context)
                                     .colorScheme
                                     .secondaryContainer,
-                                text: "Add Reaction",
-                                onTap: () async {
-                                  print("add reaction"); // TODO add reaction
-                                  reactions.add(Reaction.template());
-                                  await Navigator.of(context).pushNamed(
-                                      '/pipeline/action/new',
-                                      arguments: SetupActionPageArguments(
-                                          reactions.last));
-                                  setState(() {});
-                                }),
-                          ),
-                          ElevatedButton(
-                            child: const Text("Save"),
-                            onPressed: () {
-                              _formKey.currentState!.save();
-                              if (_formKey.currentState!.validate()) {
-                                if (trigger == Trigger.template() ||
-                                    reactions.isEmpty ||
-                                    reactions
-                                        .where((element) =>
-                                            element == Reaction.template())
-                                        .isNotEmpty) {
-                                  ///TODO Warning
-                                } else {
-                                  Pipeline newPipeline = Pipeline(
-                                      id: 0,
-                                      name:
-                                          _formKey.currentState!.value['name'],
-                                      triggerCount: 0,
-                                      enabled: true,
-                                      parameters: {},
-                                      trigger: trigger,
-                                      reactions: reactions);
-                                  provider.addPipelineInProvider(newPipeline);
-                                  Navigator.of(context).popAndPushNamed(
-                                      '/pipeline',
-                                      arguments: PipelineDetailPageArguments(
-                                          newPipeline));
-                                }
-                              }
-                            },
-                          ),
-                        ]),
-                      )),
-                ])));
+                                text: "Add Trigger",
+                                onTap: () {
+                                  print("add trigger"); // TODO add reaction
+                                  Navigator.of(context)
+                                      .pushNamed('/pipeline/action/new',
+                                          arguments:
+                                              SetupActionPageArguments(trigger))
+                                      .then((_) => setState(() {}));
+                                })
+                            : ActionCard(
+                                leading: trigger.service.getLogo(logoSize: 50),
+                                title: trigger.service.name,
+                                trailing: ActionCardPopupMenu(action: trigger),
+                              ),
+                      ),
+                      ...[
+                        for (Reaction reaction in reactions)
+                          ActionCard(
+                            leading: reaction.service.getLogo(logoSize: 50),
+                            title: reaction.service.name,
+                            trailing: ActionCardPopupMenu(action: reaction),
+                          )
+                      ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ColoredClickableCard(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                            text: "Add Reaction",
+                            onTap: () async {
+                              print("add reaction"); // TODO add reaction
+                              reactions.add(Reaction.template());
+                              await Navigator.of(context).pushNamed(
+                                  '/pipeline/action/new',
+                                  arguments:
+                                      SetupActionPageArguments(reactions.last));
+                              setState(() {});
+                            }),
+                      ),
+                      ElevatedButton(
+                        child: const Text("Save"),
+                        onPressed: () {
+                          _formKey.currentState!.save();
+                          if (_formKey.currentState!.validate()) {
+                            if (trigger == Trigger.template() ||
+                                reactions.isEmpty ||
+                                reactions
+                                    .where((element) =>
+                                        element == Reaction.template())
+                                    .isNotEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  content: const Text(
+                                      "You must select at least a trigger and a reaction")));
+                            } else {
+                              Pipeline newPipeline = Pipeline(
+                                  id: 0,
+                                  name: _formKey.currentState!.value['name'],
+                                  triggerCount: 0,
+                                  enabled: true,
+                                  parameters: {},
+                                  trigger: trigger,
+                                  reactions: reactions);
+                              provider.addPipelineInProvider(newPipeline);
+
+                              ///TODO add to db
+                              Navigator.of(context).popAndPushNamed('/pipeline',
+                                  arguments:
+                                      PipelineDetailPageArguments(newPipeline));
+                            }
+                          }
+                        },
+                      ),
+                    ]),
+                  )),
+            ])));
   }
 }
