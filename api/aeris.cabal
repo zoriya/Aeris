@@ -39,6 +39,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , cryptonite
     , hasql
     , hasql-transaction
     , network
@@ -65,6 +66,7 @@ executable aeris-exe
     , aeson
     , base
     , bytestring
+    , cryptonite
     , hasql
     , hasql-transaction
     , network
@@ -92,6 +94,7 @@ test-suite aeris-test
     , aeson
     , base
     , bytestring
+    , cryptonite
     , hasql
     , hasql-transaction
     , hspec
