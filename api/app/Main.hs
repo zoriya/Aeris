@@ -22,6 +22,6 @@ main = do
             e <- liftIO $ Session.run (Hasql.transaction Hasql.Serializable Hasql.Write (statement () (insert $ insertUser (head users )))) c
             case e of
                 Left _ -> putStrLn "Query failed"
-                Right d -> print $ head d
+                Right d -> print d
     where
         connectionSettings = Connection.settings "localhost" 5432 "postgres" "password" "postgres"

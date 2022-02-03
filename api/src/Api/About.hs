@@ -12,7 +12,7 @@ import Servant (Handler, RemoteHost)
 import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString.Lazy as B
 import Network.Socket (SockAddr)
-import GHC.Generics
+import GHC.Generics ( Generic )
 
 data ClientAbout = ClientAbout
   { host :: String

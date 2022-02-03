@@ -19,7 +19,7 @@ import Data.Functor.Identity (Identity)
 import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
 import Rel8
-import Rel8 (Insert(onConflict))
+import Rel8 (Insert(onConflict), each)
 
 newtype UserId = UserId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num)
@@ -56,6 +56,21 @@ userSchema = TableSchema
       , slug = "slug"
       }
   }
+
+selectAllUser :: Query (User Expr)
+selectAllUser = each userSchema
+
+getUserById :: Expr UserId -> Query (User Expr)
+getUserById uid = do
+    u <- selectAllUser
+    where_ $ userId u ==. uid
+    return u
+
+getUserBySlug :: Expr Text -> Query (User Expr)
+getUserBySlug s = do
+    u <- selectAllUser
+    where_ $ slug u ==. s
+    return u
 
 insertUser :: User' -> Insert [UserId]
 insertUser usr = Insert
