@@ -31,7 +31,7 @@ type NamedAPI = NamedRoutes API
 
 server :: CookieSettings -> JWTSettings -> ServerT NamedAPI AppM
 server cs jwts = API {
-    Api.users = return Api.User.users
+    Api.users = Api.User.users
     , Api.about = Api.About.about
     , Api.auth = Api.Auth.authHandler cs jwts
 }

@@ -55,7 +55,8 @@ loginHandler  :: CookieSettings
             -> LoginUser
             -> AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
 loginHandler cs jwts (LoginUser username password) = do
-  let usr = head users
+  users' <- users
+  let usr = head users'
   mApplyCookies <- liftIO $ acceptLogin cs jwts usr
   case mApplyCookies of
     Nothing -> throwError err401
