@@ -18,13 +18,21 @@ import Servant.Server.Generic (AsServerT)
 -- TODO: remove and use the user from db and not hardcoded users
 import Api.User
 
-data Login = Login
-  { username :: String
-  , password :: String
+data LoginUser = LoginUser
+  { loginUsername :: String
+  , loginPassword :: String
   } deriving (Eq, Show, Read, Generic)
 
-instance ToJSON Login
-instance FromJSON Login
+data SignupUser = SignupUser
+  { signupUsername :: String
+  , signupPassword :: String
+  } deriving (Eq, Show, Read, Generic)
+
+instance ToJSON LoginUser
+instance FromJSON LoginUser
+
+instance ToJSON SignupUser
+instance FromJSON SignupUser
 
 type Protected
   = "me" :> Get '[JSON] User'
@@ -35,38 +43,31 @@ protected _ = throwAll err401
 
 type Unprotected
   =    "login"
-    :> ReqBody '[JSON] Login
+    :> ReqBody '[JSON] LoginUser
     :> Post '[JSON] (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
   :<|> "signup"
-    :> ReqBody '[JSON] User'
+    :> ReqBody '[JSON] SignupUser
     :> Post '[JSON] NoContent
 
-checkCreds  :: CookieSettings
+loginHandler  :: CookieSettings
             -> JWTSettings
-            -> Login
+            -> LoginUser
             -> Handler (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
-checkCreds cs jwts (Login username password) = do
+loginHandler cs jwts (LoginUser username password) = do
   let usr = head users
   mApplyCookies <- liftIO $ acceptLogin cs jwts usr
   case mApplyCookies of
     Nothing -> throwError err401
     Just applyCookies -> return $ applyCookies NoContent
--- checkCreds _ _ _ = throwError err401
 
-signup  :: User'
+signupHandler  :: SignupUser
         -> Handler NoContent
-signup usr = return NoContent
+signupHandler usr = return NoContent
 
 unprotected :: CookieSettings -> JWTSettings -> Server Unprotected
-unprotected cookieSettings jwtSetting =
-  checkCreds cookieSettings jwtSetting
-  :<|> signup
-
-type API' auths = (Servant.Auth.Server.Auth auths User' :> Protected)
-              :<|> Unprotected
-
-server :: CookieSettings -> JWTSettings -> Server (API' auths)
-server cs jwts = protected :<|> unprotected cs jwts
+unprotected cs jwts =
+        loginHandler cs jwts
+  :<|>  signupHandler
 
 data AuthAPI mode = AuthAPI
     { login :: mode :- (Servant.Auth.Server.Auth '[JWT] User' :> Protected)
