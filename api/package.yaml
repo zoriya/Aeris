@@ -33,8 +33,11 @@ dependencies:
 - text
 - hasql
 - hasql-transaction
+- hasql-migration
+- hasql-pool
 - rel8
 - cryptonite
+- memory
 
 library:
   source-dirs: src

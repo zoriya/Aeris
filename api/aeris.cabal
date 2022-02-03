@@ -41,7 +41,10 @@ library
     , bytestring
     , cryptonite
     , hasql
+    , hasql-migration
+    , hasql-pool
     , hasql-transaction
+    , memory
     , network
     , rel8
     , servant
@@ -68,7 +71,10 @@ executable aeris-exe
     , bytestring
     , cryptonite
     , hasql
+    , hasql-migration
+    , hasql-pool
     , hasql-transaction
+    , memory
     , network
     , rel8
     , servant
@@ -96,10 +102,13 @@ test-suite aeris-test
     , bytestring
     , cryptonite
     , hasql
+    , hasql-migration
+    , hasql-pool
     , hasql-transaction
     , hspec
     , hspec-wai
     , hspec-wai-json
+    , memory
     , network
     , rel8
     , servant

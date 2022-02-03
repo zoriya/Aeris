@@ -46,6 +46,7 @@ extra-deps:
   subdirs:
     - servant
     - servant-server
+- hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
 
 
 # Override default flag values for local packages and extra-deps

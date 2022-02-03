@@ -37,6 +37,13 @@ packages:
     git: https://github.com/haskell-servant/servant.git
     subdir: servant-server
     commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+- completed:
+    hackage: hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
+    pantry-tree:
+      sha256: 55e3dfca36ffe0d11e1c42bce446e3cc1d5b9a4983e196ec99c650c8b4268845
+      size: 589
+  original:
+    hackage: hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
 snapshots:
 - completed:
     sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb
