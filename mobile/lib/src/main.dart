@@ -1,4 +1,5 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/providers/user_services_provider.dart';
 import 'package:mobile/src/views/create_pipeline_page.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
+          FormBuilderLocalizations.delegate
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
