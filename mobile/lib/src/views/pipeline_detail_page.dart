@@ -4,6 +4,7 @@ import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/colored_clickable_card.dart';
 import 'package:mobile/src/widgets/warning_dialog.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/widgets/action_card.dart';
@@ -122,38 +123,16 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           ],
         );
 
-        final Widget addReactionbutton = ClickableCard(
+        final Widget addReactionbutton = ColoredClickableCard(
             color: Theme.of(context).colorScheme.secondaryContainer,
-            elevation: 5,
-            body: Container(
-                child: Text(
-                  "Add a reaction",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600),
-                ),
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 15, bottom: 15)),
+            text: "Add a reaction",
             onTap: () {
               print("add reaction pipeline"); // TODO add reaction
             });
 
-        final Widget deleteButton = ClickableCard(
+        final Widget deleteButton = ColoredClickableCard(
           color: Theme.of(context).colorScheme.error,
-          elevation: 5,
-          body: Container(
-              child: Text(
-                "Delete a Pipeline",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600),
-              ),
-              width: double.infinity,
-              padding: const EdgeInsets.only(top: 15, bottom: 15)),
+          text: "Delete a Pipeline",
           onTap: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => WarningDialog(

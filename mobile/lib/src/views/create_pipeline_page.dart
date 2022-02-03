@@ -7,6 +7,8 @@ import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/colored_clickable_card.dart';
 import 'package:provider/provider.dart';
 
 /// Page to create a new pipeline
@@ -45,6 +47,19 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               FormBuilderValidators.minLength(context, 5),
                             ]),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ColoredClickableCard(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer,
+                                text: "Add Trigger",
+                                
+                                onTap: () {
+                                  print(
+                                      "add trigger"); // TODO add reaction
+                                }),
+                          ),
                           ElevatedButton(
                             child: const Text("Save"),
                             onPressed: () {
@@ -60,7 +75,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     trigger: Trigger(
                                         service: Service.youtube(),
                                         action: 'template'),
-                                    reactions: [Reaction(service: Service.github(), name: 'lol')]));
+                                    reactions: [
+                                      Reaction(
+                                          service: Service.github(),
+                                          name: 'lol')
+                                    ]));
                                 Navigator.of(context).pop();
                               }
                             },

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
+import 'package:mobile/src/widgets/colored_clickable_card.dart';
 import 'package:mobile/src/widgets/loading_widget.dart';
 import 'package:mobile/src/widgets/pipeline_card.dart';
 import 'package:provider/provider.dart';
@@ -54,19 +55,9 @@ class _HomePageState extends State<HomePage> {
                     itemCount: provider.pipelines.length + 1,
                     itemBuilder: (BuildContext context, int index) {
                       if (index == provider.pipelines.length) {
-                        return ClickableCard(
+                        return ColoredClickableCard(
                           color: Theme.of(context).colorScheme.secondary,
-                          body: Padding(
-                            padding: const EdgeInsets.only(top: 20, bottom: 20),
-                            child: Text("Create a pipeline",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600)),
-                          ),
+                          text: "Create a pipeline",
                           onTap: () {
                             Navigator.of(context).pushNamed('/pipeline/new');
                           },
