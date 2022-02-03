@@ -32,7 +32,8 @@ class ActionCard extends StatelessWidget {
                   child: Text(
                     title,
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 15),
                     textAlign: TextAlign.center,
                   ),
                   flex: 8),

@@ -10,6 +10,7 @@ class AerisCardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const double radius = 30;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: ClipRRect(

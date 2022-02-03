@@ -5,20 +5,36 @@ import 'package:mobile/src/models/action.dart' as aeris_action;
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
   /// Last time the triggered was done
-  final DateTime last;
+  final DateTime? last;
   Trigger(
       {Key? key,
       required Service service,
+      //TODO rename to 'name'
       required String action,
       Map<String, Object?> parameters = const {},
-      required this.last})
+      this.last})
       : super(service: service, name: action, parameters: parameters);
 
   ///TODO Constructor from DB 'Type' field
   String lastToString() {
-    int elapsedDays = DateTime.now().difference(last).inDays;
+    if (last == null) return 'Last: Never';
+    int elapsedDays = DateTime.now().difference(last!).inDays;
     return elapsedDays == 0
         ? 'Last: Today'
         : 'Last: ${elapsedDays.toString()}d ago';
+  }
+
+  /// Template trigger, used as an 'empty' trigger
+  Trigger.template({Key? key, this.last})
+      : super(service: const Service.twitter(), name: '', parameters: {});
+
+  @override
+  bool operator ==(Object o) {
+    Trigger other = o as Trigger;
+    return service.name == other.service.name &&
+        name == other.name &&
+        last == other.last &&
+        parameters.values.toString() == other.parameters.values.toString() &&
+        parameters.keys.toString() == other.parameters.keys.toString();
   }
 }

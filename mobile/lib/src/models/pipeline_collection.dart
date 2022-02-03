@@ -38,7 +38,11 @@ class PipelineCollection {
     }
     switch (sortingMethod) {
       case PipelineCollectionSort.last:
-        sortingFunction = (a, b) => b.trigger.last.compareTo(a.trigger.last);
+        sortingFunction = (a, b) {
+          if (b.trigger.last == null) return -1;
+          if (a.trigger.last == null) return 1;
+          return b.trigger.last!.compareTo(a.trigger.last!);
+        };
         break;
       case PipelineCollectionSort.triggerCount:
         sortingFunction = (a, b) => b.triggerCount - a.triggerCount;

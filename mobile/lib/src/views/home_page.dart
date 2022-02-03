@@ -78,9 +78,8 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.w600)),
                               ),
                               onTap: () {
-                                if (kDebugMode) {
-                                  print("Create a pipeline");
-                                }
+                                Navigator.of(context)
+                                    .pushNamed('/pipeline/new');
                               },
                             );
                           }
