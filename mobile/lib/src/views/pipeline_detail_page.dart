@@ -80,6 +80,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         onToggle: (value) {
                           setState(() {
                             pipeline.enabled = !pipeline.enabled;
+                            provider.sortPipelines();
                             provider.notifyListeners();
                             // TODO call api
                           });
@@ -113,9 +114,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                   message:
                       "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
                   onAccept: () {
-                    provider.pipelines.removeWhere(
-                        (element) => element.hashCode == pipeline.hashCode);
-                    provider.notifyListeners();
+                    provider.removePipeline(pipeline);
                     print("Delete pipeline"); /*TODO call api*/
                     Navigator.of(context).pop();
                   },
