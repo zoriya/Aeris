@@ -3,8 +3,8 @@ import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 
 /// Menu for the Home Page
-class AerisPageMenu extends StatelessWidget {
-  const AerisPageMenu({Key? key}) : super(key: key);
+class HomePageMenu extends StatelessWidget {
+  const HomePageMenu({Key? key}) : super(key: key);
 
 
   @override
