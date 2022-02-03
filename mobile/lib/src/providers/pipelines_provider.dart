@@ -77,8 +77,10 @@ class PipelineProvider extends ChangeNotifier {
 
   _sortsPipelines() {
     pipelines.sort((a, b) {
+      if (a.trigger.last == null) return -1;
+      if (b.trigger.last == null) return 1;
       if (a.enabled == b.enabled) {
-        return b.trigger.last.compareTo(a.trigger.last);
+        return b.trigger.last!.compareTo(a.trigger.last!);
       }
       return b.enabled ? 1 : -1;
     });
