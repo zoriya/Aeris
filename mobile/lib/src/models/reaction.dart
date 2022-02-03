@@ -13,4 +13,13 @@ class Reaction extends aeris_action.Action {
   
   /// Template trigger, used as an 'empty' trigger
   Reaction.template(): super(service: Service.all()[0], name: '', parameters: {});
+
+    @override
+  bool operator ==(Object o) {
+    Reaction other = o as Reaction;
+    return service.name == other.service.name &&
+        name == other.name &&
+        parameters.values.toString() == other.parameters.values.toString() &&
+        parameters.keys.toString() == other.parameters.keys.toString();
+  }
 }

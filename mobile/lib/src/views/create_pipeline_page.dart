@@ -7,6 +7,8 @@ import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
+import 'package:mobile/src/widgets/action_card.dart';
+import 'package:mobile/src/widgets/action_card_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
@@ -60,20 +62,36 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: ColoredClickableCard(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                text: "Add Trigger",
-                                onTap: () {
-                                  print("add trigger"); // TODO add reaction
-                                  Navigator.of(context)
-                                      .pushNamed('/pipeline/action/new',
-                                          arguments:
-                                              SetupActionPageArguments(trigger))
-                                      .then((_) => setState(() {}));
-                                }),
+                            child: trigger == Trigger.template()
+                                ? ColoredClickableCard(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer,
+                                    text: "Add Trigger",
+                                    onTap: () {
+                                      print("add trigger"); // TODO add reaction
+                                      Navigator.of(context)
+                                          .pushNamed('/pipeline/action/new',
+                                              arguments:
+                                                  SetupActionPageArguments(
+                                                      trigger))
+                                          .then((_) => setState(() {}));
+                                    })
+                                : ActionCard(
+                                    leading:
+                                        trigger.service.getLogo(logoSize: 50),
+                                    title: trigger.service.name,
+                                    trailing:
+                                        ActionCardPopupMenu(action: trigger),
+                                  ),
                           ),
+                          ...[for (Reaction reaction in reactions) ActionCard(
+                                    leading:
+                                        reaction.service.getLogo(logoSize: 50),
+                                    title: reaction.service.name,
+                                    trailing:
+                                        ActionCardPopupMenu(action: reaction),
+                                  )],
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ColoredClickableCard(

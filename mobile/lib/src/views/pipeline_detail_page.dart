@@ -1,5 +1,6 @@
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
+import 'package:mobile/src/widgets/action_card_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
@@ -27,33 +28,6 @@ class PipelineDetailPageArguments {
 class PipelineDetailPage extends StatefulWidget {
   //final String pipelineName; // TODO Define as int later on
   const PipelineDetailPage({Key? key}) : super(key: key);
-
-  AerisPopupMenu actionPopupMenu(aeris.Action action, BuildContext context) {
-    return AerisPopupMenu(
-        onSelected: (value) {
-          Map object = value as Map;
-          Navigator.pushNamed(context, object['route'] as String,
-              arguments: object['params']);
-        },
-        icon: Icons.more_vert,
-        itemBuilder: (context) => [
-              AerisPopupMenuItem(
-                  context: context,
-                  icon: Icons.settings,
-                  title: "Modify",
-                  value: {
-                    'route': "/pipeline/action/mod",
-                    'params': SetupActionPageArguments(action),
-                  } /* TODO Define mod route*/),
-              AerisPopupMenuItem(
-                context: context,
-                icon: Icons.delete,
-                title: "Delete",
-                value: "/pipeline/action/del",
-                enabled: action is Reaction, /* TODO Define delete route*/
-              ),
-            ]);
-  }
 
   @override
   State<PipelineDetailPage> createState() => _PipelineDetailPageState();
@@ -160,7 +134,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
                 title: pipeline.trigger.name,
-                trailing: widget.actionPopupMenu(pipeline.trigger, context)),
+                trailing: ActionCardPopupMenu(action: pipeline.trigger)),
             const SizedBox(height: 25),
             const Text("Reactions",
                 style: TextStyle(fontWeight: FontWeight.w500)),
@@ -168,7 +142,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               ActionCard(
                   leading: reaction.service.getLogo(logoSize: 50),
                   title: reaction.name,
-                  trailing: widget.actionPopupMenu(reaction, context)),
+                  trailing: ActionCardPopupMenu(action: reaction)),
             addReactionbutton,
             const Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 5),
