@@ -60,16 +60,22 @@ userSchema = TableSchema
 selectAllUser :: Query (User Expr)
 selectAllUser = each userSchema
 
-getUserById :: Expr UserId -> Query (User Expr)
+getUserById :: UserId -> Query (User Expr)
 getUserById uid = do
     u <- selectAllUser
-    where_ $ userId u ==. uid
+    where_ $ userId u ==. lit uid
     return u
 
-getUserBySlug :: Expr Text -> Query (User Expr)
+getUserByName :: Text -> Query (User Expr)
+getUserByName name = do
+    u <- selectAllUser
+    where_ $ username u ==. lit name
+    return u
+
+getUserBySlug :: Text -> Query (User Expr)
 getUserBySlug s = do
     u <- selectAllUser
-    where_ $ slug u ==. s
+    where_ $ slug u ==. lit s
     return u
 
 insertUser :: User' -> Insert [UserId]

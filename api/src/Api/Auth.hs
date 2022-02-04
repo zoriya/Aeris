@@ -18,6 +18,7 @@ import Servant.Server.Generic (AsServerT)
 -- TODO: remove and use the user from db and not hardcoded users
 import Api.User
 import App (AppM)
+import Data.Text (pack)
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -55,7 +56,7 @@ loginHandler  :: CookieSettings
             -> LoginUser
             -> AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
 loginHandler cs jwts (LoginUser username password) = do
-  users' <- users
+  users' <- getUserByName' $ pack username
   let usr = head users'
   mApplyCookies <- liftIO $ acceptLogin cs jwts usr
   case mApplyCookies of
