@@ -1,10 +1,9 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"target": "es6",
-		"noImplicitAny": true,
+		"module": "esnext",
 		"moduleResolution": "node",
+		"target": "es2017",
+		"noImplicitAny": true,
 		"sourceMap": true,
 		"outDir": "dist",
 		"baseUrl": ".",
@@ -12,8 +11,7 @@
 			"*": [
 				"node_modules/*"
 			]
-		},
-		"lib": ["es2017"]
+		}
 	},
 	"include": [
 		"src/**/*"

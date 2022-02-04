@@ -1,5 +1,5 @@
-import { Pipeline, PipelineEnv } from "./models/pipeline"
 import { reactionHandlers } from "./reactions";
+import { Pipeline, PipelineEnv } from "./models/pipeline"
 
 
 export class Runner {

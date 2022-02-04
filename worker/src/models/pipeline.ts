@@ -1,9 +1,9 @@
 export enum PipelineType {
-
+	Twitter_OnTweet
 };
 
 export enum ReactionType {
-
+	Twitter_Tweet
 };
 
 

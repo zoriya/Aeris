@@ -1,12 +1,13 @@
 import { map, mergeAll, Observable } from "rxjs";
-import { Pipeline, PipelineEnv } from "./models/pipeline";
+import { Twitter } from "./services/twitter";
+import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
 import { Runner } from "./runner";
 
 export type ActionListener = (params: any) => Observable<PipelineEnv>;
 export type ActionListeners = {[key: string]: ActionListener};
 
 export const listenerFactory: ActionListeners = {
-
+	[PipelineType.Twitter_OnTweet]: Twitter.listenTweet
 };
 
 export class Manager {
@@ -27,6 +28,7 @@ export class Manager {
 				mergeAll()
 			)
 			.subscribe(([x, env]: [Pipeline, PipelineEnv]) => {
+				console.log(`Running pipeline ${x.name}`)
 				new Runner(x).run(env)
 			});
 	}
