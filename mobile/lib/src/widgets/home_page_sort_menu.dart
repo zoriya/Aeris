@@ -51,7 +51,6 @@ class HomePageSortMenu extends StatelessWidget {
         if (sortingMethod == "") {
           collectionProvider.pipelineCollection.sortingSplitDisabled =
               !collectionProvider.pipelineCollection.sortingSplitDisabled;
-          print(collectionProvider.pipelineCollection.sortingSplitDisabled);
         } else {
           collectionProvider.pipelineCollection.sortingMethod =
               sortingMethod as PipelineCollectionSort;

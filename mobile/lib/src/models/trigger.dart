@@ -9,11 +9,10 @@ class Trigger extends aeris_action.Action {
   Trigger(
       {Key? key,
       required Service service,
-      //TODO rename to 'name'
-      required String action,
+      required String name,
       Map<String, Object?> parameters = const {},
       this.last})
-      : super(service: service, name: action, parameters: parameters);
+      : super(service: service, name: name, parameters: parameters);
 
   ///TODO Constructor from DB 'Type' field
   String lastToString() {

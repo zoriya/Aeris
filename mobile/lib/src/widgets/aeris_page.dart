@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/widgets/home_page_menu.dart';
 import 'package:mobile/src/widgets/background/animated_background.dart';
 
 /// Application base page, holds scaffold and background

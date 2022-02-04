@@ -1,13 +1,9 @@
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/action_card_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
-import 'package:mobile/src/widgets/clickable_card.dart';
 import 'package:mobile/src/widgets/colored_clickable_card.dart';
 import 'package:mobile/src/widgets/warning_dialog.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:mobile/src/models/reaction.dart';

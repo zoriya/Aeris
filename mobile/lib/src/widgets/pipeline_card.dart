@@ -30,7 +30,6 @@ class _PipelineCardState extends State<PipelineCard> {
           Navigator.pushNamed(context, '/pipeline',
                   arguments: PipelineDetailPageArguments(widget.pipeline))
               .then((value) => setState(() {}));
-          print("Card clicked!");
         },
         color: widget.pipeline.enabled == false
             ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)

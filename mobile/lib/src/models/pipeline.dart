@@ -24,7 +24,6 @@ class Pipeline {
   ///The pipeline's reactions
   final List<Reaction> reactions;
 
-  ///TODO How is the reaction linked, of the triggering service?
   final Trigger trigger;
   Pipeline(
       {Key? key,

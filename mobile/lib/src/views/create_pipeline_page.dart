@@ -77,7 +77,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
                                 title: trigger.service.name,
-                                trailing: ActionCardPopupMenu(deletable: false, action: trigger, then: () => setState(() {})),
+                                trailing: ActionCardPopupMenu(
+                                    deletable: false,
+                                    action: trigger,
+                                    then: () => setState(() {})),
                               ),
                       ),
                       ...[
@@ -85,7 +88,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                           ActionCard(
                             leading: reaction.service.getLogo(logoSize: 50),
                             title: reaction.service.name,
-                            trailing: ActionCardPopupMenu(deletable: reaction != reactions[0], action: reaction, then: () => setState(() {})),
+                            trailing: ActionCardPopupMenu(
+                                deletable: reaction != reactions[0],
+                                action: reaction,
+                                then: () => setState(() {})),
                           )
                       ],
                       Padding(
@@ -96,7 +102,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 .secondaryContainer,
                             text: "Add Reaction",
                             onTap: () async {
-                              print("add reaction"); // TODO add reaction
+                              // TODO add to db
                               reactions.add(Reaction.template());
                               await Navigator.of(context).pushNamed(
                                   '/pipeline/action/new',

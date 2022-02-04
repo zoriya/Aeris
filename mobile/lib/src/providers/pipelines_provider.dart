@@ -13,15 +13,15 @@ class PipelineProvider extends ChangeNotifier {
   PipelineProvider() {
     var trigger1 = Trigger(
         service: const Service.spotify(),
-        action: "Play song",
+        name: "Play song",
         last: DateTime.now());
     var trigger3 = Trigger(
         service: const Service.discord(),
-        action: "Send a message",
+        name: "Send a message",
         last: DateTime.now());
     var trigger2 = Trigger(
         service: const Service.spotify(),
-        action: "Play song",
+        name: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
         service: const Service.twitter(), parameters: {}, name: "Post a tweet");

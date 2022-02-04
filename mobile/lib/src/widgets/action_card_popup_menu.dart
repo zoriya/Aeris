@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
@@ -40,7 +39,7 @@ class ActionCardPopupMenu extends StatelessWidget {
                   value: {
                     'route': "/pipeline/action/mod",
                     'params': SetupActionPageArguments(action),
-                  } /* TODO Define mod route*/),
+                  }),
               AerisPopupMenuItem(
                   context: context,
                   icon: Icons.delete,

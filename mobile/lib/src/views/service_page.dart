@@ -71,7 +71,7 @@ class ServicePage extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) => WarningDialog(
                   message: "You are about to disconnect to a service. Once disconnected, every related pipeline will be deleted. This action cannot be undone.",
-                  onAccept: () => print("Disconnect") /* TODO Delete action*/,
+                  onAccept: () => print("Disconnect") /* TODO Delete service form db + related actions*/,
                   warnedAction: "Disconnect")
                 ),
               context
@@ -79,7 +79,7 @@ class ServicePage extends StatelessWidget {
             ...getServiceGroup(
               "Available",
               const Icon(Icons.connect_without_contact, color: Colors.green),
-              () => print("Connected") /* TODO Add action*/,
+              () => print("Connected") /* TODO open page to connect service*/,
             context),
           ],
         ),

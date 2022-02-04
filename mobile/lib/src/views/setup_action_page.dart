@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
-import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
-import 'package:provider/provider.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -40,7 +37,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
         Trigger(
             last: DateTime.now(),
             service: arguments.action.service,
-            action: "action",
+            name: "action",
             parameters: {'key1': 'value1', 'key2': null})
     ];
 
@@ -49,7 +46,6 @@ class _SetupActionPageState extends State<SetupActionPage> {
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
-        print("Selected ${service!.name}");
         setState(() {
           serviceState = service;
           // TODO call api to get available actions
