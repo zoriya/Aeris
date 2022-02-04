@@ -4,15 +4,20 @@ import 'package:mobile/src/views/pipeline_detail_page.dart';
 import 'package:mobile/src/widgets/clickable_card.dart';
 
 /// Widget for Action-reaction card on home page
-class PipelineCard extends StatelessWidget {
+class PipelineCard extends StatefulWidget {
   ///Pipeline base object
   final Pipeline pipeline;
 
   const PipelineCard({Key? key, required this.pipeline}) : super(key: key);
 
   @override
+  State<PipelineCard> createState() => _PipelineCardState();
+}
+
+class _PipelineCardState extends State<PipelineCard> {
+  @override
   Widget build(BuildContext context) {
-    List<Widget> reactionLogos = pipeline.reactions
+    List<Widget> reactionLogos = widget.pipeline.reactions
         .take(3)
         .map((reaction) => reaction.service.getLogo())
         .fold<List<Widget>>(
@@ -23,10 +28,11 @@ class PipelineCard extends StatelessWidget {
     return ClickableCard(
         onTap: () {
           Navigator.pushNamed(context, '/pipeline',
-              arguments: PipelineDetailPageArguments(pipeline));
+                  arguments: PipelineDetailPageArguments(widget.pipeline))
+              .then((value) => setState(() {}));
           print("Card clicked!");
         },
-        color: pipeline.enabled == false
+        color: widget.pipeline.enabled == false
             ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
             : null,
         body: Container(
@@ -38,15 +44,15 @@ class PipelineCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(pipeline.name,
+                      Text(widget.pipeline.name,
                           style: TextStyle(
                             fontSize: 25,
                             color: Theme.of(context).colorScheme.onSurface,
                           )),
                       const SizedBox(height: 10),
-                      Text(pipeline.trigger.lastToString(),
+                      Text(widget.pipeline.trigger.lastToString(),
                           style: TextStyle(
-                              color: pipeline.enabled == false
+                              color: widget.pipeline.enabled == false
                                   ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
                               fontSize: 15)),
@@ -57,7 +63,7 @@ class PipelineCard extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        pipeline.trigger.service.getLogo(),
+                        widget.pipeline.trigger.service.getLogo(),
                         const SizedBox(width: 10),
                         Icon(
                           Icons.arrow_forward,
