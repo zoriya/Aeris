@@ -20,6 +20,8 @@
   "dependencies": {
     "express": "^4.17.2",
     "express-ws": "^5.0.2",
+    "rxjs": "^7.5.2",
+    "twitter-api-v2": "^1.10.0",
     "ws": "^8.4.2"
   },
   "devDependencies": {
