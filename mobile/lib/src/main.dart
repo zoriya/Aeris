@@ -63,19 +63,18 @@ class MyApp extends StatelessWidget {
             opaque: false,
             settings: settings,
             pageBuilder: (_, __, ___) => routes[settings.name].call(),
-            transitionDuration: const Duration(milliseconds: 225),
+            transitionDuration: const Duration(milliseconds: 350),
             transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              pageRoutes.containsKey(settings.name)
-                ? ScaleTransition(
-                    child: child,
-                    scale: CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.ease,
-                    )
-                  ) : SlideTransition(
-                        position: animation.drive(Tween(begin: const Offset(0, 1), end: Offset.zero).chain(CurveTween(curve: Curves.ease))),
-                        child: child,
-                      )
+              pageRoutes.containsKey(settings.name) ? ScaleTransition(
+                child: child,
+                scale: CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.ease,
+                )
+              ) : SlideTransition(
+                position: animation.drive(Tween(begin: const Offset(0, 1), end: Offset.zero).chain(CurveTween(curve: Curves.ease))),
+                child: child,
+              )
           );
         }
     );
