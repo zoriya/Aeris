@@ -26,62 +26,71 @@ class _PipelineCardState extends State<PipelineCard> {
                 array + [logo, const SizedBox(height: 5)]).toList();
     reactionLogos.removeLast();
     return ClickableCard(
-        onTap: () {
-          Navigator.pushNamed(context, '/pipeline',
-                  arguments: PipelineDetailPageArguments(widget.pipeline))
-              .then((value) => setState(() {}));
-        },
-        color: widget.pipeline.enabled == false
-            ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
-            : null,
-        body: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
-            child: Row(children: [
-              Expanded(
-                  flex: 4,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.pipeline.name,
-                          style: TextStyle(
-                            fontSize: 25,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          )),
-                      const SizedBox(height: 10),
-                      Text(widget.pipeline.trigger.lastToString(),
-                          style: TextStyle(
-                              color: widget.pipeline.enabled == false
-                                  ? Theme.of(context).colorScheme.onSurface
-                                  : const Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 15)),
-                    ],
-                  )),
-              Expanded(
-                  flex: 4,
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        widget.pipeline.trigger.service.getLogo(),
-                        const SizedBox(width: 10),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                        const SizedBox(width: 10),
-                        Column(children: reactionLogos)
-                      ])),
-              Expanded(
-                  flex: 2,
-                  child: Column(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center)),
-            ])));
+      onTap: () {
+        Navigator.pushNamed(context, '/pipeline', arguments: PipelineDetailPageArguments(widget.pipeline)).then((value) => setState(() {}));
+      },
+      color: widget.pipeline.enabled == false
+          ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
+          : null,
+      body: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.pipeline.name,
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    )
+                  ),
+                  const SizedBox(height: 10),
+                  Text(widget.pipeline.trigger.lastToString(),
+                    style: TextStyle(
+                      color: widget.pipeline.enabled == false
+                        ? Theme.of(context).colorScheme.onSurface
+                          : const Color.fromARGB(255, 83, 83, 83),
+                      fontSize: 15
+                    )
+                  ),
+                ],
+              )
+            ),
+            Expanded(
+              flex: 4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.pipeline.trigger.service.getLogo(),
+                  const SizedBox(width: 10),
+                  Icon(
+                    Icons.arrow_forward,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  const SizedBox(width: 10),
+                  Column(children: reactionLogos)
+                ]
+              )
+            ),
+            Expanded(
+              flex: 2,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center)
+            ),
+          ]
+        )
+      )
+    );
   }
 }

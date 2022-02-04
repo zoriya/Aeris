@@ -30,8 +30,7 @@ class PipelineCollection {
     int Function(Pipeline, Pipeline) sortingFunction;
 
     enabled = pipelines.where((pipeline) => pipeline.enabled).toList();
-    disabled =
-        pipelines.where((pipeline) => pipeline.enabled == false).toList();
+    disabled = pipelines.where((pipeline) => pipeline.enabled == false).toList();
     if (sortingSplitDisabled == false) {
       enabled.addAll(disabled);
       disabled.clear();

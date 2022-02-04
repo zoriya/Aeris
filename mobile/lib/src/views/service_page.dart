@@ -27,7 +27,8 @@ class ServicePage extends StatelessWidget {
             splashRadius: 20,
             icon: trailingIcon,
             onPressed: onTap,
-          )),
+          )
+        ),
       const SizedBox(height: 30),
     ];
   }

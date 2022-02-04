@@ -7,8 +7,9 @@ class ActionCard extends StatelessWidget {
   ///Title, displayed at the center
   final String title;
 
-  ///Widge ton the right of the card
+  ///Widget on the right of the card
   final Widget trailing;
+
   const ActionCard(
       {Key? key,
       required this.leading,
@@ -19,27 +20,30 @@ class ActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 5,
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20))),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(bottom: 15, top: 15, left: 15, right: 6),
-          child: Row(
-            children: [
-              Expanded(child: leading, flex: 2),
-              Expanded(
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontSize: 15),
-                    textAlign: TextAlign.center,
-                  ),
-                  flex: 8),
-              Expanded(child: trailing, flex: 2),
-            ],
-          ),
-        ));
+      elevation: 5,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20))
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 15, top: 15, left: 15, right: 6),
+        child: Row(
+          children: [
+            Expanded(child: leading, flex: 2),
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 15
+                ),
+                textAlign: TextAlign.center,
+              ),
+              flex: 8
+            ),
+            Expanded(child: trailing, flex: 2),
+          ],
+        ),
+      )
+    );
   }
 }

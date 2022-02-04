@@ -22,7 +22,10 @@ class WarningDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text("Warning",
-            style: TextStyle(color: Theme.of(context).colorScheme.error)),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.error
+          )
+        ),
         content: Text(message),
         actions: [
           Row(
@@ -35,13 +38,14 @@ class WarningDialog extends StatelessWidget {
                 child: const Text('Cancel'),
               ),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).colorScheme.error),
-                  onPressed: () => {
-                        onAccept(),
-                        Navigator.pop(context),
-                      },
-                  child: Text(warnedAction)),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).colorScheme.error),
+                onPressed: () => {
+                  onAccept(),
+                  Navigator.pop(context),
+                },
+                child: Text(warnedAction)
+              )
             ],
           ),
         ]);

@@ -29,7 +29,7 @@ class AerisPopupMenu extends StatelessWidget {
       offset: menuOffset,
       child: Icon(icon),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+        borderRadius: BorderRadius.all(Radius.circular(20))),
     );
   }
 }

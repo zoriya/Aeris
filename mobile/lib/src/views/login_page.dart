@@ -7,12 +7,14 @@ const users = {
   'hunter@gmail.com': 'hunter',
 };
 
-/// Login Page
+/// Login Page Widget
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  /// Time between login validation and login finish
   Duration get loginDuration => const Duration(milliseconds: 2500);
 
+  /// Called when user clicks on [FlutterLogin] widget 'login' button
   Future<String?> _authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginDuration).then((_) {
@@ -26,6 +28,7 @@ class LoginPage extends StatelessWidget {
     });
   }
 
+  /// Opens signup page of [FlutterLogin] widget
   Future<String?> _signupUser(SignupData data) {
     debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginDuration).then((_) {
@@ -33,6 +36,7 @@ class LoginPage extends StatelessWidget {
     });
   }
 
+  /// Opens user password recovery page
   Future<String?> _recoverPassword(String name) {
     debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {

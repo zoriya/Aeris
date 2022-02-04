@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         ],
         supportedLocales: const [Locale('en', ''), Locale('fr', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Map pageRoutes = {
             '/': () => const StartupPage(),
@@ -60,25 +60,24 @@ class MyApp extends StatelessWidget {
             ..addAll(cardRoutes)
             ..addAll(pageRoutes);
           return PageRouteBuilder(
-              opaque: false,
-              settings: settings,
-              pageBuilder: (_, __, ___) => routes[settings.name].call(),
-              transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder: (context, animation, secondaryAnimation,
-                      child) =>
-                  pageRoutes.containsKey(settings.name)
-                      ? ScaleTransition(
-                          child: child,
-                          scale: CurvedAnimation(
-                            parent: animation,
-                            curve: Curves.ease,
-                          ))
-                      : SlideTransition(
-                          position: animation.drive(
-                              Tween(begin: const Offset(0, 1), end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.ease))),
-                          child: child,
-                        ));
-        });
+            opaque: false,
+            settings: settings,
+            pageBuilder: (_, __, ___) => routes[settings.name].call(),
+            transitionDuration: const Duration(milliseconds: 225),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              pageRoutes.containsKey(settings.name)
+                ? ScaleTransition(
+                    child: child,
+                    scale: CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.ease,
+                    )
+                  ) : SlideTransition(
+                        position: animation.drive(Tween(begin: const Offset(0, 1), end: Offset.zero).chain(CurveTween(curve: Curves.ease))),
+                        child: child,
+                      )
+          );
+        }
+    );
   }
 }
