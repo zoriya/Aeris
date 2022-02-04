@@ -25,10 +25,14 @@ class SetupActionPage extends StatefulWidget {
 }
 
 class _SetupActionPageState extends State<SetupActionPage> {
+  Service? serviceState;
+
   @override
   Widget build(BuildContext context) {
     final SetupActionPageArguments arguments =
         ModalRoute.of(context)!.settings.arguments as SetupActionPageArguments;
+
+    serviceState ??= arguments.action.service;
 
     // TODO Call provider
     List<aeris.Action> availableActions = [
@@ -41,13 +45,14 @@ class _SetupActionPageState extends State<SetupActionPage> {
     ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
-      value: arguments.action.service,
+      value: serviceState,
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
         print("Selected ${service!.name}");
         setState(() {
-          // TODO Setstate + call api to get available actions
+          serviceState = service;
+          // TODO call api to get available actions
         });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
@@ -104,9 +109,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         parametersNames:
                             availableAction.parameters.keys.toList(),
                         onValidate: (parameters) {
+                          arguments.action.service = serviceState!;
                           arguments.action.parameters = parameters;
                           arguments.action.name = availableAction.name;
-                          print(arguments.action.parameters);
                           Navigator.of(context).pop();
                         }),
                   )),

@@ -9,9 +9,12 @@ class ActionCardPopupMenu extends StatelessWidget {
   const ActionCardPopupMenu({
     Key? key,
     required this.action,
+    required this.then,
   }) : super(key: key);
 
   final aeris.Action action;
+
+  final void Function() then;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,11 @@ class ActionCardPopupMenu extends StatelessWidget {
         onSelected: (value) {
           Map object = value as Map;
           Navigator.pushNamed(context, object['route'] as String,
-              arguments: object['params']);
+                  arguments: object['params'])
+              .then((r) {
+            then();
+            return r;
+          });
         },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
@@ -32,14 +39,14 @@ class ActionCardPopupMenu extends StatelessWidget {
                     'params': SetupActionPageArguments(action),
                   } /* TODO Define mod route*/),
               AerisPopupMenuItem(
-                context: context,
-                icon: Icons.delete,
-                title: "Delete",
-                value: "/pipeline/action/del",
-                enabled: action is Reaction
-                // TODO Delete from parent pipeline
-                /* TODO Define delete route*/
-              ),
+                  context: context,
+                  icon: Icons.delete,
+                  title: "Delete",
+                  value: "/pipeline/action/del",
+                  enabled: action is Reaction
+                  // TODO Delete from parent pipeline
+                  /* TODO Define delete route*/
+                  ),
             ]);
   }
 }

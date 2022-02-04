@@ -4,7 +4,7 @@ import 'package:mobile/src/models/service.dart';
 ///Base class for reactions and trigger
 abstract class Action {
   ///Action's service
-  final Service service;
+  Service service;
 
   ///Name fo the action
   String name;

@@ -77,7 +77,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
                                 title: trigger.service.name,
-                                trailing: ActionCardPopupMenu(action: trigger),
+                                trailing: ActionCardPopupMenu(action: trigger, then: () => setState(() {})),
                               ),
                       ),
                       ...[
@@ -85,7 +85,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                           ActionCard(
                             leading: reaction.service.getLogo(logoSize: 50),
                             title: reaction.service.name,
-                            trailing: ActionCardPopupMenu(action: reaction),
+                            trailing: ActionCardPopupMenu(action: reaction, then: () => setState(() {})),
                           )
                       ],
                       Padding(
