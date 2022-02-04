@@ -1,8 +1,8 @@
 import 'package:mobile/src/models/user_service.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
 
+/// Provider used to store every Service related to the User
 class UserServiceProvider extends ChangeNotifier {
 
   /// List of [Service] related to the user
@@ -14,6 +14,7 @@ class UserServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Creates a new service related to the user
   createUserService(Service serviceToSet, {String accountId = "", String accUsername = "", String accountSlug = "", String externalToken = ""}) {
     UserService newService = UserService(
       serviceAccountId: accountId,
@@ -73,5 +74,4 @@ class UserServiceProvider extends ChangeNotifier {
     userServices.clear();
     notifyListeners();
   }
-
 }

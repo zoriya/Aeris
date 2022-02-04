@@ -4,6 +4,7 @@ import '../widgets/aeris_page.dart';
 
 import '../../aeris.dart';
 
+/// [StatefulWidget] used in order to display StartupPage [Widget]
 class StartupPage extends StatefulWidget {
   const StartupPage({Key? key}) : super(key: key);
 

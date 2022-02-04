@@ -76,6 +76,7 @@ class PipelineProvider extends ChangeNotifier {
     sortPipelines();
   }
 
+  /// Sort pipelines inside the Provider
   sortPipelines() {
     pipelineCollection.sort();
     notifyListeners();

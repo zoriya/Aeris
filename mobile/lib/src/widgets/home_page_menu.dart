@@ -6,7 +6,6 @@ import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 class HomePageMenu extends StatelessWidget {
   const HomePageMenu({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return AerisPopupMenu(

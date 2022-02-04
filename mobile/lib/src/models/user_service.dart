@@ -19,6 +19,11 @@ class UserService {
   /// Account External Token for this Service
   final String userExternalToken;
 
-  UserService({Key? key, required this.serviceAccountId, required this.accountUsername, required this.accountSlug, required this.userExternalToken, required this.serviceProvider});
-
+  UserService(
+      {Key? key,
+        required this.serviceAccountId,
+        required this.accountUsername,
+        required this.accountSlug,
+        required this.userExternalToken,
+        required this.serviceProvider});
 }

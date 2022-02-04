@@ -2,6 +2,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+
+/// Data class used to store data about a service (logo, url, name)
 class Service {
   ///Name of the service
   final String name;

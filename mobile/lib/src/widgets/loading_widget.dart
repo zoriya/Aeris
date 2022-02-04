@@ -8,15 +8,17 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              alignment: Alignment.center,
-              child: SpinKitCubeGrid(
-                color: Theme.of(context).colorScheme.secondary,
-                size: 50.0,
-              ))
-        ]);
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          child: SpinKitCubeGrid(
+            color: Theme.of(context).colorScheme.secondary,
+            size: 50.0,
+          )
+        )
+      ]
+    );
   }
 }

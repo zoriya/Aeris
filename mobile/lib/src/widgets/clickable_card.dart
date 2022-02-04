@@ -29,9 +29,10 @@ class ClickableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     BorderRadius bordersRadius = const BorderRadius.all(Radius.circular(25));
     return Card(
-        elevation: elevation,
-        color: color,
-        shape: RoundedRectangleBorder(borderRadius: bordersRadius),
-        child: InkWell(onTap: onTap, borderRadius: bordersRadius, child: body));
+      elevation: elevation,
+      color: color,
+      shape: RoundedRectangleBorder(borderRadius: bordersRadius),
+      child: InkWell(onTap: onTap, borderRadius: bordersRadius, child: body)
+    );
   }
 }
