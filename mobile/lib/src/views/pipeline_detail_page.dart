@@ -133,7 +133,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
                 title: pipeline.trigger.name,
-                trailing: ActionCardPopupMenu(action: pipeline.trigger, then: () => setState(() {}))),
+                trailing: ActionCardPopupMenu(deletable: false, action: pipeline.trigger, then: () => setState(() {}))),
             const SizedBox(height: 25),
             const Text("Reactions",
                 style: TextStyle(fontWeight: FontWeight.w500)),
@@ -141,7 +141,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               ActionCard(
                   leading: reaction.service.getLogo(logoSize: 50),
                   title: reaction.name,
-                  trailing: ActionCardPopupMenu(action: reaction, then: () => setState(() {}))),
+                  trailing: ActionCardPopupMenu(deletable: reaction != pipeline.reactions.first ,action: reaction, then: () => setState(() {}))),
             addReactionbutton,
             const Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 5),

@@ -10,11 +10,14 @@ class ActionCardPopupMenu extends StatelessWidget {
     Key? key,
     required this.action,
     required this.then,
+    required this.deletable,
   }) : super(key: key);
 
   final aeris.Action action;
 
   final void Function() then;
+
+  final bool deletable;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class ActionCardPopupMenu extends StatelessWidget {
                   icon: Icons.delete,
                   title: "Delete",
                   value: "/pipeline/action/del",
-                  enabled: action is Reaction
+                  enabled: deletable,
                   // TODO Delete from parent pipeline
                   /* TODO Define delete route*/
                   ),
