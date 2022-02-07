@@ -9,7 +9,7 @@ import Servant
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
 import Control.Monad.IO.Class (liftIO)
-import Db.User ( User' )
+import Db.User ( User', UserId (UserId), User (User) )
 import GHC.Generics ( Generic )
 import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)
@@ -19,6 +19,7 @@ import Servant.Server.Generic (AsServerT)
 import Api.User
 import App (AppM)
 import Data.Text (pack)
+import Password (hashPassword'', toPassword)
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -65,7 +66,10 @@ loginHandler cs jwts (LoginUser username password) = do
 
 signupHandler  :: SignupUser
         -> AppM NoContent
-signupHandler usr = return NoContent
+signupHandler (SignupUser name p) = do
+  hashed <- hashPassword'' $ toPassword $ pack p
+  usr <- createUser $ User (UserId 1) (pack name) hashed (pack name)
+  return NoContent
 
 unprotected :: CookieSettings -> JWTSettings -> ServerT Unprotected AppM
 unprotected cs jwts =

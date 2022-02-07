@@ -3,7 +3,7 @@ module Api.User where
 
 import App
 import Db.User
-import Rel8 (Query, select, Expr)
+import Rel8 (Query, select, Expr, insert)
 import qualified Hasql.Pool as Pool
 import qualified Hasql.Transaction.Sessions as Hasql
 import Hasql.Pool (Pool, UsageError (ConnectionError, SessionError))
@@ -32,3 +32,8 @@ getUserByName' :: Text -> AppM [User']
 getUserByName' name = do
   State{dbPool = p}  <- ask
   runTransactionWithPool p $ statement () (select $ getUserByName name)
+
+createUser :: User' -> AppM [UserId]
+createUser user = do
+  State{dbPool = p}  <- ask
+  runTransactionWithPool p $ statement () (insert $ insertUser user)

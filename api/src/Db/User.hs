@@ -20,6 +20,7 @@ import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
 import Rel8
 import Rel8 (Insert(onConflict), each)
+import Password (HashedPassword (HashedPassword))
 
 newtype UserId = UserId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num)
@@ -31,7 +32,7 @@ instance FromJSON UserId
 data User f = User
   { userId        :: Column f UserId
   , username      :: Column f Text
-  , password      :: Column f Text
+  , password      :: Column f HashedPassword
   , slug          :: Column f Text
   } deriving stock (Generic)
     deriving anyclass (Rel8able)
@@ -79,13 +80,13 @@ getUserBySlug s = do
     return u
 
 insertUser :: User' -> Insert [UserId]
-insertUser usr = Insert
+insertUser (User id name password slug) = Insert
     { into = userSchema
     , rows = values [ User {
         userId = unsafeCastExpr $ nextval "users_id_seq",
-        username = lit "bobby",
-        password = lit "a",
-        slug = lit "bobby"
+        username = lit name,
+        password = lit password,
+        slug = lit slug
     } ]
     , onConflict = DoNothing
     , returning = Projection userId

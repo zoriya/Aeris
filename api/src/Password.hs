@@ -17,7 +17,7 @@ import Control.Monad.IO.Class (MonadIO, liftIO)
 import Data.ByteArray (Bytes, convert)
 
 newtype HashedPassword = HashedPassword { getHashedPasswd :: Text }
-    deriving newtype (Eq, Show, Read, DBEq, DBType)
+    deriving newtype (Eq, Show, Read, DBEq, DBType, FromJSON, ToJSON)
 
 newtype Password = Password { getPassword :: Text }
     deriving newtype (Eq, Show, Read, FromJSON, ToJSON, DBEq, DBType)
@@ -33,6 +33,18 @@ bytesToText = decodeUtf8 . convert
 -- Text to bytestring and convert to bytes
 textToBytes :: Text -> Bytes
 textToBytes = convert . encodeUtf8
+
+newSalt :: MonadIO m => m Bytes
+newSalt = liftIO $ getRandomBytes 16
+
+hashPassword' :: Password -> Bytes -> HashedPassword
+hashPassword' (Password password) salt =
+    let hash = bcrypt 10 salt (textToBytes password)
+    in HashedPassword $ bytesToText hash
+
+
+hashPassword'' :: MonadIO m => Password -> m HashedPassword
+hashPassword'' password = hashPassword' password <$> newSalt
 
 {--
 hashPassword' :: Password -> HashedPassword
