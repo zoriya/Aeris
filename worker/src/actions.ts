@@ -1,4 +1,4 @@
-import { groupBy, lastValueFrom, map, mergeAll, Observable, switchAll, tap } from "rxjs";
+import { catchError, EMPTY, groupBy, lastValueFrom, map, mergeAll, NEVER, Observable, of, switchAll, tap } from "rxjs";
 import { Twitter } from "./services/twitter";
 import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
 import { Runner } from "./runner";
@@ -24,14 +24,19 @@ export class Manager {
 				switchAll(),
 				map((x: Pipeline) =>
 					listenerFactory[x.type](x.params).pipe(
-						map((env: PipelineEnv) => [x, env])
+						map((env: PipelineEnv) => [x, env]),
+						catchError(err => {
+							console.error(`Unhandled exception while trying to listen for the pipeline ${x.name} (type: ${x.type.toString()}).`, err)
+							return NEVER;
+						}),
 					)
 				),
 				mergeAll(),
 				tap(([x, env]: [Pipeline, PipelineEnv]) => {
 					console.log(`Running pipeline ${x.name}`)
+					console.table(env)
 					new Runner(x).run(env)
-				})
+				}),
 			));
 	}
 }
