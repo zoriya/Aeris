@@ -1,16 +1,27 @@
-import { from, Observable } from "rxjs";
+import { exhaustMap, from, fromEventPattern, map, Observable } from "rxjs";
 import { PipelineEnv } from "../models/pipeline";
-// import { ETwitterStreamEvent, TwitterApi } from "twitter-api-v2";
+import { ETwitterStreamEvent, TweetStream, TwitterApi } from "twitter-api-v2";
 
 export class Twitter {
-	static listenTweet(params: any): Observable<PipelineEnv> {
-		return from([{} as PipelineEnv])
-		// const client: TwitterApi = new TwitterApi();
-		// const stream = client.v2.sampleStream({ autoConnect: false });
-		// stream.on(ETwitterStreamEvent.Data, console.log);
-		// stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
+	private static async _createStream(): Promise<TweetStream> {
+		const client: TwitterApi = new TwitterApi();
+		const stream = await client.v2.sampleStream();
+		stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
+		stream.on(ETwitterStreamEvent.ConnectionError, err => console.log('Connection error!', err));
+		stream.on(ETwitterStreamEvent.ConnectionClosed, () => console.log('Connection has been closed.'));
+		return stream;
+	}
 
-		// stream.connect({ autoReconnect: true, autoReconnectRetries: Infinity });
+	static listenTweet(params: any): Observable<PipelineEnv> {
+		return from(Twitter._createStream())
+			.pipe(
+				exhaustMap((stream: TweetStream) =>
+					fromEventPattern(
+						handler => stream.on(ETwitterStreamEvent.Data, handler),
+						() => stream.close()
+					)
+				)
+			);
 	}
 
 	static async reactTweet(params: any): Promise<PipelineEnv> {
