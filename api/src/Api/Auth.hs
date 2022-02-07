@@ -9,7 +9,7 @@ import Servant
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
 import Control.Monad.IO.Class (liftIO)
-import Db.User ( User', UserId (UserId), User (User) )
+import Db.User ( User', UserId (UserId), User (User), password )
 import GHC.Generics ( Generic )
 import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)
@@ -19,7 +19,7 @@ import Servant.Server.Generic (AsServerT)
 import Api.User
 import App (AppM)
 import Data.Text (pack)
-import Password (hashPassword'', toPassword)
+import Password (hashPassword'', toPassword, validatePassword')
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -56,13 +56,16 @@ loginHandler  :: CookieSettings
             -> JWTSettings
             -> LoginUser
             -> AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
-loginHandler cs jwts (LoginUser username password) = do
+loginHandler cs jwts (LoginUser username p) = do
   users' <- getUserByName' $ pack username
   let usr = head users'
-  mApplyCookies <- liftIO $ acceptLogin cs jwts usr
-  case mApplyCookies of
-    Nothing -> throwError err401
-    Just applyCookies -> return $ applyCookies NoContent
+  if validatePassword' (toPassword $ pack p) (password usr) then do
+    mApplyCookies <- liftIO $ acceptLogin cs jwts usr
+    case mApplyCookies of
+      Nothing -> throwError err401
+      Just applyCookies -> return $ applyCookies NoContent
+  else
+    throwError err401
 
 signupHandler  :: SignupUser
         -> AppM NoContent
