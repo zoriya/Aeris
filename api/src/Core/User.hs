@@ -1,13 +1,19 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Core.User where
 import GHC.Generics (Generic)
 import Data.Text (Text)
 import Rel8 (DBType, DBEq)
 import Data.Int (Int64)
-import Data.Aeson (ToJSON, FromJSON)
+import Data.Aeson.TH (deriveJSON)
+import Servant.Server.Experimental.Auth (AuthServerData)
+import Data.Aeson ( eitherDecode, defaultOptions, FromJSON, ToJSON )
+import Servant (AuthProtect)
 
 
 newtype UserId = UserId { toInt64 :: Int64 }
@@ -19,3 +25,6 @@ data User = User
   , userName      :: Text
   , userSlug          :: Text
   } deriving stock (Generic)
+
+
+$(deriveJSON defaultOptions ''User)

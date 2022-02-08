@@ -9,7 +9,7 @@ import Servant
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
 import Control.Monad.IO.Class (liftIO)
-import Db.User ( User', password, UserDB (UserDB) )
+import Db.User ( User', password, UserDB (UserDB), toUser )
 import GHC.Generics ( Generic )
 import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)
@@ -20,7 +20,7 @@ import Api.User
 import App (AppM)
 import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
-import Core.User (UserId(UserId))
+import Core.User (UserId(UserId), User)
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -39,10 +39,10 @@ instance ToJSON SignupUser
 instance FromJSON SignupUser
 
 type Protected
-  = "me" :> Get '[JSON] User'
+  = "me" :> Get '[JSON] User
 
 protected :: Servant.Auth.Server.AuthResult User' -> ServerT Protected AppM
-protected (Servant.Auth.Server.Authenticated user) = return user
+protected (Servant.Auth.Server.Authenticated user) = return $ toUser user
 protected _ = throwAll err401
 
 type Unprotected
