@@ -17,7 +17,7 @@ export default ({ data } : PipelineLayoutProps) => {
         alignItems="flex-start"
         >
              {data.map((el, index) => (
-          <Grid item sm={10} md={4} key={index} >
+          <Grid item sm={10} md={10} lg={5}  xl={4} key={index} >
              <PipelineBox 
                 {...el}
                 />
