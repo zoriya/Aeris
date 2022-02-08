@@ -15,6 +15,7 @@ class Trigger extends aeris_action.Action {
       : super(service: service, name: name, parameters: parameters);
 
   ///TODO Constructor from DB 'Type' field
+  ///TODO translate
   String lastToString() {
     if (last == null) return 'Last: Never';
     int elapsedDays = DateTime.now().difference(last!).inDays;

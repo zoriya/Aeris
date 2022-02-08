@@ -37,6 +37,7 @@ class ActionCardPopupMenu extends StatelessWidget {
         AerisPopupMenuItem(
           context: context,
           icon: Icons.settings,
+           ///TODO translate
           title: "Modify",
           value: {
             'route': "/pipeline/action/mod",
@@ -45,6 +46,7 @@ class ActionCardPopupMenu extends StatelessWidget {
         AerisPopupMenuItem(
           context: context,
           icon: Icons.delete,
+           ///TODO translate
           title: "Delete",
           value: "/pipeline/action/del",
           enabled: deletable,

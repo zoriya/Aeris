@@ -43,6 +43,7 @@ class HomePageSortMenu extends StatelessWidget {
           context: context,
           icon: Icons.call_merge,
           title: collectionProvider.pipelineCollection.sortingSplitDisabled
+               ///TODO translate
               ? "Merge disabled pipelines"
               : "Seperate disabled pipelines",
           value: ""

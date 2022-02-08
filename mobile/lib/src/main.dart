@@ -15,24 +15,21 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => PipelineProvider()),
-        ChangeNotifierProvider(create: (_) => UserServiceProvider())
-      ],
-      child: const MyApp()
-    )
-  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => PipelineProvider()),
+    ChangeNotifierProvider(create: (_) => UserServiceProvider())
+  ], child: const Aeris()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Aeris extends StatelessWidget {
+  static GlobalKey<NavigatorState> materialKey = GlobalKey<NavigatorState>();
+  const Aeris({Key? key}) : super(key: key);
 
   ///This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: Aeris.materialKey,
         debugShowCheckedModeBanner: false,
         title: 'Aeris',
         localizationsDelegates: const [
@@ -62,23 +59,25 @@ class MyApp extends StatelessWidget {
             ..addAll(cardRoutes)
             ..addAll(pageRoutes);
           return PageRouteBuilder(
-            opaque: false,
-            settings: settings,
-            pageBuilder: (_, __, ___) => routes[settings.name].call(),
-            transitionDuration: const Duration(milliseconds: 350),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              pageRoutes.containsKey(settings.name) ? ScaleTransition(
-                child: child,
-                scale: CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.ease,
-                )
-              ) : SlideTransition(
-                position: animation.drive(Tween(begin: const Offset(0, 1), end: Offset.zero).chain(CurveTween(curve: Curves.ease))),
-                child: child,
-              )
-          );
-        }
-    );
+              opaque: false,
+              settings: settings,
+              pageBuilder: (_, __, ___) => routes[settings.name].call(),
+              transitionDuration: const Duration(milliseconds: 350),
+              transitionsBuilder: (context, animation, secondaryAnimation,
+                      child) =>
+                  pageRoutes.containsKey(settings.name)
+                      ? ScaleTransition(
+                          child: child,
+                          scale: CurvedAnimation(
+                            parent: animation,
+                            curve: Curves.ease,
+                          ))
+                      : SlideTransition(
+                          position: animation.drive(
+                              Tween(begin: const Offset(0, 1), end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.ease))),
+                          child: child,
+                        ));
+        });
   }
 }

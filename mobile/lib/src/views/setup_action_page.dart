@@ -81,6 +81,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
             children: [
               Align(
                   alignment: Alignment.centerLeft,
+                   ///TODO translate
                   child: Text(
                     "${availableActions.length} available actions for ",
                   )),

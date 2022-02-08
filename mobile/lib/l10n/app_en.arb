@@ -1,6 +1,13 @@
 {
     "helloWorld": "Hello World!",
-    "@helloWorld": {
-      "description": "The conventional newborn programmer greeting"
-    }
+    "nameOfThePipeline": "Name of the pipeline",
+    "addReaction": "Add a Reaction",
+    "addTrigger": "Add a Trigger",
+    "usernameOrPasswordIncorrect": "Username or password is incorrect",
+    "userDoesNotExist": "User does not exist",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "deletePipeline": "Delete Pipeline",
+    "connected": "Connected",
+    "available": "Available"
 }

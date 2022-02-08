@@ -1,3 +1,4 @@
+import 'package:mobile/src/main.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/action_card_popup_menu.dart';
@@ -10,6 +11,7 @@ import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class to get the pipeline's name in route's arguments
 class PipelineDetailPageArguments {
@@ -86,7 +88,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.center,
-                    child: Text(pipeline.enabled ? "Enabled" : "Disabed",
+                    child: Text(pipeline.enabled ? AppLocalizations.of(context)!.enabled : AppLocalizations.of(context)!.disabled,
                       style: const TextStyle(fontSize: 13)
                     ),
                   ),
@@ -98,7 +100,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
 
         final Widget addReactionbutton = ColoredClickableCard(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          text: "Add a reaction",
+          text: AppLocalizations.of(context)!.addReaction,
           onTap: () {
             Reaction newreaction = Reaction.template();
             Navigator.of(context).pushNamed('/pipeline/action/new',
@@ -116,10 +118,11 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
 
         final Widget deleteButton = ColoredClickableCard(
           color: Theme.of(context).colorScheme.error,
-          text: "Delete a Pipeline",
+          text: AppLocalizations.of(context)!.deletePipeline,
           onTap: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => WarningDialog(
+               ///TODO translate
               message:
                   "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
               onAccept: () {
@@ -127,7 +130,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 print("Delete pipeline"); /*TODO call api*/
                 Navigator.of(context).pop();
               },
-              warnedAction: "Delete"
+              warnedAction: "Delete"  ///TODO translate
             )
           ),
         );

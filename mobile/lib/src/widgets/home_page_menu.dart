@@ -12,8 +12,10 @@ class HomePageMenu extends StatelessWidget {
       itemBuilder: (context) => [
         AerisPopupMenuItem(
           context: context, 
+           ///TODO translate
             icon: Icons.electrical_services, title: "Services", value: "/services"),
         AerisPopupMenuItem(
+           ///TODO translate
           context: context, icon: Icons.logout, title: "Logout", value: "/logout"),
       ],
       onSelected: (route) => Navigator.pushNamed(context, route as String),

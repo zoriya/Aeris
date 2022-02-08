@@ -1,6 +1,8 @@
+import 'package:mobile/src/main.dart';
 import 'package:mobile/src/widgets/aeris_page.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const users = {
   'dribbble@gmail.com': '12345',
@@ -19,10 +21,10 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(data.name)) {
-        return 'User does not exists';
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.usernameOrPasswordIncorrect,
       }
       if (users[data.name] != data.password) {
-        return 'Password does not match';
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.usernameOrPasswordIncorrect,
       }
       return null;
     });
@@ -41,7 +43,7 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(name)) {
-        return 'User does not exists';
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.userDoesNotExist;
       }
       return null;
     });
