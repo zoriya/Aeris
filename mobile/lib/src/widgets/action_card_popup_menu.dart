@@ -36,6 +36,7 @@ class ActionCardPopupMenu extends StatelessWidget {
         onSelected: (value) {
           if (value == '/pipeline/action/del') {
             onDelete!();
+            ///TODO delete from db
           } else {
             Map object = value as Map;
             Navigator.pushNamed(context, object['route'] as String,
