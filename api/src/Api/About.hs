@@ -4,7 +4,7 @@
 
 module Api.About where
 
-import Data.Aeson
+import Data.Aeson ( eitherDecode, defaultOptions )
 import Data.Aeson.TH ( deriveJSON )
 import Data.Time.Clock.POSIX (getPOSIXTime, POSIXTime)
 import qualified Data.Aeson.Parser
