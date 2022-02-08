@@ -3,6 +3,9 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeFamilies #-}
 
 
 module Db.Pipeline where
@@ -12,7 +15,7 @@ import Data.Aeson
     ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH ( deriveJSON )
 import GHC.Generics (Generic)
-import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded))
+import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name)
 import Data.Text (Text)
 
 import Core.Pipeline
@@ -32,3 +35,17 @@ data Pipeline f = Pipeline
   , pipelineParams    :: Column f PipelineParams
   } deriving stock (Generic)
     deriving anyclass (Rel8able)
+
+deriving stock instance f ~ Result => Show (Pipeline f)
+
+pipelineSchema :: TableSchema (Pipeline Name)
+pipelineSchema = TableSchema
+  { name = "users"
+  , schema = Nothing
+  , columns = Pipeline
+      { pipelineId = "id"
+      , pipelineName = "name"
+      , pipelineType = "type"
+      , pipelineParams = "params"
+      }
+  }
