@@ -83,7 +83,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "${availableActions.length} ${AppLocalizations.of(context)!.avalableActionsFor} ",
+                    "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
                   )),
               Align(alignment: Alignment.centerRight, child: serviceDropdown),
             ],

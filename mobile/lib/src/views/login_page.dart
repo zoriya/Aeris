@@ -21,10 +21,12 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(data.name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.usernameOrPasswordIncorrect,
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)
+            .usernameOrPasswordIncorrect;
       }
       if (users[data.name] != data.password) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.usernameOrPasswordIncorrect,
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)
+            .usernameOrPasswordIncorrect;
       }
       return null;
     });
@@ -43,7 +45,7 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)!.userDoesNotExist;
+        return AppLocalizations.of(Aeris.materialKey.currentContext!).userDoesNotExist;
       }
       return null;
     });
@@ -52,23 +54,20 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AerisPage(
-      displayAppbar: false,
-      body: FlutterLogin(
-        disableCustomPageTransformer: true,
-        logo: const AssetImage("assets/logo.png"),
-        onRecoverPassword: _recoverPassword,
-        theme: LoginTheme(
-          pageColorLight: Colors.transparent,
-          pageColorDark: Colors.transparent,
-          primaryColor: Theme.of(context).colorScheme.primary
-        ),
-        onLogin: _authUser,
-        onSignup: _signupUser,
-        onSubmitAnimationCompleted: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
-          Navigator.of(context).popAndPushNamed("/home");
-        }
-      )
-    );
+        displayAppbar: false,
+        body: FlutterLogin(
+            disableCustomPageTransformer: true,
+            logo: const AssetImage("assets/logo.png"),
+            onRecoverPassword: _recoverPassword,
+            theme: LoginTheme(
+                pageColorLight: Colors.transparent,
+                pageColorDark: Colors.transparent,
+                primaryColor: Theme.of(context).colorScheme.primary),
+            onLogin: _authUser,
+            onSignup: _signupUser,
+            onSubmitAnimationCompleted: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).popAndPushNamed("/home");
+            }));
   }
 }

@@ -88,7 +88,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.center,
-                    child: Text(pipeline.enabled ? AppLocalizations.of(context)!.enabled : AppLocalizations.of(context)!.disabled,
+                    child: Text(pipeline.enabled ? AppLocalizations.of(context).enabled : AppLocalizations.of(context).disabled,
                       style: const TextStyle(fontSize: 13)
                     ),
                   ),
@@ -100,7 +100,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
 
         final Widget addReactionbutton = ColoredClickableCard(
           color: Theme.of(context).colorScheme.secondaryContainer,
-          text: AppLocalizations.of(context)!.addReaction,
+          text: AppLocalizations.of(context).addReaction,
           onTap: () {
             Reaction newreaction = Reaction.template();
             Navigator.of(context).pushNamed('/pipeline/action/new',
@@ -118,18 +118,18 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
 
         final Widget deleteButton = ColoredClickableCard(
           color: Theme.of(context).colorScheme.error,
-          text: AppLocalizations.of(context)!.deletePipeline,
+          text: AppLocalizations.of(context).deletePipeline,
           onTap: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => WarningDialog(
               message:
-                  AppLocalizations.of(context)!.deletePipelineWarningMessage,
+                  AppLocalizations.of(context).deletePipelineWarningMessage,
               onAccept: () {
                 provider.removePipeline(pipeline);
                 print("Delete pipeline"); /*TODO call api*/
                 Navigator.of(context).pop();
               },
-              warnedAction: AppLocalizations.of(context)!.delete
+              warnedAction: AppLocalizations.of(context).delete
             )
           ),
         );

@@ -43,10 +43,8 @@ class HomePageSortMenu extends StatelessWidget {
             context: context,
             icon: Icons.call_merge,
             title: collectionProvider.pipelineCollection.sortingSplitDisabled
-
-                ///TODO translate
-                ? AppLocalizations.of(context)!.mergeDisabledPipelines
-                : AppLocalizations.of(context)!.seperateDisabledPipelines,
+                ? AppLocalizations.of(context).mergeDisabledPipelines
+                : AppLocalizations.of(context).seperateDisabledPipelines,
             value: ""),
       ],
       onSelected: (sortingMethod) {

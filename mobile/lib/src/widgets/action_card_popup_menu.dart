@@ -3,6 +3,7 @@ import 'package:mobile/src/views/setup_action_page.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu.dart';
 import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
 import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [StatelessWidget] displayed as a PopupMenu
 class ActionCardPopupMenu extends StatelessWidget {
@@ -25,35 +26,34 @@ class ActionCardPopupMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AerisPopupMenu(
-      onSelected: (value) {
-        Map object = value as Map;
-        Navigator.pushNamed(context, object['route'] as String, arguments: object['params']).then((r) {
-          then();
-          return r;
-        });
-      },
-      icon: Icons.more_vert,
-      itemBuilder: (context) => [
-        AerisPopupMenuItem(
-          context: context,
-          icon: Icons.settings,
-           ///TODO translate
-          title: "Modify",
-          value: {
-            'route': "/pipeline/action/mod",
-            'params': SetupActionPageArguments(action),
-          }),
-        AerisPopupMenuItem(
-          context: context,
-          icon: Icons.delete,
-           ///TODO translate
-          title: "Delete",
-          value: "/pipeline/action/del",
-          enabled: deletable,
-          // TODO Delete from parent pipeline
-          /* TODO Define delete route*/
-          ),
-      ]
-    );
+        onSelected: (value) {
+          Map object = value as Map;
+          Navigator.pushNamed(context, object['route'] as String,
+                  arguments: object['params'])
+              .then((r) {
+            then();
+            return r;
+          });
+        },
+        icon: Icons.more_vert,
+        itemBuilder: (context) => [
+              AerisPopupMenuItem(
+                  context: context,
+                  icon: Icons.settings,
+                  title: AppLocalizations.of(context).modify,
+                  value: {
+                    'route': "/pipeline/action/mod",
+                    'params': SetupActionPageArguments(action),
+                  }),
+              AerisPopupMenuItem(
+                context: context,
+                icon: Icons.delete,
+                title: AppLocalizations.of(context).delete,
+                value: "/pipeline/action/del",
+                enabled: deletable,
+                // TODO Delete from parent pipeline
+                /* TODO Define delete route*/
+              ),
+            ]);
   }
 }

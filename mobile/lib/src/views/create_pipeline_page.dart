@@ -52,7 +52,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                         initialValue: name,
                         decoration: InputDecoration(
                           labelText:
-                              AppLocalizations.of(context)!.nameOfThePipeline,
+                              AppLocalizations.of(context).nameOfThePipeline,
                         ),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(context),
@@ -69,7 +69,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .secondaryContainer,
-                                text: AppLocalizations.of(context)!.addTrigger,
+                                text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
                                   print("add trigger"); // TODO add reaction
                                   Navigator.of(context)
@@ -104,7 +104,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             color: Theme.of(context)
                                 .colorScheme
                                 .secondaryContainer,
-                            text: AppLocalizations.of(context)!.addReaction,
+                            text: AppLocalizations.of(context).addReaction,
                             onTap: () async {
                               // TODO add to db
                               reactions.add(Reaction.template());

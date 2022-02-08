@@ -68,24 +68,21 @@ class ServicePage extends StatelessWidget {
               const SizedBox(height: 60)
             ],
             ...getServiceGroup(
-                AppLocalizations.of(context)!.connected,
+                AppLocalizations.of(context).connected,
                 const Icon(Icons.delete, color: Colors.red),
                 () => showDialog(
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
 
-                        ///TODO translate
-                        message:
-                            "You are about to disconnect to a service. Once disconnected, every related pipeline will be deleted. This action cannot be undone.",
+                        message:AppLocalizations.of(context).disconnectServiceWarningMessage,
                         onAccept: () => print(
                             "Disconnect") /* TODO Delete service form db + related actions*/,
 
-                        ///TODO translate
-                        warnedAction: "Disconnect")),
+                        warnedAction: AppLocalizations.of(context).disconnect)),
                 context),
             ...getServiceGroup(
 
-                AppLocalizations.of(context)!.available,
+                AppLocalizations.of(context).available,
                 const Icon(Icons.connect_without_contact, color: Colors.green),
                 () => print("Connected") /* TODO open page to connect service*/,
                 context),
