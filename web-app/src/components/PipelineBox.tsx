@@ -27,6 +27,7 @@ interface PipelineBoxProps {
 	service2: ServiceProps,
 }
 
+export type { PipelineBoxProps, ServiceProps}
 
 export default function PipelineBox({ title, statusText, service1, service2 }: PipelineBoxProps) {
 	const theme = useTheme();
@@ -35,7 +36,7 @@ export default function PipelineBox({ title, statusText, service1, service2 }: P
 		<Card sx={{ display: 'flex', alignItems:"center", borderRadius:"15px" }}>
 			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 				<CardContent sx={{ flex: '1 0 auto' }}>
-					<Typography component="div" variant="h3" width="400px" noWrap align="left" >
+					<Typography component="div" variant="h3" width="300px" noWrap align="left" title={title} >
 						{ title }
 					</Typography>
 					<Typography variant="subtitle2" color="text.secondary" component="div" align="left" >
