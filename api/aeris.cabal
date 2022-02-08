@@ -30,6 +30,7 @@ library
       Api.User
       App
       Core.User
+      Db.Pipeline
       Db.User
       Lib
       Password
