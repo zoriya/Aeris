@@ -3,7 +3,6 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE TypeFamilies #-}
@@ -19,74 +18,72 @@ import Data.Functor.Identity (Identity)
 import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
 import Rel8
-import Password (HashedPassword (HashedPassword))
+import Password (HashedPassword)
 
-newtype UserId = UserId { toInt64 :: Int64 }
-  deriving newtype (DBEq, DBType, Eq, Show, Num)
-  deriving stock (Generic)
+import Core.User
 
-instance ToJSON UserId
-instance FromJSON UserId
-
-data User f = User
-  { userId        :: Column f UserId
+data UserDB f = UserDB
+  { userDBId        :: Column f UserId
   , username      :: Column f Text
   , password      :: Column f HashedPassword
   , slug          :: Column f Text
   } deriving stock (Generic)
     deriving anyclass (Rel8able)
 
-deriving stock instance f ~ Result => Show (User f)
+deriving stock instance f ~ Result => Show (UserDB f)
 
-type User' = User Identity
+type User' = UserDB Identity
 
 instance ToJSON User'
 instance ToJWT User'
 instance FromJSON User'
 instance FromJWT User'
 
-userSchema :: TableSchema (User Name)
+toUser :: User' -> User
+toUser (UserDB id name _ slug) = User id name slug
+
+userSchema :: TableSchema (UserDB Name)
 userSchema = TableSchema
   { name = "users"
   , schema = Nothing
-  , columns = User
-      { userId = "id"
+  , columns = UserDB
+      { userDBId = "id"
       , username = "username"
       , password = "password"
       , slug = "slug"
       }
   }
 
-selectAllUser :: Query (User Expr)
+selectAllUser :: Query (UserDB Expr)
 selectAllUser = each userSchema
 
-getUserById :: UserId -> Query (User Expr)
+getUserById :: UserId -> Query (UserDB Expr)
 getUserById uid = do
     u <- selectAllUser
-    where_ $ userId u ==. lit uid
+    where_ $ userDBId u ==. lit uid
     return u
 
-getUserByName :: Text -> Query (User Expr)
+getUserByName :: Text -> Query (UserDB Expr)
 getUserByName name = do
     u <- selectAllUser
     where_ $ username u ==. lit name
     return u
 
-getUserBySlug :: Text -> Query (User Expr)
+getUserBySlug :: Text -> Query (UserDB Expr)
 getUserBySlug s = do
     u <- selectAllUser
     where_ $ slug u ==. lit s
     return u
 
 insertUser :: User' -> Insert [UserId]
-insertUser (User id name password slug) = Insert
+insertUser (UserDB id name password slug) = Insert
     { into = userSchema
-    , rows = values [ User {
-        userId = unsafeCastExpr $ nextval "users_id_seq",
+    , rows = values [ UserDB {
+        userDBId = unsafeCastExpr $ nextval "users_id_seq",
         username = lit name,
         password = lit password,
         slug = lit slug
     } ]
     , onConflict = DoNothing
-    , returning = Projection userId
+    , returning = Projection userDBId
     }

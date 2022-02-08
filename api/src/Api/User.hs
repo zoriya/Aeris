@@ -12,6 +12,7 @@ import Hasql.Transaction (Transaction, statement)
 import Control.Exception (throwIO)
 import Control.Monad.Trans.Reader (ask)
 import Data.Text (Text)
+import Core.User (UserId)
 
 
 runTransactionWithPool :: MonadIO m => Pool -> Transaction b -> m b

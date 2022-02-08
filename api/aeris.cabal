@@ -29,6 +29,7 @@ library
       Api.Auth
       Api.User
       App
+      Core.User
       Db.User
       Lib
       Password

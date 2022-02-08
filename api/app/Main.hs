@@ -3,7 +3,6 @@
 module Main where
 
 import qualified Hasql.Connection as Connection
-import Db.User (userSchema, User (userId), insertUser)
 import Rel8(each, select, insert)
 import Control.Monad.IO.Class (liftIO)
 import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey, JWTSettings, CookieSettings)
