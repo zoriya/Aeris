@@ -6,6 +6,7 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 
 module Db.Pipeline where
@@ -19,6 +20,7 @@ import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (
 import Data.Text (Text)
 
 import Core.Pipeline
+import Data.Functor.Identity (Identity)
 newtype PipelineId = PipelineId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
   deriving stock (Generic)
@@ -37,6 +39,9 @@ data Pipeline f = Pipeline
     deriving anyclass (Rel8able)
 
 deriving stock instance f ~ Result => Show (Pipeline f)
+
+instance ToJSON (Pipeline Identity)
+instance FromJSON (Pipeline Identity)
 
 pipelineSchema :: TableSchema (Pipeline Name)
 pipelineSchema = TableSchema
