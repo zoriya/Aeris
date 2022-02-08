@@ -17,10 +17,10 @@ import Data.Int
 import Data.Functor.Identity (Identity)
 import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
-import Rel8
 import Password (HashedPassword)
 
 import Core.User
+import Rel8 (Column, Rel8able, Result, TableSchema (TableSchema, schema, name, columns), Name, Query, Expr, Insert (Insert, returning), returning, onConflict, rows, into, where_, (==.), lit, values, unsafeCastExpr, nextval, OnConflict (DoNothing), Returning (Projection), each)
 
 data UserDB f = UserDB
   { userDBId        :: Column f UserId
