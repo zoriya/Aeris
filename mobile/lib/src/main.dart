@@ -42,7 +42,7 @@ class Aeris extends StatelessWidget {
         ],
         supportedLocales: const [Locale('fr', ''), Locale('en', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/home',
+        initialRoute: '/',
         onGenerateRoute: (settings) {
           Map pageRoutes = {
             '/': () => const StartupPage(),
