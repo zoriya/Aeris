@@ -105,7 +105,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
-                        initValues: availableAction.parameters,
+                        initValues: arguments.action.parameters,
                         onValidate: (parameters) {
                           arguments.action.service = serviceState!;
                           arguments.action.parameters = parameters;

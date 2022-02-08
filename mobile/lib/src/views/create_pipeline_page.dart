@@ -90,13 +90,17 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                       ...[
                         for (Reaction reaction in reactions)
                           ActionCard(
-                            leading: reaction.service.getLogo(logoSize: 50),
-                            title: reaction.service.name,
-                            trailing: ActionCardPopupMenu(
-                                deletable: reaction != reactions[0],
-                                action: reaction,
-                                then: () => setState(() {})),
-                          )
+                              leading: reaction.service.getLogo(logoSize: 50),
+                              title: reaction.service.name,
+                              trailing: ActionCardPopupMenu(
+                                  deletable: reaction != reactions[0],
+                                  action: reaction,
+                                  then: () => setState(() {}),
+                                  onDelete: () {
+                                    setState(() {
+                                      reactions.remove(reaction);
+                                    });
+                                  }))
                       ],
                       Padding(
                         padding: const EdgeInsets.all(8.0),
