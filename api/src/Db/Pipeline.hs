@@ -3,7 +3,6 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE TemplateHaskell #-}
 
 
 module Db.Pipeline where
@@ -16,27 +15,10 @@ import GHC.Generics (Generic)
 import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded))
 import Data.Text (Text)
 
-
+import Core.Pipeline
 newtype PipelineId = PipelineId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
   deriving stock (Generic)
-
-data PipelineType = TwitterNewPost | TwitterNewFollower
-  deriving stock (Generic, Read, Show)
-  deriving DBType via ReadShow PipelineType
-  deriving (FromJSON, ToJSON)
-
-data TwitterNewPostData = TwitterNewPostData
-  { author :: Text
-  } deriving (Eq, Show, Generic)
-
-$(deriveJSON defaultOptions ''TwitterNewPostData)
-
-data TwitterNewFollowerData = TwitterNewFollowerData
-  { author :: Text
-  } deriving (Eq, Show, Generic)
-
-$(deriveJSON defaultOptions ''TwitterNewFollowerData)
 
 data PipelineParams =   TwitterNewPostP     TwitterNewPostData      |
                         TwitterNewFollowerP TwitterNewFollowerData
