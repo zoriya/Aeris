@@ -6,114 +6,57 @@ import { CardActionArea } from '@mui/material';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
-
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import "./PipelineBox.css"
 
+interface ServiceProps {
+	// the image src preferable to use svg files
+	imageSrc: string,
+	// the alt text (screen readers, etc)
+	altText: string
+}
 
-interface PipelineBoxProps
-{
+interface PipelineBoxProps {
 	// title of the pipeline box
 	title: string,
-	// utc in seconds
-	lastExecutionTime: string
+	// utc in seconds or anything useful to display
+	statusText: string,
+	service1: ServiceProps,
+	service2: ServiceProps,
 }
 
 
-export default function PipelineBox({ title, lastExecutionTime }: PipelineBoxProps)
-{
+export default function PipelineBox({ title, statusText, service1, service2 }: PipelineBoxProps) {
 	const theme = useTheme();
 
 	return (
-	<div>
-		<Card sx={{ display: 'flex' }}>
+		<Card sx={{ display: 'flex', alignItems:"center" }}>
 			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 				<CardContent sx={{ flex: '1 0 auto' }}>
-					<Typography component="div" variant="h5">
-						Live From Space
+					<Typography component="div" variant="h3" width="400px" noWrap align="left" >
+						{ title }
 					</Typography>
-					<Typography variant="subtitle1" color="text.secondary" component="div">
-						Mac Milleruhuy
+					<Typography variant="subtitle2" color="text.secondary" component="div" align="left" >
+						{ statusText }
 					</Typography>
 				</CardContent>
-				<Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
-					<IconButton aria-label="previous">
-						{theme.direction === 'rtl' ? <SkipNextIcon /> : <SkipPreviousIcon />}
-					</IconButton>
-					<IconButton aria-label="play/pause">
-						<PlayArrowIcon sx={{ height: 38, width: 38 }} />
-					</IconButton>
-					<IconButton aria-label="next">
-						{theme.direction === 'rtl' ? <SkipPreviousIcon /> : <SkipNextIcon />}
-					</IconButton>
-				</Box>
+			</Box>
+			<Box sx={{ display: 'flex', flexDirection: 'row', padding:'10px', alignItems:"center" }}>
 				<CardMedia
-				component="img"
-				sx={{ width: 151 }}
-				image="https://mui.com/static/images/cards/live-from-space.jpg"
-				alt="Live from space album cover"
-			/>
+					component="img"
+					sx={{ width: 100 }}
+					image={ service1.imageSrc }
+					alt={ service1.altText }
+				/>
+				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
+				<CardMedia
+					component="img"
+					sx={{ width: 100 }}
+					image={ service2.imageSrc }
+					alt={ service2.altText }
+				/>
 			</Box>
-    </Card>
-
-	<br />
-		<Card sx={{ width: 345, height: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-		<br />
-	<Card sx={{ }}>
-		<CardActionArea>
-		<Box sx={{ flexDirection: 'row' }}>
-		<img
-		  width={100}
-		  height={100}
-          src="https://upload.wikimedia.org/wikipedia/commons/7/72/YouTube_social_white_square_%282017%29.svg"
-          alt="green iguana"
-        />
-		<ArrowForwardIcon />
-		<img
-		  width={100}
-		  height={100}
-          src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg"
-          alt="green iguana"
-        />
-			</Box>
-			<CardContent>
-				<Typography gutterBottom variant="h5" component="div">
-					Update like playlist
-				</Typography>
-				<Typography variant="body2" color="text.secondary">
-					Triggered 10min ago.
-				</Typography>
-			</CardContent>
-		</CardActionArea>
-	</Card>
-		<article className="PipelineBox">
-			<div className="PipelineBoxImage">logo</div>
-			<header className="PipelineBoxHeader" >{title}</header>
-			<footer className="PipelineBoxFooter" >Triggered {lastExecutionTime} ago</footer>
-		</article>
-	</div>
+		</Card>
 	);
 }
