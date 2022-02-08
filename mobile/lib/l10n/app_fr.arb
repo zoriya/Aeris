@@ -1,5 +1,9 @@
 {
     "helloWorld": "Bonjour le monde!",
+    "lastTrigger": "Dernière",
+    "never": "Jamais",
+    "nDaysAgo": " jours",
+    "today": "Aujourd'hui",
     "nameOfThePipeline": "Nom de la pipeline",
     "addReaction": "Ajouter une Reaction",
     "addTrigger": "Ajouter un Déclancheur",

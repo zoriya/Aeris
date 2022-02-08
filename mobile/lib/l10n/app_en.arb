@@ -1,5 +1,9 @@
 {
     "helloWorld": "Hello World!",
+    "lastTrigger": "Last",
+    "never": "Never",
+    "nDaysAgo": "n days ago",
+    "today": "Today",
     "nameOfThePipeline": "Name of the pipeline",
     "addReaction": "Add a Reaction",
     "addTrigger": "Add a Trigger",
