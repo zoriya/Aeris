@@ -9,7 +9,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <PipelineCreation />
         <PipelineBox 
           title='My super action' 
           statusText="Last: 2d ago" 

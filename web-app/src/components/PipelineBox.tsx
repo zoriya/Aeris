@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import "./PipelineBox.css"
+import { borderRadius } from '@mui/system';
 
 interface ServiceProps {
 	// the image src preferable to use svg files
@@ -31,7 +32,7 @@ export default function PipelineBox({ title, statusText, service1, service2 }: P
 	const theme = useTheme();
 
 	return (
-		<Card sx={{ display: 'flex', alignItems:"center" }}>
+		<Card sx={{ display: 'flex', alignItems:"center", borderRadius:"15px" }}>
 			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
 				<CardContent sx={{ flex: '1 0 auto' }}>
 					<Typography component="div" variant="h3" width="400px" noWrap align="left" >
