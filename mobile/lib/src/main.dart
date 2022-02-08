@@ -29,6 +29,7 @@ class Aeris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        locale: const Locale('fr', ''),
         navigatorKey: Aeris.materialKey,
         debugShowCheckedModeBanner: false,
         title: 'Aeris',
