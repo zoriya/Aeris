@@ -1,14 +1,13 @@
-name:                Aeris-aeris-back
+name:                aeris
 version:             0.1.0.0
-github:              "AnonymusRaccoon/Aeris"
+github:              "AnonymusRaccoon/aeris"
 license:             BSD3
-author:              "Anonymus Raccoon"
+author:              "Author name here"
 maintainer:          "example@example.com"
-copyright:           "2022 AnonymusRaccoon/Aeris"
+copyright:           "2022 Author name here"
 
 extra-source-files:
 - README.md
-- ChangeLog.md
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
@@ -17,16 +16,21 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/AnonymusRaccoon/aeris/back#readme>
+description:         Please see the README on GitHub at <https://github.com/githubuser/aeris#readme>
 
 dependencies:
 - base >= 4.7 && < 5
+- aeson
+- servant-server
+- wai
+- warp
+- time
 
 library:
   source-dirs: src
 
 executables:
-  aeris-back-exe:
+  aeris-exe:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -34,10 +38,11 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - aeris-back
+    - base
+    - aeris
 
 tests:
-  aeris-back-test:
+  aeris-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -45,4 +50,9 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - aeris-back
+    - base
+    - aeris
+    - hspec
+    - hspec-wai
+    - hspec-wai-json
+    - aeson

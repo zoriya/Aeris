@@ -1,0 +1,19 @@
+name: haskell-lint
+on: [pull_request, push]
+
+jobs:
+  hlint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: 'Set up HLint'
+      uses: haskell/actions/hlint-setup@v1
+
+    - name: 'Run HLint'
+      uses: haskell/actions/hlint-run@v1
+      with:
+        path: api/src/
+        fail-on: warning
+
