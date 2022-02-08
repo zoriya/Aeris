@@ -1,14 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import pB from "./components/PipelineBox"
-import PipelineBox from './components/PipelineBox';
-import PipelineCreation from './components/PipelineCreation';
+import pB from "./components/Pipelines/PipelineBox"
+import PipelineModal from './components/Pipelines/PipelineModal';
+import PipelineBox from './components/Pipelines/PipelineBox';
+import PipelineCreation from './components/Pipelines/PipelineCreation';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <PipelineModal/>
         <PipelineCreation />
         <PipelineBox 
           title='My super action' 
