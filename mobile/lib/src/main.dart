@@ -12,6 +12,7 @@ import 'package:mobile/src/views/home_page.dart';
 import 'package:mobile/src/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(
@@ -35,14 +36,15 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Aeris',
         localizationsDelegates: const [
+          AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
           FormBuilderLocalizations.delegate
         ],
-        supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+        supportedLocales: const [Locale('fr', ''), Locale('en', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/',
+        initialRoute: '/home',
         onGenerateRoute: (settings) {
           Map pageRoutes = {
             '/': () => const StartupPage(),
