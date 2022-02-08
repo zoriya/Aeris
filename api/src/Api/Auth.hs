@@ -80,12 +80,16 @@ unprotected cs jwts =
   :<|>  signupHandler
 
 data AuthAPI mode = AuthAPI
-    { login :: mode :- (Servant.Auth.Server.Auth '[JWT] User' :> Protected)
-    , me :: mode :- Unprotected
+    { 
+      protectedApi :: mode
+        :- (Servant.Auth.Server.Auth '[JWT] User'
+        :> Protected)
+    , unprotectedApi :: mode
+      :- Unprotected
     } deriving stock Generic
 
 authHandler :: CookieSettings -> JWTSettings -> AuthAPI (AsServerT AppM)
 authHandler cs jwts = AuthAPI
-  { login = protected
-  , me = unprotected cs jwts
+  { protectedApi = protected
+  , unprotectedApi = unprotected cs jwts
   }

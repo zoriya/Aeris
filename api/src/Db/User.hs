@@ -19,7 +19,6 @@ import Data.Functor.Identity (Identity)
 import Data.Text (Text)
 import Data.Aeson (FromJSON, ToJSON)
 import Rel8
-import Rel8 (Insert(onConflict), each)
 import Password (HashedPassword (HashedPassword))
 
 newtype UserId = UserId { toInt64 :: Int64 }
