@@ -5,6 +5,7 @@ import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -81,9 +82,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
             children: [
               Align(
                   alignment: Alignment.centerLeft,
-                   ///TODO translate
                   child: Text(
-                    "${availableActions.length} available actions for ",
+                    "${availableActions.length} ${AppLocalizations.of(context)!.avalableActionsFor} ",
                   )),
               Align(alignment: Alignment.centerRight, child: serviceDropdown),
             ],

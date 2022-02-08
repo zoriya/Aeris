@@ -122,15 +122,14 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           onTap: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => WarningDialog(
-               ///TODO translate
               message:
-                  "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
+                  AppLocalizations.of(context)!.deletePipelineWarningMessage,
               onAccept: () {
                 provider.removePipeline(pipeline);
                 print("Delete pipeline"); /*TODO call api*/
                 Navigator.of(context).pop();
               },
-              warnedAction: "Delete"  ///TODO translate
+              warnedAction: AppLocalizations.of(context)!.delete
             )
           ),
         );

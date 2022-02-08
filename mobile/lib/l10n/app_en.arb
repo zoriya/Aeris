@@ -3,11 +3,17 @@
     "nameOfThePipeline": "Name of the pipeline",
     "addReaction": "Add a Reaction",
     "addTrigger": "Add a Trigger",
+    "delete": "Delete",
     "usernameOrPasswordIncorrect": "Username or password is incorrect",
     "userDoesNotExist": "User does not exist",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "deletePipeline": "Delete Pipeline",
     "connected": "Connected",
-    "available": "Available"
+    "available": "Available",
+    "deletePipelineWarningMessage": "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
+    "avalableActionsFor": "available actions for",
+    "mergeDisabledPipelines": "Merge disabled pipelines",
+    "seperateDisabledPipelines": "Seperate disabled pipelines",
+
 }
