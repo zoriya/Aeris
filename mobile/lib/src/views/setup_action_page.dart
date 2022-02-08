@@ -39,7 +39,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
             last: DateTime.now(),
             service: arguments.action.service,
             name: "action",
-            parameters: {'key1': 'value1', 'key2': null})
+            parameters: {'key1': 'value1', 'key2': 'value2'})
     ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
@@ -105,6 +105,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
+                        initValues: availableAction.parameters,
                         onValidate: (parameters) {
                           arguments.action.service = serviceState!;
                           arguments.action.parameters = parameters;

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/pipeline.dart';
+import 'package:mobile/src/models/reaction.dart';
 import 'package:mobile/src/models/service.dart';
+import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/providers/user_services_provider.dart';
 import 'package:mobile/src/widgets/action_card.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
@@ -12,7 +15,7 @@ class ServicePage extends StatelessWidget {
   const ServicePage({Key? key}) : super(key: key);
 
   List<Widget> getServiceGroup(String groupName, Icon trailingIcon,
-      void Function() onTap, BuildContext context) {
+      void Function(Service) onTap, BuildContext context) {
     UserServiceProvider uServicesProvider =
         Provider.of<UserServiceProvider>(context);
 
@@ -30,7 +33,7 @@ class ServicePage extends StatelessWidget {
               splashColor: trailingIcon.color!.withAlpha(100),
               splashRadius: 20,
               icon: trailingIcon,
-              onPressed: onTap,
+              onPressed: () => onTap(service.serviceProvider),
             )),
       const SizedBox(height: 30),
     ];
@@ -52,41 +55,60 @@ class ServicePage extends StatelessWidget {
       uServiceProvider.createUserService(service);
     }
 
-    return AerisCardPage(
-      body: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (overscroll) {
-          overscroll.disallowIndicator();
-          return true;
-        },
-        child: ListView(
-          children: [
-            ...[
-              const Align(
-                alignment: Alignment.center,
-                child: Text("Services", style: TextStyle(fontSize: 25)),
-              ),
-              const SizedBox(height: 60)
+    return Consumer<PipelineProvider>(
+      builder: (context, provider, _) => AerisCardPage(
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (overscroll) {
+            overscroll.disallowIndicator();
+            return true;
+          },
+          child: ListView(
+            children: [
+              ...[
+                const Align(
+                  alignment: Alignment.center,
+                  child: Text("Services", style: TextStyle(fontSize: 25)),
+                ),
+                const SizedBox(height: 60)
+              ],
+              ...getServiceGroup(
+                  AppLocalizations.of(context).connected,
+                  const Icon(Icons.delete, color: Colors.red),
+                  (Service service) => showDialog(
+                      context: context,
+                      builder: (BuildContext context) => WarningDialog(
+                          message: AppLocalizations.of(context)
+                              .disconnectServiceWarningMessage,
+                          onAccept: () => {
+                                provider.pipelineCollection.pipelines
+                                    .removeWhere((Pipeline pipeline) {
+                                  if (pipeline.trigger.service == service) {
+                                    return true;
+                                  }
+                                  if (pipeline.reactions
+                                      .where((Reaction react) =>
+                                          react.service == service)
+                                      .isNotEmpty) {
+                                    return true;
+                                  }
+                                  return false;
+                                }),
+                                /// TODO Remove service from provider
+                                provider.notifyListeners(),
+                                print("Disconnect")
+                              } /* TODO Delete service form db + related actions*/,
+                          warnedAction:
+                              AppLocalizations.of(context).disconnect)),
+                  context),
+              ...getServiceGroup(
+                  AppLocalizations.of(context).available,
+                  const Icon(Icons.connect_without_contact,
+                      color: Colors.green),
+                  (Service service) =>
+                      print("Connected") /* TODO open page to connect service*/,
+                  context),
             ],
-            ...getServiceGroup(
-                AppLocalizations.of(context).connected,
-                const Icon(Icons.delete, color: Colors.red),
-                () => showDialog(
-                    context: context,
-                    builder: (BuildContext context) => WarningDialog(
-
-                        message:AppLocalizations.of(context).disconnectServiceWarningMessage,
-                        onAccept: () => print(
-                            "Disconnect") /* TODO Delete service form db + related actions*/,
-
-                        warnedAction: AppLocalizations.of(context).disconnect)),
-                context),
-            ...getServiceGroup(
-
-                AppLocalizations.of(context).available,
-                const Icon(Icons.connect_without_contact, color: Colors.green),
-                () => print("Connected") /* TODO open page to connect service*/,
-                context),
-          ],
+          ),
         ),
       ),
     );

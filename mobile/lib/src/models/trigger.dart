@@ -12,7 +12,7 @@ class Trigger extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
-      Map<String, Object?> parameters = const {},
+      Map<String, Object> parameters = const {},
       this.last})
       : super(service: service, name: name, parameters: parameters);
 
