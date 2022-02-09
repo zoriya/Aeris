@@ -1,11 +1,11 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './App.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from "./components/Login/LoginPage";
+import LoginComponent from "./components/Login/LoginPage";
 import {ThemeProvider} from "@mui/material";
 
 import theme from "./Aeris.theme";
@@ -15,14 +15,18 @@ import theme from "./Aeris.theme";
  */
 function AerisRouter() {
     return (
-        <ThemeProvider theme={theme}>
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/' element={<App />}/>
-                    <Route path='/login' element={<Login />}/>
-                </Routes>
-            </BrowserRouter>
-        </ThemeProvider>
+        <div className="App">
+            <header className="App-header">
+                <ThemeProvider theme={theme}>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path='/' element={<App />}/>
+                            <Route path='/login' element={<LoginComponent />}/>
+                        </Routes>
+                    </BrowserRouter>
+                </ThemeProvider>
+            </header>
+        </div>
     );
 }
 

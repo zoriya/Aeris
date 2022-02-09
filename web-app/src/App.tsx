@@ -20,6 +20,10 @@ export default function App() {
       <header className="App-header">
           <Box
               component="img"
+              sx={{
+                  width: 730.5,
+                  height: 510
+              }}
               alt="Aeris Logo"
               src={require("./assets/logo-white.png")}
           />

@@ -1,18 +1,14 @@
 import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
+import { useNavigate } from "react-router-dom";
+
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import TextField from '@material-ui/core/TextField';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-
-// Tmp imports
-import pB from "../Pipelines/PipelineBox"
-import PipelineModal from '../Pipelines/PipelineModal';
-import PipelineBox from '../Pipelines/PipelineBox';
-import PipelineCreation from '../Pipelines/PipelineCreation';
+import Card from '@material-ui/core/Card';
 
 import "./LoginPage.css";
 
@@ -101,8 +97,9 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-export default function Login() {
+export default function LoginComponent() {
     const classes = useStyles();
+    const navigate = useNavigate();
     const [state, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
@@ -125,18 +122,7 @@ export default function Login() {
                 type: 'loginSuccess',
                 payload: 'Login Successfully'
             });
-            return (
-                <div>
-                    <PipelineModal/>
-                    <PipelineCreation />
-                    <PipelineBox 
-                        title='My super action' 
-                        statusText="Last: 2d ago" 
-                        service1={ {altText: "youTube", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" } }
-                        service2={ {altText: "Spotify", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" }  }
-                    />
-                </div>
-            );
+            console.log("Login successful!");
         } else {
             dispatch({
                 type: 'loginFailed',
@@ -166,6 +152,7 @@ export default function Login() {
                 payload: event.target.value
             });
         }
+
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <Card className={classes.card}>
