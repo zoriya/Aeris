@@ -10,7 +10,7 @@ abstract class Action {
   String name;
 
   ///Action's parameters
-  Map<String, Object?> parameters;
+  Map<String, Object> parameters;
   Action(
       {Key? key,
       required this.service,

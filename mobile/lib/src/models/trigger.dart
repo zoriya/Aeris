@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/main.dart';
 import 'package:mobile/src/models/service.dart';
 import 'package:mobile/src/models/action.dart' as aeris_action;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
@@ -10,17 +12,20 @@ class Trigger extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
-      Map<String, Object?> parameters = const {},
+      Map<String, Object> parameters = const {},
       this.last})
       : super(service: service, name: name, parameters: parameters);
 
   ///TODO Constructor from DB 'Type' field
+  ///TODO translate
   String lastToString() {
-    if (last == null) return 'Last: Never';
+    var context = AppLocalizations.of(Aeris.materialKey.currentContext!);
+    String lastStr = context.lastTrigger;
+    if (last == null) return '$lastStr: ${context.lastTrigger}';
     int elapsedDays = DateTime.now().difference(last!).inDays;
     return elapsedDays == 0
-        ? 'Last: Today'
-        : 'Last: ${elapsedDays.toString()}d ago';
+        ? '$lastStr: ${context.today}'
+        : '$lastStr: $elapsedDays${context.nDaysAgo}';
   }
 
   /// Template trigger, used as an 'empty' trigger

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -9,7 +11,7 @@ class ActionForm extends StatefulWidget {
   /// Names of the parameters
   final List<String> parametersNames;
   /// Initial values of the fields
-  final Map<String, String> initValues;
+  final Map<String, Object> initValues;
 
   /// On validate callback
   final void Function(Map<String, String>) onValidate;
@@ -44,6 +46,7 @@ class _ActionFormState extends State<ActionForm> {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
             ]),
+            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is Int ? TextInputType.number : null,
           )),
           ...[
             ElevatedButton(
