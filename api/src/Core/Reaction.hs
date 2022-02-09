@@ -2,6 +2,8 @@
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 module Core.Reaction where
 
@@ -16,8 +18,6 @@ data ReactionType = TwitterTweet | TwitterFollower
   deriving stock (Generic, Read, Show)
   deriving DBType via ReadShow ReactionType
   deriving (FromJSON, ToJSON)
-
-
 data TwitterTweetData = TwitterTweetData
   { body :: Text
   } deriving (Eq, Show, Generic)

@@ -16,7 +16,7 @@ import Data.Aeson
     ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH ( deriveJSON )
 import GHC.Generics (Generic)
-import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name, Query, Expr, where_, (==.), lit, each)
+import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name, Query, Expr, where_, (==.), lit, each, Insert (Insert, returning), into, rows, onConflict, returning, Returning (Projection), OnConflict (DoNothing), values, unsafeCastExpr, nextval)
 import Data.Text (Text)
 
 import Core.Pipeline
@@ -40,7 +40,7 @@ instance FromJSON (Pipeline Identity)
 
 pipelineSchema :: TableSchema (Pipeline Name)
 pipelineSchema = TableSchema
-  { name = "users"
+  { name = "pipelines"
   , schema = Nothing
   , columns = Pipeline
       { pipelineId = "id"
@@ -59,3 +59,17 @@ getPipelineById uid = do
     u <- selectAllPipelines
     where_ $ pipelineId u ==. lit uid
     return u
+
+
+insertPipeline :: Pipeline Identity -> Insert [PipelineId]
+insertPipeline (Pipeline _ name type' params) = Insert
+    { into = pipelineSchema
+    , rows = values [ Pipeline {
+        pipelineId = unsafeCastExpr $ nextval "pipelines_id_seq",
+        pipelineName = lit name,
+        pipelineType = lit type',
+        pipelineParams = lit params
+    } ]
+    , onConflict = DoNothing
+    , returning = Projection pipelineId
+    }

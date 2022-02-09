@@ -3,6 +3,8 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 module Core.Pipeline where
 
@@ -28,7 +30,6 @@ data TwitterNewFollowerData = TwitterNewFollowerData
   } deriving (Eq, Show, Generic)
 
 $(deriveJSON defaultOptions ''TwitterNewFollowerData)
-
 
 data PipelineParams =   TwitterNewPostP     TwitterNewPostData      |
                         TwitterNewFollowerP TwitterNewFollowerData
