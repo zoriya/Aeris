@@ -10,19 +10,22 @@ class AerisPopupMenuItem extends PopupMenuItem {
       required Object? value,
       bool enabled = true})
       : super(
-        key: key,
-        value: value,
-        enabled: enabled,
-        child: Wrap(
-          children: <Widget>[
-            Container(
-              child: Icon(
-                icon,
-                color: Theme.of(context).colorScheme.onSurface,
+          key: key,
+          value: value,
+          enabled: enabled,
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(
+                    child: Icon(
+                      icon,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    padding: const EdgeInsets.only(left: 10, right: 25)),
               ),
-              padding: const EdgeInsets.only(left: 10, right: 10)),
-            Text(title),
-          ],
-        ),
-      );
+              Expanded(flex: 8, child: Text(title)),
+            ],
+          ),
+        );
 }
