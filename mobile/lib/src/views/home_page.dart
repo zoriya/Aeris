@@ -1,11 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:aeris/src/widgets/home_page_menu.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
 import 'package:aeris/src/widgets/home_page_sort_menu.dart';
-import 'package:aeris/src/widgets/loading_widget.dart';
 import 'package:aeris/src/widgets/pipeline_card.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
