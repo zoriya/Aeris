@@ -37,7 +37,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
     final _formKey = GlobalKey<FormBuilderState>();
     return Consumer<PipelineProvider>(
         builder: (context, provider, _) => AerisCardPage(
-                body: ListView(children: [
+                body: Column(children: [
               const Text("Create a new pipeline",
                   style: TextStyle(
                     fontSize: 25,

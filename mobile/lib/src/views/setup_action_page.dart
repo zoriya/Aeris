@@ -70,7 +70,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
     return AerisCardPage(
         body: Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-      child: ListView(
+      child: Column(
         children: [
           const Text("Setup Action",
               style: TextStyle(

@@ -136,7 +136,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
         return AerisCardPage(
             body: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: ListView(children: [
+          child: Column(children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,

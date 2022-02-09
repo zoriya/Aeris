@@ -57,12 +57,7 @@ class ServicePage extends StatelessWidget {
 
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisCardPage(
-        body: NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (overscroll) {
-            overscroll.disallowIndicator();
-            return true;
-          },
-          child: ListView(
+        body: Column(
             children: [
               ...[
                 const Align(
@@ -111,7 +106,6 @@ class ServicePage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
