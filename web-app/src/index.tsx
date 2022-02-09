@@ -1,12 +1,34 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from "./components/Login/LoginPage";
+import {ThemeProvider} from "@mui/material";
+
+import theme from "./Aeris.theme";
+
+/**
+ * Creates the routing tree.
+ */
+function AerisRouter() {
+    return (
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<App />}/>
+                    <Route path='/login' element={<Login />}/>
+                </Routes>
+            </BrowserRouter>
+        </ThemeProvider>
+    );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <AerisRouter/>
   </React.StrictMode>,
   document.getElementById('root')
 );

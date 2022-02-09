@@ -31,6 +31,10 @@
   color: #61dafb;
 }
 
+.EndStartupBtn {
+  border-radius: 20px
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
