@@ -36,16 +36,18 @@ class _PipelineCardState extends State<PipelineCard> {
             : null,
         body: Container(
             width: double.infinity,
-            padding: const EdgeInsets.only(top: 20, bottom: 20, left: 40),
+            padding:
+                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 10),
             child: Row(children: [
               Expanded(
                   flex: 4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(widget.pipeline.name,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 22,
                             color: Theme.of(context).colorScheme.onSurface,
                           )),
                       const SizedBox(height: 10),
@@ -54,11 +56,11 @@ class _PipelineCardState extends State<PipelineCard> {
                               color: widget.pipeline.enabled == false
                                   ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 15)),
+                              fontSize: 12)),
                     ],
                   )),
               Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -72,7 +74,7 @@ class _PipelineCardState extends State<PipelineCard> {
                         Column(children: reactionLogos)
                       ])),
               Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Column(
                       children: [
                         Icon(
@@ -81,7 +83,7 @@ class _PipelineCardState extends State<PipelineCard> {
                         )
                       ],
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center)),
+                      crossAxisAlignment: CrossAxisAlignment.start)),
             ])));
   }
 }
