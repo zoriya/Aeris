@@ -12,7 +12,7 @@ import Servant (Capture, Get, type (:>), JSON, throwError, err401)
 import Servant.API.Generic ((:-))
 import GHC.Generics (Generic)
 import Data.Int (Int64)
-import Db.Pipeline (Pipeline (Pipeline), pipelineSchema, getPipelineById, PipelineId (PipelineId), insertPipeline)
+import Db.Pipeline (Pipeline (Pipeline), pipelineSchema, getPipelineById, PipelineId (PipelineId, toInt64), insertPipeline)
 import Data.Functor.Identity (Identity)
 import Servant.API (Post, Delete, Put, ReqBody)
 import App (AppM, State (State, dbPool))
@@ -28,6 +28,7 @@ import Rel8 (select, each, insert)
 import Core.Reaction (ReactionType, ReactionParams)
 import Core.Pipeline (PipelineType, PipelineParams)
 import Data.Text (Text)
+import Db.Reaction (Reaction (Reaction), ReactionId (ReactionId), insertReaction)
 
 
 data PipelineData = PipelineData
@@ -52,7 +53,7 @@ $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
     { get   :: mode :- Capture "id" Int64 :> Get '[JSON] [Pipeline Identity]
-    , post  :: mode :- ReqBody '[JSON] PostPipelineData :> Post '[JSON] (Pipeline Identity)
+    , post  :: mode :- ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
     , put   :: mode :- Capture "id" Int64 :> Put '[JSON] (Pipeline Identity)
     , del   :: mode :- Capture "id" Int64 :> Delete '[JSON] (Pipeline Identity)
     } deriving stock Generic
@@ -73,12 +74,26 @@ createPipeline pipeline = do
     State{dbPool = p} <- ask
     runTransactionWithPool p $ statement () (insert $ insertPipeline pipeline)
 
-postPipelineHandler :: PostPipelineData -> AppM (Pipeline Identity)
+createReaction :: Reaction Identity -> AppM [ReactionId]
+createReaction reaction = do
+    State{dbPool = p} <- ask
+    runTransactionWithPool p $ statement () (insert $ insertReaction reaction)
+
+mapInd :: (a -> Int -> b) -> [a] -> [b]
+mapInd f l = zipWith f l [0..]
+
+
+postPipelineHandler :: PostPipelineData -> AppM [ReactionId]
 postPipelineHandler x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (pipelineDataName p) (pipelineDataType p) (pipelineDataParams p)
-    throwError err401
+    sequence $ mapInd (reactionMap (head actionId)) r
     where
         p = action x
+        r = reactions x
+        reactionMap :: PipelineId -> ReactionData -> Int -> AppM ReactionId
+        reactionMap actionId s i = do
+            res <- createReaction $ Reaction (ReactionId 1) (reactionDataType s) (reactionDataParams s) actionId (fromIntegral i)
+            return $ head res
 
 putPipelineHandler :: Int64 -> AppM (Pipeline Identity)
 putPipelineHandler pipelineId = throwError err401

@@ -11,3 +11,14 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	type VARCHAR(255) NOT NULL,
 	params JSONB NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS reactions (
+	id SERIAL PRIMARY KEY,
+	type VARCHAR(255) NOT NULL,
+	params JSONB NOT NULL,
+	pipeline_id INTEGER NOT NULL,
+	react_order INTEGER NOT NULL,
+	CONSTRAINT fk_pipeline
+		FOREIGN KEY (pipeline_id)
+			REFERENCES pipelines(id)
+);

@@ -12,7 +12,7 @@ import Data.Aeson
     ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH ( deriveJSON )
 import GHC.Generics (Generic)
-import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name, Query, Expr, where_, (==.), lit, each)
+import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name, Query, Expr, where_, (==.), lit, each, Insert (Insert, returning), into, rows, onConflict, returning, values, unsafeCastExpr, nextval, OnConflict (DoNothing), Returning (Projection))
 import Data.Text (Text)
 import Data.Int (Int64)
 
@@ -45,9 +45,24 @@ reactionSchema = TableSchema
   , schema = Nothing
   , columns = Reaction
       { reactionId = "id"
-      , reactionOrder = "order"
+      , reactionOrder = "react_order"
       , reactionType = "type"
       , reactionParams = "params"
-      , reactionPipelineId = "pipelineId"
+      , reactionPipelineId = "pipeline_id"
       }
   }
+
+
+insertReaction :: Reaction Identity -> Insert [ReactionId]
+insertReaction (Reaction _ type' params pipeId order) = Insert
+    { into = reactionSchema
+    , rows = values [ Reaction {
+        reactionId = unsafeCastExpr $ nextval "reactions_id_seq",
+        reactionType = lit type',
+        reactionParams = lit params,
+        reactionPipelineId = lit pipeId,
+        reactionOrder = lit order
+    } ]
+    , onConflict = DoNothing
+    , returning = Projection reactionId
+    }
