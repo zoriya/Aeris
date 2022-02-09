@@ -16,7 +16,7 @@ import Data.Aeson
     ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH ( deriveJSON )
 import GHC.Generics (Generic)
-import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name)
+import Rel8 (DBEq, DBType, Column, Rel8able, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded), Result, TableSchema (TableSchema, name, schema, columns), Name, Query, Expr, where_, (==.), lit, each)
 import Data.Text (Text)
 
 import Core.Pipeline
@@ -25,11 +25,6 @@ newtype PipelineId = PipelineId { toInt64 :: Int64 }
   deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
   deriving stock (Generic)
 
-data PipelineParams =   TwitterNewPostP     TwitterNewPostData      |
-                        TwitterNewFollowerP TwitterNewFollowerData
-    deriving stock (Generic, Show)
-    deriving anyclass (ToJSON, FromJSON)
-    deriving DBType via JSONBEncoded PipelineParams
 data Pipeline f = Pipeline
   { pipelineId        :: Column f PipelineId
   , pipelineName      :: Column f Text
@@ -54,3 +49,13 @@ pipelineSchema = TableSchema
       , pipelineParams = "params"
       }
   }
+
+
+selectAllPipelines :: Query (Pipeline Expr)
+selectAllPipelines = each pipelineSchema
+
+getPipelineById :: PipelineId -> Query (Pipeline Expr)
+getPipelineById uid = do
+    u <- selectAllPipelines
+    where_ $ pipelineId u ==. lit uid
+    return u

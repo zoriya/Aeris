@@ -7,7 +7,7 @@
 module Core.Pipeline where
 
 import GHC.Generics (Generic)
-import Rel8 (DBType, ReadShow (ReadShow))
+import Rel8 (DBType, ReadShow (ReadShow), JSONBEncoded (JSONBEncoded))
 import Data.Aeson ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Text (Text)
 import Data.Aeson.TH (deriveJSON)
@@ -28,3 +28,10 @@ data TwitterNewFollowerData = TwitterNewFollowerData
   } deriving (Eq, Show, Generic)
 
 $(deriveJSON defaultOptions ''TwitterNewFollowerData)
+
+
+data PipelineParams =   TwitterNewPostP     TwitterNewPostData      |
+                        TwitterNewFollowerP TwitterNewFollowerData
+    deriving stock (Generic, Show)
+    deriving anyclass (ToJSON, FromJSON)
+    deriving DBType via JSONBEncoded PipelineParams

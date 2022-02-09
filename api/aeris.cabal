@@ -31,8 +31,10 @@ library
       Api.User
       App
       Core.Pipeline
+      Core.Reaction
       Core.User
       Db.Pipeline
+      Db.Reaction
       Db.User
       Lib
       Password
