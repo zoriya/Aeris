@@ -38,18 +38,20 @@ class AerisCardPage extends StatelessWidget {
                     child: ListView(
                       controller: scrollController,
                       children: [
-                        Container(
-                          width: 30,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(100)),
-                            color: Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withAlpha(70),
+                        Align(
+                          child: Container(
+                            width: 30,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(100)),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withAlpha(70),
+                            ),
+                            alignment: Alignment.center,
                           ),
-                          alignment: Alignment.center,
                         ),
                         Container(
                           child: const AerisPageCloseButton(),
