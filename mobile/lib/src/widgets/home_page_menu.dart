@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Menu for the Home Page
@@ -17,7 +17,6 @@ class HomePageMenu extends StatelessWidget {
             title: AppLocalizations.of(context).services,
             value: "/services"),
         AerisPopupMenuItem(
-
             context: context,
             icon: Icons.logout,
             title: AppLocalizations.of(context).logout,

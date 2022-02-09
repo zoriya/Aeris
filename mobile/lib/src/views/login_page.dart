@@ -1,5 +1,5 @@
-import 'package:mobile/src/main.dart';
-import 'package:mobile/src/widgets/aeris_page.dart';
+import 'package:aeris/src/main.dart';
+import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -45,7 +45,8 @@ class LoginPage extends StatelessWidget {
     debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!).userDoesNotExist;
+        return AppLocalizations.of(Aeris.materialKey.currentContext!)
+            .userDoesNotExist;
       }
       return null;
     });

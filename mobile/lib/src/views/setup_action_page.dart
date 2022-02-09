@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
-import 'package:mobile/src/models/service.dart';
-import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/widgets/action_form.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
+import 'package:aeris/src/models/service.dart';
+import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/widgets/action_form.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

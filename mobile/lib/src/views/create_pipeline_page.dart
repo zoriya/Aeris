@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mobile/src/models/pipeline.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
-import 'package:mobile/src/views/pipeline_detail_page.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/action_card.dart';
-import 'package:mobile/src/widgets/action_card_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/models/pipeline.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/views/pipeline_detail_page.dart';
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/action_card.dart';
+import 'package:aeris/src/widgets/action_card_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:mobile/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

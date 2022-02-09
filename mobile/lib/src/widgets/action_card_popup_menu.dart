@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [StatelessWidget] displayed as a PopupMenu
@@ -36,6 +36,7 @@ class ActionCardPopupMenu extends StatelessWidget {
         onSelected: (value) {
           if (value == '/pipeline/action/del') {
             onDelete!();
+
             ///TODO delete from db
           } else {
             Map object = value as Map;
