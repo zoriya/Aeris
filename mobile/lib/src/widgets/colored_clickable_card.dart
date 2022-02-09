@@ -24,7 +24,7 @@ class ColoredClickableCard extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Theme.of(context).colorScheme.onSecondary,
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: FontWeight.w600),
           ),
           width: double.infinity,
