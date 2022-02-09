@@ -61,7 +61,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               width: 10,
               height: 100,
             ),
-            Text(service.name, style: const TextStyle(fontSize: 20))
+            Text(service.name, style: const TextStyle(fontSize: 15))
           ]),
         );
       }).toList(),
@@ -80,12 +80,20 @@ class _SetupActionPageState extends State<SetupActionPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
-                  )),
-              Align(alignment: Alignment.centerRight, child: serviceDropdown),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
+                    )),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.centerRight, child: serviceDropdown),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 30),
