@@ -47,7 +47,7 @@ extra-deps:
     - servant
     - servant-server
 - hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
-
+- mr-env-0.1.0.4@sha256:56439c7df09a83b72b170f104723293643ad2635df03cdcd174a05d0d73e788d,1055
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

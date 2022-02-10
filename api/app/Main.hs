@@ -14,15 +14,17 @@ import Network.Wai
 import Network.Wai.Handler.Warp
 import qualified Hasql.Session as Session
 import qualified Hasql.Transaction.Sessions as Hasql
+import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
 import Api.User (users)
 import App
 import Lib
+import Config (getPostgresConfig, dbConfigToConnSettings)
 
 main :: IO ()
 main = do
     key <- generateKey
+    dbConf <- getPostgresConfig
+    appPort <- envAsInt "AERIS_BACK_PORT" 8080
     let jwtCfg = defaultJWTSettings key
-    pool <- acquire (3, 1, connectionSettings)
-    run 8080 $ app jwtCfg $ State pool
-    where
-        connectionSettings = Connection.settings "localhost" 5432 "postgres" "password" "postgres"
+    pool <- acquire (3, 1, dbConfigToConnSettings dbConf)
+    run appPort $ app jwtCfg $ State pool

@@ -44,6 +44,13 @@ packages:
       size: 589
   original:
     hackage: hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
+- completed:
+    hackage: mr-env-0.1.0.4@sha256:56439c7df09a83b72b170f104723293643ad2635df03cdcd174a05d0d73e788d,1055
+    pantry-tree:
+      sha256: da91d4e0f5aff5336e3e73ecb1d44fe595dd47bc572335956ba30d937d14573d
+      size: 376
+  original:
+    hackage: mr-env-0.1.0.4@sha256:56439c7df09a83b72b170f104723293643ad2635df03cdcd174a05d0d73e788d,1055
 snapshots:
 - completed:
     sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb

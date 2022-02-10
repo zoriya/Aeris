@@ -39,6 +39,8 @@ dependencies:
 - cryptonite
 - memory
 - transformers
+- mr-env
+- utf8-string
 
 library:
   source-dirs: src
