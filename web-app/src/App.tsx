@@ -79,7 +79,9 @@ function App() {
       <header className="App-header">
         <div id='container'>
           <PipelineBoxesLayout data={data} />
-          <PipelineModal />
+          <PipelineModal height="500" width="500"> 
+            <PipelineBoxesLayout data={data} />
+          </PipelineModal>
         </div>
       </header>
     </div>

@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-export default function PipelineModal() {
+export default function PipelineModal(props :any) {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
@@ -36,6 +36,9 @@ export default function PipelineModal() {
     const handleClose = () => {
         setOpen(false);
     };
+
+
+    const divStyle: string = "width: " + props.width + "; height:" + props.height + ";"
 
     return (
         <div>
@@ -53,13 +56,14 @@ export default function PipelineModal() {
                 }}
             >
                 <Fade in={open}>
-                    <div className={classes.paper}>
+                    <div className={classes.paper} >
                         <IconButton
                             onClick={handleClose}
                             style={{cursor:'pointer', float:'right', marginTop: '5px', width: '20px'}}
                         >
                             <CloseIcon/>
                         </IconButton>
+                        { props.children }
                     </div>
                 </Fade>
             </Modal>
