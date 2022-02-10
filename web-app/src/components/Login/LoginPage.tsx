@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,9 +25,11 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: 20
         },
         media: {
-            height: 0,
-            paddingTop: '100%', // 16:9,
-            marginTop: '30'
+            display: 'absolute',
+            flex: 0.7,
+            margin: `${theme.spacing(0)} auto`,
+            height: 510,
+            width: 730.5
         },
         card: {
             marginTop: theme.spacing(10)
@@ -167,6 +169,7 @@ export default function LoginComponent() {
                             className="inputRounded"
                             error={state.isError}
                             fullWidth
+                            required
                             id="username"
                             type="email"
                             label="Username"
@@ -182,6 +185,7 @@ export default function LoginComponent() {
                             className="inputRounded"
                             error={state.isError}
                             fullWidth
+                            required
                             id="password"
                             type="password"
                             label="Password"
@@ -204,8 +208,9 @@ export default function LoginComponent() {
                         className={classes.loginBtn}
                         onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
-                        Login
+                        Se connecter
                     </Button>
+
                 </CardActions>
             </Card>
         </form>
