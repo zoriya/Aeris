@@ -23,13 +23,6 @@ main = do
     key <- generateKey
     let jwtCfg = defaultJWTSettings key
     pool <- acquire (3, 1, connectionSettings)
-    {--
-        Right c -> do
-            e <- liftIO $ Session.run (Hasql.transaction Hasql.Serializable Hasql.Write (statement () (insert $ insertUser (head users)))) c
-            case e of
-                Left _ -> putStrLn "Query failed"
-                Right d -> print d
-        --}
     run 8080 $ app jwtCfg $ State pool
     where
         connectionSettings = Connection.settings "localhost" 5432 "postgres" "password" "postgres"
