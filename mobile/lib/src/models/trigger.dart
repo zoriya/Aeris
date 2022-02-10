@@ -21,7 +21,7 @@ class Trigger extends aeris_action.Action {
   String lastToString() {
     var context = AppLocalizations.of(Aeris.materialKey.currentContext!);
     String lastStr = context.lastTrigger;
-    if (last == null) return '$lastStr: ${context.lastTrigger}';
+    if (last == null) return '$lastStr: ${context.never}';
     int elapsedDays = DateTime.now().difference(last!).inDays;
     return elapsedDays == 0
         ? '$lastStr: ${context.today}'
