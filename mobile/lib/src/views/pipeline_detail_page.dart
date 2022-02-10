@@ -1,3 +1,4 @@
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:mobile/src/main.dart';
 import 'package:mobile/src/providers/pipelines_provider.dart';
 import 'package:mobile/src/views/setup_action_page.dart';
@@ -165,10 +166,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     },
                   )),
             addReactionbutton,
-            const Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 5),
-                child: Text("Danger Zone",
-                    style: TextStyle(fontWeight: FontWeight.w500))),
+            Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 5),
+                child: Text(AppLocalizations.of(context).dangerZone,
+                    style: const TextStyle(fontWeight: FontWeight.w500))),
             deleteButton,
             const SizedBox(height: 25),
           ]),
