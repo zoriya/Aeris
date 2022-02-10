@@ -58,6 +58,7 @@ class ServicePage extends StatelessWidget {
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisCardPage(
         body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...[
                 const Align(

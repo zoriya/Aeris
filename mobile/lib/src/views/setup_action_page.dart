@@ -65,6 +65,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
         body: Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text("Setup Action",
               style: TextStyle(

@@ -134,7 +134,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child:
-              Column(children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,
