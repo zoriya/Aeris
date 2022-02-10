@@ -7,6 +7,8 @@
     "nameOfThePipeline": "Name of the pipeline",
     "addReaction": "Add a Reaction",
     "addTrigger": "Add a Trigger",
+    "action": "Action",
+    "reactions": "Reactions",
     "modify": "Modify",
     "delete": "Delete",
     "services": "Services",
