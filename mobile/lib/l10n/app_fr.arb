@@ -28,5 +28,6 @@
     "mergeDisabledPipelines": "Mélanger les pipelines désactivées",
     "seperateDisabledPipelines": "Séparer les pipelines désactivées",
     "aerisDescription": "Aeris est le meilleur AREA de Nantes! Prennez le contrôle de vos réseaux sociaux avec Aeris, la nouvelle application de pipeline!",
-    "dangerZone": "Zone dangereuse"
+    "dangerZone": "Zone dangereuse",
+    "createNewPipeline": "Créer une nouvelle pipeline"
 }
