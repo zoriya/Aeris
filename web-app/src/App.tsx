@@ -1,11 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import pB from "./components/PipelineBox"
-import PipelineBox from './components/PipelineBox';
-import type { PipelineBoxProps, ServiceProps } from './components/PipelineBox';
-import PipelineCreation from './components/PipelineCreation';
-import PipelineBoxesLayout from './components/PipelineBoxesLayout';
+import type { PipelineBoxProps, ServiceProps } from './components/Pipelines/PipelineBox';
+import PipelineBoxesLayout from './components/Pipelines/PipelineBoxesLayout';
+import pB from "./components/Pipelines/PipelineBox"
+import PipelineModal from './components/Pipelines/PipelineModal';
+import PipelineBox from './components/Pipelines/PipelineBox';
+import PipelineCreation from './components/Pipelines/PipelineCreation';
 
 function App() {
  
@@ -78,6 +79,7 @@ function App() {
       <header className="App-header">
         <div id='container'>
           <PipelineBoxesLayout data={data} />
+          <PipelineModal />
         </div>
       </header>
     </div>
