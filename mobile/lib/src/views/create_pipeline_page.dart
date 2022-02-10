@@ -72,10 +72,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
                                   print("add trigger"); // TODO add reaction
-                                  Navigator.of(context)
-                                      .pushNamed('/pipeline/action/new',
-                                          arguments:
-                                              SetupActionPageArguments(trigger))
+                                  showAerisCardPage(
+                                          context,
+                                          (_) =>
+                                              SetupActionPage(action: trigger))
                                       .then((_) => setState(() {}));
                                 })
                             : ActionCard(
@@ -112,11 +112,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             onTap: () async {
                               // TODO add to db
                               reactions.add(Reaction.template());
-                              await Navigator.of(context).pushNamed(
-                                  '/pipeline/action/new',
-                                  arguments:
-                                      SetupActionPageArguments(reactions.last));
-                              setState(() {});
+                              showAerisCardPage(
+                                      context,
+                                      (_) => SetupActionPage(
+                                          action: reactions.last))
+                                  .then(setState(() {}));
                             }),
                       ),
                       ElevatedButton(

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// Function to show a Card page
-showAerisCardPage(BuildContext context, Widget Function(BuildContext) builder) {
-  return showCupertinoModalBottomSheet(
+showAerisCardPage(BuildContext context, Widget Function(BuildContext) builder) => showCupertinoModalBottomSheet(
       context: context,
       builder: builder,
       backgroundColor: Theme.of(context).colorScheme.surface);
-}
+
 
 ///Popup Card page
 class AerisCardPage extends StatefulWidget {
@@ -25,7 +24,7 @@ class _AerisCardPageState extends State<AerisCardPage> {
 
   @override
   Widget build(BuildContext context) {
-    const Radius radius = Radius.circular(100);
+    const Radius radius = Radius.circular(40);
     return Scaffold(
         body: CupertinoScaffold(
             transitionBackgroundColor: Theme.of(context).colorScheme.surface,

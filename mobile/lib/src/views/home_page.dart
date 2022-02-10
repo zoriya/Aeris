@@ -1,3 +1,5 @@
+import 'package:aeris/src/views/create_pipeline_page.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.w600)),
                     ),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/pipeline/new');
+                      showAerisCardPage(context, (_) => const CreatePipelinePage());
                     },
                   );
                 }

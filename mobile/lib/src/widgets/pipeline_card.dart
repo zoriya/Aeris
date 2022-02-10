@@ -33,10 +33,7 @@ class _PipelineCardState extends State<PipelineCard> {
           showAerisCardPage(
             context,
             (context) => PipelineDetailPage(pipeline: widget.pipeline),
-          )
-          /*Navigator.pushNamed(context, '/pipeline',
-                  arguments: PipelineDetailPageArguments(widget.pipeline))
-              .then((value) => setState(() {}))*/;
+          );
         },
         color: widget.pipeline.enabled == false
             ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)

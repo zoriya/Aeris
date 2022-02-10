@@ -25,9 +25,8 @@ class PipelineDetailPageArguments {
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   final Pipeline pipeline;
-  const PipelineDetailPage({Key? key, required this.pipeline}) : super(key: key);
-
-
+  const PipelineDetailPage({Key? key, required this.pipeline})
+      : super(key: key);
 
   @override
   State<PipelineDetailPage> createState() => _PipelineDetailPageState();
@@ -103,9 +102,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             text: AppLocalizations.of(context).addReaction,
             onTap: () {
               Reaction newreaction = Reaction.template();
-              Navigator.of(context)
-                  .pushNamed('/pipeline/action/new',
-                      arguments: SetupActionPageArguments(newreaction))
+              showAerisCardPage(
+                      context, (_) => SetupActionPage(action: newreaction))
                   .then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
@@ -135,7 +133,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
         return AerisCardPage(
             body: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: Column(children: [
+          child:
+              Column(children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,

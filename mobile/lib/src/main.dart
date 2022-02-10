@@ -2,10 +2,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/providers/user_services_provider.dart';
-import 'package:aeris/src/views/create_pipeline_page.dart';
-import 'package:aeris/src/views/pipeline_detail_page.dart';
-import 'package:aeris/src/views/service_page.dart';
-import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/views/startup_page.dart';
 import 'package:aeris/src/views/login_page.dart';
 import 'package:aeris/src/views/home_page.dart';
@@ -44,40 +40,24 @@ class Aeris extends StatelessWidget {
         theme: ThemeData(colorScheme: aerisScheme),
         initialRoute: '/home',
         onGenerateRoute: (settings) {
-          Map pageRoutes = {
+          Map routes = {
             '/': () => const StartupPage(),
             '/login': () => const LoginPage(),
             '/home': () => const HomePage(),
           };
-          Map cardRoutes = {
-            '/services': () => const ServicePage(),
-            '/pipeline/action/mod': () => const SetupActionPage(),
-            '/pipeline/action/new': () => const SetupActionPage(),
-            '/pipeline/new': () => const CreatePipelinePage()
-          };
-          Map routes = {}
-            ..addAll(cardRoutes)
-            ..addAll(pageRoutes);
           return PageRouteBuilder(
               opaque: false,
               settings: settings,
               pageBuilder: (_, __, ___) => routes[settings.name].call(),
               transitionDuration: const Duration(milliseconds: 350),
               transitionsBuilder: (context, animation, secondaryAnimation,
-                      child) =>
-                  pageRoutes.containsKey(settings.name)
-                      ? ScaleTransition(
+                      child) => ScaleTransition(
                           child: child,
                           scale: CurvedAnimation(
                             parent: animation,
                             curve: Curves.ease,
                           ))
-                      : SlideTransition(
-                          position: animation.drive(
-                              Tween(begin: const Offset(0, 1), end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.ease))),
-                          child: child,
-                        ));
+                      );
         });
   }
 }
