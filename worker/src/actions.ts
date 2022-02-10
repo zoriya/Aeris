@@ -27,6 +27,7 @@ export class Manager {
 						map((env: PipelineEnv) => [x, env]),
 						catchError(err => {
 							console.error(`Unhandled exception while trying to listen for the pipeline ${x.name} (type: ${x.type.toString()}).`, err)
+							// TODO call the api to inform of the issue
 							return NEVER;
 						}),
 					)
