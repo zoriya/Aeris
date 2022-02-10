@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/views/pipeline_detail_page.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+import 'aeris_card_page.dart';
 
 /// Widget for Action-reaction card on home page
 class PipelineCard extends StatefulWidget {
@@ -27,9 +30,13 @@ class _PipelineCardState extends State<PipelineCard> {
     reactionLogos.removeLast();
     return ClickableCard(
         onTap: () {
-          Navigator.pushNamed(context, '/pipeline',
+          showAerisCardPage(
+            context,
+            (context) => PipelineDetailPage(pipeline: widget.pipeline),
+          )
+          /*Navigator.pushNamed(context, '/pipeline',
                   arguments: PipelineDetailPageArguments(widget.pipeline))
-              .then((value) => setState(() {}));
+              .then((value) => setState(() {}))*/;
         },
         color: widget.pipeline.enabled == false
             ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)

@@ -24,8 +24,10 @@ class PipelineDetailPageArguments {
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
-  //final String pipelineName; // TODO Define as int later on
-  const PipelineDetailPage({Key? key}) : super(key: key);
+  final Pipeline pipeline;
+  const PipelineDetailPage({Key? key, required this.pipeline}) : super(key: key);
+
+
 
   @override
   State<PipelineDetailPage> createState() => _PipelineDetailPageState();
@@ -35,10 +37,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
   @override
   Widget build(BuildContext context) =>
       Consumer<PipelineProvider>(builder: (context, provider, _) {
-        final PipelineDetailPageArguments arguments = ModalRoute.of(context)!
-            .settings
-            .arguments as PipelineDetailPageArguments;
-        Pipeline pipeline = arguments.pipeline;
+        Pipeline pipeline = widget.pipeline;
 
         final cardHeader = Row(
           children: [

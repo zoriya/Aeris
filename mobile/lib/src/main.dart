@@ -50,7 +50,6 @@ class Aeris extends StatelessWidget {
             '/home': () => const HomePage(),
           };
           Map cardRoutes = {
-            '/pipeline': () => const PipelineDetailPage(),
             '/services': () => const ServicePage(),
             '/pipeline/action/mod': () => const SetupActionPage(),
             '/pipeline/action/new': () => const SetupActionPage(),
