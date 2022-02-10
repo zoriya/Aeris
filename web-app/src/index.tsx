@@ -5,7 +5,7 @@ import './App.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginComponent from "./components/Login/LoginPage";
+import AuthComponent from "./components/Login/LoginPage";
 import {ThemeProvider} from "@mui/material";
 
 import theme from "./Aeris.theme";
@@ -21,7 +21,7 @@ function AerisRouter() {
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<App />}/>
-                            <Route path='/login' element={<LoginComponent />}/>
+                            <Route path='/auth' element={<AuthComponent />}/>
                         </Routes>
                     </BrowserRouter>
                 </ThemeProvider>

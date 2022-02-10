@@ -12,7 +12,7 @@ export default function App() {
     const navigate = useNavigate();
 
     const pushToLogin = () => {
-        navigate("/login");
+        navigate("/auth");
     }
 
   return (

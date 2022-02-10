@@ -1,38 +1,45 @@
 import React, { useReducer, useEffect } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import { useNavigate, Link as RouterLink } from "react-router-dom";
+
+import {InputAdornment, Typography} from "@mui/material";
+import { AccountCircle, Lock } from '@mui/icons-material';
 
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import Box from "@mui/material/Box";
 
 import "./LoginPage.css";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
+const useStyles = makeStyles((theme: Theme) => ({
         container: {
             display: 'absolute',
-            flex: 0.7,
+            flex: 0.5,
             margin: `${theme.spacing(0)} auto`
         },
         loginBtn: {
-            marginTop: theme.spacing(2),
-            flexGrow: 1,
+            display: 'absolute',
+            backgroundColor: theme.palette.primary.main,
+            margin: `${theme.spacing(0)} auto`,
+            borderRadius: 20
+        },
+        switchBtn: {
+            display: 'absolute',
+            color: theme.palette.primary.main,
+            margin: `${theme.spacing(0)} auto`,
             borderRadius: 20
         },
         media: {
             display: 'absolute',
-            flex: 0.7,
             margin: `${theme.spacing(0)} auto`,
-            height: 510,
-            width: 730.5
         },
         card: {
-            marginTop: theme.spacing(10)
+            display: 'absolute',
+            margin: `${theme.spacing(0)} auto`
         }
     })
 );
@@ -45,6 +52,8 @@ type State = {
     isButtonDisabled: boolean
     helperText: string
     isError: boolean
+    authMode: string
+    isConfirmButtonVisible: boolean
 };
 
 const initialState: State = {
@@ -52,7 +61,9 @@ const initialState: State = {
     password: '',
     isButtonDisabled: true,
     helperText: '',
-    isError: false
+    isError: false,
+    authMode: 'login',
+    isConfirmButtonVisible: false
 };
 
 type Action = { type: 'setUsername', payload: string }
@@ -60,7 +71,9 @@ type Action = { type: 'setUsername', payload: string }
     | { type: 'setIsButtonDisabled', payload: boolean }
     | { type: 'loginSuccess', payload: string }
     | { type: 'loginFailed', payload: string }
-    | { type: 'setIsError', payload: boolean };
+    | { type: 'setIsError', payload: boolean }
+    | { type: 'setAuthMode', payload: string }
+    | { type: 'setIsConfirmButtonVisible', payload: boolean };
 
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
@@ -96,10 +109,20 @@ const reducer = (state: State, action: Action): State => {
                 ...state,
                 isError: action.payload
             };
+        case 'setAuthMode':
+            return {
+                ...state,
+                authMode: action.payload
+            }
+        case 'setIsConfirmButtonVisible':
+            return {
+                ...state,
+                isConfirmButtonVisible: action.payload
+            }
     }
 }
 
-export default function LoginComponent() {
+export default function AuthComponent(this: any) {
     const classes = useStyles();
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -124,7 +147,6 @@ export default function LoginComponent() {
                 type: 'loginSuccess',
                 payload: 'Login Successfully'
             });
-            console.log("Login successful!");
         } else {
             dispatch({
                 type: 'loginFailed',
@@ -156,63 +178,129 @@ export default function LoginComponent() {
         }
 
     return (
-        <form className={classes.container} noValidate autoComplete="off">
-            <Card className={classes.card}>
-                <CardMedia
-                    className={classes.media}
-                    image={require("../../assets/logo-black.png")}
-                    title="Aeris Logo"
-                />
-                <CardContent>
-                    <div>
-                        <TextField
-                            className="inputRounded"
-                            error={state.isError}
-                            fullWidth
-                            required
-                            id="username"
-                            type="email"
-                            label="Username"
-                            placeholder="Username"
-                            margin="normal"
-                            variant='outlined'
-                            size="small"
-                            inputProps={{min: 0, style: { textAlign: 'center' }}}
-                            onChange={handleUsernameChange}
-                            onKeyPress={handleKeyPress}
-                        />
-                        <TextField
-                            className="inputRounded"
-                            error={state.isError}
-                            fullWidth
-                            required
-                            id="password"
-                            type="password"
-                            label="Password"
-                            placeholder="Password"
-                            margin="normal"
-                            variant='outlined'
-                            size="small"
-                            helperText={state.helperText}
-                            inputProps={{min: 0, style: { textAlign: 'center' }}}
-                            onChange={handlePasswordChange}
-                            onKeyPress={handleKeyPress}
-                        />
-                    </div>
-                </CardContent>
-                <CardActions>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        color="secondary"
-                        className={classes.loginBtn}
-                        onClick={handleLogin}
-                        disabled={state.isButtonDisabled}>
-                        Se connecter
-                    </Button>
-
-                </CardActions>
-            </Card>
-        </form>
+        <div>
+            <Box
+                component="img"
+                sx={{
+                    width: 487,
+                    height: 340,
+                    marginBottom: 5
+                }}
+                alt="Aeris Logo"
+                src={require("../../assets/logo-black.png")}
+            />
+            <form className={classes.container} noValidate autoComplete="on">
+                <Card className={classes.card}>
+                    <CardContent>
+                        <div>
+                            <TextField
+                                className="inputRounded"
+                                error={state.isError}
+                                required
+                                id="email"
+                                type="email"
+                                label="Email"
+                                placeholder="Email"
+                                margin="normal"
+                                variant='outlined'
+                                size="small"
+                                onChange={handleUsernameChange}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <AccountCircle />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                onKeyPress={handleKeyPress}
+                            />
+                            <br />
+                            <TextField
+                                className="inputRounded"
+                                error={state.isError}
+                                required
+                                id="password"
+                                type="password"
+                                label="Mot de passe"
+                                placeholder="Mot de passe"
+                                margin="normal"
+                                variant='outlined'
+                                size="small"
+                                helperText={state.helperText}
+                                onChange={handlePasswordChange}
+                                InputProps={{
+                                    startAdornment: (
+                                        <InputAdornment position="start">
+                                            <Lock />
+                                        </InputAdornment>
+                                    )
+                                }}
+                                onKeyPress={handleKeyPress}
+                            />
+                            <br />
+                            {state.isConfirmButtonVisible ?
+                                <TextField
+                                    className="inputRounded"
+                                    error={state.isError}
+                                    required
+                                    id="confirm_password"
+                                    type="password"
+                                    label="Confirmation du mot de passe"
+                                    placeholder="Mot de passe"
+                                    margin="normal"
+                                    variant='outlined'
+                                    size="small"
+                                    helperText={state.helperText}
+                                    onChange={handlePasswordChange}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Lock />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    onKeyPress={handleKeyPress}
+                                /> : null
+                            }
+                        </div>
+                    </CardContent>
+                    <CardActions style={{ justifyContent: 'center', alignContent: 'center' }}>
+                        <RouterLink to='/forget'>
+                            <Typography>
+                                Mot de passe oublié?
+                            </Typography>
+                        </RouterLink>
+                    </CardActions>
+                    <CardActions>
+                        <Button
+                            variant="contained"
+                            size="large"
+                            className={classes.loginBtn}
+                            onClick={handleLogin}
+                            disabled={state.isButtonDisabled}>
+                            {state.authMode === 'login' ? 'Connexion' : "S'enregistrer"}
+                        </Button>
+                    </CardActions>
+                    <CardActions>
+                        <Button
+                            variant="text"
+                            size="large"
+                            className={classes.switchBtn}
+                            onClick={() => {
+                                dispatch({
+                                    type: 'setAuthMode',
+                                    payload: state.authMode === 'login' ? 'auth' : 'login'
+                                });
+                                dispatch({
+                                    type: 'setIsConfirmButtonVisible',
+                                    payload: !state.isConfirmButtonVisible
+                                });
+                            }}>
+                            {state.authMode === 'login' ? "S'enregistrer" : "Connexion"}
+                        </Button>
+                    </CardActions>
+                </Card>
+            </form>
+        </div>
     );
 }
