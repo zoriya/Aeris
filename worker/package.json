@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/AnonymusRaccoon/Aeris#readme",
   "dependencies": {
+    "@googleapis/youtube": "^2.0.0",
     "express": "^4.17.2",
     "express-ws": "^5.0.2",
     "rxjs": "^7.5.2",

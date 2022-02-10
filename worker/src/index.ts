@@ -26,7 +26,7 @@ import { Pipeline, PipelineType, ReactionType } from "./models/pipeline";
 const pipelines: Pipeline[] = [
 	{
 		name: "toto",
-		type: PipelineType.Twitter_OnTweet,
+		type: PipelineType.Youtube_OnUpload,
 		params: {},
 		reactions: [{
 			type: ReactionType.Twitter_Tweet,
