@@ -21,8 +21,9 @@ import Data.Text (Text)
 
 import Core.Pipeline
 import Data.Functor.Identity (Identity)
+import Servant (FromHttpApiData)
 newtype PipelineId = PipelineId { toInt64 :: Int64 }
-  deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
+  deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
   deriving stock (Generic)
 
 data Pipeline f = Pipeline

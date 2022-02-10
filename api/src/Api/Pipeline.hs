@@ -56,10 +56,10 @@ $(deriveJSON defaultOptions ''ReactionData)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
-    { get   :: mode :- Capture "id" Int64 :> Get '[JSON] GetPipelineResponse
+    { get   :: mode :- Capture "id" PipelineId :> Get '[JSON] GetPipelineResponse
     , post  :: mode :- ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
-    , put   :: mode :- Capture "id" Int64 :> Put '[JSON] (Pipeline Identity)
-    , del   :: mode :- Capture "id" Int64 :> Delete '[JSON] (Pipeline Identity)
+    , put   :: mode :- Capture "id" PipelineId :> Put '[JSON] (Pipeline Identity)
+    , del   :: mode :- Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
     } deriving stock Generic
 
 runStatement :: MonadIO m => Statement () a -> AppM a
@@ -80,10 +80,10 @@ getReactionsByPipelineId' pId = do
     runTransactionWithPool p $ statement () (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
     
 
-getPipelineHandler :: Int64 -> AppM GetPipelineResponse
+getPipelineHandler :: PipelineId  -> AppM GetPipelineResponse
 getPipelineHandler pipelineId = do
-    pipeline <- getPipelineById' (PipelineId pipelineId)
-    reactions <- getReactionsByPipelineId' (PipelineId pipelineId)
+    pipeline <- getPipelineById' pipelineId
+    reactions <- getReactionsByPipelineId' pipelineId
     let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline)
     let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions 
     return $ PostPipelineData actionResult reactionsResult
@@ -111,10 +111,10 @@ postPipelineHandler x = do
             res <- createReaction $ Reaction (ReactionId 1) (reactionDataType s) (reactionDataParams s) actionId (fromIntegral i)
             return $ head res
 
-putPipelineHandler :: Int64 -> AppM (Pipeline Identity)
+putPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
 putPipelineHandler pipelineId = throwError err401
 
-delPipelineHandler :: Int64 -> AppM (Pipeline Identity)
+delPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
 delPipelineHandler pipelineId = throwError err401
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
