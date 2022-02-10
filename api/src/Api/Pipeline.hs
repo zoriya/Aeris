@@ -12,7 +12,7 @@ import Servant (Capture, Get, type (:>), JSON, throwError, err401)
 import Servant.API.Generic ((:-))
 import GHC.Generics (Generic)
 import Data.Int (Int64)
-import Db.Pipeline (Pipeline (Pipeline), pipelineSchema, getPipelineById, PipelineId (PipelineId, toInt64), insertPipeline)
+import Db.Pipeline (Pipeline (Pipeline, pipelineType), pipelineSchema, getPipelineById, PipelineId (PipelineId, toInt64), insertPipeline, pipelineParams, pipelineName)
 import Data.Functor.Identity (Identity)
 import Servant.API (Post, Delete, Put, ReqBody)
 import App (AppM, State (State, dbPool))
@@ -24,12 +24,14 @@ import Data.Aeson ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH (deriveJSON)
 import Api.User (runTransactionWithPool)
 import Hasql.Transaction (Transaction, statement)
-import Rel8 (select, each, insert)
+import Rel8 (select, each, insert, orderBy, asc, limit)
 import Core.Reaction (ReactionType, ReactionParams)
 import Core.Pipeline (PipelineType, PipelineParams)
 import Data.Text (Text)
-import Db.Reaction (Reaction (Reaction), ReactionId (ReactionId), insertReaction)
-
+import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), insertReaction, getReactionsByPipelineId)
+import Utils (mapInd)
+import Rel8.Tabulate (order)
+import Data.Functor.Contravariant ((>$<))
 
 data PipelineData = PipelineData
     { pipelineDataName      :: Text
@@ -47,12 +49,14 @@ data PostPipelineData = PostPipelineData
     , reactions :: [ReactionData]
     }
 
+type GetPipelineResponse = PostPipelineData
+
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
-    { get   :: mode :- Capture "id" Int64 :> Get '[JSON] [Pipeline Identity]
+    { get   :: mode :- Capture "id" Int64 :> Get '[JSON] GetPipelineResponse
     , post  :: mode :- ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
     , put   :: mode :- Capture "id" Int64 :> Put '[JSON] (Pipeline Identity)
     , del   :: mode :- Capture "id" Int64 :> Delete '[JSON] (Pipeline Identity)
@@ -64,10 +68,25 @@ runStatement x = do
   runTransactionWithPool p $ statement () x
 
 
-getPipelineHandler :: Int64 -> AppM [Pipeline Identity]
--- getPipelineHandler slugId = do
---     runStatement $ select $ getPipelineById (PipelineId slugId)
-getPipelineHandler _ = throwError err401  
+getPipelineById' :: PipelineId -> AppM (Pipeline Identity)
+getPipelineById' pId = do
+    State{dbPool = p} <- ask
+    res <- runTransactionWithPool p $ statement () (select $ limit 1 $ getPipelineById pId)
+    return $ head res 
+
+getReactionsByPipelineId' :: PipelineId -> AppM [Reaction Identity]
+getReactionsByPipelineId' pId = do
+    State{dbPool = p} <- ask
+    runTransactionWithPool p $ statement () (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
+    
+
+getPipelineHandler :: Int64 -> AppM GetPipelineResponse
+getPipelineHandler pipelineId = do
+    pipeline <- getPipelineById' (PipelineId pipelineId)
+    reactions <- getReactionsByPipelineId' (PipelineId pipelineId)
+    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline)
+    let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions 
+    return $ PostPipelineData actionResult reactionsResult
 
 createPipeline :: Pipeline Identity -> AppM [PipelineId]
 createPipeline pipeline = do
@@ -78,9 +97,6 @@ createReaction :: Reaction Identity -> AppM [ReactionId]
 createReaction reaction = do
     State{dbPool = p} <- ask
     runTransactionWithPool p $ statement () (insert $ insertReaction reaction)
-
-mapInd :: (a -> Int -> b) -> [a] -> [b]
-mapInd f l = zipWith f l [0..]
 
 
 postPipelineHandler :: PostPipelineData -> AppM [ReactionId]

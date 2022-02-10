@@ -66,3 +66,9 @@ insertReaction (Reaction _ type' params pipeId order) = Insert
     , onConflict = DoNothing
     , returning = Projection reactionId
     }
+
+getReactionsByPipelineId :: PipelineId -> Query (Reaction Expr)
+getReactionsByPipelineId pId = do
+  r <- each reactionSchema
+  where_ $ reactionPipelineId r ==. lit pId
+  return r

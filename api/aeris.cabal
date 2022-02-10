@@ -38,6 +38,7 @@ library
       Db.User
       Lib
       Password
+      Utils
   other-modules:
       Paths_aeris
   hs-source-dirs:
