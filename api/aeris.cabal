@@ -28,7 +28,6 @@ library
       Api.About
       Api.Auth
       Api.Pipeline
-      Api.User
       App
       Config
       Core.Pipeline
@@ -39,6 +38,11 @@ library
       Db.User
       Lib
       Password
+      Repository
+      Repository.Pipeline
+      Repository.Reaction
+      Repository.User
+      Repository.Utils
       Utils
   other-modules:
       Paths_aeris

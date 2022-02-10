@@ -15,12 +15,11 @@ import Servant.API.Generic        ((:-), ToServantApi)
 import Data.Aeson (ToJSON, FromJSON)
 import Servant.Server.Generic (AsServerT)
 
--- TODO: remove and use the user from db and not hardcoded users
-import Api.User
 import App (AppM)
 import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
 import Core.User (UserId(UserId), User)
+import Repository (getUserByName', createUser)
 
 data LoginUser = LoginUser
   { loginUsername :: String

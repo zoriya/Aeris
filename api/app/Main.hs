@@ -15,7 +15,6 @@ import Network.Wai.Handler.Warp
 import qualified Hasql.Session as Session
 import qualified Hasql.Transaction.Sessions as Hasql
 import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
-import Api.User (users)
 import App
 import Lib
 import Config (getPostgresConfig, dbConfigToConnSettings)

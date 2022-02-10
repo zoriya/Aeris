@@ -22,7 +22,6 @@ import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.Trans.Reader (ask)
 import Data.Aeson ( eitherDecode, defaultOptions, FromJSON, ToJSON )
 import Data.Aeson.TH (deriveJSON)
-import Api.User (runTransactionWithPool)
 import Hasql.Transaction (Transaction, statement)
 import Rel8 (select, each, insert, orderBy, asc, limit)
 import Core.Reaction (ReactionType, ReactionParams)
@@ -30,8 +29,7 @@ import Core.Pipeline (PipelineType, PipelineParams)
 import Data.Text (Text)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), insertReaction, getReactionsByPipelineId)
 import Utils (mapInd)
-import Rel8.Tabulate (order)
-import Data.Functor.Contravariant ((>$<))
+import Repository
 
 data PipelineData = PipelineData
     { pipelineDataName      :: Text
@@ -62,23 +60,6 @@ data PipelineAPI mode = PipelineAPI
     , del   :: mode :- Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
     } deriving stock Generic
 
-runStatement :: MonadIO m => Statement () a -> AppM a
-runStatement x = do
-  State{dbPool = p}  <- ask
-  runTransactionWithPool p $ statement () x
-
-
-getPipelineById' :: PipelineId -> AppM (Pipeline Identity)
-getPipelineById' pId = do
-    State{dbPool = p} <- ask
-    res <- runTransactionWithPool p $ statement () (select $ limit 1 $ getPipelineById pId)
-    return $ head res 
-
-getReactionsByPipelineId' :: PipelineId -> AppM [Reaction Identity]
-getReactionsByPipelineId' pId = do
-    State{dbPool = p} <- ask
-    runTransactionWithPool p $ statement () (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
-    
 
 getPipelineHandler :: PipelineId  -> AppM GetPipelineResponse
 getPipelineHandler pipelineId = do
@@ -87,17 +68,6 @@ getPipelineHandler pipelineId = do
     let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline)
     let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions 
     return $ PostPipelineData actionResult reactionsResult
-
-createPipeline :: Pipeline Identity -> AppM [PipelineId]
-createPipeline pipeline = do
-    State{dbPool = p} <- ask
-    runTransactionWithPool p $ statement () (insert $ insertPipeline pipeline)
-
-createReaction :: Reaction Identity -> AppM [ReactionId]
-createReaction reaction = do
-    State{dbPool = p} <- ask
-    runTransactionWithPool p $ statement () (insert $ insertReaction reaction)
-
 
 postPipelineHandler :: PostPipelineData -> AppM [ReactionId]
 postPipelineHandler x = do
