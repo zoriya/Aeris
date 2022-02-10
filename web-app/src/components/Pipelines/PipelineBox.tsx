@@ -34,31 +34,33 @@ export default function PipelineBox({ title, statusText, service1, service2 }: P
 
 	return (
 		<Card sx={{ display: 'flex', alignItems:"center", borderRadius:"15px" }}>
-			<Box sx={{ display: 'flex', flexDirection: 'column', flex: '2 0 auto', width:'60%' }}>
-				<CardContent sx={{ flex: '1 0 auto' }}>
-					<Typography component="div" variant="h3" noWrap align="left" >
-						{ title }
-					</Typography>
-					<Typography variant="subtitle2" color="text.secondary" noWrap component="div" align="left"  >
-						{ statusText }
-					</Typography>
-				</CardContent>
-			</Box>
-			<Box sx={{ display: 'flex', flex: '1 0 auto' , flexDirection: 'row', padding:'10px', alignItems:"center" }}>
-				<CardMedia
-					component="img"
-					sx={{ width: 50 }}
-					image={ service1.imageSrc }
-					alt={ service1.altText }
-				/>
-				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
-				<CardMedia
-					component="img"
-					sx={{ width: 50 }}
-					image={ service2.imageSrc }
-					alt={ service2.altText }
-				/>
-			</Box>
+			<CardActionArea>
+				<Box sx={{ display: 'flex', flexDirection: 'column', flex: '2 0 auto', width:'60%' }}>
+					<CardContent sx={{ flex: '1 0 auto' }}>
+						<Typography variant="h3" noWrap align="left" >
+							{ title }
+						</Typography>
+						<Typography variant="subtitle2" color="text.secondary" noWrap align="left"  >
+							{ statusText }
+						</Typography>
+					</CardContent>
+				</Box>
+				<Box sx={{ display: 'flex', flex: '1 0 auto' , flexDirection: 'row', padding:'10px', alignItems:"center" }}>
+					<CardMedia
+						component="img"
+						sx={{ width: 50 }}
+						image={ service1.imageSrc }
+						alt={ service1.altText }
+					/>
+					<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
+					<CardMedia
+						component="img"
+						sx={{ width: 50 }}
+						image={ service2.imageSrc }
+						alt={ service2.altText }
+					/>
+				</Box>
+			</CardActionArea>
 		</Card>
 	);
 }

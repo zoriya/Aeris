@@ -6,6 +6,7 @@ import PipelineBoxesLayout from './components/Pipelines/PipelineBoxesLayout';
 import pB from "./components/Pipelines/PipelineBox"
 import PipelineModal from './components/Pipelines/PipelineModal';
 import PipelineBox from './components/Pipelines/PipelineBox';
+import GenericButton from './components/GenericButton';
 import PipelineCreation from './components/Pipelines/PipelineCreation';
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div id='container'>
+          <GenericButton></GenericButton>
           <PipelineBoxesLayout data={data} />
           <PipelineModal height="500" width="500"> 
             <PipelineBoxesLayout data={data} />
