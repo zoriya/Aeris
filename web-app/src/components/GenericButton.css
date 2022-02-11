@@ -1,5 +1,9 @@
 .GenericButton {
-    width: 100px;
     background-color: white;
-    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.GenericButtonMedia {
+    justify-content: center;
 }

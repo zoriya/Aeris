@@ -2,32 +2,41 @@ import { Button } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete"
 import "./GenericButton.css"
 import Card from "@mui/material/Card"
-import { Box, CardContent, Typography, CardMedia, IconButton } from "@mui/material";
+import { Box, CardContent, Typography, CardMedia, IconButton, Avatar } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+import type { ServiceProps } from './types'
 
-export default function GenericButton()
+
+interface GenericButtonProps {
+    title: string,
+
+    service: ServiceProps
+
+}
+
+export default function GenericButton({ title, service }: GenericButtonProps)
 {
     return (
 
-        <Card sx={{ display: 'flex', alignItems:"center", borderRadius:"15px", width:"500px", padding:"10px" }}>
-            <Box sx={{ flex: '1 0 auto' }}>
+        <Card className="GenericButton" sx={{ alignItems:"center", borderRadius:"15px", padding:"10px" }}>
+            <Box className="GenericButtonMedia"  sx={{ display:'flex', flex: '1 0 auto', alignItems:"center" }}>
                 <CardMedia
                     component="img"
                     sx={{ width: 70 }}
-                    image={ "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg" }
-                    alt={ "service2.altText "}
+                    image={ service.imageSrc }
+                    alt={ service.altText }
                 />
             </Box>
-            <Box sx={{ flex: '3 0 auto' }}>
+            <Box sx={{ flex: '5 0 auto' }}>
                 <CardContent>
-                    <Typography variant="h3" noWrap align="center" >
-                        { "title" }
+                    <Typography variant="h4" noWrap align="center" >
+                        { title }
                     </Typography>
                 </CardContent>
             </Box>
             <Box sx={{ flex: '1 0 auto' }}>
-                <IconButton color="secondary" aria-label="Options" component="span">
+                <IconButton color="secondary" aria-label="Options" component="span" >
                     <MoreVertIcon />
                 </IconButton>
             </Box>

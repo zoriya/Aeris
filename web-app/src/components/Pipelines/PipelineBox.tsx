@@ -10,13 +10,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import "./PipelineBox.css"
 import { borderRadius } from '@mui/system';
+import type { ServiceProps } from './../types'
 
-interface ServiceProps {
-	// the image src preferable to use svg files
-	imageSrc: string,
-	// the alt text (screen readers, etc)
-	altText: string
-}
 
 interface PipelineBoxProps {
 	// title of the pipeline box
@@ -27,7 +22,7 @@ interface PipelineBoxProps {
 	service2: ServiceProps,
 }
 
-export type { PipelineBoxProps, ServiceProps}
+export type { PipelineBoxProps}
 
 export default function PipelineBox({ title, statusText, service1, service2 }: PipelineBoxProps) {
 	const theme = useTheme();

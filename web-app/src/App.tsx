@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import type { PipelineBoxProps, ServiceProps } from './components/Pipelines/PipelineBox';
+import type { PipelineBoxProps } from './components/Pipelines/PipelineBox';
+import type { ServiceProps } from './components/types'
 import PipelineBoxesLayout from './components/Pipelines/PipelineBoxesLayout';
 import pB from "./components/Pipelines/PipelineBox"
 import PipelineModal from './components/Pipelines/PipelineModal';
@@ -74,16 +75,19 @@ function App() {
       service2: svc2
     },
   ]
+  /*
+  <PipelineBoxesLayout data={data} />
+          <PipelineModal height="500" width="500"> 
+            <PipelineBoxesLayout data={data} />
+          </PipelineModal>
+  */
 
   return (
     <div className="App">
       <header className="App-header">
         <div id='container'>
-          <GenericButton></GenericButton>
-          <PipelineBoxesLayout data={data} />
-          <PipelineModal height="500" width="500"> 
-            <PipelineBoxesLayout data={data} />
-          </PipelineModal>
+          <GenericButton title='salut' service={svc} />
+          <GenericButton title='salut' service={svc2} />
         </div>
       </header>
     </div>
