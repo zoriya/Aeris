@@ -13,7 +13,7 @@ export class Pipeline {
 	id: number;
 	type: PipelineType;
 	name: string;
-	params: {[key: string]: any};
+	params: {[key: string]: string};
 	userID: number;
 	lastTrigger: Date;
 	triggerCount: number;

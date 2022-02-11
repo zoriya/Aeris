@@ -25,14 +25,22 @@ import { Pipeline, PipelineType, ReactionType } from "./models/pipeline";
 
 const pipelines: Pipeline[] = [
 	{
+		id: 1,
+		userID: 2,
+		enabled: true,
+		lastTrigger: new Date(),
+		triggerCount: 0,
 		name: "toto",
 		type: PipelineType.Youtube_OnUpload,
-		params: {},
+		params: {
+			channel: "UCq-Fj5jknLsUf-MWSy4_brA"
+		},
 		reactions: [{
+			id: 1,
 			type: ReactionType.Twitter_Tweet,
 			params: {}
 		}]
-	} as Pipeline
+	}
 ];
 const manager: Manager = new Manager(from(pipelines));
 await manager.run()
