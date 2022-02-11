@@ -19,7 +19,7 @@ export default function PipelineActionList({ title, actions } : PipelineActionLi
           direction="column"
           spacing={2}
           justifyContent="flex-start"
-          alignItems="baseline"
+          alignItems="flex-start"
           >
             {actions.map((el, index) => (
               <Grid item sm={10} md={10} lg={5}  xl={4} key={index} >

@@ -37,8 +37,6 @@ const useStyles = makeStyles((theme: Theme) => ({
             display: 'absolute',
             justifyContent: 'center',
             alignItems: 'center',
-            width: 487,
-            height: 340,
             marginBottom: 5
         },
         card: {
@@ -187,7 +185,7 @@ export default function AuthComponent(this: any) {
                 component="img"
                 className={classes.media}
                 alt="Aeris Logo"
-                src={require("../../assets/logo-black.png")}
+                src={require("../../assets/logo-white.png")}
             />
             <form className={classes.container} noValidate autoComplete="on">
                 <Card className={classes.card}>

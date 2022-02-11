@@ -133,32 +133,31 @@ export default function App() {
             }
           />
           </PipelineModal>
-          <Box
-              component="img"
-              sx={{
-                  width: 730.5,
-                  height: 510
-              }}
-              alt="Aeris Logo"
-              src={require("./assets/logo-white.png")}
-          />
-          <br/>
-          <Typography
-              variant="h4"
-              style={{ textAlign: 'center', maxWidth: '75%' }}
-          >
-              Aeris est le meilleur AREA de Nantes! Prenez le contrôle de vos réseaux sociaux avec Aeris, la nouvelle application de pipeline!
-          </Typography>
-          <br/>
-          <Button
-              id="toConnect"
-              variant="contained"
-              color="secondary"
-              className="EndStartupBtn"
-              onClick={pushToLogin}
-          >
-              Commencer à utiliser Aeris
-          </Button>
+          <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
+            <Box
+                component="img"
+
+                alt="Aeris Logo"
+                src={require("./assets/logo-white.png")}
+            />
+            <br/>
+            <Typography
+                variant="h4"
+                style={{ textAlign: 'center', maxWidth: '75%' }}
+            >
+                Professional, personnal action-reaction manager
+            </Typography>
+            <br/>
+            <Button
+                id="toConnect"
+                variant="contained"
+                color="secondary"
+                className="EndStartupBtn"
+                onClick={pushToLogin}
+            >
+                Commencer à utiliser Aeris
+            </Button>
+          </Box>
           </div>
       </header>
     </div>
