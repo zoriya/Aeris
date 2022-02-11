@@ -21,10 +21,26 @@ description:         Please see the README on GitHub at <https://github.com/gith
 dependencies:
 - base >= 4.7 && < 5
 - aeson
+- servant
 - servant-server
+- servant-auth
+- servant-auth-server
 - wai
 - warp
 - time
+- bytestring
+- network
+- text
+- hasql
+- hasql-transaction
+- hasql-migration
+- hasql-pool
+- rel8
+- cryptonite
+- memory
+- transformers
+- mr-env
+- utf8-string
 
 library:
   source-dirs: src

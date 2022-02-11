@@ -1,0 +1,4 @@
+- toPassword check security
+- Separate User and UserDB
+- Craft JWT ?
+- Crud pipelines

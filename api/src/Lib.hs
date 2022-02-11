@@ -1,44 +1,27 @@
 {-# LANGUAGE DataKinds       #-}
-{-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TypeOperators   #-}
+{-# LANGUAGE DerivingStrategies #-}
 
-module Lib
-    ( startApp
-    , app
-    ) where
+module Lib where
 
-import Data.Aeson
-import Data.Aeson.TH ( deriveJSON )
-import About
 import Network.Wai
 import Network.Wai.Handler.Warp
 import Servant
-data User = User
-  { userId        :: Int
-  , userFirstName :: String
-  , userLastName  :: String
-  } deriving (Eq, Show)
+import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey, JWTSettings, CookieSettings)
+import qualified Hasql.Connection as Connection
+import Api ( server, NamedAPI )
+import App
+import Control.Monad.Trans.Reader  (ReaderT, ask, runReaderT)
+import Hasql.Pool (acquire)
 
-$(deriveJSON defaultOptions ''User)
 
-
-type API = "users" :> Get '[JSON] [User]
-        :<|> "about.json" :> Get '[JSON] About
-
-startApp :: IO ()
-startApp = run 8080 app
-
-app :: Application
-app = serve api server
-
-api :: Proxy API
+api :: Proxy NamedAPI
 api = Proxy
 
-server :: Server API
-server = return users
-    :<|> about
-
-users :: [User]
-users = [ User 1 "Isaac" "Newton"
-        , User 2 "Albert" "Einstein"
-        ]
+app :: JWTSettings -> State -> Application 
+app jwtCfg state = 
+    serveWithContext api cfg $
+        hoistServerWithContext api (Proxy :: Proxy '[CookieSettings, JWTSettings])
+            (flip runReaderT state) (Api.server cs jwtCfg)
+    where
+        cfg = defaultCookieSettings :. jwtCfg :. EmptyContext
+        cs = defaultCookieSettings
