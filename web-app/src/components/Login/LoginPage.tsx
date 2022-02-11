@@ -35,7 +35,11 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
         media: {
             display: 'absolute',
-            margin: `${theme.spacing(0)} auto`,
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 487,
+            height: 340,
+            marginBottom: 5
         },
         card: {
             display: 'absolute',
@@ -181,11 +185,7 @@ export default function AuthComponent(this: any) {
         <div>
             <Box
                 component="img"
-                sx={{
-                    width: 487,
-                    height: 340,
-                    marginBottom: 5
-                }}
+                className={classes.media}
                 alt="Aeris Logo"
                 src={require("../../assets/logo-black.png")}
             />
