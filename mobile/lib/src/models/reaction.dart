@@ -8,7 +8,7 @@ class Reaction extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
-      Map<String, Object?> parameters = const {}})
+      Map<String, Object> parameters = const {}})
       : super(service: service, name: name, parameters: parameters);
   
   /// Template trigger, used as an 'empty' trigger

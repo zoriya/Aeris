@@ -1,7 +1,7 @@
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter/material.dart';
 import '../widgets/aeris_page.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../aeris.dart';
 
 /// [StatefulWidget] used in order to display StartupPage [Widget]
@@ -28,12 +28,12 @@ class _StartupPageState extends State<StartupPage> {
               curve: Curves.easeInOut
             )
           ),
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: OverlayedText(
-              text: "Aeris is the best AREA in Nantes! Control each of your social network with Aeris, your new Action / Reaction app.",
-              overlayedColor: Color.fromRGBO(50, 0, 27, 1),
-              textColor: Color.fromRGBO(198, 93, 151, 1),
+              text: AppLocalizations.of(context).aerisDescription,
+              overlayedColor: const Color.fromRGBO(50, 0, 27, 1),
+              textColor: const Color.fromRGBO(198, 93, 151, 1),
               fontSize: 20,
               strokeWidth: 2.15
             )
@@ -48,9 +48,9 @@ class _StartupPageState extends State<StartupPage> {
               onPressed: () {
                 Navigator.of(context).pushNamed('/login');
               },
-              child: const Tooltip(
+              child: Tooltip(
                 message: 'Connexion',
-                child: Text("Se connecter")
+                child: Text(AppLocalizations.of(context).connect)
               ),
             ),
           )

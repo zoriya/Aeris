@@ -5,6 +5,7 @@ import 'package:mobile/src/models/trigger.dart';
 import 'package:mobile/src/widgets/action_form.dart';
 import 'package:mobile/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Class to get the action in route's arguments
 class SetupActionPageArguments {
@@ -38,7 +39,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
             last: DateTime.now(),
             service: arguments.action.service,
             name: "action",
-            parameters: {'key1': 'value1', 'key2': null})
+            parameters: {'key1': 'value1', 'key2': 'value2'})
     ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
@@ -82,7 +83,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "${availableActions.length} available actions for ",
+                    "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
                   )),
               Align(alignment: Alignment.centerRight, child: serviceDropdown),
             ],
@@ -104,6 +105,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
+                        initValues: arguments.action.parameters,
                         onValidate: (parameters) {
                           arguments.action.service = serviceState!;
                           arguments.action.parameters = parameters;
