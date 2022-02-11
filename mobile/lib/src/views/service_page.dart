@@ -61,9 +61,9 @@ class ServicePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...[
-                const Align(
+                Align(
                   alignment: Alignment.center,
-                  child: Text("Services", style: TextStyle(fontSize: 25)),
+                  child: Text(AppLocalizations.of(context).services, style: const TextStyle(fontSize: 25)),
                 ),
                 const SizedBox(height: 60)
               ],

@@ -7,6 +7,8 @@
     "nameOfThePipeline": "Name of the pipeline",
     "addReaction": "Add a Reaction",
     "addTrigger": "Add a Trigger",
+    "action": "Action",
+    "reactions": "Reactions",
     "modify": "Modify",
     "delete": "Delete",
     "services": "Services",
@@ -24,6 +26,8 @@
     "deletePipelineWarningMessage": "You are about to delete a pipeline. This action can not be undone. Are you sure ?",
     "avalableActionsFor": "available actions for",
     "mergeDisabledPipelines": "Merge disabled pipelines",
-    "seperateDisabledPipelines": "Seperate disabled pipelines",
-    "aerisDescription": "Aeris is the best AREA in Nantes! Control each of your social network with Aeris, your new Action / Reaction app."
+    "seperateDisabledPipelines": "Separate disabled pipelines",
+    "aerisDescription": "Aeris is the best AREA in Nantes! Control each of your social network with Aeris, your new Action / Reaction app.",
+    "dangerZone": "Danger Zone",
+    "createNewPipeline": "Create a new pipeline"
 }

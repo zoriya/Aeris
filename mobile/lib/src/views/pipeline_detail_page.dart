@@ -1,4 +1,3 @@
-import 'package:aeris/src/main.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
@@ -139,7 +138,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,
             ),
-            const Text("Action", style: TextStyle(fontWeight: FontWeight.w500)),
+            Text(AppLocalizations.of(context).action, style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
                 title: pipeline.trigger.name,
@@ -148,8 +147,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     action: pipeline.trigger,
                     then: () => setState(() {}))),
             const SizedBox(height: 25),
-            const Text("Reactions",
-                style: TextStyle(fontWeight: FontWeight.w500)),
+            Text(AppLocalizations.of(context).reactions,
+                style: const TextStyle(fontWeight: FontWeight.w500)),
             for (var reaction in pipeline.reactions)
               ActionCard(
                   leading: reaction.service.getLogo(logoSize: 50),
@@ -163,10 +162,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     },
                   )),
             addReactionbutton,
-            const Padding(
-                padding: EdgeInsets.only(top: 30, bottom: 5),
-                child: Text("Danger Zone",
-                    style: TextStyle(fontWeight: FontWeight.w500))),
+            Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 5),
+                child: Text(AppLocalizations.of(context).dangerZone,
+                    style: const TextStyle(fontWeight: FontWeight.w500))),
             deleteButton,
             const SizedBox(height: 25),
           ]),

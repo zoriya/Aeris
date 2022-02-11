@@ -38,8 +38,8 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
     return Consumer<PipelineProvider>(
         builder: (context, provider, _) => AerisCardPage(
                 body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Text("Create a new pipeline",
-                  style: TextStyle(
+              Text(AppLocalizations.of(context).createNewPipeline,
+                  style: const TextStyle(
                     fontSize: 25,
                   )),
               FormBuilder(
