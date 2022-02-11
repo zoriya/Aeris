@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/pipeline_collection.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/models/pipeline_collection.dart';
+import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
 import 'package:recase/recase.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

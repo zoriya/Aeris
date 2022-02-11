@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mobile/src/models/pipeline.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
-import 'package:mobile/src/views/pipeline_detail_page.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/action_card.dart';
-import 'package:mobile/src/widgets/action_card_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/models/pipeline.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/views/pipeline_detail_page.dart';
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/action_card.dart';
+import 'package:aeris/src/widgets/action_card_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:mobile/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -37,7 +37,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
     final _formKey = GlobalKey<FormBuilderState>();
     return Consumer<PipelineProvider>(
         builder: (context, provider, _) => AerisCardPage(
-                body: ListView(children: [
+                body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(AppLocalizations.of(context).createNewPipeline,
                   style: const TextStyle(
                     fontSize: 25,
@@ -72,10 +72,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
                                   print("add trigger"); // TODO add reaction
-                                  Navigator.of(context)
-                                      .pushNamed('/pipeline/action/new',
-                                          arguments:
-                                              SetupActionPageArguments(trigger))
+                                  showAerisCardPage(
+                                          context,
+                                          (_) =>
+                                              SetupActionPage(action: trigger))
                                       .then((_) => setState(() {}));
                                 })
                             : ActionCard(
@@ -112,11 +112,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             onTap: () async {
                               // TODO add to db
                               reactions.add(Reaction.template());
-                              await Navigator.of(context).pushNamed(
-                                  '/pipeline/action/new',
-                                  arguments:
-                                      SetupActionPageArguments(reactions.last));
-                              setState(() {});
+                              showAerisCardPage(
+                                      context,
+                                      (_) => SetupActionPage(
+                                          action: reactions.last))
+                                  .then(setState(() {}));
                             }),
                       ),
                       ElevatedButton(

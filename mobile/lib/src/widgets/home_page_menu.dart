@@ -1,6 +1,8 @@
+import 'package:aeris/src/views/service_page.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Menu for the Home Page
@@ -17,13 +19,16 @@ class HomePageMenu extends StatelessWidget {
             title: AppLocalizations.of(context).services,
             value: "/services"),
         AerisPopupMenuItem(
-
             context: context,
             icon: Icons.logout,
             title: AppLocalizations.of(context).logout,
-            value: "/logout"),
+            value: "/logout"), ///TODO Logout
       ],
-      onSelected: (route) => Navigator.pushNamed(context, route as String),
+      onSelected: (route) {
+        if (route as String == "/services") {
+          showAerisCardPage(context, (_) => const ServicePage());
+        }
+        },
       icon: Icons.more_horiz,
       menuOffset: const Offset(0, 50),
     );

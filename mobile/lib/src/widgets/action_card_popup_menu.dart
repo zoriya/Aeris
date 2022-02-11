@@ -1,8 +1,9 @@
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [StatelessWidget] displayed as a PopupMenu
@@ -34,19 +35,8 @@ class ActionCardPopupMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return AerisPopupMenu(
         onSelected: (value) {
-          if (value == '/pipeline/action/del') {
-            onDelete!();
-            ///TODO delete from db
-          } else {
-            Map object = value as Map;
-            Navigator.pushNamed(context, object['route'] as String,
-                    arguments: object['params'])
-                .then((r) {
-              then();
-              return r;
-            });
-          }
-          ;
+          dynamic Function() callback = value! as dynamic Function();
+          callback();
         },
         icon: Icons.more_vert,
         itemBuilder: (context) => [
@@ -54,18 +44,17 @@ class ActionCardPopupMenu extends StatelessWidget {
                   context: context,
                   icon: Icons.settings,
                   title: AppLocalizations.of(context).modify,
-                  value: {
-                    'route': "/pipeline/action/mod",
-                    'params': SetupActionPageArguments(action),
-                  }),
+                  value: () => showAerisCardPage(
+                      context, (_) => SetupActionPage(action: action))),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
                 title: AppLocalizations.of(context).delete,
-                value: "/pipeline/action/del",
-                enabled: deletable,
+                value: onDelete,
+                enabled: deletable
+
+                /// TODO delete from db
                 // TODO Delete from parent pipeline
-                /* TODO Define delete route*/
               ),
             ]);
   }

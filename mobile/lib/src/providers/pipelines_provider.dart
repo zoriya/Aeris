@@ -1,9 +1,9 @@
-import 'package:mobile/src/models/pipeline.dart';
+import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mobile/src/models/pipeline_collection.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/service.dart';
-import 'package:mobile/src/models/trigger.dart';
+import 'package:aeris/src/models/pipeline_collection.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/service.dart';
+import 'package:aeris/src/models/trigger.dart';
 
 /// Provider class for Pipelines
 class PipelineProvider extends ChangeNotifier {
