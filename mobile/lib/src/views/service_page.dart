@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/pipeline.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/service.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
-import 'package:mobile/src/providers/user_services_provider.dart';
-import 'package:mobile/src/widgets/action_card.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
-import 'package:mobile/src/widgets/warning_dialog.dart';
+import 'package:aeris/src/models/pipeline.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/service.dart';
+import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/providers/user_services_provider.dart';
+import 'package:aeris/src/widgets/action_card.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -57,12 +57,8 @@ class ServicePage extends StatelessWidget {
 
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisCardPage(
-        body: NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (overscroll) {
-            overscroll.disallowIndicator();
-            return true;
-          },
-          child: ListView(
+        body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...[
                 Align(
@@ -93,6 +89,7 @@ class ServicePage extends StatelessWidget {
                                   }
                                   return false;
                                 }),
+
                                 /// TODO Remove service from provider
                                 provider.notifyListeners(),
                                 print("Disconnect")
@@ -110,7 +107,6 @@ class ServicePage extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }

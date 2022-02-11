@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mobile/src/models/service.dart';
+import 'package:aeris/src/models/service.dart';
 
 ///Base class for reactions and trigger
 abstract class Action {
@@ -16,5 +16,4 @@ abstract class Action {
       required this.service,
       required this.name,
       this.parameters = const {}});
-
 }

@@ -1,15 +1,13 @@
-import 'package:form_builder_validators/localization/l10n.dart';
-import 'package:mobile/src/main.dart';
-import 'package:mobile/src/providers/pipelines_provider.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/action_card_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
-import 'package:mobile/src/widgets/colored_clickable_card.dart';
-import 'package:mobile/src/widgets/warning_dialog.dart';
-import 'package:mobile/src/widgets/action_card.dart';
+import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/action_card_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/warning_dialog.dart';
+import 'package:aeris/src/widgets/action_card.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/pipeline.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,8 +23,9 @@ class PipelineDetailPageArguments {
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
-  //final String pipelineName; // TODO Define as int later on
-  const PipelineDetailPage({Key? key}) : super(key: key);
+  final Pipeline pipeline;
+  const PipelineDetailPage({Key? key, required this.pipeline})
+      : super(key: key);
 
   @override
   State<PipelineDetailPage> createState() => _PipelineDetailPageState();
@@ -36,10 +35,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
   @override
   Widget build(BuildContext context) =>
       Consumer<PipelineProvider>(builder: (context, provider, _) {
-        final PipelineDetailPageArguments arguments = ModalRoute.of(context)!
-            .settings
-            .arguments as PipelineDetailPageArguments;
-        Pipeline pipeline = arguments.pipeline;
+        Pipeline pipeline = widget.pipeline;
 
         final cardHeader = Row(
           children: [
@@ -105,9 +101,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             text: AppLocalizations.of(context).addReaction,
             onTap: () {
               Reaction newreaction = Reaction.template();
-              Navigator.of(context)
-                  .pushNamed('/pipeline/action/new',
-                      arguments: SetupActionPageArguments(newreaction))
+              showAerisCardPage(
+                      context, (_) => SetupActionPage(action: newreaction))
                   .then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
@@ -137,7 +132,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
         return AerisCardPage(
             body: Padding(
           padding: const EdgeInsets.only(top: 10),
-          child: ListView(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,

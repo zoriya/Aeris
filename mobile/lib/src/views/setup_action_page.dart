@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
-import 'package:mobile/src/models/service.dart';
-import 'package:mobile/src/models/trigger.dart';
-import 'package:mobile/src/widgets/action_form.dart';
-import 'package:mobile/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
+import 'package:aeris/src/models/service.dart';
+import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/widgets/action_form.dart';
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/// Class to get the action in route's arguments
-class SetupActionPageArguments {
-  aeris.Action action;
-
-  SetupActionPageArguments(this.action);
-}
-
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
-  const SetupActionPage({Key? key}) : super(key: key);
+  const SetupActionPage({Key? key, required this.action}) : super(key: key);
+
+  /// Action to setup
+  final aeris.Action action;
 
   @override
   State<SetupActionPage> createState() => _SetupActionPageState();
@@ -27,17 +23,15 @@ class _SetupActionPageState extends State<SetupActionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final SetupActionPageArguments arguments =
-        ModalRoute.of(context)!.settings.arguments as SetupActionPageArguments;
 
-    serviceState ??= arguments.action.service;
+    serviceState ??= widget.action.service;
 
     // TODO Call provider
     List<aeris.Action> availableActions = [
       for (int i = 0; i <= 10; i++)
         Trigger(
             last: DateTime.now(),
-            service: arguments.action.service,
+            service: widget.action.service,
             name: "action",
             parameters: {'key1': 'value1', 'key2': 'value2'})
     ];
@@ -61,7 +55,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               width: 10,
               height: 100,
             ),
-            Text(service.name, style: const TextStyle(fontSize: 20))
+            Text(service.name, style: const TextStyle(fontSize: 15))
           ]),
         );
       }).toList(),
@@ -70,7 +64,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
     return AerisCardPage(
         body: Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
-      child: ListView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text("Setup Action",
               style: TextStyle(
@@ -80,12 +75,20 @@ class _SetupActionPageState extends State<SetupActionPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
-                  )),
-              Align(alignment: Alignment.centerRight, child: serviceDropdown),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
+                    )),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.centerRight, child: serviceDropdown),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 30),
@@ -105,11 +108,11 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
-                        initValues: arguments.action.parameters,
+                        initValues: widget.action.parameters,
                         onValidate: (parameters) {
-                          arguments.action.service = serviceState!;
-                          arguments.action.parameters = parameters;
-                          arguments.action.name = availableAction.name;
+                          widget.action.service = serviceState!;
+                          widget.action.parameters = parameters;
+                          widget.action.name = availableAction.name;
                           Navigator.of(context).pop();
                         }),
                   )),

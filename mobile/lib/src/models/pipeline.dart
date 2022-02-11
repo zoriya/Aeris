@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/trigger.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/trigger.dart';
 
 /// Object representation of a pipeline
 class Pipeline {
