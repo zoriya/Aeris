@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import type { PipelineBoxProps } from './components/Pipelines/PipelineBox';
@@ -9,10 +8,15 @@ import PipelineModal from './components/Pipelines/PipelineModal';
 import PipelineBox from './components/Pipelines/PipelineBox';
 import GenericButton, { GenericButtonProps }  from './components/GenericButton';
 import PipelineCreation from './components/Pipelines/PipelineCreation';
-import { List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Grid, Typography, Box } from '@mui/material'
+import { List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Grid, Typography, Box, FormGroup, FormControlLabel, Switch } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PipelineActionList from './components/PipelineActionList';
+import { styled } from '@mui/material/styles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import PipelineEditPage from './pages/PipelineEditPage';
 
 function App() {
  
@@ -98,14 +102,26 @@ function App() {
           </PipelineModal>
   */
 
+
+
   return (
     <div className="App">
       <header className="App-header">
         <div id='container'>
-          <Box  sx={{ display: 'flex', flexDirection: 'row'}} >
-            <PipelineActionList title="Actions" actions={actions} />
-            <PipelineActionList title="Réactions" actions={actions} />
-          </Box>
+
+          <PipelineModal>
+
+          <PipelineEditPage 
+            title="whaooo" 
+            trigger={ {
+              title: "Playlist jouée",
+              service: svc2
+            } }
+            actions={
+              actions
+            }
+          />
+          </PipelineModal>
         </div>
       </header>
     </div>

@@ -11,12 +11,12 @@ services:
     build: ./mobile
     volumes:
       - apk:/dist
-  # front:
-  #   build: ./web
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     - "mobile"
+  front:
+    build: ./web
+    ports:
+      - "80:80"
+    depends_on:
+      - "mobile"
   api:
     build: ./api
     ports:
