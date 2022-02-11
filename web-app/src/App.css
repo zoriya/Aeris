@@ -22,6 +22,7 @@
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +33,10 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.EndStartupBtn {
+  border-radius: 20px
 }
 
 @keyframes App-logo-spin {

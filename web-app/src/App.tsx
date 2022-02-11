@@ -8,7 +8,7 @@ import PipelineModal from './components/Pipelines/PipelineModal';
 import PipelineBox from './components/Pipelines/PipelineBox';
 import GenericButton, { GenericButtonProps }  from './components/GenericButton';
 import PipelineCreation from './components/Pipelines/PipelineCreation';
-import { List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Grid, Typography, Box, FormGroup, FormControlLabel, Switch } from '@mui/material'
+import { List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Grid, Typography, Box, FormGroup, FormControlLabel, Switch, Button } from '@mui/material'
 import LoadingButton from '@mui/lab/LoadingButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import FolderIcon from '@mui/icons-material/Folder';
@@ -18,8 +18,20 @@ import { styled } from '@mui/material/styles';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PipelineEditPage from './pages/PipelineEditPage';
 
-function App() {
- 
+
+import { useNavigate } from "react-router-dom";
+  /*
+  <PipelineBoxesLayout data={data} />
+          <PipelineModal height="500" width="500"> 
+            <PipelineBoxesLayout data={data} />
+          </PipelineModal>
+  */
+
+
+
+export default function App() {
+
+   
   let svc: ServiceProps = {
     altText: "youTube", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" 
   }
@@ -95,14 +107,13 @@ function App() {
       service: svc2
     },
   ]
-  /*
-  <PipelineBoxesLayout data={data} />
-          <PipelineModal height="500" width="500"> 
-            <PipelineBoxesLayout data={data} />
-          </PipelineModal>
-  */
 
 
+    const navigate = useNavigate();
+
+    const pushToLogin = () => {
+        navigate("/auth");
+    }
 
   return (
     <div className="App">
@@ -122,10 +133,34 @@ function App() {
             }
           />
           </PipelineModal>
-        </div>
+          <Box
+              component="img"
+              sx={{
+                  width: 730.5,
+                  height: 510
+              }}
+              alt="Aeris Logo"
+              src={require("./assets/logo-white.png")}
+          />
+          <br/>
+          <Typography
+              variant="h4"
+              style={{ textAlign: 'center', maxWidth: '75%' }}
+          >
+              Aeris est le meilleur AREA de Nantes! Prenez le contrôle de vos réseaux sociaux avec Aeris, la nouvelle application de pipeline!
+          </Typography>
+          <br/>
+          <Button
+              id="toConnect"
+              variant="contained"
+              color="secondary"
+              className="EndStartupBtn"
+              onClick={pushToLogin}
+          >
+              Commencer à utiliser Aeris
+          </Button>
+          </div>
       </header>
     </div>
   );
 }
-
-export default App;

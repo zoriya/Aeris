@@ -1,0 +1,25 @@
+.inputRounded .MuiOutlinedInput-root {
+    border-radius: 20px;
+}
+
+.loginBox {
+    display: flex;
+    flex: 70%;
+    margin: auto
+}
+
+.loginButton {
+    margin-top: 2px;
+    flex-grow: 1;
+    border-radius: 20px;
+}
+
+.mediaCard {
+    height: 0;
+    padding-top: 100%;
+    margin-top: 30px;
+}
+
+.formCard {
+    padding-top: 10px;
+}

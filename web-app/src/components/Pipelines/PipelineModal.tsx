@@ -6,7 +6,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from '@mui/material/Typography';
 
 import { useTheme } from '@mui/material/styles';
 
