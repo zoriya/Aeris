@@ -15,11 +15,12 @@ interface GenericButtonProps {
 
 }
 
+export type { GenericButtonProps }
+
 export default function GenericButton({ title, service }: GenericButtonProps)
 {
     return (
-
-        <Card className="GenericButton" sx={{ alignItems:"center", borderRadius:"15px", padding:"10px" }}>
+        <Card className="GenericButton" sx={{ alignItems:"center", borderRadius:"15px", padding:"10px", width:"500px" }}>
             <Box className="GenericButtonMedia"  sx={{ display:'flex', flex: '1 0 auto', alignItems:"center" }}>
                 <CardMedia
                     component="img"
@@ -30,7 +31,7 @@ export default function GenericButton({ title, service }: GenericButtonProps)
             </Box>
             <Box sx={{ flex: '5 0 auto' }}>
                 <CardContent>
-                    <Typography variant="h4" noWrap align="center" >
+                    <Typography variant="h4" noWrap align="center" width={"300px"} >
                         { title }
                     </Typography>
                 </CardContent>

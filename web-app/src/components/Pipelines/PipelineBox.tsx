@@ -22,7 +22,7 @@ interface PipelineBoxProps {
 	service2: ServiceProps,
 }
 
-export type { PipelineBoxProps}
+export type { PipelineBoxProps }
 
 export default function PipelineBox({ title, statusText, service1, service2 }: PipelineBoxProps) {
 	const theme = useTheme();

@@ -7,8 +7,12 @@ import PipelineBoxesLayout from './components/Pipelines/PipelineBoxesLayout';
 import pB from "./components/Pipelines/PipelineBox"
 import PipelineModal from './components/Pipelines/PipelineModal';
 import PipelineBox from './components/Pipelines/PipelineBox';
-import GenericButton from './components/GenericButton';
+import GenericButton, { GenericButtonProps }  from './components/GenericButton';
 import PipelineCreation from './components/Pipelines/PipelineCreation';
+import { List, ListItem, ListItemAvatar, ListItemText, Avatar, IconButton, Grid, Typography, Box } from '@mui/material'
+import FolderIcon from '@mui/icons-material/Folder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PipelineActionList from './components/PipelineActionList';
 
 function App() {
  
@@ -75,6 +79,18 @@ function App() {
       service2: svc2
     },
   ]
+
+
+  let actions: Array<GenericButtonProps> = [
+    {
+      title: "Une vidéo à été rg erg ergr rgrg  publiée",
+      service: svc
+    },
+    {
+      title: "Riz aux oignons",
+      service: svc2
+    },
+  ]
   /*
   <PipelineBoxesLayout data={data} />
           <PipelineModal height="500" width="500"> 
@@ -86,8 +102,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div id='container'>
-          <GenericButton title='salut' service={svc} />
-          <GenericButton title='salut' service={svc2} />
+          <Box  sx={{ display: 'flex', flexDirection: 'row'}} >
+            <PipelineActionList title="Actions" actions={actions} />
+            <PipelineActionList title="Réactions" actions={actions} />
+          </Box>
         </div>
       </header>
     </div>
