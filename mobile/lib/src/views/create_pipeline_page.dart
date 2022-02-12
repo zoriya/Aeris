@@ -141,7 +141,6 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   name: _formKey.currentState!.value['name'],
                                   triggerCount: 0,
                                   enabled: true,
-                                  parameters: {},
                                   trigger: trigger,
                                   reactions: reactions);
                               provider.addPipeline(newPipeline);

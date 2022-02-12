@@ -32,7 +32,6 @@ class PipelineProvider extends ChangeNotifier {
         name: "My Action",
         triggerCount: 1,
         enabled: true,
-        parameters: {},
         trigger: trigger1,
         reactions: [reaction]);
     var pipeline2 = Pipeline(
@@ -41,7 +40,6 @@ class PipelineProvider extends ChangeNotifier {
         triggerCount: 10,
         enabled: true,
         trigger: trigger2,
-        parameters: {},
         reactions: [reaction, reaction]);
     var pipeline3 = Pipeline(
         id: 10,
@@ -49,7 +47,6 @@ class PipelineProvider extends ChangeNotifier {
         triggerCount: 3,
         enabled: false,
         trigger: trigger3,
-        parameters: {},
         reactions: [reaction]);
     pipelineCollection = PipelineCollection(pipelines: [
       pipeline3,
