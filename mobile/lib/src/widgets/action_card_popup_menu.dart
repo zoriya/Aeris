@@ -45,7 +45,8 @@ class ActionCardPopupMenu extends StatelessWidget {
                   icon: Icons.settings,
                   title: AppLocalizations.of(context).modify,
                   value: () => showAerisCardPage(
-                      context, (_) => SetupActionPage(action: action))),
+                      context, (_) => SetupActionPage(action: action)).then((_) => then())
+              ),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
