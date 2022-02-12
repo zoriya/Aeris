@@ -61,4 +61,25 @@ class PipelineProvider extends ChangeNotifier {
   int getPipelineCount() {
     return _pipelineCollection.pipelines.length;
   }
+
+  /// returns the pipeline a t the given index in the collection.
+  /// Warning: if the pipeline is updated, no call will be made to api
+  Pipeline getPipelineAt(int index) {
+    return _pipelineCollection.pipelines[index];
+  }
+
+  /// Sets sorting method for pipelines, does not execute sorting
+  void setSortingMethod(PipelineCollectionSort sortingMethod) {
+    _pipelineCollection.sortingMethod = sortingMethod;
+  }
+
+  /// Sets sorting method for pipelines, does not execute sorting
+  void setDisabledSplit(bool split) {
+    _pipelineCollection.sortingSplitDisabled = split;
+  }
+
+  /// Sets sorting method for pipelines, does not execute sorting
+  bool getDisabledSplit() {
+    return _pipelineCollection.sortingSplitDisabled;
+  }
 }

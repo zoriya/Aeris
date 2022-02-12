@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return PipelineCard(
-                    pipeline: provider.pipelineCollection.pipelines[index]);
+                    pipeline: provider.getPipelineAt(index));
               },
             ),
           )),
