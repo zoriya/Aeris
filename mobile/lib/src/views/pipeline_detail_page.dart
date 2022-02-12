@@ -156,6 +156,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     }),
                     onDelete: () {
                       pipeline.reactions.remove(reaction);
+                      GetIt.I<AerisAPI>().updatePipeline(pipeline);
                     },
                   )),
             addReactionbutton,

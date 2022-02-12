@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:aeris/src/models/action.dart';
+import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
@@ -13,14 +15,13 @@ class AerisAPI {
     return Future.delayed(Duration.zero);
   }
 
-    /// Removes pipeline to API
+  /// Removes pipeline to API
   Future<void> removePipeline(Pipeline pipeline) {
     ///TODO Send delete request to API
     return Future.delayed(Duration.zero);
   }
 
-
-  Future<void>updatePipeline(Pipeline pipeline) {
+  Future<void> updatePipeline(Pipeline pipeline) {
     ///TODO Send update request to API
     return Future.delayed(Duration.zero);
   }
@@ -63,7 +64,7 @@ class AerisAPI {
         enabled: false,
         trigger: trigger3,
         reactions: [reaction]);
-    await Future.delayed(const Duration(seconds: 1)); 
+    await Future.delayed(const Duration(seconds: 1));
     return [
       pipeline3,
       pipeline2,
@@ -83,4 +84,20 @@ class AerisAPI {
     return Future.delayed(Duration.zero);
   }
 
+  Future<List<ActionTemplate>> getActionsFor(
+      Service service, Action action) async {
+    await Future.delayed(Duration.zero);
+    if (action is Trigger) {
+      ///TODO get triggers
+    } else if (action is Reaction) {
+      ///TODO get reactions
+    }
+    return [
+      for (int i = 0; i <= 10; i++)
+        ActionTemplate(
+            service: service,
+            name: "action$i",
+            parameters: {'key1': 'value1', 'key2': 'value2'})
+    ];
+  }
 }

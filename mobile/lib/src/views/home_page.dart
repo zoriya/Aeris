@@ -36,9 +36,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.transparent,
             showChildOpacityTransition: false,
             onRefresh: () => provider.fetchPipelines()
-                .then((_) => setState(() {
-                      print("Loaded");
-                    })), // refresh callback
+                .then((_) => setState(() {})), // refresh callback
             child: ListView.builder(
               padding: const EdgeInsets.only(
                   top: 20, bottom: 20, left: 10, right: 10),

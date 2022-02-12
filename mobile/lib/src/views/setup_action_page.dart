@@ -1,11 +1,13 @@
+import 'package:aeris/src/models/action_template.dart';
+import 'package:aeris/src/models/aeris_api.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/service.dart';
-import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/widgets/action_form.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
@@ -20,21 +22,22 @@ class SetupActionPage extends StatefulWidget {
 
 class _SetupActionPageState extends State<SetupActionPage> {
   Service? serviceState;
+  late List<ActionTemplate> availableActions;
+
+  @override
+  void initState() {
+    super.initState();
+    availableActions = [];
+  }
 
   @override
   Widget build(BuildContext context) {
-
     serviceState ??= widget.action.service;
 
-    // TODO Call provider
-    List<aeris.Action> availableActions = [
-      for (int i = 0; i <= 10; i++)
-        Trigger(
-            last: DateTime.now(),
-            service: widget.action.service,
-            name: "action",
-            parameters: {'key1': 'value1', 'key2': 'value2'})
-    ];
+    GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
+      availableActions = actions;
+    }));
+
 
     final Widget serviceDropdown = DropdownButton<Service>(
       value: serviceState,
@@ -43,7 +46,6 @@ class _SetupActionPageState extends State<SetupActionPage> {
       onChanged: (service) {
         setState(() {
           serviceState = service;
-          // TODO call api to get available actions
         });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
