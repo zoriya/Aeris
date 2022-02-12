@@ -20,6 +20,11 @@ class AerisAPI {
   }
 
 
+  Future<void>updatePipeline(Pipeline pipeline) {
+    ///TODO Send update request to API
+    return Future.delayed(Duration.zero);
+  }
+
   /// Fetches the Pipelines from the API
   Future<List<Pipeline>> getPipelines() async {
     /// TODO Fetch the API
@@ -72,8 +77,10 @@ class AerisAPI {
     ];
   }
 
+  /// Disconnects the user form the service
   Future<void> disconnectService(Service service) {
     ///TODO disconnect service from user
     return Future.delayed(Duration.zero);
   }
+
 }
