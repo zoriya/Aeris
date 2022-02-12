@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -102,7 +100,7 @@ class AerisAPI {
 
   Future<List<ActionTemplate>> getActionsFor(
       Service service, Action action) async {
-    await Future.delayed(Duration.zero);
+    await Future.delayed(const Duration(seconds: 3));
     if (action is Trigger) {
       ///TODO get triggers
     } else if (action is Reaction) {
