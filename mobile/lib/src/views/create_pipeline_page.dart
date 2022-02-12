@@ -71,7 +71,6 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     .secondaryContainer,
                                 text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
-                                  print("add trigger"); // TODO add reaction
                                   showAerisCardPage(
                                           context,
                                           (_) =>
@@ -110,7 +109,6 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 .secondaryContainer,
                             text: AppLocalizations.of(context).addReaction,
                             onTap: () async {
-                              // TODO add to db
                               reactions.add(Reaction.template());
                               showAerisCardPage(
                                       context,
@@ -144,9 +142,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   trigger: trigger,
                                   reactions: reactions);
                               provider.addPipeline(newPipeline);
-                              Navigator.of(context).popAndPushNamed('/pipeline',
-                                  arguments:
-                                      PipelineDetailPageArguments(newPipeline));
+                              Navigator.of(context).pop();
+                              showAerisCardPage(
+                                context,
+                                (_) => PipelineDetailPage(pipeline: newPipeline)
+                              );
                             }
                           }
                         },
