@@ -71,4 +71,9 @@ class AerisAPI {
       pipeline1
     ];
   }
+
+  Future<void> disconnectService(Service service) {
+    ///TODO disconnect service from user
+    return Future.delayed(Duration.zero);
+  }
 }

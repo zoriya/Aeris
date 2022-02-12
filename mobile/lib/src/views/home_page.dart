@@ -45,9 +45,9 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(
                   top: 20, bottom: 20, left: 10, right: 10),
               controller: listController,
-              itemCount: provider.pipelineCollection.pipelines.length + 1,
+              itemCount: provider.getPipelineCount() + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == provider.pipelineCollection.pipelines.length) {
+                if (index == provider.getPipelineCount()) {
                   return ClickableCard(
                     color: Theme.of(context).colorScheme.secondary,
                     body: Padding(

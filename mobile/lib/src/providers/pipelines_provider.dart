@@ -19,7 +19,10 @@ class PipelineProvider extends ChangeNotifier {
 
   /// Fetches the pipelines from API and put them in the collection
   fetchPipelines() {
-    GetIt.I<AerisAPI>().getPipelines().then((pipelines) => _pipelineCollection.pipelines = pipelines);
+    GetIt.I<AerisAPI>().getPipelines().then((pipelines) {
+      _pipelineCollection.pipelines = pipelines;
+      notifyListeners();
+    });
   }
 
   /// Adds a pipeline in the Provider
@@ -36,10 +39,26 @@ class PipelineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Removes a specific pipeline from the Provider
+  /// Removes a specific pipeline from the Provider, and notify listeners
   removePipeline(Pipeline pipeline) {
     _pipelineCollection.pipelines.remove(pipeline);
     GetIt.I<AerisAPI>().removePipeline(pipeline);
     notifyListeners();
+  }
+
+  /// Removes piplines matching predicates, and notify listeners
+  removePipelinesWhere(bool Function(Pipeline) predicate) {
+    List<Pipeline> toRemove =
+        _pipelineCollection.pipelines.where(predicate).toList();
+    for (Pipeline pipeline in toRemove) {
+      GetIt.I<AerisAPI>().removePipeline(pipeline);
+      _pipelineCollection.pipelines.remove(pipeline);
+    }
+    notifyListeners();
+  }
+
+  /// returns the number of piepliens currently in the collection
+  int getPipelineCount() {
+    return _pipelineCollection.pipelines.length;
   }
 }
