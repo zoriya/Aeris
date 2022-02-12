@@ -144,9 +144,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   parameters: {},
                                   trigger: trigger,
                                   reactions: reactions);
-                              provider.addPipelineInProvider(newPipeline);
-
-                              ///TODO add to db
+                              provider.addPipeline(newPipeline);
                               Navigator.of(context).popAndPushNamed('/pipeline',
                                   arguments:
                                       PipelineDetailPageArguments(newPipeline));

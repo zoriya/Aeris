@@ -1,9 +1,11 @@
+import 'package:aeris/src/models/aeris_api.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:aeris/src/models/pipeline_collection.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
+import 'package:get_it/get_it.dart';
 
 /// Provider class for Pipelines
 class PipelineProvider extends ChangeNotifier {
@@ -63,8 +65,9 @@ class PipelineProvider extends ChangeNotifier {
   }
 
   /// Adds a pipeline in the Provider
-  addPipelineInProvider(Pipeline newPipeline) {
+  addPipeline(Pipeline newPipeline) {
     pipelineCollection.pipelines.add(newPipeline);
+    GetIt.I<AerisAPI>().createPipeline(newPipeline);
     sortPipelines();
     notifyListeners();
   }
