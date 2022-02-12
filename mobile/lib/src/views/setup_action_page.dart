@@ -1,5 +1,6 @@
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/models/trigger.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/service.dart';
@@ -69,7 +70,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(AppLocalizations.of(context).setupAction,
+          Text(widget.action is Trigger 
+                ? AppLocalizations.of(context).setupTrigger
+                : AppLocalizations.of(context).setupReaction,
               style: const TextStyle(
                 fontSize: 25,
               )),
