@@ -35,11 +35,9 @@ class _HomePageState extends State<HomePage> {
             animSpeedFactor: 3,
             color: Colors.transparent,
             showChildOpacityTransition: false,
-            onRefresh: () => Future.delayed(const Duration(seconds: 2))
+            onRefresh: () => provider.fetchPipelines()
                 .then((_) => setState(() {
                       print("Loaded");
-
-                      ///TODO Call api
                     })), // refresh callback
             child: ListView.builder(
               padding: const EdgeInsets.only(

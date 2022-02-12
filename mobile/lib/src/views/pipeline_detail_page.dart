@@ -14,15 +14,6 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-/// Class to get the pipeline's name in route's arguments
-class PipelineDetailPageArguments {
-  final Pipeline pipeline;
-
-  ///TODO Should be later defined as an int, to fetch from db, or as the object
-
-  PipelineDetailPageArguments(this.pipeline);
-}
-
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   final Pipeline pipeline;
