@@ -139,8 +139,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     deletable: false,
                     action: pipeline.trigger,
                     then: () => setState(() {
-                      GetIt.I<AerisAPI>().updatePipeline(pipeline);
-                    }))),
+                          GetIt.I<AerisAPI>().updatePipeline(pipeline);
+                        }))),
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
@@ -154,10 +154,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                     then: () => setState(() {
                       GetIt.I<AerisAPI>().updatePipeline(pipeline);
                     }),
-                    onDelete: () {
+                    onDelete: () => setState((){
                       pipeline.reactions.remove(reaction);
                       GetIt.I<AerisAPI>().updatePipeline(pipeline);
-                    },
+                    }),
                   )),
             addReactionbutton,
             Padding(

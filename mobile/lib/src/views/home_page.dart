@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
             onRefresh: () => provider.fetchPipelines()
                 .then((_) => setState(() {})), // refresh callback
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(
                   top: 20, bottom: 20, left: 10, right: 10),
               controller: listController,

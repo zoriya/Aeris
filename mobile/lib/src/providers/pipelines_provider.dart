@@ -18,10 +18,10 @@ class PipelineProvider extends ChangeNotifier {
   }
 
   /// Fetches the pipelines from API and put them in the collection
-  fetchPipelines() {
-    GetIt.I<AerisAPI>().getPipelines().then((pipelines) {
+  Future<void> fetchPipelines() {
+    return GetIt.I<AerisAPI>().getPipelines().then((pipelines) {
       _pipelineCollection.pipelines = pipelines;
-      notifyListeners();
+      sortPipelines();
     });
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -9,26 +10,9 @@ import 'package:aeris/src/models/trigger.dart';
 
 /// Call to interact with Aeris' Back end
 class AerisAPI {
-  /// Adds new pipeline to API
-  Future<void> createPipeline(Pipeline newPipeline) {
-    ///TODO Send Pipeline to API
-    return Future.delayed(Duration.zero);
-  }
+  late List<Pipeline> fakeAPI;
 
-  /// Removes pipeline to API
-  Future<void> removePipeline(Pipeline pipeline) {
-    ///TODO Send delete request to API
-    return Future.delayed(Duration.zero);
-  }
-
-  Future<void> updatePipeline(Pipeline pipeline) {
-    ///TODO Send update request to API
-    return Future.delayed(Duration.zero);
-  }
-
-  /// Fetches the Pipelines from the API
-  Future<List<Pipeline>> getPipelines() async {
-    /// TODO Fetch the API
+  AerisAPI() {
     var trigger1 = Trigger(
         service: const Service.spotify(),
         name: "Play song",
@@ -64,8 +48,7 @@ class AerisAPI {
         enabled: false,
         trigger: trigger3,
         reactions: [reaction]);
-    await Future.delayed(const Duration(seconds: 1));
-    return [
+    fakeAPI = [
       pipeline3,
       pipeline2,
       pipeline1,
@@ -76,6 +59,39 @@ class AerisAPI {
       pipeline2,
       pipeline1
     ];
+  }
+
+  /// Adds new pipeline to API
+  Future<void> createPipeline(Pipeline newPipeline) {
+    ///TODO Send Pipeline to API
+    fakeAPI.add(newPipeline);
+    return Future.delayed(Duration.zero);
+  }
+
+  /// Removes pipeline to API
+  Future<void> removePipeline(Pipeline pipeline) {
+    ///TODO Send delete request to API
+    fakeAPI.remove(pipeline);
+    return Future.delayed(Duration.zero);
+  }
+
+  Future<void> updatePipeline(Pipeline updatedPipeline) {
+    ///TODO Send update request to API
+    for (var pipeline in fakeAPI) {
+      if (pipeline.id == updatedPipeline.id) {
+        pipeline = updatedPipeline;
+        break;
+      }
+    }
+
+    return Future.delayed(Duration.zero);
+  }
+
+  /// Fetches the Pipelines from the API
+  Future<List<Pipeline>> getPipelines() async {
+    /// TODO Fetch the API
+    await Future.delayed(const Duration(seconds: 1));
+    return fakeAPI;
   }
 
   /// Disconnects the user form the service
