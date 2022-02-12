@@ -70,7 +70,6 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                             pipeline.enabled = !pipeline.enabled;
                             GetIt.I<AerisAPI>().updatePipeline(pipeline);
                             provider.sortPipelines();
-                            provider.notifyListeners();
                           });
                         },
                       ),
@@ -104,7 +103,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                   });
                 }
                 return r;
-              }); // TODO add reaction in db
+              });
             });
 
         final Widget deleteButton = ColoredClickableCard(
