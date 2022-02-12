@@ -79,7 +79,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: trigger.service.name,
+                                title: trigger.name,
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
                                     action: trigger,
@@ -90,7 +90,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                         for (Reaction reaction in reactions)
                           ActionCard(
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: reaction.service.name,
+                              title: reaction.name,
                               trailing: ActionCardPopupMenu(
                                   deletable: reaction != reactions[0],
                                   action: reaction,
@@ -114,7 +114,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                       context,
                                       (_) => SetupActionPage(
                                           action: reactions.last))
-                                  .then(setState(() {}));
+                                  .then((_) => setState(() {}));
                             }),
                       ),
                       ElevatedButton(
