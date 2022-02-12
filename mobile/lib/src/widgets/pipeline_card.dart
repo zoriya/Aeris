@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/views/pipeline_detail_page.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'aeris_card_page.dart';
 
