@@ -67,8 +67,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Setup Action",
-              style: TextStyle(
+          Text(AppLocalizations.of(context).setupAction,
+              style: const TextStyle(
                 fontSize: 25,
               )),
           const SizedBox(height: 40),
