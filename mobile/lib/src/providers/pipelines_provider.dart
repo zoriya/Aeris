@@ -9,6 +9,9 @@ class PipelineProvider extends ChangeNotifier {
   /// List of Pipelines stored in Provider
   late PipelineCollection _pipelineCollection;
 
+  /// Tells if the provers has loaded data at least once
+  bool initialized = false;
+
   PipelineProvider() {
     _pipelineCollection = PipelineCollection(
         pipelines: [],
@@ -22,11 +25,13 @@ class PipelineProvider extends ChangeNotifier {
     return GetIt.I<AerisAPI>().getPipelines().then((pipelines) {
       _pipelineCollection.pipelines = pipelines;
       sortPipelines();
+      initialized = true;
     });
   }
 
   /// Adds a pipeline in the Provider
   addPipeline(Pipeline newPipeline) {
+    initialized = true;
     _pipelineCollection.pipelines.add(newPipeline);
     GetIt.I<AerisAPI>().createPipeline(newPipeline);
     sortPipelines();

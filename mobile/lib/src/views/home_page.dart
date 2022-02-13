@@ -9,6 +9,7 @@ import 'package:aeris/src/widgets/home_page_sort_menu.dart';
 import 'package:aeris/src/widgets/pipeline_card.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 /// [StatefulWidget] used to display [HomePage] interface
 class HomePage extends StatefulWidget {
@@ -30,7 +31,14 @@ class _HomePageState extends State<HomePage> {
             ),
             const HomePageMenu()
           ],
-          body: LiquidPullToRefresh(
+          body: Padding(padding: const EdgeInsets.only(
+                  top: 20, left: 10, right: 10), child: provider.initialized == false
+            ? ListView(physics: const BouncingScrollPhysics(),children: [SkeletonLoader(
+                builder: ClickableCard(onTap:(){}, body: const SizedBox(height: 80)),
+                items: 10,
+                highlightColor: Theme.of(context).colorScheme.secondary
+              )])
+            : LiquidPullToRefresh(
             borderWidth: 2,
             animSpeedFactor: 3,
             color: Colors.transparent,
@@ -39,8 +47,7 @@ class _HomePageState extends State<HomePage> {
                 .then((_) => setState(() {})), // refresh callback
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(
-                  top: 20, bottom: 20, left: 10, right: 10),
+              padding: const EdgeInsets.only(bottom: 20),
               controller: listController,
               itemCount: provider.getPipelineCount() + 1,
               itemBuilder: (BuildContext context, int index) {
@@ -66,6 +73,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           )),
-    );
+    ));
   }
 }
