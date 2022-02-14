@@ -29,16 +29,14 @@ class _SetupActionPageState extends State<SetupActionPage> {
   void initState() {
     super.initState();
     availableActions = [];
+    serviceState = widget.action.service;
+    GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
+      availableActions = actions;
+    }));
   }
 
   @override
   Widget build(BuildContext context) {
-    serviceState ??= widget.action.service;
-
-    GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
-      availableActions = actions;
-    }));
-
 
     final Widget serviceDropdown = DropdownButton<Service>(
       value: serviceState,
@@ -117,7 +115,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
-                        initValues: widget.action.parameters,
+                        initValues: widget.action.name == availableAction.name
+                                    && availableAction.service.name == widget.action.service.name
+                                    ? widget.action.parameters : const {},
                         onValidate: (parameters) {
                           widget.action.service = serviceState!;
                           widget.action.parameters = parameters;
