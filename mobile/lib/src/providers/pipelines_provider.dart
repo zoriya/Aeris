@@ -71,13 +71,17 @@ class PipelineProvider extends ChangeNotifier {
     return _pipelineCollection.pipelines[index];
   }
 
-  /// Sets sorting method for pipelines, does not execute sorting
-  set sortingMethod(PipelineCollectionSort sortingMethod) =>
-      _pipelineCollection.sortingMethod = sortingMethod;
+  /// Sets sorting method for pipelines, and sorts
+  set sortingMethod(PipelineCollectionSort sortingMethod) {
+    _pipelineCollection.sortingMethod = sortingMethod;
+    _pipelineCollection.sort();
+  }
 
-  /// Sets sorting method for pipelines, does not execute sorting
-  set splitDisabled(bool split) =>
-      _pipelineCollection.sortingSplitDisabled = split;
+  /// Sets sorting method for pipelines, and sorts
+  set splitDisabled(bool split) {
+    _pipelineCollection.sortingSplitDisabled = split;
+    _pipelineCollection.sort();
+  }
 
   /// Sets sorting method for pipelines, does not execute sorting
   bool get disabledSplit => _pipelineCollection.sortingSplitDisabled;

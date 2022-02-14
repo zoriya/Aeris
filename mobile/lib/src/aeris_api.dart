@@ -69,7 +69,7 @@ class AerisAPI {
     return;
   }
 
-  /// Removes pipeline to API
+  /// Removes pipeline from API
   Future<void> removePipeline(Pipeline pipeline) async {
     ///TODO Send delete request to API
     fakeAPI.remove(pipeline);
@@ -97,7 +97,7 @@ class AerisAPI {
     return fakeAPI;
   }
 
-  /// Disconnects the user form the service
+  /// Disconnects the user from the service
   Future<void> disconnectService(Service service) async {
     ///TODO disconnect service from user
     await Future.delayed(const Duration(seconds: 4));
