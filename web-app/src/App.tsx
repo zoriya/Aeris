@@ -7,7 +7,7 @@ import GenericButton, { GenericButtonProps }  from './components/GenericButton';
 import { Typography, Box, Button } from '@mui/material'
 import PipelineEditPage from './pages/PipelineEditPage';
 
-import PipelineSetupModal from "./components/Pipelines/PipelineSetup";
+import PipelineSetupModal, { PipelineTriggersProps, PipelineSetupPageProps } from "./components/Pipelines/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
   /*
@@ -98,6 +98,20 @@ export default function App() {
     },
   ]
 
+  let triggersAvailable: Array<PipelineTriggersProps> = [
+    {
+      name: "Test",
+      triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+    },
+    {
+      name: "Test 2",
+      triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+    },
+    {
+      name: "Test 3",
+      triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+    }
+  ]
 
     const navigate = useNavigate();
 
@@ -111,17 +125,7 @@ export default function App() {
         <div id='container'>
 
           <PipelineModal>
-            {/*<PipelineEditPage*/}
-            {/*    title="whaooo"*/}
-            {/*    trigger={ {*/}
-            {/*      title: "Playlist jouée",*/}
-            {/*      service: svc2*/}
-            {/*    } }*/}
-            {/*    actions={*/}
-            {/*      actions*/}
-            {/*    }*/}
-            {/*/>*/}
-            <PipelineSetupModal actionName="Example 1"/>
+            <PipelineSetupModal actionName="Example 1" data={triggersAvailable}/>
           </PipelineModal>
           <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
             <Box

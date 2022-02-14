@@ -10,11 +10,19 @@ import Select from '@mui/material/Select';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
-interface PipelineSetupPageProps {
-    actionName: string
+interface PipelineTriggersProps {
+    name: String,
+    triggers: Array<String>
 }
 
-export default function PipelineSetupModal({ actionName } : PipelineSetupPageProps) {
+interface PipelineSetupPageProps {
+    actionName: String,
+    data: Array<PipelineTriggersProps>
+}
+
+export type { PipelineSetupPageProps, PipelineTriggersProps };
+
+export default function PipelineSetupModal({ actionName, data } : PipelineSetupPageProps) {
 
     const servicesItems = [
         {
@@ -44,7 +52,7 @@ export default function PipelineSetupModal({ actionName } : PipelineSetupPagePro
         }
     ]
 
-    //TODO On line 34, need to change number 11 to number of available actions
+    //TODO On line 63, need to change number 11 to number of available actions
     return (
         <div>
             <Box
@@ -83,63 +91,35 @@ export default function PipelineSetupModal({ actionName } : PipelineSetupPagePro
             </Box>
             <Grid
                 container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                direction="row"
+                justifyContent="space-around"
+                rowSpacing={4}
+                alignItems="flex-start"
             >
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
-                <Grid
-                    item
-                    xs={4}
-                >
-                    <Select></Select>
-                </Grid>
+                { data.map((el, index) => (
+                    <Grid
+                        item
+                        sm={10}
+                        md={10}
+                        lg={5}
+                        xl={4}
+                        key={0}
+                    >
+                        <Box
+                            alignItems='center' justifyContent='center'
+                        >
+                            <Select
+                                autoWidth
+                                defaultValue={0}
+                            > { el.triggers.map((elem, index) => (
+                                <MenuItem value={index}>
+                                    <ListItemText primary={elem}/>
+                                </MenuItem>
+                            )) }
+                            </Select>
+                        </Box>
+                    </Grid>
+                )) }
             </Grid>
         </div>
     )
