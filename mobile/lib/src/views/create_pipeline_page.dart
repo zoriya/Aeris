@@ -103,7 +103,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               leading: reaction.service.getLogo(logoSize: 50),
                               title: reaction.name,
                               trailing: ActionCardPopupMenu(
-                                  deletable: reaction != reactions[0],
+                                  deletable: reactions.length > 1,
                                   action: reaction,
                                   then: () => setState(() {}),
                                   onDelete: () {
