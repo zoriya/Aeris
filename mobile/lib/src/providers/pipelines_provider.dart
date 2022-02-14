@@ -1,4 +1,4 @@
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:aeris/src/models/pipeline_collection.dart';
@@ -63,9 +63,7 @@ class PipelineProvider extends ChangeNotifier {
   }
 
   /// returns the number of piepliens currently in the collection
-  int getPipelineCount() {
-    return _pipelineCollection.pipelines.length;
-  }
+  int get pipelineCount => _pipelineCollection.pipelines.length;
 
   /// returns the pipeline a t the given index in the collection.
   /// Warning: if the pipeline is updated, no call will be made to api
@@ -74,17 +72,13 @@ class PipelineProvider extends ChangeNotifier {
   }
 
   /// Sets sorting method for pipelines, does not execute sorting
-  void setSortingMethod(PipelineCollectionSort sortingMethod) {
-    _pipelineCollection.sortingMethod = sortingMethod;
-  }
+  set sortingMethod(PipelineCollectionSort sortingMethod) =>
+      _pipelineCollection.sortingMethod = sortingMethod;
 
   /// Sets sorting method for pipelines, does not execute sorting
-  void setDisabledSplit(bool split) {
-    _pipelineCollection.sortingSplitDisabled = split;
-  }
+  set sortingSplitDisabled(bool split) =>
+      _pipelineCollection.sortingSplitDisabled = split;
 
   /// Sets sorting method for pipelines, does not execute sorting
-  bool getDisabledSplit() {
-    return _pipelineCollection.sortingSplitDisabled;
-  }
+  bool get disabledSplit => _pipelineCollection.sortingSplitDisabled;
 }

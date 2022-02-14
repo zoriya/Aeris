@@ -1,4 +1,4 @@
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';

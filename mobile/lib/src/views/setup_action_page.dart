@@ -1,5 +1,5 @@
 import 'package:aeris/src/models/action_template.dart';
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;

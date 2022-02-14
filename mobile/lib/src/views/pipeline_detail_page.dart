@@ -1,4 +1,4 @@
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';

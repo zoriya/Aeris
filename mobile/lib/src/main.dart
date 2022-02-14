@@ -1,4 +1,4 @@
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';

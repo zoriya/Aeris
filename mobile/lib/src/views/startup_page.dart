@@ -1,4 +1,4 @@
-import 'package:aeris/src/models/aeris_api.dart';
+import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
