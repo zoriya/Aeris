@@ -21,7 +21,7 @@ services:
   api:
     build: ./api
     ports:
-      - "3000:81"
+      - "81:8080"
     depends_on:
       - "db"
   worker:
