@@ -68,7 +68,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         onToggle: (value) {
                           setState(() {
                             pipeline.enabled = !pipeline.enabled;
-                            GetIt.I<AerisAPI>().updatePipeline(pipeline);
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
                             provider.sortPipelines();
                           });
                         },
@@ -99,7 +99,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 if (newreaction != Reaction.template()) {
                   setState(() {
                     pipeline.reactions.add(newreaction);
-                    GetIt.I<AerisAPI>().updatePipeline(pipeline);
+                    GetIt.I<AerisAPI>().editPipeline(pipeline);
                   });
                 }
                 return r;
@@ -138,27 +138,30 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     action: pipeline.trigger,
-                    then: () => setState(() {
-                          GetIt.I<AerisAPI>().updatePipeline(pipeline);
-                        }))),
+                    then: () {
+                      setState(() {});
+                      GetIt.I<AerisAPI>().editPipeline(pipeline);
+                    })),
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             for (var reaction in pipeline.reactions)
               ActionCard(
-                  leading: reaction.service.getLogo(logoSize: 50),
-                  title: reaction.name,
-                  trailing: ActionCardPopupMenu(
+                leading: reaction.service.getLogo(logoSize: 50),
+                title: reaction.name,
+                trailing: ActionCardPopupMenu(
                     deletable: reaction != pipeline.reactions.first,
                     action: reaction,
-                    then: () => setState(() {
-                      GetIt.I<AerisAPI>().updatePipeline(pipeline);
-                    }),
-                    onDelete: () => setState((){
+                    then: () {
+                      setState(() {});
+                      GetIt.I<AerisAPI>().editPipeline(pipeline);
+                    },
+                    onDelete: () {
                       pipeline.reactions.remove(reaction);
-                      GetIt.I<AerisAPI>().updatePipeline(pipeline);
+                      setState(() {});
+                      GetIt.I<AerisAPI>().editPipeline(pipeline);
                     }),
-                  )),
+              ),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),

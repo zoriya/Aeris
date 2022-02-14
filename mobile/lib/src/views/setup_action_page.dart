@@ -43,12 +43,12 @@ class _SetupActionPageState extends State<SetupActionPage> {
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
+        GetIt.I<AerisAPI>().getActionsFor(service!, widget.action).then((actions) => setState(() {
+            availableActions = actions;
+        }));
         setState(() {
           serviceState = service;
           availableActions = [];
-          GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
-            availableActions = actions;
-          }));
         });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {

@@ -31,9 +31,10 @@ class _HomePageState extends State<HomePage> {
             ),
             const HomePageMenu()
           ],
-          body: Padding(padding: const EdgeInsets.only(
-                  top: 20, left: 10, right: 10), child: provider.initialized == false
-            ? ListView(physics: const BouncingScrollPhysics(),children: [SkeletonLoader(
+          body: provider.initialized == false
+            ? ListView(physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
+              children: [SkeletonLoader(
                 builder: ClickableCard(onTap:(){}, body: const SizedBox(height: 80)),
                 items: 10,
                 highlightColor: Theme.of(context).colorScheme.secondary
@@ -47,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                 .then((_) => setState(() {})), // refresh callback
             child: ListView.builder(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
               controller: listController,
               itemCount: provider.pipelineCount + 1,
               itemBuilder: (BuildContext context, int index) {
@@ -73,6 +74,6 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           )),
-    ));
+    );
   }
 }

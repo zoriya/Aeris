@@ -77,11 +77,11 @@ class AerisAPI {
     return;
   }
 
-  Future<void> updatePipeline(Pipeline updatedPipeline) async {
+  Future<void> editPipeline(Pipeline updatedPipeline) async {
     ///TODO Send update request to API
     for (var pipeline in fakeAPI) {
       if (pipeline.id == updatedPipeline.id) {
-        pipeline = updatedPipeline;
+        ///TODO Call Api
         break;
       }
     }
