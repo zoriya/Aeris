@@ -1,16 +1,8 @@
 import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
-import { Twitter } from "./services/twitter";
-import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
+import { Pipeline, PipelineEnv } from "./models/pipeline";
+import { servicesFactory } from "./models/services";
 import { Runner } from "./runner";
-import { Youtube } from "./services/youtube";
 
-export type ActionListener = (params: any) => Observable<PipelineEnv>;
-export type ActionListeners = {[key: string]: ActionListener};
-
-export const listenerFactory: ActionListeners = {
-	[PipelineType.Twitter_OnTweet]: Twitter.listenTweet,
-	[PipelineType.Youtube_OnUpload]: Youtube.listenChannel,
-};
 
 export class Manager {
 	private _pipelines: Observable<Pipeline>;
@@ -40,7 +32,8 @@ export class Manager {
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
 		try {
-			return listenerFactory[pipeline.type](pipeline.params)
+			const service = servicesFactory[pipeline.service](pipeline);
+			return service.getAction(pipeline.type)(pipeline.params)
 		} catch (err) {
 			return this.handlePipelineError(pipeline, err);
 		}

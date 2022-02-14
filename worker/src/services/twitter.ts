@@ -1,8 +1,13 @@
 import { exhaustMap, from, fromEventPattern, map, Observable } from "rxjs";
-import { PipelineEnv } from "../models/pipeline";
+import { Pipeline, PipelineEnv } from "../models/pipeline";
 import { ETwitterStreamEvent, TweetStream, TwitterApi } from "twitter-api-v2";
+import { BaseService } from "../models/base-service";
 
-export class Twitter {
+export class Twitter extends BaseService {
+	constructor(_: Pipeline) {
+		super();
+	}
+
 	private static async _createStream(): Promise<TweetStream> {
 		const client: TwitterApi = new TwitterApi();
 		const stream = await client.v2.sampleStream();
