@@ -30,6 +30,7 @@ library
       Api.Pipeline
       App
       Config
+      Core.OIDC
       Core.Pipeline
       Core.Reaction
       Core.User
@@ -57,9 +58,12 @@ library
     , hasql-migration
     , hasql-pool
     , hasql-transaction
+    , http-conduit
+    , http-media
     , memory
     , mr-env
     , network
+    , opaleye >=0.9.0.0 && <0.9.2.0
     , rel8
     , servant
     , servant-auth
@@ -68,6 +72,7 @@ library
     , text
     , time
     , transformers
+    , unordered-containers
     , utf8-string
     , wai
     , warp
@@ -90,9 +95,12 @@ executable aeris-exe
     , hasql-migration
     , hasql-pool
     , hasql-transaction
+    , http-conduit
+    , http-media
     , memory
     , mr-env
     , network
+    , opaleye >=0.9.0.0 && <0.9.2.0
     , rel8
     , servant
     , servant-auth
@@ -101,6 +109,7 @@ executable aeris-exe
     , text
     , time
     , transformers
+    , unordered-containers
     , utf8-string
     , wai
     , warp
@@ -127,9 +136,12 @@ test-suite aeris-test
     , hspec
     , hspec-wai
     , hspec-wai-json
+    , http-conduit
+    , http-media
     , memory
     , mr-env
     , network
+    , opaleye >=0.9.0.0 && <0.9.2.0
     , rel8
     , servant
     , servant-auth
@@ -138,6 +150,7 @@ test-suite aeris-test
     , text
     , time
     , transformers
+    , unordered-containers
     , utf8-string
     , wai
     , warp
