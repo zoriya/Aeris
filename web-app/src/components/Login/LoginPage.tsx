@@ -221,8 +221,8 @@ export default function AuthComponent(this: any) {
                                 required
                                 id="password"
                                 type="password"
-                                label="Mot de passe"
-                                placeholder="Mot de passe"
+                                label="Password"
+                                placeholder="Password"
                                 margin="normal"
                                 variant='outlined'
                                 size="small"
@@ -245,8 +245,8 @@ export default function AuthComponent(this: any) {
                                     required
                                     id="confirm_password"
                                     type="password"
-                                    label="Confirmation du mot de passe"
-                                    placeholder="Mot de passe"
+                                    label="Confirm password"
+                                    placeholder="Password"
                                     margin="normal"
                                     variant='outlined'
                                     size="small"
@@ -267,7 +267,7 @@ export default function AuthComponent(this: any) {
                     <CardActions style={{ justifyContent: 'center', alignContent: 'center' }}>
                         <RouterLink to='/forget'>
                             <Typography>
-                                Mot de passe oublié?
+                                Forgot password?
                             </Typography>
                         </RouterLink>
                     </CardActions>
@@ -278,7 +278,7 @@ export default function AuthComponent(this: any) {
                             className={classes.loginBtn}
                             onClick={handleLogin}
                             disabled={state.isButtonDisabled}>
-                            {state.authMode === 'login' ? 'Connexion' : "S'enregistrer"}
+                            {state.authMode === 'login' ? 'Connection' : "Signup"}
                         </Button>
                     </CardActions>
                     <CardActions>
@@ -296,7 +296,7 @@ export default function AuthComponent(this: any) {
                                     payload: !state.isConfirmButtonVisible
                                 });
                             }}>
-                            {state.authMode === 'login' ? "S'enregistrer" : "Connexion"}
+                            {state.authMode === 'login' ? "Signup" : "Connection"}
                         </Button>
                     </CardActions>
                 </Card>

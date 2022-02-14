@@ -111,6 +111,16 @@ export default function App() {
         <div id='container'>
 
           <PipelineModal>
+            {/*<PipelineEditPage*/}
+            {/*    title="whaooo"*/}
+            {/*    trigger={ {*/}
+            {/*      title: "Playlist jouée",*/}
+            {/*      service: svc2*/}
+            {/*    } }*/}
+            {/*    actions={*/}
+            {/*      actions*/}
+            {/*    }*/}
+            {/*/>*/}
             <PipelineSetupModal actionName="Example 1"/>
           </PipelineModal>
           <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
@@ -135,7 +145,7 @@ export default function App() {
                 className="EndStartupBtn"
                 onClick={pushToLogin}
             >
-                Commencer à utiliser Aeris
+                Connect to Aeris
             </Button>
           </Box>
           </div>
