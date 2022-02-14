@@ -120,7 +120,7 @@ export default function App() {
       <header className="App-header">
         <div id='container'>
 
-          <PipelineModal>
+          <PipelineModal isOpen={true} >
 
           <PipelineEditPage 
             title="whaooo" 

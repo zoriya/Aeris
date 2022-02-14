@@ -24,10 +24,15 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-export default function PipelineModal(props :any) {
+interface PipelineModalProps {
+    isOpen: boolean,
+    children: React.ReactNode
+}
+
+export default function PipelineModal({ isOpen, children } : PipelineModalProps ) {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(isOpen);
 
     const handleOpen = () => {
         setOpen(true);
@@ -36,8 +41,6 @@ export default function PipelineModal(props :any) {
         setOpen(false);
     };
 
-
-    const divStyle: string = "width: " + props.width + "; height:" + props.height + ";"
 
     return (
         <div>
@@ -62,7 +65,7 @@ export default function PipelineModal(props :any) {
                         >
                             <CloseIcon/>
                         </IconButton>
-                        { props.children }
+                        { children }
                     </div>
                 </Fade>
             </Modal>

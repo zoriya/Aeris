@@ -151,6 +151,7 @@ export default function AuthComponent(this: any) {
                 type: 'loginSuccess',
                 payload: 'Login Successfully'
             });
+            navigate("/pipelines");
         } else {
             dispatch({
                 type: 'loginFailed',

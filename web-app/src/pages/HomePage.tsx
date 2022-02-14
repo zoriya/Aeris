@@ -1,9 +1,22 @@
 import PipelineBoxesLayout from '../components/Pipelines/PipelineBoxesLayout';
 import type { PipelineBoxProps } from '../components/Pipelines/PipelineBox';
 import type { ServiceProps } from '../components/types'
+import PipelineEditPage from './PipelineEditPage';
+import PipelineModal from '../components/Pipelines/PipelineModal';
+import GenericButton, { GenericButtonProps }  from '../components/GenericButton';
+import { useState } from 'react';
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(theme => ({
+    divHomePage: {
+      display: "contents",
+    },
+  }));
 
 
 export default function HomePage() {
+    const classes = useStyles();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     let svc: ServiceProps = {
         altText: "youTube", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" 
@@ -17,7 +30,10 @@ export default function HomePage() {
           title: 'My super action',
           statusText: "Last: 2d ago", 
           service1: svc ,
-          service2: svc2
+          service2: svc2,
+          onClickCallback: () => {
+            setIsModalOpen(!isModalOpen);
+          } 
         },
         {
           title: 'Lorem ipsum behm uit\'s long',
@@ -69,8 +85,35 @@ export default function HomePage() {
         },
       ]
 
+      let actions: Array<GenericButtonProps> = [
+        {
+          title: "Une vidéo à été rg erg ergr rgrg  publiée",
+          service: svc
+        },
+        {
+          title: "Riz aux oignons",
+          service: svc2
+        },
+      ]
+
       return (
-        <PipelineBoxesLayout data={data} />
+        <div className={classes.divHomePage} >
+            <PipelineBoxesLayout data={data} />
+            <div> {"test " + isModalOpen} </div>
+            <PipelineModal isOpen={isModalOpen} >
+                <PipelineEditPage 
+                    title="whaooo" 
+                    trigger={ {
+                        title: "Playlist jouée",
+                        service: svc2
+                    } }
+                    actions={
+                    actions
+                    }
+                />
+            </PipelineModal>
+
+        </div>
       );
 
 }

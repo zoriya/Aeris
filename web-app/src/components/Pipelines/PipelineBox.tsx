@@ -20,16 +20,17 @@ interface PipelineBoxProps {
 	statusText: string,
 	service1: ServiceProps,
 	service2: ServiceProps,
+	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export type { PipelineBoxProps }
 
-export default function PipelineBox({ title, statusText, service1, service2 }: PipelineBoxProps) {
+export default function PipelineBox({ title, statusText, service1, service2, onClickCallback }: PipelineBoxProps) {
 	const theme = useTheme();
 
 	return (
 		<Card sx={{ alignItems:"center", borderRadius:"15px" }}>
-			<CardActionArea>
+			<CardActionArea onClick={onClickCallback} >
 				<Box sx={{ display: 'flex', flexDirection: 'row'}} >
 					<Box sx={{ flexDirection: 'column', flex: '2 0 auto', width:'60%' }}>
 						<CardContent sx={{ flex: '1 0 auto' }}>
