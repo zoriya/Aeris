@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme: Theme) => ({
             display: 'absolute',
             justifyContent: 'center',
             alignItems: 'center',
+            width: 354.75,
+            height: 478.5,
             marginBottom: 5
         },
         card: {
