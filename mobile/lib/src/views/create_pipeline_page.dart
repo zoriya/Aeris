@@ -46,7 +46,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                   key: _formKey,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: Column(children: [
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       FormBuilderTextField(
                         name: 'name',
                         initialValue: name,
@@ -62,6 +62,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                           name = value;
                         },
                       ),
+                      const SizedBox(height: 10),
+                      trigger != Trigger.template()
+                      ? Text(AppLocalizations.of(context).action,
+                        style: const TextStyle(fontWeight: FontWeight.w500))
+                      : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: trigger == Trigger.template()
@@ -86,9 +91,15 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     then: () => setState(() {})),
                               ),
                       ),
+                      reactions.isNotEmpty
+                        ? Text(AppLocalizations.of(context).reactions,
+                          style: const TextStyle(fontWeight: FontWeight.w500))
+                        : Container(),
                       ...[
                         for (Reaction reaction in reactions)
-                          ActionCard(
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child:  ActionCard(
                               leading: reaction.service.getLogo(logoSize: 50),
                               title: reaction.name,
                               trailing: ActionCardPopupMenu(
@@ -99,7 +110,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     setState(() {
                                       reactions.remove(reaction);
                                     });
-                                  }))
+                                  })))
                       ],
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -117,7 +128,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   .then((_) => setState(() {}));
                             }),
                       ),
-                      ElevatedButton(
+                      Center(child: ElevatedButton(
                         child: const Text("Save"),
                         onPressed: () {
                           _formKey.currentState!.save();
@@ -150,7 +161,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             }
                           }
                         },
-                      ),
+                      )),
                     ]),
                   )),
             ])));
