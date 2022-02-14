@@ -46,16 +46,15 @@ class HomePageSortMenu extends StatelessWidget {
             title: split
                 ? AppLocalizations.of(context).mergeDisabledPipelines
                 : AppLocalizations.of(context).seperateDisabledPipelines,
-            value: ""),
+            value: !split),
       ],
       onSelected: (sortingMethod) {
         /// TODO: not clean
-        if (sortingMethod == "") {
-          collectionProvider.splitDisabled = split;
+        if (sortingMethod is bool) {
+          collectionProvider.splitDisabled = sortingMethod;
         } else {
           collectionProvider.sortingMethod = sortingMethod as PipelineCollectionSort;
         }
-        collectionProvider.sortPipelines();
       },
       icon: Icons.sort,
       menuOffset: const Offset(0, 50),
