@@ -27,6 +27,7 @@ data UserDB f = UserDB
   , username      :: Column f Text
   , password      :: Column f HashedPassword
   , slug          :: Column f Text
+  , externalTokens :: Column f [ExternalToken]
   } deriving stock (Generic)
     deriving anyclass (Rel8able)
 
@@ -40,7 +41,7 @@ instance FromJSON User'
 instance FromJWT User'
 
 toUser :: User' -> User
-toUser (UserDB id name _ slug) = User id name slug
+toUser (UserDB id name _ slug _) = User id name slug
 
 userSchema :: TableSchema (UserDB Name)
 userSchema = TableSchema
@@ -51,6 +52,7 @@ userSchema = TableSchema
       , username = "username"
       , password = "password"
       , slug = "slug"
+      , externalTokens = "external_tokens"
       }
   }
 
@@ -76,13 +78,14 @@ getUserBySlug s = do
     return u
 
 insertUser :: User' -> Insert [UserId]
-insertUser (UserDB id name password slug) = Insert
+insertUser (UserDB id name password slug _) = Insert
     { into = userSchema
     , rows = values [ UserDB {
         userDBId = unsafeCastExpr $ nextval "users_id_seq",
         username = lit name,
         password = lit password,
-        slug = lit slug
+        slug = lit slug,
+        externalTokens = lit []
     } ]
     , onConflict = DoNothing
     , returning = Projection userDBId

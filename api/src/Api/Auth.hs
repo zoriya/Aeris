@@ -71,7 +71,7 @@ signupHandler  :: SignupUser
         -> AppM NoContent
 signupHandler (SignupUser name p) = do
   hashed <- hashPassword'' $ toPassword $ pack p
-  usr <- createUser $ UserDB (UserId 1) (pack name) hashed (pack name)
+  usr <- createUser $ UserDB (UserId 1) (pack name) hashed (pack name) []
   return NoContent
 
 unprotected :: CookieSettings -> JWTSettings -> ServerT Unprotected AppM
