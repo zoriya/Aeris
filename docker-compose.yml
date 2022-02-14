@@ -23,6 +23,12 @@ services:
       - "3000:81"
     depends_on:
       - "db"
+  worker:
+    build: ./worker
+    ports:
+      - "3001:8999"
+    depends_on:
+      - "api"
 
 volumes:
   apk:

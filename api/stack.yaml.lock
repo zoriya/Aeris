@@ -3,10 +3,57 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: rel8-1.1.0.0@sha256:c31ad1bfbd7446ccbe39075d66dc89c8de3b3788c144247c9de269cfc55e1428,5023
+    pantry-tree:
+      sha256: 11aca3bab6462b5997acb4a9969625e839d5369ff1c7cb687db86a729d5b4c00
+      size: 9096
+  original:
+    hackage: rel8-1.1.0.0@sha256:c31ad1bfbd7446ccbe39075d66dc89c8de3b3788c144247c9de269cfc55e1428,5023
+- completed:
+    git: https://github.com/haskell-servant/servant.git
+    name: servant
+    subdir: servant
+    pantry-tree:
+      sha256: 4117d3e09f19f29ea429a1516e8bf7d64644cd8a0ecc026a5931865c3b1da61d
+      size: 2949
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+    version: 0.18.3
+  original:
+    git: https://github.com/haskell-servant/servant.git
+    subdir: servant
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+- completed:
+    git: https://github.com/haskell-servant/servant.git
+    name: servant-server
+    subdir: servant-server
+    pantry-tree:
+      sha256: 43d23c42011f5c3ff3f298b1910d7f2b43a66144e92e2e762b0efffe63634af4
+      size: 2727
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+    version: 0.18.3
+  original:
+    git: https://github.com/haskell-servant/servant.git
+    subdir: servant-server
+    commit: 22d5790e73f6b74401ac2cec32a627edc77a34d8
+- completed:
+    hackage: hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
+    pantry-tree:
+      sha256: 55e3dfca36ffe0d11e1c42bce446e3cc1d5b9a4983e196ec99c650c8b4268845
+      size: 589
+  original:
+    hackage: hasql-migration-0.3.0@sha256:6ca4cc6c89834bb79eb9f15b504774043b5b3994336bd86a9d79e59da6d54963,2799
+- completed:
+    hackage: mr-env-0.1.0.4@sha256:56439c7df09a83b72b170f104723293643ad2635df03cdcd174a05d0d73e788d,1055
+    pantry-tree:
+      sha256: da91d4e0f5aff5336e3e73ecb1d44fe595dd47bc572335956ba30d937d14573d
+      size: 376
+  original:
+    hackage: mr-env-0.1.0.4@sha256:56439c7df09a83b72b170f104723293643ad2635df03cdcd174a05d0d73e788d,1055
 snapshots:
 - completed:
+    sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb
     size: 586120
     url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/18/22.yaml
-    sha256: f9970d6f25c63e3e4265aa8e9c69a047ba8919d1107e4996bdd7555b75aad0eb
   original: lts-18.22
