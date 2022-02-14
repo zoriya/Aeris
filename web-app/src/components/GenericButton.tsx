@@ -1,9 +1,6 @@
-import { Button } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete"
-import "./GenericButton.css"
+import { Box, CardContent, Typography, CardMedia, IconButton } from "@mui/material";
 import Card from "@mui/material/Card"
-import { Box, CardContent, Typography, CardMedia, IconButton, Avatar } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import "./GenericButton.css"
 
 import type { ServiceProps } from './types'
 
@@ -13,11 +10,12 @@ interface GenericButtonProps {
 
     service: ServiceProps
 
+    trailingIcon: JSX.Element
 }
 
 export type { GenericButtonProps }
 
-export default function GenericButton({ title, service }: GenericButtonProps)
+export default function GenericButton({ title, service, trailingIcon }: GenericButtonProps)
 {
     return (
         <Card className="GenericButton" sx={{ alignItems:"center", borderRadius:"15px", padding:"10px", width:"500px" }}>
@@ -38,7 +36,7 @@ export default function GenericButton({ title, service }: GenericButtonProps)
             </Box>
             <Box sx={{ flex: '1 0 auto' }}>
                 <IconButton color="secondary" aria-label="Options" component="span" >
-                    <MoreVertIcon />
+                    { trailingIcon }
                 </IconButton>
             </Box>
 		</Card>

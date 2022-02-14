@@ -1,6 +1,6 @@
 import PipelineModal from './PipelineModal';
 
-import {Google, GitHub, MusicNote, Twitter, YouTube, SvgIconComponent} from '@mui/icons-material';
+import {Google, GitHub, MusicNote, Twitter, YouTube} from '@mui/icons-material';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';

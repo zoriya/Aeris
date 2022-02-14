@@ -10,6 +10,7 @@ import PipelineEditPage from './pages/PipelineEditPage';
 import PipelineSetupModal, { PipelineTriggersProps, PipelineSetupPageProps } from "./components/Pipelines/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
   /*
   <PipelineBoxesLayout data={data} />
           <PipelineModal height="500" width="500"> 
@@ -21,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function App() {
 
-   
   let svc: ServiceProps = {
     altText: "youTube", imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" 
   }
@@ -90,11 +90,13 @@ export default function App() {
   let actions: Array<GenericButtonProps> = [
     {
       title: "Une vidéo à été rg erg ergr rgrg  publiée",
-      service: svc
+      service: svc,
+      trailingIcon: <MoreVertIcon/>
     },
     {
       title: "Riz aux oignons",
-      service: svc2
+      service: svc2,
+      trailingIcon: <MoreVertIcon/>
     },
   ]
 
