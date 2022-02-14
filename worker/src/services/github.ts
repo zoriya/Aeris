@@ -70,6 +70,31 @@ export class GitHub {
 		});
 	}
 
+	static createRepo(params: any) {
+		checkParams(params, ['name']);
+
+		this.getGitHubInstance().rest.repos.createForAuthenticatedUser({
+			name: params['name']
+		});
+	}
+
+	static createPrivateRepo(params: any) {
+		checkParams(params, ['name']);
+
+		this.getGitHubInstance().rest.repos.createForAuthenticatedUser({
+			name: params['name'], private: true
+		});
+	}
+
+	static updateDescription(params:any) {
+		checkParams(params, ['owner', 'repo', 'description']);
+
+		this.getGitHubInstance().repos.update({
+			owner: params['owner'], repo: params['repo'],
+			description: params['description']
+		});
+	}
+
 	static forkRepo(params: any) {
 		checkParams(params, ['owner', 'repo']);
 
