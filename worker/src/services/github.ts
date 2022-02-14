@@ -7,11 +7,8 @@ export class GitHub {
 	}
 
 	static commentPR(params: any) {
-		var expectedParameters = ['owner', 'repo', 'pull_number', 'body']
-		expectedParameters.forEach((param, _, __) => {
-			if (!(param in params))
-				throw new MissingParameterException(param);
-		});
+		checkParams(params, ['owner', 'repo', 'pull_number', 'body']);
+
 		this.getGitHubInstance().pulls.createReviewComment({
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number'], body: params['body']
@@ -19,11 +16,8 @@ export class GitHub {
 	}
 
 	static commentIssue(params: any) {
-		var expectedParameters = ['owner', 'repo', 'issue_number', 'body']
-		expectedParameters.forEach((param, _, __) => {
-			if (!(param in params))
-				throw new MissingParameterException(param);
-		});
+		checkParams(params, ['owner', 'repo', 'issue_number', 'body']);
+
 		this.getGitHubInstance().issues.createComment({
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], body: params['body']
