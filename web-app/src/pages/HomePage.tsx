@@ -100,7 +100,7 @@ export default function HomePage() {
         <div className={classes.divHomePage} >
             <PipelineBoxesLayout data={data} />
             <div> {"test " + isModalOpen} </div>
-            <PipelineModal isOpen={isModalOpen} >
+            <PipelineModal isOpen={isModalOpen} handleClose={ () => setIsModalOpen(false) } >
                 <PipelineEditPage 
                     title="whaooo" 
                     trigger={ {

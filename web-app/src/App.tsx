@@ -120,19 +120,6 @@ export default function App() {
       <header className="App-header">
         <div id='container'>
 
-          <PipelineModal isOpen={true} >
-
-          <PipelineEditPage 
-            title="whaooo" 
-            trigger={ {
-              title: "Playlist jouée",
-              service: svc2
-            } }
-            actions={
-              actions
-            }
-          />
-          </PipelineModal>
           <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
             <Box
                 component="img"

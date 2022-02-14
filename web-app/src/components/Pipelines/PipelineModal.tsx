@@ -26,30 +26,22 @@ const useStyles = makeStyles(theme => ({
 
 interface PipelineModalProps {
     isOpen: boolean,
-    children: React.ReactNode
+    children: React.ReactNode,
+    handleClose: () => void
 }
 
-export default function PipelineModal({ isOpen, children } : PipelineModalProps ) {
+export default function PipelineModal({ isOpen, children, handleClose } : PipelineModalProps ) {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = useState(isOpen);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
-
+    //             <Button onClick={handleOpen}>Show pipeline</Button>
 
     return (
         <div>
-            <Button onClick={handleOpen}>Show pipeline</Button>
             <Modal
                 className={classes.modal}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
-                open={open}
+                open={isOpen}
                 onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
@@ -57,7 +49,7 @@ export default function PipelineModal({ isOpen, children } : PipelineModalProps 
                   timeout: 500
                 }}
             >
-                <Fade in={open}>
+                <Fade in={isOpen}>
                     <div className={classes.paper} >
                         <IconButton
                             onClick={handleClose}
