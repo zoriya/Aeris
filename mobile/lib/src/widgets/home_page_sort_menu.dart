@@ -29,7 +29,7 @@ class HomePageSortMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool split = collectionProvider.getDisabledSplit();
+    bool split = collectionProvider.disabledSplit;
     return AerisPopupMenu(
       itemBuilder: (context) => [
         ...[
@@ -51,9 +51,9 @@ class HomePageSortMenu extends StatelessWidget {
       onSelected: (sortingMethod) {
         /// TODO: not clean
         if (sortingMethod == "") {
-          collectionProvider.setDisabledSplit(split);
+          collectionProvider.splitDisabled = split;
         } else {
-          collectionProvider.setSortingMethod(sortingMethod as PipelineCollectionSort);
+          collectionProvider.sortingMethod = sortingMethod as PipelineCollectionSort;
         }
         collectionProvider.sortPipelines();
       },

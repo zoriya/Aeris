@@ -49,9 +49,9 @@ class _HomePageState extends State<HomePage> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 20),
               controller: listController,
-              itemCount: provider.getPipelineCount() + 1,
+              itemCount: provider.pipelineCount + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == provider.getPipelineCount()) {
+                if (index == provider.pipelineCount) {
                   return ClickableCard(
                     color: Theme.of(context).colorScheme.secondary,
                     body: Padding(
