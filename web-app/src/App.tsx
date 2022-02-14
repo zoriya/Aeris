@@ -126,9 +126,6 @@ export default function App() {
       <header className="App-header">
         <div id='container'>
 
-          <PipelineModal>
-            <PipelineSetupModal actionName="Example 1" data={triggersAvailable}/>
-          </PipelineModal>
           <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
             <Box
                 component="img"

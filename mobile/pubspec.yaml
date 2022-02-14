@@ -1,4 +1,4 @@
-name: mobile
+name: aeris
 description: Mobile application for Aeris
 
 # The following line prevents the package from being accidentally published to
@@ -29,13 +29,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  cached_network_image: ^3.1.0
+  intl: ^0.17.0
+  animated_text_kit: ^4.2.1
+  flutter_native_splash: ^1.3.3
+  flutter_login: ^3.1.0
+  flutter_switch: ^0.3.2
+  flutter_fadein: ^2.0.0
+  provider: ^6.0.2
+  expandable: ^5.0.1
+  flutter_form_builder: ^7.1.0
+  form_builder_validators: ^7.4.0
+  recase: ^4.0.0
+  liquid_pull_to_refresh: ^3.0.1
+  modal_bottom_sheet: ^2.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.9.2"
   flutter_test:
     sdk: flutter
 
@@ -46,11 +62,17 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -61,6 +83,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  assets:
+    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

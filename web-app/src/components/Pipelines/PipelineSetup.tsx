@@ -1,5 +1,3 @@
-import PipelineModal from './PipelineModal';
-
 import {Google, GitHub, MusicNote, Twitter, YouTube} from '@mui/icons-material';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -28,27 +26,27 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
         {
             name: "Twitter",
             key: "twitter",
-            icon: <Twitter />
+            icon: <Twitter/>
         },
         {
             name: "GitHub",
             key: "github",
-            icon: <GitHub />
+            icon: <GitHub/>
         },
         {
             name: "Google",
             key: "google",
-            icon: <Google />
+            icon: <Google/>
         },
         {
             name: "YouTube",
             key: "youtube",
-            icon: <YouTube />
+            icon: <YouTube/>
         },
         {
             name: "Spotify",
             key: "spotify",
-            icon: <MusicNote />
+            icon: <MusicNote/>
         }
     ]
 
@@ -56,17 +54,29 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
     return (
         <div>
             <Box
-                sx={{ display: 'flex', flexDirection: 'row', alignItems: "center", justifyContent: "space-between", marginBottom:"100px"}}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "100px"
+                }}
             >
                 <Typography variant="h2" noWrap align="left">
-                    Setup Action: { actionName }
+                    Setup Action: {actionName}
                 </Typography>
             </Box>
             <Box
-                sx={{ display: 'flex', flexDirection: 'row', alignItems: "right", justifyContent: "flex-end", marginBottom:"50px" }}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: "right",
+                    justifyContent: "flex-end",
+                    marginBottom: "50px"
+                }}
             >
                 <Typography variant="h3" noWrap align="right"
-                    sx={{ mr: 4 }}
+                            sx={{mr: 4}}
                 >
                     11 available actions for
                 </Typography>
@@ -75,10 +85,10 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                     variant="standard"
                     defaultValue={"twitter"}
                 >
-                    { servicesItems.map((item, index) => (
+                    {servicesItems.map((item, index) => (
                         <MenuItem value={item.key}>
                             <Box
-                                sx={{ display: 'flex', gap: 1 }}
+                                sx={{display: 'flex', gap: 1}}
                             >
                                 <ListItemIcon>
                                     {item.icon}
@@ -86,7 +96,7 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                                 <ListItemText primary={item.name}/>
                             </Box>
                         </MenuItem>
-                    )) }
+                    ))}
                 </Select>
             </Box>
             <Grid
@@ -96,7 +106,7 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                 rowSpacing={4}
                 alignItems="flex-start"
             >
-                { data.map((el, index) => (
+                {data.map((el, index) => (
                     <Grid
                         item
                         sm={10}
@@ -111,15 +121,15 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                             <Select
                                 autoWidth
                                 defaultValue={0}
-                            > { el.triggers.map((elem, index) => (
+                            > {el.triggers.map((elem, index) => (
                                 <MenuItem value={index}>
                                     <ListItemText primary={elem}/>
                                 </MenuItem>
-                            )) }
+                            ))}
                             </Select>
                         </Box>
                     </Grid>
-                )) }
+                ))}
             </Grid>
         </div>
     )

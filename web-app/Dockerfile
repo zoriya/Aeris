@@ -6,6 +6,6 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx
+FROM nginx:1.21
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /webapp/build/ /usr/share/nginx/html

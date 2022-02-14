@@ -1,0 +1,48 @@
+[
+	{
+		"name": "Github",
+		"actions": [
+			{
+				"name": "github_new",
+				"description": "Created a new repository on Github"
+			},
+			{
+				"name": "github_forked",
+				"description": "Forked a new repository on Github"
+			}
+		],
+		"reactions": [
+			{
+				"name": "github_new",
+				"description": "Create a new repository on Github"
+			},
+			{
+				"name": "github_fork",
+				"description": "Forke a new repository on Github"
+			}
+		]
+	},
+	{
+		"name": "Facebook",
+		"actions": [
+			{
+				"name": "facebook_new",
+				"description": "Created a new post on Facebook"
+			},
+			{
+				"name": "facebook_comment",
+				"description": "Commented on a post on Facebook"
+			}
+		],
+		"reactions": [
+			{
+				"name": "facebook_new",
+				"description": "Create a new post on Facebook"
+			},
+			{
+				"name": "facebook_comment",
+				"description": "Comment on a post on Facebook"
+			}
+		]
+	}
+]
