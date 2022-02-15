@@ -71,7 +71,6 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     .secondaryContainer,
                                 text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
-                                  print("add trigger"); // TODO add reaction
                                   showAerisCardPage(
                                           context,
                                           (_) =>
@@ -80,7 +79,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: trigger.service.name,
+                                title: trigger.name,
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
                                     action: trigger,
@@ -91,7 +90,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                         for (Reaction reaction in reactions)
                           ActionCard(
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: reaction.service.name,
+                              title: reaction.name,
                               trailing: ActionCardPopupMenu(
                                   deletable: reaction != reactions[0],
                                   action: reaction,
@@ -110,13 +109,12 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 .secondaryContainer,
                             text: AppLocalizations.of(context).addReaction,
                             onTap: () async {
-                              // TODO add to db
                               reactions.add(Reaction.template());
                               showAerisCardPage(
                                       context,
                                       (_) => SetupActionPage(
                                           action: reactions.last))
-                                  .then(setState(() {}));
+                                  .then((_) => setState(() {}));
                             }),
                       ),
                       ElevatedButton(
@@ -141,15 +139,14 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   name: _formKey.currentState!.value['name'],
                                   triggerCount: 0,
                                   enabled: true,
-                                  parameters: {},
                                   trigger: trigger,
                                   reactions: reactions);
-                              provider.addPipelineInProvider(newPipeline);
-
-                              ///TODO add to db
-                              Navigator.of(context).popAndPushNamed('/pipeline',
-                                  arguments:
-                                      PipelineDetailPageArguments(newPipeline));
+                              provider.addPipeline(newPipeline);
+                              Navigator.of(context).pop();
+                              showAerisCardPage(
+                                context,
+                                (_) => PipelineDetailPage(pipeline: newPipeline)
+                              );
                             }
                           }
                         },

@@ -9,6 +9,7 @@ import 'package:aeris/src/widgets/home_page_sort_menu.dart';
 import 'package:aeris/src/widgets/pipeline_card.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 /// [StatefulWidget] used to display [HomePage] interface
 class HomePage extends StatefulWidget {
@@ -30,24 +31,28 @@ class _HomePageState extends State<HomePage> {
             ),
             const HomePageMenu()
           ],
-          body: LiquidPullToRefresh(
+          body: provider.initialized == false
+            ? ListView(physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
+              children: [SkeletonLoader(
+                builder: ClickableCard(onTap:(){}, body: const SizedBox(height: 80)),
+                items: 10,
+                highlightColor: Theme.of(context).colorScheme.secondary
+              )])
+            : LiquidPullToRefresh(
             borderWidth: 2,
             animSpeedFactor: 3,
             color: Colors.transparent,
             showChildOpacityTransition: false,
-            onRefresh: () => Future.delayed(const Duration(seconds: 2))
-                .then((_) => setState(() {
-                      print("Loaded");
-
-                      ///TODO Call api
-                    })), // refresh callback
+            onRefresh: () => provider.fetchPipelines()
+                .then((_) => setState(() {})), // refresh callback
             child: ListView.builder(
-              padding: const EdgeInsets.only(
-                  top: 20, bottom: 20, left: 10, right: 10),
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
               controller: listController,
-              itemCount: provider.pipelineCollection.pipelines.length + 1,
+              itemCount: provider.pipelineCount + 1,
               itemBuilder: (BuildContext context, int index) {
-                if (index == provider.pipelineCollection.pipelines.length) {
+                if (index == provider.pipelineCount) {
                   return ClickableCard(
                     color: Theme.of(context).colorScheme.secondary,
                     body: Padding(
@@ -65,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return PipelineCard(
-                    pipeline: provider.pipelineCollection.pipelines[index]);
+                    pipeline: provider.getPipelineAt(index));
               },
             ),
           )),

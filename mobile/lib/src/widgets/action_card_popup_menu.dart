@@ -20,15 +20,16 @@ class ActionCardPopupMenu extends StatelessWidget {
     }
   }
 
-  /// Action to trigger
+  /// Selected Action
   final aeris.Action action;
 
-  /// Function to trigger when PopupMenu option is selected
+  /// Function to trigger once the Edit menu is closed
   final void Function() then;
 
-  /// Deletable characteristic
+  /// Deletable caracteristic
   final bool deletable;
 
+  /// What to do if the 'delete' button is clicked?
   final void Function()? onDelete;
 
   @override
@@ -45,16 +46,14 @@ class ActionCardPopupMenu extends StatelessWidget {
                   icon: Icons.settings,
                   title: AppLocalizations.of(context).modify,
                   value: () => showAerisCardPage(
-                      context, (_) => SetupActionPage(action: action))),
+                      context, (_) => SetupActionPage(action: action)).then((_) => then())
+              ),
               AerisPopupMenuItem(
                 context: context,
                 icon: Icons.delete,
                 title: AppLocalizations.of(context).delete,
                 value: onDelete,
                 enabled: deletable
-
-                /// TODO delete from db
-                // TODO Delete from parent pipeline
               ),
             ]);
   }
