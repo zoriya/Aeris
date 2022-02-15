@@ -4,6 +4,7 @@ import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:aeris/src/widgets/action_card.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
@@ -148,22 +149,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            ReorderableColumn(
-              ignorePrimaryScrollController: true,
-              onReorder: (int oldItemIndex, int newItemIndex) {
-                GetIt.I<AerisAPI>().editPipeline(pipeline);
-                setState(() {
-                  var movedItem = pipeline.reactions.removeAt(oldItemIndex);
-                  if (newItemIndex > pipeline.reactions.length) {
-                    newItemIndex = pipeline.reactions.length;
-                  }
-                  pipeline.reactions.insert(newItemIndex, movedItem);
-                });
-              },
-              children: [
-                ...[
-                  for (var reaction in pipeline.reactions)
-                    ActionCard(
+            ReorderableReactionCardsList(
+              onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
+              reactionList: pipeline.reactions,
+              itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
                       title: reaction.name,
@@ -180,8 +169,6 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                             GetIt.I<AerisAPI>().editPipeline(pipeline);
                           }),
                     )
-                ]
-              ],
             ),
             addReactionbutton,
             Padding(
