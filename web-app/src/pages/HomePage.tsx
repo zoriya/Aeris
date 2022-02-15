@@ -8,6 +8,7 @@ import PipelineEditPage from './PipelineEditPage';
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from 'react';
+import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
 
 const useStyles = makeStyles(theme => ({
     divHomePage: {
@@ -116,6 +117,9 @@ export default function HomePage() {
                     actions
                     }
                 />
+            </PipelineModal>
+            <PipelineModal isOpen={isModalOpen} handleClose={ () => setIsModalOpen(false) } >
+                 <PipelineNameSetup title="Playlist jouée" actions={actions}/>
             </PipelineModal>
         </div>
       );

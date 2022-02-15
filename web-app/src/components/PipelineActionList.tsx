@@ -7,6 +7,8 @@ interface PipelineActionListProps {
 
 }
 
+export type { PipelineActionListProps };
+
 export default function PipelineActionList({ title, actions } : PipelineActionListProps) {
     return (
         <div>
