@@ -118,9 +118,6 @@ export default function HomePage() {
                     }
                 />
             </PipelineModal>
-            <PipelineModal isOpen={isModalOpen} handleClose={ () => setIsModalOpen(false) } >
-                 <PipelineNameSetup title="Playlist jouée" actions={actions}/>
-            </PipelineModal>
         </div>
       );
 
