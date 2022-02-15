@@ -98,21 +98,3 @@ export default function ServiceSetupModal() {
         </div>
     )
 }
-
-// <Typography variant="h6" noWrap align="right">
-//     Linked
-// </Typography>
-// <Box
-//     sx={{
-//         flexDirection: 'column',
-//         alignItems: "center",
-//         justifyContent: "space-between",
-//         marginRight: "10px"
-//     }}
-// >
-//     { services.map((elem, index) => (
-//         <Grid item mb={4} key={index}>
-//             <GenericButton service={elem} title={elem.altText} trailingIcon={<Logout/>}/>
-//         </Grid>
-//     )) }
-// </Box>
