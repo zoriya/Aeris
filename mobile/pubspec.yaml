@@ -51,6 +51,7 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   get_it: ^7.2.0
   skeleton_loader: ^2.0.0+4
+  drag_and_drop_lists: ^0.3.2+2
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.2"

@@ -27,6 +27,10 @@ class AerisAPI {
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
         service: const Service.twitter(), parameters: {}, name: "Post a tweet");
+    var reaction2 = Reaction(
+        service: const Service.gmail(), parameters: {}, name: "Do smth");
+    var reaction1 = Reaction(
+        service: const Service.youtube(), parameters: {}, name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -40,7 +44,7 @@ class AerisAPI {
         triggerCount: 10,
         enabled: true,
         trigger: trigger2,
-        reactions: [reaction, reaction]);
+        reactions: [reaction, reaction1, reaction2]);
     var pipeline3 = Pipeline(
         id: 10,
         name: "Disabled",

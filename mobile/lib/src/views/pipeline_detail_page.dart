@@ -6,6 +6,7 @@ import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:aeris/src/widgets/action_card.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -145,23 +146,38 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            for (var reaction in pipeline.reactions)
-              ActionCard(
-                leading: reaction.service.getLogo(logoSize: 50),
-                title: reaction.name,
-                trailing: ActionCardPopupMenu(
-                    deletable: pipeline.reactions.length > 1,
-                    action: reaction,
-                    then: () {
-                      setState(() {});
-                      GetIt.I<AerisAPI>().editPipeline(pipeline);
-                    },
-                    onDelete: () {
-                      pipeline.reactions.remove(reaction);
-                      setState(() {});
-                      GetIt.I<AerisAPI>().editPipeline(pipeline);
-                    }),
-              ),
+            DragAndDropLists(
+              disableScrolling: true,
+              onItemReorder: (int oldItemIndex, _, int newItemIndex, __) {
+                setState(() {
+                  var movedItem = pipeline.reactions.removeAt(oldItemIndex);
+                  pipeline.reactions.insert(newItemIndex, movedItem);
+                  GetIt.I<AerisAPI>().editPipeline(pipeline);
+                });
+              },
+              onListReorder: (_,__) {},
+              children: [DragAndDropList(children: [...[
+                for (var reaction in pipeline.reactions)
+                DragAndDropItem(
+                  canDrag: pipeline.reactions.length > 1,
+                  child: ActionCard(
+                  leading: reaction.service.getLogo(logoSize: 50),
+                  title: reaction.name,
+                  trailing: ActionCardPopupMenu(
+                      deletable: pipeline.reactions.length > 1,
+                      action: reaction,
+                      then: () {
+                        setState(() {});
+                        GetIt.I<AerisAPI>().editPipeline(pipeline);
+                      },
+                      onDelete: () {
+                        pipeline.reactions.remove(reaction);
+                        setState(() {});
+                        GetIt.I<AerisAPI>().editPipeline(pipeline);
+                      }),
+                )
+                )]],
+            )]),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),

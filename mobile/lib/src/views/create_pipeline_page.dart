@@ -126,8 +126,9 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                       (_) => SetupActionPage(
                                           action: newreact))
                                   .then((_) => setState(() {
-                                    if (newreact != Reaction.template())
+                                    if (newreact != Reaction.template()) {
                                       reactions.add(newreact);
+                                    }
                                   }));
                             }),
                       ),
