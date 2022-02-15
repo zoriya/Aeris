@@ -120,12 +120,15 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 .secondaryContainer,
                             text: AppLocalizations.of(context).addReaction,
                             onTap: () async {
-                              reactions.add(Reaction.template());
+                              var newreact = Reaction.template();
                               showAerisCardPage(
                                       context,
                                       (_) => SetupActionPage(
-                                          action: reactions.last))
-                                  .then((_) => setState(() {}));
+                                          action: newreact))
+                                  .then((_) => setState(() {
+                                    if (newreact != Reaction.template())
+                                      reactions.add(newreact);
+                                  }));
                             }),
                       ),
                       Center(child: ElevatedButton(
