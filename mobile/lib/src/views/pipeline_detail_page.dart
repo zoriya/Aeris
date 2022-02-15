@@ -150,7 +150,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 leading: reaction.service.getLogo(logoSize: 50),
                 title: reaction.name,
                 trailing: ActionCardPopupMenu(
-                    deletable: reaction != pipeline.reactions.first,
+                    deletable: pipeline.reactions.length > 1,
                     action: reaction,
                     then: () {
                       setState(() {});
