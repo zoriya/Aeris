@@ -12,6 +12,7 @@ import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -149,7 +150,6 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             DragAndDropLists(
               lastItemTargetHeight: 40,
               lastListTargetSize: 0,
-              //addLastItemTargetHeightToTop: true,
               disableScrolling: true,
               onItemReorder: (int oldItemIndex, _, int newItemIndex, __) {
                 setState(() {
