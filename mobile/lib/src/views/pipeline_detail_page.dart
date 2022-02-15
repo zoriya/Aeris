@@ -15,6 +15,7 @@ import 'package:get_it/get_it.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:reorderables/reorderables.dart';
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
@@ -147,40 +148,41 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            DragAndDropLists(
-              lastItemTargetHeight: 40,
-              lastListTargetSize: 0,
-              disableScrolling: true,
-              onItemReorder: (int oldItemIndex, _, int newItemIndex, __) {
+            ReorderableColumn(
+              ignorePrimaryScrollController: true,
+              onReorder: (int oldItemIndex, int newItemIndex) {
+                GetIt.I<AerisAPI>().editPipeline(pipeline);
                 setState(() {
                   var movedItem = pipeline.reactions.removeAt(oldItemIndex);
+                  if (newItemIndex > pipeline.reactions.length) {
+                    newItemIndex = pipeline.reactions.length;
+                  }
                   pipeline.reactions.insert(newItemIndex, movedItem);
-                  GetIt.I<AerisAPI>().editPipeline(pipeline);
                 });
               },
-              onListReorder: (_,__) {},
-              children: [DragAndDropList(children: [...[
-                for (var reaction in pipeline.reactions)
-                DragAndDropItem(
-                  canDrag: pipeline.reactions.length > 1,
-                  child: ActionCard(
-                  leading: reaction.service.getLogo(logoSize: 50),
-                  title: reaction.name,
-                  trailing: ActionCardPopupMenu(
-                      deletable: pipeline.reactions.length > 1,
-                      action: reaction,
-                      then: () {
-                        setState(() {});
-                        GetIt.I<AerisAPI>().editPipeline(pipeline);
-                      },
-                      onDelete: () {
-                        pipeline.reactions.remove(reaction);
-                        setState(() {});
-                        GetIt.I<AerisAPI>().editPipeline(pipeline);
-                      }),
-                )
-                )]],
-            )]),
+              children: [
+                ...[
+                  for (var reaction in pipeline.reactions)
+                    ActionCard(
+                      key: ValueKey(pipeline.reactions.indexOf(reaction)),
+                      leading: reaction.service.getLogo(logoSize: 50),
+                      title: reaction.name,
+                      trailing: ActionCardPopupMenu(
+                          deletable: pipeline.reactions.length > 1,
+                          action: reaction,
+                          then: () {
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          },
+                          onDelete: () {
+                            pipeline.reactions.remove(reaction);
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          }),
+                    )
+                ]
+              ],
+            ),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),
