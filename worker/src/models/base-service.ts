@@ -19,10 +19,15 @@ export class BaseService {
 	static actions: { [service: string]: { [action: string]: ActionMetadata } } = {};
 
 	getAction(action: PipelineType): (params: any) => Observable<PipelineEnv> {
-		console.log(JSON.stringify(BaseService.actions, undefined, 4))
-		let key: string = BaseService.actions[this.constructor.name][PipelineType[action]].accessor;
-		// @ts-ignore
-		return (params: any) => this[key].apply(this, [params]);
+		const metadata: ActionMetadata = BaseService.actions[this.constructor.name][PipelineType[action]];
+		return (params: any) => {
+			for (let required of metadata.parameters) {
+				if (!(required in params))
+					throw new TypeError(`Expected the parameter ${required} but it was not found.`);
+			}
+			// @ts-ignore
+			return this[metadata.accessor].apply(this, [params])
+		};
 	}
 
 	getReaction(reaction: ReactionType): (params: any) => Promise<PipelineEnv> {

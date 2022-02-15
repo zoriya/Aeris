@@ -26,8 +26,6 @@ export class Youtube extends BaseService {
 
 	@action(PipelineType.OnUpload, ["channel"])
 	listenChannel(params: any): Observable<PipelineEnv> {
-		if (!("channel" in params))
-			throw new TypeError("Expected a channel parameter but none were given.");
 		return this.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
 				part: ["snippet"],
