@@ -1,3 +1,4 @@
+import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -95,11 +96,13 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                         ? Text(AppLocalizations.of(context).reactions,
                           style: const TextStyle(fontWeight: FontWeight.w500))
                         : Container(),
-                      ...[
-                        for (Reaction reaction in reactions)
-                          Padding(
+                        Padding(
                             padding: const EdgeInsets.only(left: 8, right: 8),
-                            child:  ActionCard(
+                            child:  ReorderableReactionCardsList(
+                              reactionList: reactions,
+                              onReorder: () {  },
+                              itemBuilder: (reaction) => ActionCard(
+                              key: ValueKey(reactions.indexOf(reaction)),
                               leading: reaction.service.getLogo(logoSize: 50),
                               title: reaction.name,
                               trailing: ActionCardPopupMenu(
@@ -110,8 +113,9 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     setState(() {
                                       reactions.remove(reaction);
                                     });
-                                  })))
-                      ],
+                                  })),
+                          )
+                        ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ColoredClickableCard(
