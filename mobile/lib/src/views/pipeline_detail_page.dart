@@ -147,6 +147,9 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             DragAndDropLists(
+              lastItemTargetHeight: 40,
+              lastListTargetSize: 0,
+              //addLastItemTargetHeightToTop: true,
               disableScrolling: true,
               onItemReorder: (int oldItemIndex, _, int newItemIndex, __) {
                 setState(() {
