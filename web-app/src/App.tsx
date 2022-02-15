@@ -1,13 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
 import type { PipelineBoxProps } from './components/Pipelines/PipelineBox';
-import type { ServiceProps } from './components/types'
-import PipelineModal from './components/Pipelines/PipelineModal';
-import GenericButton, { GenericButtonProps }  from './components/GenericButton';
-import { Typography, Box, Button } from '@mui/material'
-import PipelineEditPage from './pages/PipelineEditPage';
+import { GenericButtonProps }  from './components/GenericButton';
+import { Typography, Box, Button } from '@mui/material';
+import type { ServiceProps } from './components/types';
+import './App.css';
 
-import PipelineSetupModal, { PipelineTriggersProps, PipelineSetupPageProps } from "./components/Pipelines/PipelineSetup";
+import { PipelineTriggersProps } from "./components/Pipelines/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -125,7 +122,6 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div id='container'>
-
           <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
             <Box
                 component="img"
@@ -151,7 +147,7 @@ export default function App() {
                 Connect to Aeris
             </Button>
           </Box>
-          </div>
+        </div>
       </header>
     </div>
   );

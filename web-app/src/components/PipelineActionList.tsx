@@ -1,6 +1,5 @@
-
-import { Typography, Grid } from '@mui/material'
 import GenericButton, { GenericButtonProps } from './GenericButton';
+import { Typography, Grid } from '@mui/material'
 
 interface PipelineActionListProps {
     title: string,

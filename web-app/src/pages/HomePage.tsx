@@ -1,12 +1,13 @@
 import PipelineBoxesLayout from '../components/Pipelines/PipelineBoxesLayout';
 import type { PipelineBoxProps } from '../components/Pipelines/PipelineBox';
-import type { ServiceProps } from '../components/types'
-import PipelineEditPage from './PipelineEditPage';
 import PipelineModal from '../components/Pipelines/PipelineModal';
-import GenericButton, { GenericButtonProps }  from '../components/GenericButton';
-import { useState } from 'react';
+import { GenericButtonProps }  from '../components/GenericButton';
+import type { ServiceProps } from '../components/types';
+import PipelineEditPage from './PipelineEditPage';
+
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
+import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
     divHomePage: {
@@ -100,7 +101,7 @@ export default function HomePage() {
       ]
 
       return (
-        <div className={classes.divHomePage} >
+          <div className={classes.divHomePage} >
             <PipelineBoxesLayout data={data} />
             <div> {"test " + isModalOpen} </div>
             <PipelineModal isOpen={isModalOpen} handleClose={ () => setIsModalOpen(false) } >
@@ -116,7 +117,6 @@ export default function HomePage() {
                     }
                 />
             </PipelineModal>
-
         </div>
       );
 

@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from "@material-ui/icons/Close";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 import { makeStyles } from "@material-ui/core/styles";
+import IconButton from '@mui/material/IconButton';
+import Backdrop from "@material-ui/core/Backdrop";
+import CloseIcon from "@material-ui/icons/Close";
+import Fade from "@material-ui/core/Fade";
+import Modal from '@mui/material/Modal';
 
 import { useTheme } from '@mui/material/styles';
 

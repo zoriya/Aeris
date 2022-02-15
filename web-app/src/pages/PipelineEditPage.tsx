@@ -1,10 +1,10 @@
 import { Box, Typography, FormGroup, FormControlLabel, Switch } from "@mui/material"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 import PipelineActionList from "../components/PipelineActionList";
-import AddBoxIcon from "@mui/icons-material/AddBox"
-import DeleteIcon from "@mui/icons-material/Delete"
-import { styled } from '@mui/material/styles';
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from '@mui/lab/LoadingButton';
+import { styled } from '@mui/material/styles';
 
 import { GenericButtonProps } from "./../components/GenericButton";
 
