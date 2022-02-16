@@ -40,7 +40,7 @@ class _PipelineCardState extends State<PipelineCard> {
         body: Container(
             width: double.infinity,
             padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 40, right: 30),
+                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 25),
             child: Row(children: [
               Expanded(
                   flex: 5,
@@ -59,7 +59,7 @@ class _PipelineCardState extends State<PipelineCard> {
                               color: widget.pipeline.enabled == false
                                   ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 12)),
+                              fontSize: 14)),
                     ],
                   )),
               Expanded(
