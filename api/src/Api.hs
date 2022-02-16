@@ -6,7 +6,7 @@
 module Api where
 
 import Servant.Auth.Server (CookieSettings, JWTSettings, JWT)
-import Servant.API.Generic        ((:-), ToServantApi)
+import Servant.API.Generic        (type (:-), ToServantApi)
 import Servant ( JSON, NamedRoutes, RemoteHost, type (:>), Get, HasServer (ServerT), Handler )
 import GHC.Generics (Generic)
 

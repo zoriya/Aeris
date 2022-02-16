@@ -27,6 +27,7 @@ library
       Api
       Api.About
       Api.Auth
+      Api.OIDC
       Api.Pipeline
       App
       Config
@@ -38,6 +39,7 @@ library
       Db.Reaction
       Db.User
       Lib
+      OIDC
       OIDC.Github
       Password
       Repository

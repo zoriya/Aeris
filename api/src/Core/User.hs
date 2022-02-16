@@ -24,7 +24,8 @@ newtype UserId = UserId { toInt64 :: Int64 }
 data ExternalToken = ExternalToken {
   accessToken :: Text,
   refreshToken :: Text,
-  expiresIn :: Int64
+  expiresIn :: Int64,
+  service :: Text
 } deriving (Eq, Show, Generic)
   deriving anyclass (ToJSON, FromJSON)
   deriving DBType via JSONBEncoded ExternalToken

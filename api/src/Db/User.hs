@@ -20,7 +20,8 @@ import Data.Aeson (FromJSON, ToJSON)
 import Password (HashedPassword)
 
 import Core.User
-import Rel8 (Column, Rel8able, Result, TableSchema (TableSchema, schema, name, columns), Name, Query, Expr, Insert (Insert, returning), returning, onConflict, rows, into, where_, (==.), lit, values, unsafeCastExpr, nextval, OnConflict (DoNothing), Returning (Projection), each)
+import Rel8 (Column, Rel8able, Result, TableSchema (TableSchema, schema, name, columns), Name, Query, Expr, Insert (Insert, returning), returning, onConflict, rows, into, where_, (==.), lit, values, unsafeCastExpr, nextval, OnConflict (DoNothing), Returning (Projection, NumberOfRowsAffected), each, Update (Update, target, updateWhere, from, set, returning))
+import Data.List (findIndex)
 
 data UserDB f = UserDB
   { userDBId        :: Column f UserId
@@ -90,3 +91,24 @@ insertUser (UserDB id name password slug _) = Insert
     , onConflict = DoNothing
     , returning = Projection userDBId
     }
+
+getUserTokensById :: UserId -> Query (Expr [ExternalToken])
+getUserTokensById uid = externalTokens <$> getUserById uid
+
+changeTokens :: [ExternalToken] -> ExternalToken -> [ExternalToken]
+changeTokens actual new = do
+    case findIndex (\t -> service t == service new) actual of
+        Nothing -> new : actual
+        Just idx -> let (x,_:ys) = splitAt idx actual
+                    in x ++ new : ys
+
+updateUserTokens :: UserId -> [ExternalToken ] -> ExternalToken -> Update Int64
+updateUserTokens uid userTokens newToken = Update
+    { target = userSchema
+    , from = pure ()
+    , updateWhere = \_ o -> userDBId o ==. lit uid
+    , set = setter
+    , returning = NumberOfRowsAffected
+    }
+    where
+        setter = \from row -> row { externalTokens = lit $ changeTokens userTokens newToken}

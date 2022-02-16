@@ -21,7 +21,7 @@ app :: JWTSettings -> State -> Application
 app jwtCfg state = 
     serveWithContext api cfg $
         hoistServerWithContext api (Proxy :: Proxy '[CookieSettings, JWTSettings])
-            (flip runReaderT state) (Api.server cs jwtCfg)
+            (`runReaderT` state) (Api.server cs jwtCfg)
     where
         cfg = defaultCookieSettings :. jwtCfg :. EmptyContext
         cs = defaultCookieSettings

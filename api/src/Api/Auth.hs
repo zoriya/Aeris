@@ -5,6 +5,19 @@
 module Api.Auth where
 
 import Servant
+    ( err401,
+      throwError,
+      type (:<|>)(..),
+      JSON,
+      NoContent(..),
+      Header,
+      NamedRoutes,
+      ReqBody,
+      Headers,
+      type (:>),
+      Get,
+      Post,
+      HasServer(ServerT) )
 
 import qualified Servant.Auth.Server
 import Servant.Auth.Server (ThrowAll(throwAll), SetCookie, CookieSettings, JWTSettings, acceptLogin, JWT)
@@ -20,6 +33,7 @@ import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
 import Core.User (UserId(UserId), User)
 import Repository (getUserByName', createUser)
+import Api.OIDC (OauthAPI, oauth)
 
 data LoginUser = LoginUser
   { loginUsername :: String
@@ -86,10 +100,13 @@ data AuthAPI mode = AuthAPI
         :> Protected)
     , unprotectedApi :: mode
       :- Unprotected
+    , oauthApi :: mode
+      :- OauthAPI
     } deriving stock Generic
 
 authHandler :: CookieSettings -> JWTSettings -> AuthAPI (AsServerT AppM)
 authHandler cs jwts = AuthAPI
   { protectedApi = protected
   , unprotectedApi = unprotected cs jwts
+  , oauthApi = oauth
   }
