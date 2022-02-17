@@ -1,3 +1,5 @@
+// ignore_for_file: hash_and_equals
+
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';

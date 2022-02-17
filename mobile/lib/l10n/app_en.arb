@@ -7,6 +7,8 @@
     "nameOfThePipeline": "Name of the pipeline",
     "addReaction": "Add a Reaction",
     "addTrigger": "Add a Trigger",
+    "setupTrigger": "Setup a Trigger",
+    "setupReaction": "Setup a Reaction",
     "action": "Action",
     "reactions": "Reactions",
     "modify": "Modify",
@@ -27,7 +29,7 @@
     "avalableActionsFor": "available actions for",
     "mergeDisabledPipelines": "Merge disabled pipelines",
     "seperateDisabledPipelines": "Separate disabled pipelines",
-    "aerisDescription": "Aeris is the best AREA in Nantes! Control each of your social network with Aeris, your new Action / Reaction app.",
+    "aerisDescription": "Professional, personnal action-reaction manager",
     "dangerZone": "Danger Zone",
     "createNewPipeline": "Create a new pipeline"
 }
