@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
           floatingActionButton: FloatingActionButton(
             onPressed: () => showAerisCardPage(context, (_) => const CreatePipelinePage()),
             backgroundColor: Theme.of(context).colorScheme.secondary,
+            elevation: 10,
             child: const Icon(Icons.add),
           ),
           actions: [
