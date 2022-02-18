@@ -31,5 +31,6 @@
     "seperateDisabledPipelines": "Séparer les pipelines désactivées",
     "aerisDescription": "Votre gestionnaire personnel d'action-reactions professionnelles",
     "dangerZone": "Zone dangereuse",
-    "createNewPipeline": "Créer une nouvelle pipeline"
+    "createNewPipeline": "Créer une nouvelle pipeline",
+    "save": "Enregistrer"
 }

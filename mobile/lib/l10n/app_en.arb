@@ -31,5 +31,6 @@
     "seperateDisabledPipelines": "Separate disabled pipelines",
     "aerisDescription": "Professional, personnal action-reaction manager",
     "dangerZone": "Danger Zone",
-    "createNewPipeline": "Create a new pipeline"
+    "createNewPipeline": "Create a new pipeline",
+    "save": "Save"
 }
