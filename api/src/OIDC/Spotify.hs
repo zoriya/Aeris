@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module OIDC.Github where
+import qualified Data.Text as T
 import qualified Data.HashMap.Strict as HM
 import qualified Data.ByteString.Char8 as B8
 
@@ -10,7 +11,6 @@ import Data.Aeson.Types (Object, Value (String))
 import Data.Text ( Text, pack )
 import App (AppM)
 import Core.User (ExternalToken (ExternalToken), Service (Github))
-import Utils (lookupObj)
 
 
 data GithubOAuth2 = GithubOAuth2
@@ -43,6 +43,12 @@ tokenEndpoint code oa = concat  [ oauthAccessTokenEndpoint oa
                                 , "?client_id=", oauthClientId oa
                                 , "&client_secret=", oauthClientSecret oa
                                 , "&code=", code]
+
+
+lookupObj :: Object -> Text -> Maybe String
+lookupObj obj key = case HM.lookup key obj of
+                            Just (String x) -> Just . T.unpack $ x
+                            _ -> Nothing
 
 getGithubAuthEndpoint :: IO String
 getGithubAuthEndpoint = githubAuthEndpoint <$> getGithubConfig

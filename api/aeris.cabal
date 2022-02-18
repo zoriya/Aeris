@@ -40,7 +40,11 @@ library
       Db.User
       Lib
       OIDC
+      OIDC.Discord
       OIDC.Github
+      OIDC.Google
+      OIDC.Spotify
+      OIDC.Twitter
       Password
       Repository
       Repository.Pipeline

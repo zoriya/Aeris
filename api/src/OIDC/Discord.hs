@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module OIDC.Github where
+module OIDC.Discord where
+import qualified Data.Text as T
 import qualified Data.HashMap.Strict as HM
 import qualified Data.ByteString.Char8 as B8
 
@@ -12,8 +13,7 @@ import App (AppM)
 import Core.User (ExternalToken (ExternalToken), Service (Github))
 import Utils (lookupObj)
 
-
-data GithubOAuth2 = GithubOAuth2
+data DiscordOAuth2 = DiscordOAuth2
                     { oauthClientId :: String
                     , oauthClientSecret :: String
                     , oauthOAuthorizeEndpoint :: String
@@ -22,35 +22,35 @@ data GithubOAuth2 = GithubOAuth2
                     } deriving (Show, Eq)
 
 
-getGithubConfig :: IO GithubOAuth2
-getGithubConfig = GithubOAuth2
-            <$> envAsString "GITHUB_CLIENT_ID" ""
-            <*> envAsString "GITHUB_SECRET" ""
+getDiscordConfig :: IO DiscordOAuth2
+getDiscordConfig = DiscordOAuth2
+            <$> envAsString "DISCORD_CLIENT_ID" ""
+            <*> envAsString "DISCORD_SECRET" ""
             <*> pure "https://github.com/login/oauth/authorize"
             <*> pure "https://github.com/login/oauth/access_token"
             <*> pure "http://localhost:8080/auth/github/token"
 
 
-githubAuthEndpoint :: GithubOAuth2 -> String
+githubAuthEndpoint :: DiscordOAuth2 -> String
 githubAuthEndpoint oa = concat  [ oauthOAuthorizeEndpoint oa
                                 , "?client_id=", oauthClientId oa
                                 , "&response_type=", "code"
                                 , "&redirect_uri=", oauthCallback oa]
 
 
-tokenEndpoint :: String -> GithubOAuth2 -> String
+tokenEndpoint :: String -> DiscordOAuth2 -> String
 tokenEndpoint code oa = concat  [ oauthAccessTokenEndpoint oa
                                 , "?client_id=", oauthClientId oa
                                 , "&client_secret=", oauthClientSecret oa
                                 , "&code=", code]
 
 getGithubAuthEndpoint :: IO String
-getGithubAuthEndpoint = githubAuthEndpoint <$> getGithubConfig
+getGithubAuthEndpoint = githubAuthEndpoint <$> getDiscordConfig
 
 -- Step 3. Exchange code for auth token
 getGithubTokens :: String -> IO (Maybe ExternalToken)
 getGithubTokens code = do
-  gh <- getGithubConfig
+  gh <- getDiscordConfig
   let endpoint = tokenEndpoint code gh
   request' <- parseRequest endpoint
   let request = setRequestMethod "POST"
