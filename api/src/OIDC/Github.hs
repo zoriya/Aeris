@@ -10,6 +10,8 @@ import Network.HTTP.Simple (JSONException, parseRequest, setRequestMethod, addRe
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text)
 import App (AppM)
+import Core.User (ExternalToken (ExternalToken), Service (Github))
+import Data.Text (pack)
 
 
 data GithubOAuth2 = GithubOAuth2 
@@ -53,7 +55,7 @@ getGithubAuthEndpoint :: IO String
 getGithubAuthEndpoint = githubAuthEndpoint <$> getGithubConfig
 
 -- Step 3. Exchange code for auth token
-getGithubTokens :: String -> IO (Maybe (String, String))
+getGithubTokens :: String -> IO (Maybe ExternalToken)
 getGithubTokens code = do
   gh <- getGithubConfig
   let endpoint = tokenEndpoint code gh
@@ -67,4 +69,7 @@ getGithubTokens code = do
   response <- httpJSONEither request
   return $ case (getResponseBody response :: Either JSONException Object) of
              Left _ -> Nothing
-             Right obj -> (,) <$> lookupObj obj "access_token" <*> lookupObj obj "refresh_token"
+             Right obj -> do 
+               access <- lookupObj obj "access_token"
+               refresh <- lookupObj obj "refresh_token"
+               Just $ ExternalToken (pack access) (pack refresh) 0 Github
