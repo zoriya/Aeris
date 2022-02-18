@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
               controller: listController,
-              itemCount: provider.pipelineCount + 1,
+              itemCount: provider.pipelineCount,
               itemBuilder: (BuildContext context, int index) =>
                 PipelineCard(pipeline: provider.getPipelineAt(index),
             ),

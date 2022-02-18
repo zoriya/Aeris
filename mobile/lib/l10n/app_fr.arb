@@ -32,5 +32,6 @@
     "aerisDescription": "Votre gestionnaire personnel d'action-reactions professionnelles",
     "dangerZone": "Zone dangereuse",
     "createNewPipeline": "Créer une nouvelle pipeline",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "pipelineFormMisingAction": "Vous devez selectionner au moins un déclancheur et une réaction"
 }
