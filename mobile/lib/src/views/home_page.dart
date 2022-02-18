@@ -1,9 +1,9 @@
 import 'package:aeris/src/views/create_pipeline_page.dart';
+import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
-import 'package:aeris/src/widgets/home_page_menu.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
 import 'package:aeris/src/widgets/home_page_sort_menu.dart';
 import 'package:aeris/src/widgets/pipeline_card.dart';
@@ -23,6 +23,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     ScrollController listController = ScrollController();
+
+    List<Widget> actionButtons = [
+      IconButton(
+        icon: const Icon(Icons.electrical_services),
+        onPressed: () => showAerisCardPage(context, (context) => const ServicePage())
+      ),
+      IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () =>
+              Navigator.of(context).pushNamed('/logout') //TODO logout
+          )
+    ];
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisPage(
           floatingActionButton: FloatingActionButton(
@@ -35,7 +47,7 @@ class _HomePageState extends State<HomePage> {
             HomePageSortMenu(
               collectionProvider: provider,
             ),
-            const HomePageMenu()
+            ...actionButtons
           ],
           body: provider.initialized == false
             ? ListView(physics: const BouncingScrollPhysics(),

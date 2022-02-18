@@ -34,9 +34,8 @@ class AerisPage extends StatelessWidget {
       appBar: displayAppbar
           ? AppBar(
               title: const Text("AERIS"),
-              centerTitle: true,
+              centerTitle: false,
               elevation: 0,
-              leading: Container(),
               actions: [
                 for (Widget action in actions)
                   Padding(
