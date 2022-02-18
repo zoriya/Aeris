@@ -52,10 +52,15 @@ export class Youtube extends BaseService {
 		// }, {});
 		// const playlistId = channel.data.items[0].contentDetails.relatedPlaylists.likes ?? "LL";
 		const playlistId = "LL"; // LL seems to be a magic string for the liked playlist.
+		return this.listenPlaylist({playlistId})
+	}
+
+	@action(PipelineType.OnYtPlaylistAdd, ["playlistId"])
+	listenPlaylist(params: any): Observable<PipelineEnv> {
 		return this._longPulling(async (since) => {
 			const ret = await this._youtube.playlistItems.list({
 				part: ["snippet"],
-				playlistId,
+				playlistId: params.playlistId,
 			})
 			return ret.data.items
 				.filter(x => new Date(x.snippet.publishedAt) >= since)

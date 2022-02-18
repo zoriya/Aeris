@@ -8,6 +8,7 @@ export enum PipelineType {
 
 	OnYtUpload,
 	OnYtLike,
+	OnYtPlaylistAdd,
 };
 
 export enum ReactionType {
