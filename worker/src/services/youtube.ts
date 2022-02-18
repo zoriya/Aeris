@@ -1,9 +1,10 @@
 import { interval, mergeAll, mergeMap, Observable } from "rxjs";
-import { Pipeline, PipelineEnv, PipelineType } from "../models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType, ServiceType } from "../models/pipeline";
 import { youtube_v3 } from '@googleapis/youtube';
-import { BaseService } from "../models/base-service";
+import { BaseService, service } from "../models/base-service";
 import { action } from "../models/base-service";
 
+@service(ServiceType.Youtube)
 export class Youtube extends BaseService {
 	private _youtube: youtube_v3.Youtube;
 
@@ -43,4 +44,4 @@ export class Youtube extends BaseService {
 
 		})
 	}
-}
+};

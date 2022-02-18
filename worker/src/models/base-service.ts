@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { Pipeline, PipelineEnv, PipelineType, ReactionType } from "./pipeline";
+import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "./pipeline";
 
 export type ServiceCreator = {[key: string]: (pipeline: Pipeline) => BaseService};
 
@@ -8,18 +8,32 @@ class ActionMetadata {
 	parameters: string[];
 }
 
+export function service(type: ServiceType) {
+	return (target: new (...args: any[]) => object) => {
+		BaseService._serviceFactory[type] = target as any;
+	}
+};
+
 export function action(type: PipelineType, args: string[]) {
 	return function(target: any, property: string) {
-		BaseService.actions[target.constructor.name] ??= {};
-		BaseService.actions[target.constructor.name][PipelineType[type]] = { accessor: property, parameters: args };
+		BaseService._actions[target.constructor.name] ??= {};
+		BaseService._actions[target.constructor.name][PipelineType[type]] = { accessor: property, parameters: args };
+	}
+}
+
+export function reaction(type: PipelineType, args: string[]) {
+	return function(target: any, property: string) {
+		BaseService._reactions[target.constructor.name] ??= {};
+		BaseService._reactions[target.constructor.name][PipelineType[type]] = { accessor: property, parameters: args };
 	}
 }
 
 export class BaseService {
-	static actions: { [service: string]: { [action: string]: ActionMetadata } } = {};
+	static _serviceFactory: ServiceCreator = {};
+	static _actions: { [service: string]: { [action: string]: ActionMetadata } } = {};
+	static _reactions: { [service: string]: { [reaction: string]: ActionMetadata } } = {};
 
-	getAction(action: PipelineType): (params: any) => Observable<PipelineEnv> {
-		const metadata: ActionMetadata = BaseService.actions[this.constructor.name][PipelineType[action]];
+	private _runWithParamsCheck(metadata: ActionMetadata): (params: any) => any {
 		return (params: any) => {
 			for (let required of metadata.parameters) {
 				if (!(required in params))
@@ -30,8 +44,19 @@ export class BaseService {
 		};
 	}
 
+	getAction(action: PipelineType): (params: any) => Observable<PipelineEnv> {
+		const metadata: ActionMetadata = BaseService._actions[this.constructor.name][PipelineType[action]];
+		return this._runWithParamsCheck(metadata);
+	}
+
 	getReaction(reaction: ReactionType): (params: any) => Promise<PipelineEnv> {
-		return undefined;
+		const metadata: ActionMetadata = BaseService._reactions[this.constructor.name][PipelineType[reaction]];
+		return this._runWithParamsCheck(metadata);
+	}
+
+	static createService(service: ServiceType, pipeline: Pipeline): BaseService {
+		// @ts-ignore
+		return new BaseService._serviceFactory[service](pipeline);
 	}
 };
 

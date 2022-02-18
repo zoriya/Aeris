@@ -5,6 +5,7 @@
 import { from } from "rxjs";
 import { Manager } from "./actions";
 import { Pipeline, PipelineType, ReactionType, ServiceType } from "./models/pipeline";
+import "./services";
 
 // const app: Application = expressWs(express()).app;
 // const port = process.env.PORT || 8999;

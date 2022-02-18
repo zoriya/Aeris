@@ -1,5 +1,5 @@
+import { BaseService } from "./models/base-service";
 import { Pipeline, PipelineEnv } from "./models/pipeline"
-import { servicesFactory } from "./models/services";
 
 
 export class Runner {
@@ -15,7 +15,7 @@ export class Runner {
 		this._history.push(env);
 		for (let reaction of this._pipeline.reactions) {
 			const params = this._processParams(reaction.params);
-			const service = servicesFactory[reaction.service](this._pipeline);
+			const service = BaseService.createService(reaction.service, this._pipeline);
 			const newValues = await service.getReaction(reaction.type)(params);
 			env = {...env, ...newValues};
 			this._history.push(env);

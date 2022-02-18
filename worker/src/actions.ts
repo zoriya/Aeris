@@ -1,6 +1,6 @@
 import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
+import { BaseService } from "./models/base-service";
 import { Pipeline, PipelineEnv } from "./models/pipeline";
-import { servicesFactory } from "./models/services";
 import { Runner } from "./runner";
 
 
@@ -32,7 +32,7 @@ export class Manager {
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
 		try {
-			const service = servicesFactory[pipeline.service](pipeline);
+			const service = BaseService.createService(pipeline.service, pipeline);
 			return service.getAction(pipeline.type)(pipeline.params)
 		} catch (err) {
 			return this.handlePipelineError(pipeline, err);
