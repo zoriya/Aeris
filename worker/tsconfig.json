@@ -5,6 +5,7 @@
 		"target": "es2017",
 		"noImplicitAny": true,
 		"sourceMap": true,
+		"experimentalDecorators": true,
 		"outDir": "dist",
 		"baseUrl": ".",
 		"paths": {
