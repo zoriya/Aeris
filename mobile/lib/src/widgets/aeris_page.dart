@@ -9,18 +9,22 @@ class AerisPage extends StatelessWidget {
   /// Display appbar or not
   final bool displayAppbar;
 
+  final Widget? floatingActionButton;
+
   /// Actions for appbar
   final List<Widget> actions;
   const AerisPage(
       {Key? key,
       required this.body,
       this.displayAppbar = true,
+      this.floatingActionButton,
       this.actions = const []})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: false,
       body: SizedBox(
           width: MediaQuery.of(context).size.width,

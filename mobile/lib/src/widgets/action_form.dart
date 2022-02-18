@@ -44,7 +44,7 @@ class _ActionFormState extends State<ActionForm> {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
             ]),
-            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is Int ? TextInputType.number : null,
+            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is int ? TextInputType.number : null,
           )),
           ...[
             ElevatedButton(

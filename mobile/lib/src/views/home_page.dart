@@ -25,6 +25,11 @@ class _HomePageState extends State<HomePage> {
     ScrollController listController = ScrollController();
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisPage(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => showAerisCardPage(context, (_) => const CreatePipelinePage()),
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+            child: const Icon(Icons.add),
+          ),
           actions: [
             HomePageSortMenu(
               collectionProvider: provider,
@@ -51,29 +56,10 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
               controller: listController,
               itemCount: provider.pipelineCount + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index == provider.pipelineCount) {
-                  return ClickableCard(
-                    color: Theme.of(context).colorScheme.secondary,
-                    body: Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 20),
-                      child: Text("Create a pipeline",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600)),
-                    ),
-                    onTap: () {
-                      showAerisCardPage(context, (_) => const CreatePipelinePage());
-                    },
-                  );
-                }
-                return PipelineCard(
-                    pipeline: provider.getPipelineAt(index));
-              },
+              itemBuilder: (BuildContext context, int index) =>
+                PipelineCard(pipeline: provider.getPipelineAt(index),
             ),
           )),
-    );
+    ));
   }
 }
