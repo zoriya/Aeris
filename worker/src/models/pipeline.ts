@@ -5,7 +5,9 @@ export enum ServiceType {
 
 export enum PipelineType {
 	OnTweet,
-	OnUpload,
+
+	OnYtUpload,
+	OnYtLike,
 };
 
 export enum ReactionType {

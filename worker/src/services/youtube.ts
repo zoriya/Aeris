@@ -15,7 +15,7 @@ export class Youtube extends BaseService {
 		});
 	}
 
-	longPulling(call: (since: Date) => Promise<PipelineEnv[]>): Observable<PipelineEnv> {
+	private _longPulling(call: (since: Date) => Promise<PipelineEnv[]>): Observable<PipelineEnv> {
 		const startTime: number = Date.now();
 		const delay = 60_000;
 
@@ -25,16 +25,15 @@ export class Youtube extends BaseService {
 		);
 	}
 
-	@action(PipelineType.OnUpload, ["channel"])
+	@action(PipelineType.OnYtUpload, ["channel"])
 	listenChannel(params: any): Observable<PipelineEnv> {
-		return this.longPulling(async (since) => {
+		return this._longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
 				part: ["snippet"],
 				channelId: params.channel,
 				maxResults: 25,
 				publishedAfter: since.toISOString(),
 			}, {});
-			console.log(JSON.stringify(ret.data, undefined, 4));
 			return ret.data.items.map(x => ({
 				TITLE: x.snippet.title,
 				DESCRIPTION: x.snippet.description,
@@ -43,5 +42,29 @@ export class Youtube extends BaseService {
 			}));
 
 		})
+	}
+
+	@action(PipelineType.OnYtLike, [])
+	listenLike(_: any): Observable<PipelineEnv> {
+		// const channel = await this._youtube.channels.list({
+		// 	part: ["contentDetails"],
+		// 	mine: true,
+		// }, {});
+		// const playlistId = channel.data.items[0].contentDetails.relatedPlaylists.likes ?? "LL";
+		const playlistId = "LL"; // LL seems to be a magic string for the liked playlist.
+		return this._longPulling(async (since) => {
+			const ret = await this._youtube.playlistItems.list({
+				part: ["snippet"],
+				playlistId,
+			})
+			return ret.data.items
+				.filter(x => new Date(x.snippet.publishedAt) >= since)
+				.map(x => ({
+					TITLE: x.snippet.title,
+					DESCRIPTION: x.snippet.description,
+					LIKED_AT: x.snippet.publishedAt
+				}));
+
+		});
 	}
 };
