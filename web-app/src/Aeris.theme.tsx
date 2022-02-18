@@ -1,14 +1,20 @@
 import { createTheme } from '@mui/material/styles';
 
-const theme = createTheme({
+const aerisTheme = createTheme({
     palette: {
         primary: {
-            main: "#37474F"
+            light: "#62717b",
+            main: "#37474F",
+            dark: "#101f27",
+            contrastText: "#ffffff"
         },
         secondary: {
-            main: "#F06292"
+            light: "#ff94c2",
+            main: "#F06292",
+            dark: "#ba2d65",
+            contrastText: "#000000"
         }
     }
 });
 
-export default theme;
+export default aerisTheme;

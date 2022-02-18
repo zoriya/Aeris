@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Box from "@mui/material/Box";
 
-import "./LoginPage.css";
+import aerisTheme from "../../Aeris.theme";
 
 const useStyles = makeStyles((theme: Theme) => ({
         container: {
@@ -23,15 +23,16 @@ const useStyles = makeStyles((theme: Theme) => ({
         },
         loginBtn: {
             display: 'absolute',
-            backgroundColor: theme.palette.primary.main,
-            margin: `${theme.spacing(0)} auto`,
-            borderRadius: 20
+            backgroundColor: aerisTheme.palette.secondary.main,
+            color: aerisTheme.palette.primary.contrastText,
+            minWidth: 150,
+            margin: `${theme.spacing(0)} auto`
         },
         switchBtn: {
-            display: 'absolute',
-            color: theme.palette.primary.main,
+            backgroundColor: aerisTheme.palette.primary.main,
+            color: aerisTheme.palette.primary.contrastText,
+            minWidth: 150,
             margin: `${theme.spacing(0)} auto`,
-            borderRadius: 20
         },
         media: {
             display: 'absolute',
@@ -195,7 +196,6 @@ export default function AuthComponent(this: any) {
                     <CardContent>
                         <div>
                             <TextField
-                                className="inputRounded"
                                 error={state.isError}
                                 required
                                 id="email"

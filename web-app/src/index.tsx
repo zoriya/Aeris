@@ -16,9 +16,9 @@ import theme from "./Aeris.theme";
  */
 function AerisRouter() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <div className="App">
+                <header className="App-header">
                     <BrowserRouter>
                         <Routes>
                             <Route path='/' element={<App />}/>
@@ -26,9 +26,9 @@ function AerisRouter() {
                             <Route path='/pipelines' element={<PipelinePage />}/>
                         </Routes>
                     </BrowserRouter>
-                </ThemeProvider>
-            </header>
-        </div>
+                </header>
+            </div>
+        </ThemeProvider>
     );
 }
 
