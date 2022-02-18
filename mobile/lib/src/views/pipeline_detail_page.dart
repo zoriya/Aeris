@@ -4,15 +4,19 @@ import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:aeris/src/widgets/action_card.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:reorderables/reorderables.dart';
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
@@ -145,23 +149,27 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            for (var reaction in pipeline.reactions)
-              ActionCard(
-                leading: reaction.service.getLogo(logoSize: 50),
-                title: reaction.name,
-                trailing: ActionCardPopupMenu(
-                    deletable: reaction != pipeline.reactions.first,
-                    action: reaction,
-                    then: () {
-                      setState(() {});
-                      GetIt.I<AerisAPI>().editPipeline(pipeline);
-                    },
-                    onDelete: () {
-                      pipeline.reactions.remove(reaction);
-                      setState(() {});
-                      GetIt.I<AerisAPI>().editPipeline(pipeline);
-                    }),
-              ),
+            ReorderableReactionCardsList(
+              onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
+              reactionList: pipeline.reactions,
+              itemBuilder: (reaction) => ActionCard(
+                      key: ValueKey(pipeline.reactions.indexOf(reaction)),
+                      leading: reaction.service.getLogo(logoSize: 50),
+                      title: reaction.name,
+                      trailing: ActionCardPopupMenu(
+                          deletable: pipeline.reactions.length > 1,
+                          action: reaction,
+                          then: () {
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          },
+                          onDelete: () {
+                            pipeline.reactions.remove(reaction);
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          }),
+                    )
+            ),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),

@@ -40,10 +40,10 @@ class _PipelineCardState extends State<PipelineCard> {
         body: Container(
             width: double.infinity,
             padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 10),
+                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 25),
             child: Row(children: [
               Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -59,7 +59,7 @@ class _PipelineCardState extends State<PipelineCard> {
                               color: widget.pipeline.enabled == false
                                   ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 12)),
+                              fontSize: 14)),
                     ],
                   )),
               Expanded(
@@ -76,17 +76,6 @@ class _PipelineCardState extends State<PipelineCard> {
                         const SizedBox(width: 10),
                         Column(children: reactionLogos)
                       ])),
-              Expanded(
-                  flex: 1,
-                  child: Column(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start)),
             ])));
   }
 }
