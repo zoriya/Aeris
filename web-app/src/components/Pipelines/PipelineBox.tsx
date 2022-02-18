@@ -32,9 +32,9 @@ export default function PipelineBox({ title, statusText, service1, service2, onC
 		<Card sx={{ alignItems:"center", borderRadius:"15px" }}>
 			<CardActionArea onClick={onClickCallback} >
 				<Box sx={{ display: 'flex', flexDirection: 'row'}} >
-					<Box sx={{ flexDirection: 'column', flex: '2 0 auto', width:'60%' }}>
-						<CardContent sx={{ flex: '1 0 auto' }}>
-							<Typography variant="h3" noWrap align="left" >
+					<Box sx={{ flexDirection: 'column', width:"70%" }}>
+						<CardContent>
+							<Typography variant="h5" noWrap align="left" >
 								{ title }
 							</Typography>
 							<Typography variant="subtitle2" color="text.secondary" noWrap align="left"  >
@@ -42,7 +42,7 @@ export default function PipelineBox({ title, statusText, service1, service2, onC
 							</Typography>
 						</CardContent>
 					</Box>
-					<Box sx={{ display: 'flex', flex: '1 0 auto' , flexDirection: 'row', padding:'10px', alignItems:"center" }}>
+					<Box sx={{ display: 'flex', width:"30%" , flexDirection: 'row', padding:'10px', alignItems:"center", justifyContent:"center", flexWrap: "true" }}>
 						<CardMedia
 							component="img"
 							sx={{ width: 50 }}

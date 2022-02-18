@@ -40,12 +40,12 @@ export default function HomePage() {
         },
         {
           title: 'Lorem ipsum behm uit\'s long',
-          statusText: "Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros. Interactive Entertainment. It will be the sixth entry in TT Games' Lego Star Wars series of video games and the successor to Lego Star Wars: The Force", 
+          statusText: "Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.", 
           service1: svc2 ,
           service2: svc
         },
         {
-          title: 'My super action',
+          title: 'Vous êtes débiles bande de trou du cul',
           statusText: "Last: 2d ago", 
           service1: svc ,
           service2: svc2
@@ -104,7 +104,6 @@ export default function HomePage() {
       return (
           <div className={classes.divHomePage} >
             <PipelineBoxesLayout data={data} />
-            <div> {"test " + isModalOpen} </div>
             <PipelineModal isOpen={isModalOpen} handleClose={ () => setIsModalOpen(false) } >
                 <PipelineEditPage
                     title="whaooo" 
