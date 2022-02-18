@@ -23,7 +23,7 @@ class HomePageSortMenu extends StatelessWidget {
       case PipelineCollectionSort.name:
         return Icons.text_rotate_vertical;
       case PipelineCollectionSort.triggeringService:
-        return Icons.webhook;
+        return Icons.blur_circular_rounded;
     }
   }
 
