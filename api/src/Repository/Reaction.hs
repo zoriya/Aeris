@@ -1,14 +1,16 @@
 {-# LANGUAGE BlockArguments #-}
+
 module Repository.Reaction where
-import App (State(State, dbPool), AppM)
-import Db.Reaction (Reaction(Reaction, reactionOrder), ReactionId (ReactionId), insertReaction, getReactionsByPipelineId)
-import Data.Functor.Identity (Identity)
+
+import App (AppM, State (State, dbPool))
 import Control.Monad.Trans.Reader (ask)
-import Hasql.Transaction (statement, Transaction)
-import Rel8 (insert, select, orderBy, asc)
-import Hasql.Statement (Statement)
-import Db.Pipeline (PipelineId(PipelineId))
 import Data.Functor.Contravariant ((>$<))
+import Data.Functor.Identity (Identity)
+import Db.Pipeline (PipelineId (PipelineId))
+import Db.Reaction (Reaction (Reaction, reactionOrder), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
+import Hasql.Statement (Statement)
+import Hasql.Transaction (Transaction, statement)
+import Rel8 (asc, insert, orderBy, select)
 import Repository.Utils (runQuery)
 
 createReaction :: Reaction Identity -> AppM [ReactionId]
@@ -16,4 +18,3 @@ createReaction reaction = runQuery (insert $ insertReaction reaction)
 
 getReactionsByPipelineId' :: PipelineId -> AppM [Reaction Identity]
 getReactionsByPipelineId' pId = runQuery (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
-    

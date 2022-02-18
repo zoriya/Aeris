@@ -1,23 +1,24 @@
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
-import qualified Hasql.Connection as Connection
-import Rel8(each, select, insert)
 import Control.Monad.IO.Class (liftIO)
-import Servant.Auth.Server (defaultJWTSettings, defaultCookieSettings, generateKey, JWTSettings, CookieSettings)
+import qualified Hasql.Connection as Connection
 import Hasql.Pool (acquire)
-import Hasql.Transaction ( Transaction, condemn, statement, sql )
+import Hasql.Transaction (Transaction, condemn, sql, statement)
+import Rel8 (each, insert, select)
 import Servant
+import Servant.Auth.Server (CookieSettings, JWTSettings, defaultCookieSettings, defaultJWTSettings, generateKey)
 
-import Network.Wai
-import Network.Wai.Handler.Warp
+import App
+import Config (dbConfigToConnSettings, getPostgresConfig)
 import qualified Hasql.Session as Session
 import qualified Hasql.Transaction.Sessions as Hasql
-import System.Environment.MrEnv ( envAsBool, envAsInt, envAsInteger, envAsString )
-import App
 import Lib
-import Config (getPostgresConfig, dbConfigToConnSettings)
+import Network.Wai
+import Network.Wai.Handler.Warp
+import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
 
 main :: IO ()
 main = do

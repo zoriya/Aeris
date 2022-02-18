@@ -1,10 +1,10 @@
-module OIDC
-( module OIDC.Github
-, getOauthTokens
+module OIDC (
+    module OIDC.Github,
+    getOauthTokens,
 ) where
 
+import Core.User (ExternalToken, Service (Github))
 import OIDC.Github
-import Core.User (Service (Github), ExternalToken)
 
 getOauthTokens :: Service -> String -> IO (Maybe ExternalToken)
 getOauthTokens Github = getGithubTokens
