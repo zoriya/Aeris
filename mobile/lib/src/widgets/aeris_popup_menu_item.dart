@@ -8,6 +8,7 @@ class AerisPopupMenuItem extends PopupMenuItem {
       required IconData icon,
       required String title,
       required Object? value,
+      bool selected = false,
       bool enabled = true})
       : super(
           key: key,
@@ -15,6 +16,15 @@ class AerisPopupMenuItem extends PopupMenuItem {
           enabled: enabled,
           child: Row(
             children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: selected
+                  ? Icon(
+                    Icons.done,
+                    color: Theme.of(context).colorScheme.onSurface
+                  )
+                  : Container()
+              ),
               Expanded(
                 flex: 2,
                 child: Container(
@@ -24,7 +34,7 @@ class AerisPopupMenuItem extends PopupMenuItem {
                     ),
                     padding: const EdgeInsets.only(left: 10, right: 25)),
               ),
-              Expanded(flex: 8, child: Text(title)),
+              Expanded(flex: 7, child: Text(title)),
             ],
           ),
         );

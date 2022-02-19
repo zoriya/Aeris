@@ -71,6 +71,8 @@ class PipelineProvider extends ChangeNotifier {
     return _pipelineCollection.pipelines[index];
   }
 
+  PipelineCollectionSort get sortingMethod => _pipelineCollection.sortingMethod;
+
   /// Sets sorting method for pipelines, and sorts
   set sortingMethod(PipelineCollectionSort sortingMethod) {
     _pipelineCollection.sortingMethod = sortingMethod;

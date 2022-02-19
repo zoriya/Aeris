@@ -35,6 +35,7 @@ class HomePageSortMenu extends StatelessWidget {
         ...[
           for (var sortingMethod in PipelineCollectionSort.values)
             AerisPopupMenuItem(
+                selected: collectionProvider.sortingMethod == sortingMethod,
                 context: context,
                 icon: sortMethodGetIcon(sortingMethod),
                 title: ReCase(sortingMethod.name).titleCase,
