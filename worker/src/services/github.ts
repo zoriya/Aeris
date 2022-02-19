@@ -1,120 +1,138 @@
 import { Octokit } from "@octokit/rest";
+import { Pipeline, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
+import { BaseService, reaction, service } from "../models/base-service";
 
-export class GitHub {
+@service(ServiceType.Github)
+export class GitHub extends BaseService {
 
-	private static getGitHubInstance() {
+	private _github: Octokit;
+
+	constructor(_: Pipeline) {
+		super();
 		///TODO Get various credentials
-		return new Octokit();
+		this._github = new Octokit();
 	}
 
-	static openPR(params: any) {
-		checkParams(params, ['owner', 'repo', 'title', 'head', 'base']);
+	@reaction(ReactionType.openPR, ['owner', 'repo', 'title', 'head', 'base'])
+	openPR(params: any) {
 
-		this.getGitHubInstance().pulls.create({
+		this._github.pulls.create({
 			owner: params['owner'], repo: params['repo'], 
 			title: params['title'], base: params['base'], head: params['head']
 		});
 	}
 
-	static commentPR(params: any) {
+	@reaction(ReactionType.commentPR, ['owner', 'repo', 'pull_number', 'body'])
+	commentPR(params: any) {
 		checkParams(params, ['owner', 'repo', 'pull_number', 'body']);
 
-		this.getGitHubInstance().pulls.createReviewComment({
+		this._github.pulls.createReviewComment({
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number'], body: params['body']
 		});
 	}
 
-	static closePR(params: any) {
+	@reaction(ReactionType.closePR, ['owner', 'repo', 'pull_number'])
+	closePR(params: any) {
 		checkParams(params, ['owner', 'repo', 'pull_number']);
 
-		this.getGitHubInstance().pulls.update({
+		this._github.pulls.update({
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number'], state: "closed"
 		});
 	}
 
-	static mergePR(params: any) {
+	@reaction(ReactionType.mergePR, ['owner', 'repo', 'pull_number'])
+	mergePR(params: any) {
 		checkParams(params, ['owner', 'repo', 'pull_number']);
 
-		this.getGitHubInstance().pulls.merge({
+		this._github.pulls.merge({
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number']
 		});
 	}
 
-	static createIssue(params: any) {
+	@reaction(ReactionType.createIssue, ['owner', 'repo', 'title', 'body'])
+	createIssue(params: any) {
 		checkParams(params, ['owner', 'repo', 'title', 'body']);
 		
-		this.getGitHubInstance().issues.create({
+		this._github.issues.create({
 			owner: params['owner'], repo: params['repo'], 
 			title: params['title'], body: params['body']
 		});
 	}
 	
-	static commentIssue(params: any) {
+	@reaction(ReactionType.commentIssue, ['owner', 'repo', 'issue_number', 'body'])
+	commentIssue(params: any) {
 		checkParams(params, ['owner', 'repo', 'issue_number', 'body']);
 
-		this.getGitHubInstance().issues.createComment({
+		this._github.issues.createComment({
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], body: params['body']
 		});
 	}
 
-	static closeIssue(params: any) {
+	@reaction(ReactionType.closeIssue, ['owner', 'repo', 'issue_number'])
+	closeIssue(params: any) {
 		checkParams(params, ['owner', 'repo', 'issue_number']);
 
-		this.getGitHubInstance().issues.update({
+		this._github.issues.update({
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], state: 'closed'
 		});
 	}
 
-	static createRepo(params: any) {
+	@reaction(ReactionType.createRepo, ['name'])
+	createRepo(params: any) {
 		checkParams(params, ['name']);
 
-		this.getGitHubInstance().rest.repos.createForAuthenticatedUser({
+		this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name']
 		});
 	}
 
-	static createPrivateRepo(params: any) {
+	@reaction(ReactionType.createPrivateRepo, ['name'])
+	createPrivateRepo(params: any) {
 		checkParams(params, ['name']);
 
-		this.getGitHubInstance().rest.repos.createForAuthenticatedUser({
+		this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name'], private: true
 		});
 	}
 
-	static updateDescription(params:any) {
+	@reaction(ReactionType.updateDescription, ['owner', 'repo', 'description'])
+	updateDescription(params:any) {
 		checkParams(params, ['owner', 'repo', 'description']);
 
-		this.getGitHubInstance().repos.update({
+		this._github.repos.update({
 			owner: params['owner'], repo: params['repo'],
 			description: params['description']
 		});
 	}
 
-	static forkRepo(params: any) {
+	@reaction(ReactionType.forkRepo, ['owner', 'repo'])
+	forkRepo(params: any) {
 		checkParams(params, ['owner', 'repo']);
 
-		this.getGitHubInstance().repos.createFork({
+		this._github.repos.createFork({
 			owner: params['owner'], repo: params['repo']
 		});
 	}
 
-	static starRepo(params: any) {
+	@reaction(ReactionType.starRepo, ['owner', 'repo'])
+	starRepo(params: any) {
 		checkParams(params, ['owner', 'repo']);
 
-		this.getGitHubInstance().activity.starRepoForAuthenticatedUser({
+		this._github.activity.starRepoForAuthenticatedUser({
 			owner: params['owner'], repo: params['repo']
 		});
 	}
 
-	static watchRepo(params: any) {
+	@reaction(ReactionType.watchRepo, ['owner', 'repo'])
+	watchRepo(params: any) {
 		checkParams(params, ['owner', 'repo']);
 
-		this.getGitHubInstance().activity.setRepoSubscription({
+		this._github.activity.setRepoSubscription({
 			owner: params['owner'], repo: params['repo']
 		});
 	}

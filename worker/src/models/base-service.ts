@@ -21,7 +21,7 @@ export function action(type: PipelineType, args: string[]) {
 	}
 }
 
-export function reaction(type: PipelineType, args: string[]) {
+export function reaction(type: ReactionType, args: string[]) {
 	return function(target: any, property: string) {
 		BaseService._reactions[target.constructor.name] ??= {};
 		BaseService._reactions[target.constructor.name][PipelineType[type]] = { accessor: property, parameters: args };
