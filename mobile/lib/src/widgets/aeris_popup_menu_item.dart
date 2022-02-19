@@ -25,16 +25,15 @@ class AerisPopupMenuItem extends PopupMenuItem {
                     ),
                     padding: const EdgeInsets.only(left: 10, right: 25)),
               ),
-              Expanded(flex: 7, child: Text(title)),
-              Expanded(
-                flex: 1,
-                child: selected
-                  ? Icon(
+              Expanded(flex: selected ? 7 : 8, child: Text(title)),
+              selected 
+                ? Expanded(
+                  flex: 1,
+                  child: Icon(
                     Icons.done,
                     color: Theme.of(context).colorScheme.onSurface
                   )
-                  : Container()
-              ),
+                ) : Container()
             ],
           ),
         );
