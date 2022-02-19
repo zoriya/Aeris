@@ -1,6 +1,7 @@
 import 'package:aeris/src/views/create_pipeline_page.dart';
 import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
+import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
@@ -10,6 +11,7 @@ import 'package:aeris/src/widgets/pipeline_card.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [StatefulWidget] used to display [HomePage] interface
 class HomePage extends StatefulWidget {
@@ -24,17 +26,21 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     ScrollController listController = ScrollController();
 
-    List<Widget> actionButtons = [
-      IconButton(
+    Widget serviceActionButtons = IconButton(
         icon: const Icon(Icons.electrical_services),
         onPressed: () => showAerisCardPage(context, (context) => const ServicePage())
+    );
+    Widget logoutActionButton = IconButton(
+      icon: const Icon(Icons.logout),
+      onPressed: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => WarningDialog(
+          message: AppLocalizations.of(context).logoutWarningMessage,
+          onAccept: () => Navigator.of(context).popAndPushNamed('/'), //TODO logout
+          warnedAction: AppLocalizations.of(context).logout
+        )
       ),
-      IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () =>
-              Navigator.of(context).pushNamed('/logout') //TODO logout
-          )
-    ];
+    );
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisPage(
           floatingActionButton: FloatingActionButton(
@@ -47,7 +53,8 @@ class _HomePageState extends State<HomePage> {
             HomePageSortMenu(
               collectionProvider: provider,
             ),
-            ...actionButtons
+            serviceActionButtons,
+            logoutActionButton
           ],
           body: provider.initialized == false
             ? ListView(physics: const BouncingScrollPhysics(),
