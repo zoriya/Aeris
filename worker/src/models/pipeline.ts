@@ -1,6 +1,7 @@
 export enum ServiceType {
 	Twitter,
 	Youtube,
+	Github,
 };
 
 export enum PipelineType {
@@ -10,6 +11,20 @@ export enum PipelineType {
 
 export enum ReactionType {
 	Tweet,
+	// Github reactions
+	openPR,
+	commentPR,
+	closePR,
+	mergePR,
+	createIssue,
+	commentIssue,
+	closeIssue,
+	createRepo,
+	createPrivateRepo,
+	updateDescription,
+	forkRepo,
+	starRepo,
+	watchRepo,
 };
 
 
