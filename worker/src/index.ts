@@ -4,7 +4,8 @@
 
 import { from } from "rxjs";
 import { Manager } from "./actions";
-import { Pipeline, PipelineType, ReactionType } from "./models/pipeline";
+import { Pipeline, PipelineType, ReactionType, ServiceType } from "./models/pipeline";
+import "./services";
 
 // const app: Application = expressWs(express()).app;
 // const port = process.env.PORT || 8999;
@@ -25,14 +26,24 @@ import { Pipeline, PipelineType, ReactionType } from "./models/pipeline";
 
 const pipelines: Pipeline[] = [
 	{
+		id: 1,
+		enabled: true,
+		lastTrigger: new Date(),
+		triggerCount: 0,
 		name: "toto",
-		type: PipelineType.Twitter_OnTweet,
-		params: {},
+		service: ServiceType.Youtube,
+		type: PipelineType.OnYtUpload,
+		params: {
+			channel: "UCq-Fj5jknLsUf-MWSy4_brA"
+		},
+		userData: { },
 		reactions: [{
-			type: ReactionType.Twitter_Tweet,
+			id: 1,
+			service: ServiceType.Twitter,
+			type: ReactionType.Tweet,
 			params: {}
 		}]
-	} as Pipeline
+	}
 ];
 const manager: Manager = new Manager(from(pipelines));
 await manager.run()

@@ -1,8 +1,14 @@
 import { exhaustMap, from, fromEventPattern, map, Observable } from "rxjs";
-import { PipelineEnv } from "../models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType, ServiceType } from "../models/pipeline";
 import { ETwitterStreamEvent, TweetStream, TwitterApi } from "twitter-api-v2";
+import { action, BaseService, service } from "../models/base-service";
 
-export class Twitter {
+@service(ServiceType.Twitter)
+export class Twitter extends BaseService {
+	constructor(_: Pipeline) {
+		super();
+	}
+
 	private static async _createStream(): Promise<TweetStream> {
 		const client: TwitterApi = new TwitterApi();
 		const stream = await client.v2.sampleStream();
@@ -12,6 +18,7 @@ export class Twitter {
 		return stream;
 	}
 
+	@action(PipelineType.OnTweet, [])
 	static listenTweet(params: any): Observable<PipelineEnv> {
 		return from(Twitter._createStream())
 			.pipe(
@@ -27,4 +34,4 @@ export class Twitter {
 	static async reactTweet(params: any): Promise<PipelineEnv> {
 		return {}
 	}
-}
+};

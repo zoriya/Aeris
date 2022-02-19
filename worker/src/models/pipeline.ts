@@ -1,18 +1,28 @@
+export enum ServiceType {
+	Twitter,
+	Youtube,
+};
+
 export enum PipelineType {
-	Twitter_OnTweet
+	OnTweet,
+
+	OnYtUpload,
+	OnYtLike,
+	OnYtPlaylistAdd,
 };
 
 export enum ReactionType {
-	Twitter_Tweet
+	Tweet,
 };
 
 
 export class Pipeline {
 	id: number;
+	service: ServiceType;
 	type: PipelineType;
 	name: string;
-	params: {[key: string]: any};
-	userID: number;
+	params: {[key: string]: string};
+	userData: {[key: string]: any};
 	lastTrigger: Date;
 	triggerCount: number;
 	enabled: boolean;
@@ -22,6 +32,7 @@ export class Pipeline {
 
 export class Reaction {
 	id: number;
+	service: ServiceType;
 	type: ReactionType;
 	params: {[key: string]: any};
 };
