@@ -99,8 +99,7 @@ class ServicePage extends StatelessWidget {
                   AppLocalizations.of(context).available,
                   const Icon(Icons.connect_without_contact,
                       color: Colors.green),
-                  (Service service) =>
-                      print("Connected") /* TODO open page to connect service*/,
+                  (Service service) {} /* TODO open page to connect service*/,
                   context),
             ],
           ),
