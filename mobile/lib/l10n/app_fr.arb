@@ -33,5 +33,8 @@
     "dangerZone": "Zone dangereuse",
     "createNewPipeline": "Créer une nouvelle pipeline",
     "save": "Enregistrer",
-    "pipelineFormMisingAction": "Vous devez selectionner au moins un déclancheur et une réaction"
+    "pipelineFormMisingAction": "Vous devez selectionner au moins un déclancheur et une réaction",
+    "logoutWarningMessage": "Êtes-vous sûr(e) de voulour vous déconnecter d'Aeris?",
+    "warning": "Attention",
+    "cancel": "Annuler"
 }

@@ -33,5 +33,8 @@
     "dangerZone": "Danger Zone",
     "createNewPipeline": "Create a new pipeline",
     "save": "Save",
-    "pipelineFormMisingAction": "You must select at least a trigger and a reaction"
+    "pipelineFormMisingAction": "You must select at least a trigger and a reaction",
+    "logoutWarningMessage": "You are about to logout, are you sure?",
+    "warning": "Warning",
+    "cancel": "Cancel"
 }
