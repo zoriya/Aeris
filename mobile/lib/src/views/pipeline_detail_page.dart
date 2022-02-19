@@ -7,16 +7,13 @@ import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:aeris/src/widgets/action_card.dart';
-import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:reorderables/reorderables.dart';
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
