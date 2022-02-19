@@ -9,6 +9,7 @@ import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
@@ -23,12 +24,11 @@ class SetupActionPage extends StatefulWidget {
 
 class _SetupActionPageState extends State<SetupActionPage> {
   Service? serviceState;
-  late List<ActionTemplate> availableActions;
+  List<ActionTemplate>? availableActions;
 
   @override
   void initState() {
     super.initState();
-    availableActions = [];
     serviceState = widget.action.service;
     GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
       availableActions = actions;
@@ -86,7 +86,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
+                      "${availableActions == null ? 0 : availableActions!.length} ${AppLocalizations.of(context).avalableActionsFor} ",
                     )),
               ),
               Expanded(
@@ -99,7 +99,14 @@ class _SetupActionPageState extends State<SetupActionPage> {
             ],
           ),
           const SizedBox(height: 30),
-          for (aeris.Action availableAction in availableActions) ...[
+          if (availableActions == null)
+            SkeletonLoader(
+                builder: const Card(child: SizedBox(height: 40), elevation: 5),
+                items: 10,
+                highlightColor: Theme.of(context).colorScheme.secondary
+            )
+          else 
+            ...[for (aeris.Action availableAction in availableActions!)
             Card(
               elevation: 5,
               child: ExpandablePanel(
