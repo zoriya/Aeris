@@ -3,7 +3,7 @@ import { Pipeline, PipelineType, ReactionType, ServiceType } from "../models/pip
 import { BaseService, reaction, service } from "../models/base-service";
 
 @service(ServiceType.Github)
-export class GitHub extends BaseService {
+export class Github extends BaseService {
 
 	private _github: Octokit;
 
