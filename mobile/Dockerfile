@@ -1,4 +1,4 @@
-FROM androidsdk/android-31:latest
+FROM mingc/android-build-box:latest
 
 # # Download Flutter SDK
 # RUN git clone https://github.com/flutter/flutter.git
