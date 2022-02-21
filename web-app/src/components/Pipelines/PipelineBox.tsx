@@ -10,15 +10,15 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import "./PipelineBox.css";
 import { borderRadius } from "@mui/system";
-import type { ServiceProps } from "./../types";
+import type { ImageProps } from "./../types";
 
 interface PipelineBoxProps {
 	// title of the pipeline box
 	title: string;
 	// utc in seconds or anything useful to display
 	statusText: string;
-	service1: ServiceProps;
-	service2: ServiceProps;
+	service1: ImageProps;
+	service2: ImageProps;
 	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }
 

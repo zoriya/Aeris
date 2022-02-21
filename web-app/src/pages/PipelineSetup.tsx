@@ -1,5 +1,6 @@
-import { Google, GitHub, MusicNote, Twitter, YouTube } from "@mui/icons-material";
 
+import { Google, GitHub, MusicNote, Twitter, YouTube } from "@mui/icons-material";
+import { InputLabel, FormHelperText, Avatar, ListItemAvatar } from "@mui/material"
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
@@ -7,104 +8,70 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-
-interface PipelineTriggersProps {
-	name: string;
-	triggers: Array<string>;
-}
+import { AppServiceType } from "../utils/globals";
+import GenericButton, { GenericButtonProps } from "./../components/GenericButton";
 
 interface PipelineSetupPageProps {
-	actionName: string;
-	data: Array<PipelineTriggersProps>;
+	name: string;
+	services: Array<AppServiceType>,
+	elements: {[key: string]: Array<GenericButtonProps> };
 }
 
-export type { PipelineSetupPageProps, PipelineTriggersProps };
+export type { PipelineSetupPageProps };
 
-export default function PipelineSetupModal({ actionName, data }: PipelineSetupPageProps) {
-	const servicesItems = [
-		{
-			name: "Twitter",
-			key: "twitter",
-			icon: <Twitter />,
-		},
-		{
-			name: "GitHub",
-			key: "github",
-			icon: <GitHub />,
-		},
-		{
-			name: "Google",
-			key: "google",
-			icon: <Google />,
-		},
-		{
-			name: "YouTube",
-			key: "youtube",
-			icon: <YouTube />,
-		},
-		{
-			name: "Spotify",
-			key: "spotify",
-			icon: <MusicNote />,
-		},
-	];
+export default function PipelineSetupModal({ name, services, elements }: PipelineSetupPageProps) {
 
 	//TODO On line 63, need to change number 11 to number of available actions
 	return (
 		<div>
 			<Box
 				sx={{
+					width: "100%",
 					display: "flex",
 					flexDirection: "row",
 					alignItems: "center",
-					justifyContent: "space-between",
-					marginBottom: "100px",
 				}}>
-				<Typography variant="h2" noWrap align="left">
-					Setup Action: {actionName}
+				<Typography variant="h4" noWrap align="left">
+					Setup Action: {name}
 				</Typography>
+				
 			</Box>
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "right",
-					justifyContent: "flex-end",
-				}}>
-				<Typography variant="h3" noWrap align="right" sx={{ mr: 4 }}>
-					11 available actions for
-				</Typography>
-				<Select autoWidth variant="standard" defaultValue={"twitter"}>
-					{servicesItems.map((item, index) => (
-						<MenuItem value={item.key}>
-							<img
-								loading="lazy"
-								width="20"
-								src={`https://flagcdn.com/w20/ad.png`}
-								srcSet={`https://flagcdn.com/w40/ad.png 2x`}
-								alt={`Flag of Andorra`}
-							/>
-							<ListItemIcon>{item.icon}</ListItemIcon>
-							<ListItemText primary={item.name} />
+			<Box sx={{ float:"right" }} >
+				<InputLabel id="pipeline-setup-select-label">Service</InputLabel>
+				<Select
+					labelId="pipeline-setup-select-label"
+					defaultValue={"youtube"}
+					label="Services" >
+					{services.map((item) => (
+						<MenuItem value={item.uid}>
+							<Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+								<img
+									loading="lazy"
+									width="20"
+									src={item.logo.imageSrc}
+									alt={item.logo.altText}
+								/>
+								{item.label}
+							</Box>
 						</MenuItem>
 					))}
 				</Select>
+				<FormHelperText>11 actions disponibles</FormHelperText>
 			</Box>
-			<Grid container direction="row" justifyContent="space-around" rowSpacing={4} alignItems="flex-start">
-				{data.map((el, index) => (
-					<Grid item sm={10} md={10} lg={5} xl={4} key={0}>
-						<Box alignItems="center" justifyContent="center">
-							<Select autoWidth defaultValue={0}>
-								{" "}
-								{el.triggers.map((elem, index) => (
-									<MenuItem value={index}>
-										<ListItemText primary={elem} />
-									</MenuItem>
-								))}
-							</Select>
-						</Box>
-					</Grid>
-				))}
+			
+			<Grid container direction="row" justifyContent="space-around"  alignItems="flex-start">
+				{ Object.entries(elements).map((el) => {
+
+					if (el[0] !== "youtube")
+						return null;
+					return (
+						<Grid item key={0}>
+							<GenericButton {...el[1][0]} />
+						</Grid>
+						)
+					}
+					)
+				}
 			</Grid>
 		</div>
 	);

@@ -2,38 +2,12 @@ import Typography from "@mui/material/Typography";
 import { Login, Logout } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 
-import GenericButton from "../GenericButton";
-import { ServiceProps } from "../types";
+import GenericButton from "../components/GenericButton";
+import { ImageProps } from "../components/types";
 import { Grid } from "@mui/material";
+import { AppServices } from "../utils/globals";
 
 export default function ServiceSetupModal() {
-	const services: Array<ServiceProps> = [
-		{
-			imageSrc: "https://upload.wikimedia.org/wikipedia/fr/c/c8/Twitter_Bird.svg",
-			altText: "Twitter",
-		},
-		{
-			imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
-			altText: "Spotify",
-		},
-		{
-			imageSrc: "https://upload.wikimedia.org/wikipedia/commons/d/d7/GitHub_font_awesome.svg",
-			altText: "GitHub",
-		},
-		{
-			imageSrc: "https://cdn.worldvectorlogo.com/logos/discord.svg",
-			altText: "Discord",
-		},
-		{
-			imageSrc: "https://upload.wikimedia.org/wikipedia/commons/3/39/Google_Mail.svg",
-			altText: "Gmail",
-		},
-		{
-			imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
-			altText: "YouTube",
-		},
-	];
-
 	return (
 		<div>
 			<Box
@@ -61,9 +35,9 @@ export default function ServiceSetupModal() {
 								justifyContent: "space-between",
 								marginRight: "10px",
 							}}>
-							{services.map((elem, index) => (
+							{AppServices.map((elem, index) => (
 								<Grid item mb={4} key={index}>
-									<GenericButton service={elem} title={elem.altText} trailingIcon={<Login />} />
+									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Login />} />
 								</Grid>
 							))}
 						</Box>
@@ -82,11 +56,11 @@ export default function ServiceSetupModal() {
 									justifyContent: "space-between",
 									marginRight: "10px",
 								}}>
-								{services.map((elem, index) => (
-									<Grid item mb={4} key={index}>
-										<GenericButton service={elem} title={elem.altText} trailingIcon={<Logout />} />
-									</Grid>
-								))}
+								{AppServices.map((elem, index) => (
+								<Grid item mb={4} key={index}>
+									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
+								</Grid>
+							))}
 							</Box>
 						</Grid>
 					</Grid>

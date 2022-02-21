@@ -2,7 +2,7 @@ import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import { GenericButtonProps } from "../components/GenericButton";
-import type { ServiceProps } from "../components/types";
+import type { ImageProps } from "../components/types";
 import PipelineEditPage from "./PipelineEditPage";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
@@ -12,8 +12,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { PipelineEditPageProps } from "./PipelineEditPage";
-import PipelineSetupModal, { PipelineTriggersProps } from "./PipelineSetup";
+import PipelineSetupModal from "./PipelineSetup";
 import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
+import ServiceSetupModal from "./ServiceSetup";
+import { AppServices } from "../utils/globals";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -46,11 +48,11 @@ export default function HomePage() {
 		],
 	} as PipelineEditPageProps);
 
-	const svc: ServiceProps = {
+	const svc: ImageProps = {
 		altText: "youTube",
 		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
 	};
-	const svc2: ServiceProps = {
+	const svc2: ImageProps = {
 		altText: "Spotify",
 		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
@@ -159,26 +161,17 @@ export default function HomePage() {
 		},
 	];
 
-	const triggersAvailable: Array<PipelineTriggersProps> = [
-		{
-			name: "Test",
-			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
-		},
-		{
-			name: "Test 2",
-			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
-		},
-		{
-			name: "Test 3",
-			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
-		},
-	];
-
 	return (
 		<div className={classes.divHomePage}>
 			<PipelineBoxesLayout data={data} />
 			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
 				<PipelineEditPage {...modalData} />
+			</PipelineModal>
+			<PipelineModal isOpen={true} handleClose={() => {}} >
+				<PipelineSetupModal name="oui oui" services={AppServices} elements={ {"youtube": actions} } />
+			</PipelineModal>
+			<PipelineModal isOpen={false} handleClose={() => {}} >
+				<ServiceSetupModal />
 			</PipelineModal>
 
 			<Box

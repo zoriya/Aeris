@@ -1,11 +1,11 @@
 import { Box, CardContent, Typography, CardMedia, IconButton } from "@mui/material";
 import Card from "@mui/material/Card";
-import type { ServiceProps } from "./types";
+import type { ImageProps } from "./types";
 
 interface GenericButtonProps {
 	title: string;
 
-	service: ServiceProps;
+	service: ImageProps;
 
 	trailingIcon: JSX.Element;
 }

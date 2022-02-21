@@ -1,21 +1,20 @@
 import type { PipelineBoxProps } from "./components/Pipelines/PipelineBox";
 import { GenericButtonProps } from "./components/GenericButton";
 import { Typography, Box, Button } from "@mui/material";
-import type { ServiceProps } from "./components/types";
+import type { ImageProps } from "./components/types";
 import "./App.css";
 
-import { PipelineTriggersProps } from "./pages/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import * as React from "react";
 
 export default function App() {
-	let svc: ServiceProps = {
+	let svc: ImageProps = {
 		altText: "youTube",
 		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
 	};
-	let svc2: ServiceProps = {
+	let svc2: ImageProps = {
 		altText: "Spotify",
 		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
