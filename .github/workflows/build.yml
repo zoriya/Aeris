@@ -21,6 +21,7 @@ jobs:
           channel: 'dev'
       - name: Build Docker
         run: docker build . -t aeris_mobile_build 
+      - run: ls -l
       - name: Run Docker
         run: docker run -v $PWD:/dist aeris_mobile_build
       # - name: Get Flutter dependencies
