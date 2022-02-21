@@ -20,6 +20,6 @@ RUN flutter gen-l10n
 RUN flutter pub run flutter_launcher_icons:main
 # Generate native splashscreen
 RUN flutter pub run flutter_native_splash:create
-RUN flutter build apk lib/src/main.dart --debug
+RUN flutter build apk lib/src/main.dart
 RUN ls -lRa build
 CMD mv ./build/app/outputs/flutter-apk/app-release.apk /dist/aeris_android.apk
