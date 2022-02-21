@@ -14,8 +14,8 @@ export enum ReactionType {
 	Tweet,
 	// Github reactions
 	OpenPR,
-	commentPR,
-	closePR,
+	CommentPR,
+	ClosePR,
 	MergePR,
 	CreateIssue,
 	CommentIssue,

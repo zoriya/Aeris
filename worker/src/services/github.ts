@@ -21,7 +21,7 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.commentPR, ['owner', 'repo', 'pull_number', 'body'])
+	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
 	commentPR(params: any) {
 		this._github.pulls.createReviewComment({
 			owner: params['owner'], repo: params['repo'], 
@@ -29,7 +29,7 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.closePR, ['owner', 'repo', 'pull_number'])
+	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
 	closePR(params: any) {
 		this._github.pulls.update({
 			owner: params['owner'], repo: params['repo'], 
