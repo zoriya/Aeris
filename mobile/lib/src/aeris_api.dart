@@ -69,7 +69,7 @@ class AerisAPI {
   Future<void> createPipeline(Pipeline newPipeline) async {
     ///TODO Send Pipeline to API
     fakeAPI.add(newPipeline);
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
@@ -77,7 +77,7 @@ class AerisAPI {
   Future<void> removePipeline(Pipeline pipeline) async {
     ///TODO Send delete request to API
     fakeAPI.remove(pipeline);
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
@@ -90,21 +90,21 @@ class AerisAPI {
       }
     }
 
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 
   /// Fetches the Pipelines from the API
   Future<List<Pipeline>> getPipelines() async {
     /// TODO Fetch the API
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 2));
     return fakeAPI;
   }
 
   /// Disconnects the user from the service
   Future<void> disconnectService(Service service) async {
     ///TODO disconnect service from user
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     return;
   }
 

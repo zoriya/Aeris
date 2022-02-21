@@ -137,7 +137,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                             }),
                       ),
                       Center(child: ElevatedButton(
-                        child: const Text("Save"),
+                        child: Text(AppLocalizations.of(context).save),
                         onPressed: () {
                           _formKey.currentState!.save();
                           if (_formKey.currentState!.validate()) {

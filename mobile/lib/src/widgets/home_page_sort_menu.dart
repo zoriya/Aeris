@@ -23,7 +23,7 @@ class HomePageSortMenu extends StatelessWidget {
       case PipelineCollectionSort.name:
         return Icons.text_rotate_vertical;
       case PipelineCollectionSort.triggeringService:
-        return Icons.webhook;
+        return Icons.blur_circular_rounded;
     }
   }
 
@@ -35,6 +35,7 @@ class HomePageSortMenu extends StatelessWidget {
         ...[
           for (var sortingMethod in PipelineCollectionSort.values)
             AerisPopupMenuItem(
+                selected: collectionProvider.sortingMethod == sortingMethod,
                 context: context,
                 icon: sortMethodGetIcon(sortingMethod),
                 title: ReCase(sortingMethod.name).titleCase,
