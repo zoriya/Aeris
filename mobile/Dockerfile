@@ -3,6 +3,7 @@ WORKDIR /
 
 # Download Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git
+RUN git -C flutter checkout stable
 ENV PATH "/flutter/bin:$PATH"
 
 # Run basic check to download Dark SDK
