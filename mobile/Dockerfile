@@ -7,10 +7,9 @@ ENV PATH "$PATH:/opt/android-sdk-linux/flutter/bin"
 # Run basic check to download Dark SDK
 RUN flutter doctor
 
-COPY pubspec.* ./
+COPY . .
 RUN flutter pub get
 
-COPY . .
 RUN env
 RUN ls -l 
 # Generate launcher icon
