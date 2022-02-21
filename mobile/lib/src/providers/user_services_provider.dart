@@ -1,10 +1,9 @@
-import 'package:mobile/src/models/user_service.dart';
-import 'package:mobile/src/models/service.dart';
+import 'package:aeris/src/models/user_service.dart';
+import 'package:aeris/src/models/service.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Provider used to store every Service related to the User
 class UserServiceProvider extends ChangeNotifier {
-
   /// List of [Service] related to the user
   List<UserService> userServices = [];
 
@@ -15,14 +14,17 @@ class UserServiceProvider extends ChangeNotifier {
   }
 
   /// Creates a new service related to the user
-  createUserService(Service serviceToSet, {String accountId = "", String accUsername = "", String accountSlug = "", String externalToken = ""}) {
+  createUserService(Service serviceToSet,
+      {String accountId = "",
+      String accUsername = "",
+      String accountSlug = "",
+      String externalToken = ""}) {
     UserService newService = UserService(
-      serviceAccountId: accountId,
-      accountUsername: accUsername,
-      accountSlug: accountSlug,
-      userExternalToken: externalToken,
-      serviceProvider: serviceToSet
-    );
+        serviceAccountId: accountId,
+        accountUsername: accUsername,
+        accountSlug: accountSlug,
+        userExternalToken: externalToken,
+        serviceProvider: serviceToSet);
     userServices.add(newService);
     // notifyListeners(); /// TODO Get the notifyListeners method back.
   }
@@ -35,18 +37,19 @@ class UserServiceProvider extends ChangeNotifier {
   }
 
   /// Modifies a service given as argument
-  modifyService(UserService toModify, String serviceAccountId, String accountUsername, String accountSlug, String userExternalToken) {
+  modifyService(UserService toModify, String serviceAccountId,
+      String accountUsername, String accountSlug, String userExternalToken) {
     for (int i = 0; i < userServices.length; i++) {
-      if (userServices[i].serviceProvider.name == toModify.serviceProvider.name &&
+      if (userServices[i].serviceProvider.name ==
+              toModify.serviceProvider.name &&
           userServices[i].serviceAccountId == toModify.serviceAccountId &&
           userServices[i].userExternalToken == toModify.userExternalToken) {
         UserService newService = UserService(
-          serviceProvider: userServices[i].serviceProvider,
-          serviceAccountId: serviceAccountId,
-          accountUsername: accountUsername,
-          accountSlug: accountSlug,
-          userExternalToken: userExternalToken
-        );
+            serviceProvider: userServices[i].serviceProvider,
+            serviceAccountId: serviceAccountId,
+            accountUsername: accountUsername,
+            accountSlug: accountSlug,
+            userExternalToken: userExternalToken);
         userServices[i] = newService;
         notifyListeners();
         return true;

@@ -1,0 +1,11 @@
+---
+test_name: Signup a user
+stages:
+  - name: Make sure we have the right ID
+
+    request:
+      url: https://localhost:8080/auth/signup
+      method: POST
+
+    response:
+      status_code: 200

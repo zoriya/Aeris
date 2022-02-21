@@ -1,60 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
+/// Function to show a Card page
+Future<void> showAerisCardPage(
+        BuildContext context, Widget Function(BuildContext) builder) =>
+    showCupertinoModalBottomSheet(
+        context: context,
+        builder: builder,
+        backgroundColor: Theme.of(context).colorScheme.surface);
 
 ///Popup Card page
-class AerisCardPage extends StatelessWidget {
+class AerisCardPage extends StatefulWidget {
   ///Body of the card
   final Widget body;
   const AerisCardPage({Key? key, required this.body}) : super(key: key);
 
   @override
+  State<AerisCardPage> createState() => _AerisCardPageState();
+}
+
+class _AerisCardPageState extends State<AerisCardPage> {
+  /// Know that the Card page is still the current/active one, and it has not been poped.
+  bool active = true;
+
+  @override
   Widget build(BuildContext context) {
-    const double radius = 30;
+    const Radius radius = Radius.circular(40);
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(radius),
-            topRight: Radius.circular(radius)
-          ),
-          child: GestureDetector(
-            onVerticalDragUpdate: (details) {
-              if (details.delta.dy > 8) {
-                Navigator.of(context).pop();
-              }
-            },
-            child: Container(
-              color: Theme.of(context).colorScheme.surface,
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
-              child: Column(
+        body: CupertinoScaffold(
+            transitionBackgroundColor: Theme.of(context).colorScheme.surface,
+            topRadius: radius,
+            body: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: ListView(
+                physics: const BouncingScrollPhysics(),
+                controller: ModalScrollController.of(context),
                 children: [
-                  Container(
-                    width: 30,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(100)),
-                      color: Theme.of(context).colorScheme.primary.withAlpha(70),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30.0),
+                    child: Align(
+                      child: Container(
+                        width: 30,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(100)),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withAlpha(70),
+                        ),
+                        alignment: Alignment.center,
+                      ),
                     ),
-                    alignment: Alignment.center,
                   ),
                   Container(
                     child: const AerisPageCloseButton(),
                     alignment: Alignment.centerRight,
                   ),
-                  Expanded(
-                    child: Padding(
+                  Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: body
-                    )
-                  )
+                      child: widget.body)
                 ],
-              )
-            ),
-          ),
-        ),
-      ),
-    );
+              ),
+            )));
   }
 }
 

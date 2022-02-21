@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 ///Dialog for a warning (for example, a deletion)
 class WarningDialog extends StatelessWidget {
@@ -21,7 +22,7 @@ class WarningDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text("Warning",
+        title: Text(AppLocalizations.of(context).warning,
           style: TextStyle(
             color: Theme.of(context).colorScheme.error
           )
@@ -35,14 +36,14 @@ class WarningDialog extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.primaryContainer),
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel'),
+                child: Text(AppLocalizations.of(context).cancel),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).colorScheme.error),
                 onPressed: () => {
-                  onAccept(),
                   Navigator.pop(context),
+                  onAccept(),
                 },
                 child: Text(warnedAction)
               )

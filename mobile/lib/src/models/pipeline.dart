@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/src/models/reaction.dart';
-import 'package:mobile/src/models/trigger.dart';
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/trigger.dart';
 
 /// Object representation of a pipeline
 class Pipeline {
-  ///TODO Is the data type of the id correct?
   ///Unique identifier
   final int id;
 
@@ -17,9 +16,6 @@ class Pipeline {
   /// Is the pipeline enabled
   bool enabled;
 
-  ///TODO Is the data type of the parameters correct?
-  ///The parameters
-  final Object parameters;
 
   ///The pipeline's reactions
   final List<Reaction> reactions;
@@ -31,7 +27,6 @@ class Pipeline {
       required this.name,
       required this.triggerCount,
       required this.enabled,
-      required this.parameters,
       required this.trigger,
       required this.reactions});
 }

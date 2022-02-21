@@ -1,57 +1,60 @@
+import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/src/views/setup_action_page.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu.dart';
-import 'package:mobile/src/widgets/aeris_popup_menu_item.dart';
-import 'package:mobile/src/models/action.dart' as aeris;
+import 'package:aeris/src/views/setup_action_page.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu.dart';
+import 'package:aeris/src/widgets/aeris_popup_menu_item.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// [StatelessWidget] displayed as a PopupMenu
 class ActionCardPopupMenu extends StatelessWidget {
-  const ActionCardPopupMenu({
+  ActionCardPopupMenu({
     Key? key,
     required this.action,
     required this.then,
     required this.deletable,
-  }) : super(key: key);
+    this.onDelete,
+  }) : super(key: key) {
+    if (deletable) {
+      assert(onDelete != null);
+    }
+  }
 
-  /// Action to trigger
+  /// Selected Action
   final aeris.Action action;
 
-  /// Function to trigger when PopupMenu option is selected
+  /// Function to trigger once the Edit menu is closed
   final void Function() then;
 
-  /// Deletable characteristic
+  /// Deletable caracteristic
   final bool deletable;
+
+  /// What to do if the 'delete' button is clicked?
+  final void Function()? onDelete;
 
   @override
   Widget build(BuildContext context) {
     return AerisPopupMenu(
-      onSelected: (value) {
-        Map object = value as Map;
-        Navigator.pushNamed(context, object['route'] as String, arguments: object['params']).then((r) {
-          then();
-          return r;
-        });
-      },
-      icon: Icons.more_vert,
-      itemBuilder: (context) => [
-        AerisPopupMenuItem(
-          context: context,
-          icon: Icons.settings,
-          title: "Modify",
-          value: {
-            'route': "/pipeline/action/mod",
-            'params': SetupActionPageArguments(action),
-          }),
-        AerisPopupMenuItem(
-          context: context,
-          icon: Icons.delete,
-          title: "Delete",
-          value: "/pipeline/action/del",
-          enabled: deletable,
-          // TODO Delete from parent pipeline
-          /* TODO Define delete route*/
-          ),
-      ]
-    );
+        onSelected: (value) {
+          dynamic Function() callback = value! as dynamic Function();
+          callback();
+        },
+        icon: Icons.more_vert,
+        itemBuilder: (context) => [
+              AerisPopupMenuItem(
+                  context: context,
+                  icon: Icons.settings,
+                  title: AppLocalizations.of(context).modify,
+                  value: () => showAerisCardPage(
+                      context, (_) => SetupActionPage(action: action)).then((_) => then())
+              ),
+              AerisPopupMenuItem(
+                context: context,
+                icon: Icons.delete,
+                title: AppLocalizations.of(context).delete,
+                value: onDelete,
+                enabled: deletable
+              ),
+            ]);
   }
 }

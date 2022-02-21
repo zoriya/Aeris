@@ -1,9 +1,8 @@
 // Class for a service related to a user (Youtube, Gmail, ...)
-import 'package:mobile/src/models/service.dart';
+import 'package:aeris/src/models/service.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserService {
-
   /// Service name related to the user
   final Service serviceProvider;
 
@@ -21,9 +20,9 @@ class UserService {
 
   UserService(
       {Key? key,
-        required this.serviceAccountId,
-        required this.accountUsername,
-        required this.accountSlug,
-        required this.userExternalToken,
-        required this.serviceProvider});
+      required this.serviceAccountId,
+      required this.accountUsername,
+      required this.accountSlug,
+      required this.userExternalToken,
+      required this.serviceProvider});
 }
