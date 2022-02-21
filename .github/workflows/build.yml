@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Pull Docker Image
-        run: docker pull androidsdk/android-30:latest
+        run: docker pull androidsdk/android-31:latest
       # - uses: actions/cache@v1
       #   name: Cache for Mobile Build
       #   id: cache_mobile_build

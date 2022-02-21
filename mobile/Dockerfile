@@ -1,11 +1,11 @@
-FROM androidsdk/android-30:latest
+FROM androidsdk/android-31:latest
 
 # Download Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git
 ENV PATH "$PATH:/opt/android-sdk-linux/flutter/bin"
 
 # Run basic check to download Dark SDK
-RUN flutter doctor
+RUN flutter upgrade && flutter doctor
 
 COPY . .
 RUN flutter pub get
