@@ -1,10 +1,8 @@
-
-
 interface ServiceProps {
 	// the image src preferable to use svg files
-	imageSrc: string,
+	imageSrc: string;
 	// the alt text (screen readers, etc)
-	altText: string
+	altText: string;
 }
 
-export type { ServiceProps }
+export type { ServiceProps };
