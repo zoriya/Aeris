@@ -1,25 +1,25 @@
+{-# LANGUAGE AllowAmbiguousTypes #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE AllowAmbiguousTypes #-}
 
 module Password where
 
-import Rel8 ( DBEq, DBType )
-import Data.Aeson ( FromJSON, ToJSON )
-import Data.Text ( Text, unpack )
+import Data.Aeson (FromJSON, ToJSON)
+import Data.Text (Text, unpack)
+import Rel8 (DBEq, DBType)
 
-import Crypto.Random ( MonadRandom(getRandomBytes) )
-import Crypto.KDF.BCrypt
-import qualified Data.ByteString.Char8 as B
-import Data.ByteString (ByteString)
-import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import Control.Monad.IO.Class (MonadIO, liftIO)
+import Crypto.KDF.BCrypt
+import Crypto.Random (MonadRandom (getRandomBytes))
 import Data.ByteArray (Bytes, convert)
+import Data.ByteString (ByteString)
+import qualified Data.ByteString.Char8 as B
+import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 
-newtype HashedPassword = HashedPassword { getHashedPasswd :: Text }
+newtype HashedPassword = HashedPassword {getHashedPasswd :: Text}
     deriving newtype (Eq, Show, Read, DBEq, DBType, FromJSON, ToJSON)
 
-newtype Password = Password { getPassword :: Text }
+newtype Password = Password {getPassword :: Text}
     deriving newtype (Eq, Show, Read, FromJSON, ToJSON, DBEq, DBType)
 
 -- TODO Check if the password meets minimum security requirements
@@ -40,8 +40,7 @@ newSalt = liftIO $ getRandomBytes 16
 hashPassword' :: Password -> Bytes -> HashedPassword
 hashPassword' (Password password) salt =
     let hash = bcrypt 10 salt (textToBytes password)
-    in HashedPassword $ bytesToText hash
-
+     in HashedPassword $ bytesToText hash
 
 hashPassword'' :: MonadIO m => Password -> m HashedPassword
 hashPassword'' password = hashPassword' password <$> newSalt

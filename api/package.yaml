@@ -20,12 +20,14 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- opaleye >= 0.9.0.0 && < 0.9.1.0
 - aeson
 - servant
 - servant-server
 - servant-auth
 - servant-auth-server
 - wai
+- containers
 - warp
 - time
 - bytestring
@@ -40,6 +42,9 @@ dependencies:
 - memory
 - transformers
 - mr-env
+- unordered-containers
+- http-media
+- http-conduit
 - utf8-string
 
 library:

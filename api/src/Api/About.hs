@@ -1,44 +1,52 @@
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE TemplateHaskell #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use newtype instead of data" #-}
 
 module Api.About where
 
-import Data.Aeson ( eitherDecode, defaultOptions )
-import Data.Aeson.TH ( deriveJSON )
-import Data.Time.Clock.POSIX (getPOSIXTime, POSIXTime)
-import qualified Data.Aeson.Parser
-import Servant (Handler, RemoteHost)
-import Control.Monad.IO.Class (liftIO)
-import qualified Data.ByteString.Lazy as B
-import Network.Socket (SockAddr)
-import GHC.Generics ( Generic )
 import App (AppM)
+import Control.Monad.IO.Class (liftIO)
+import Data.Aeson (defaultOptions, eitherDecode)
+import qualified Data.Aeson.Parser
+import Data.Aeson.TH (deriveJSON)
+import qualified Data.ByteString.Lazy as B
+import Data.Time.Clock.POSIX (POSIXTime, getPOSIXTime)
+import GHC.Generics (Generic)
+import Network.Socket (SockAddr)
+import Servant (Handler, RemoteHost)
 
 data ClientAbout = ClientAbout
-  { host :: String
-  } deriving (Eq, Show)
+    { host :: String
+    }
+    deriving (Eq, Show)
 
 data ActionAbout = ActionAbout
-  { name :: String
-  , description :: String
-  } deriving (Eq, Show)
+    { name :: String
+    , description :: String
+    }
+    deriving (Eq, Show)
 
 data ServicesAbout = ServicesAbout
-  { name :: String 
-  , actions :: [ActionAbout]
-  , reactions :: [ActionAbout]
-  } deriving (Eq, Show, Generic)
+    { name :: String
+    , actions :: [ActionAbout]
+    , reactions :: [ActionAbout]
+    }
+    deriving (Eq, Show, Generic)
 
 data ServerAbout = ServerAbout
-  { current_time :: POSIXTime 
-  , services :: [ServicesAbout]
-  } deriving (Eq, Show)
+    { current_time :: POSIXTime
+    , services :: [ServicesAbout]
+    }
+    deriving (Eq, Show)
 
 data About = About
-  { client :: ClientAbout,
-    server :: ServerAbout
-  } deriving (Eq, Show)
+    { client :: ClientAbout
+    , server :: ServerAbout
+    }
+    deriving (Eq, Show)
 
 $(deriveJSON defaultOptions ''ClientAbout)
 $(deriveJSON defaultOptions ''ActionAbout)

@@ -1,17 +1,23 @@
 {-# LANGUAGE BlockArguments #-}
+
 module Repository.Pipeline where
-import Db.Pipeline (PipelineId, Pipeline (Pipeline), getPipelineById, insertPipeline)
+
 import App (AppM)
 import Data.Functor.Identity (Identity)
+import Db.Pipeline (Pipeline (Pipeline), PipelineId, getPipelineById, insertPipeline, getPipelineByUserId)
+import Rel8 (insert, limit, select)
 import Repository.Utils (runQuery)
-import Rel8 (select, limit, insert)
-
+import Core.User (UserId(UserId))
 
 getPipelineById' :: PipelineId -> AppM (Pipeline Identity)
 getPipelineById' pId = do
     res <- runQuery (select $ limit 1 $ getPipelineById pId)
-    return $ head res 
+    return $ head res
 
+getPipelineByUser :: UserId -> AppM [Pipeline Identity]
+getPipelineByUser userId = runQuery (select $ getPipelineByUserId userId)
 
-createPipeline :: Pipeline Identity -> AppM [PipelineId]
-createPipeline pipeline = runQuery (insert $ insertPipeline pipeline)
+createPipeline :: Pipeline Identity -> AppM PipelineId
+createPipeline pipeline = do
+  res <- runQuery (insert $ insertPipeline pipeline)
+  return $ head res
