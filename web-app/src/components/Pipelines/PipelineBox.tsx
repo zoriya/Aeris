@@ -24,13 +24,7 @@ interface PipelineBoxProps {
 
 export type { PipelineBoxProps };
 
-export default function PipelineBox({
-	title,
-	statusText,
-	service1,
-	service2,
-	onClickCallback,
-}: PipelineBoxProps) {
+export default function PipelineBox({ title, statusText, service1, service2, onClickCallback }: PipelineBoxProps) {
 	const theme = useTheme();
 
 	return (
@@ -42,12 +36,7 @@ export default function PipelineBox({
 							<Typography variant="h5" noWrap align="left">
 								{title}
 							</Typography>
-							<Typography
-								variant="subtitle2"
-								color="text.secondary"
-								noWrap
-								align="left"
-							>
+							<Typography variant="subtitle2" color="text.secondary" noWrap align="left">
 								{statusText}
 							</Typography>
 						</CardContent>
@@ -61,21 +50,10 @@ export default function PipelineBox({
 							alignItems: "center",
 							justifyContent: "center",
 							flexWrap: "true",
-						}}
-					>
-						<CardMedia
-							component="img"
-							sx={{ width: "30%" }}
-							image={service1.imageSrc}
-							alt={service1.altText}
-						/>
+						}}>
+						<CardMedia component="img" sx={{ width: "30%" }} image={service1.imageSrc} alt={service1.altText} />
 						<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
-						<CardMedia
-							component="img"
-							sx={{ width: "30%" }}
-							image={service2.imageSrc}
-							alt={service2.altText}
-						/>
+						<CardMedia component="img" sx={{ width: "30%" }} image={service2.imageSrc} alt={service2.altText} />
 					</Box>
 				</Box>
 			</CardActionArea>

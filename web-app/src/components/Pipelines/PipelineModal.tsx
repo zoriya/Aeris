@@ -28,11 +28,7 @@ interface PipelineModalProps {
 	handleClose: () => void;
 }
 
-export default function PipelineModal({
-	isOpen,
-	children,
-	handleClose,
-}: PipelineModalProps) {
+export default function PipelineModal({ isOpen, children, handleClose }: PipelineModalProps) {
 	const classes = useStyles();
 	const theme = useTheme();
 	//             <Button onClick={handleOpen}>Show pipeline</Button>
@@ -49,8 +45,7 @@ export default function PipelineModal({
 				BackdropComponent={Backdrop}
 				BackdropProps={{
 					timeout: 500,
-				}}
-			>
+				}}>
 				<Fade in={isOpen}>
 					<div className={classes.paper}>
 						<IconButton
@@ -60,8 +55,7 @@ export default function PipelineModal({
 								float: "right",
 								marginTop: "5px",
 								width: "20px",
-							}}
-						>
+							}}>
 							<CloseIcon />
 						</IconButton>
 						{children}

@@ -147,10 +147,7 @@ export default function AuthComponent(this: any) {
 					type: "setIsButtonDisabled",
 					payload: false,
 				});
-			} else if (
-				state.isConfirmButtonVisible &&
-				state.password == state.confirmedPassword
-			) {
+			} else if (state.isConfirmButtonVisible && state.password == state.confirmedPassword) {
 				dispatch({
 					type: "setIsButtonDisabled",
 					payload: false,
@@ -190,27 +187,21 @@ export default function AuthComponent(this: any) {
 		}
 	};
 
-	const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (
-		event
-	) => {
+	const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 		dispatch({
 			type: "setUsername",
 			payload: event.target.value,
 		});
 	};
 
-	const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (
-		event
-	) => {
+	const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 		dispatch({
 			type: "setPassword",
 			payload: event.target.value,
 		});
 	};
 
-	const handleConfirmedPasswordChange: React.ChangeEventHandler<
-		HTMLInputElement
-	> = (event) => {
+	const handleConfirmedPasswordChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
 		dispatch({
 			type: "setConfirmedPassword",
 			payload: event.target.value,
@@ -219,12 +210,7 @@ export default function AuthComponent(this: any) {
 
 	return (
 		<div>
-			<Box
-				component="img"
-				className={classes.media}
-				alt="Aeris Logo"
-				src={require("../../assets/logo-white.png")}
-			/>
+			<Box component="img" className={classes.media} alt="Aeris Logo" src={require("../../assets/logo-white.png")} />
 			<form className={classes.container} noValidate autoComplete="on">
 				<Card className={classes.card}>
 					<CardContent>
@@ -305,8 +291,7 @@ export default function AuthComponent(this: any) {
 							size="large"
 							className={classes.loginBtn}
 							onClick={handleLogin}
-							disabled={state.isButtonDisabled}
-						>
+							disabled={state.isButtonDisabled}>
 							{state.authMode === "login" ? "Connection" : "Signup"}
 						</Button>
 						<Button
@@ -316,8 +301,7 @@ export default function AuthComponent(this: any) {
 							onClick={() => {
 								dispatch({
 									type: "setIsButtonDisabled",
-									payload:
-										state.authMode === "login" ? true : state.isButtonDisabled,
+									payload: state.authMode === "login" ? true : state.isButtonDisabled,
 								});
 								dispatch({
 									type: "setAuthMode",
@@ -327,14 +311,11 @@ export default function AuthComponent(this: any) {
 									type: "setIsConfirmButtonVisible",
 									payload: !state.isConfirmButtonVisible,
 								});
-							}}
-						>
+							}}>
 							{state.authMode === "login" ? "Signup" : "Connection"}
 						</Button>
 					</CardActions>
-					<CardActions
-						style={{ justifyContent: "center", alignContent: "center" }}
-					>
+					<CardActions style={{ justifyContent: "center", alignContent: "center" }}>
 						<Button
 							disableFocusRipple
 							disableRipple
@@ -343,8 +324,7 @@ export default function AuthComponent(this: any) {
 							color="primary"
 							onClick={() => {
 								navigate("/forget");
-							}}
-						>
+							}}>
 							Forgot password ?
 						</Button>
 					</CardActions>

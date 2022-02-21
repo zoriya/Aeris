@@ -13,13 +13,11 @@ import * as React from "react";
 export default function App() {
 	let svc: ServiceProps = {
 		altText: "youTube",
-		imageSrc:
-			"https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
 	};
 	let svc2: ServiceProps = {
 		altText: "Spotify",
-		imageSrc:
-			"https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
 
 	let data: Array<PipelineBoxProps> = [
@@ -108,18 +106,10 @@ export default function App() {
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
-						}}
-					>
-						<Box
-							component="img"
-							alt="Aeris Logo"
-							src={require("./assets/logo-white.png")}
-						/>
+						}}>
+						<Box component="img" alt="Aeris Logo" src={require("./assets/logo-white.png")} />
 						<br />
-						<Typography
-							variant="h4"
-							style={{ textAlign: "center", maxWidth: "75%" }}
-						>
+						<Typography variant="h4" style={{ textAlign: "center", maxWidth: "75%" }}>
 							Professional, personnal action-reaction manager
 						</Typography>
 						<br />
@@ -128,8 +118,7 @@ export default function App() {
 							variant="contained"
 							color="secondary"
 							className="EndStartupBtn"
-							onClick={pushToLogin}
-						>
+							onClick={pushToLogin}>
 							Connect to Aeris
 						</Button>
 					</Box>

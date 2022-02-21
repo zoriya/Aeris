@@ -1,11 +1,4 @@
-import {
-	Box,
-	Typography,
-	FormGroup,
-	FormControlLabel,
-	Switch,
-	Grid,
-} from "@mui/material";
+import { Box, Typography, FormGroup, FormControlLabel, Switch, Grid } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import PipelineActionList from "../components/PipelineActionList";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -22,11 +15,7 @@ export interface PipelineEditPageProps {
 	actions: Array<GenericButtonProps>;
 }
 
-export default function PipelineEditPage({
-	title,
-	trigger,
-	actions,
-}: PipelineEditPageProps) {
+export default function PipelineEditPage({ title, trigger, actions }: PipelineEditPageProps) {
 	return (
 		<div>
 			<Box
@@ -35,27 +24,16 @@ export default function PipelineEditPage({
 					flexDirection: "row",
 					alignItems: "center",
 					justifyContent: "space-between",
-				}}
-			>
+				}}>
 				<Typography variant="h2" noWrap align="left">
 					{title}
 				</Typography>
 				<FormGroup>
-					<FormControlLabel
-						control={<Switch defaultChecked />}
-						color="secondary"
-						label="Pipeline activée"
-					/>
+					<FormControlLabel control={<Switch defaultChecked />} color="secondary" label="Pipeline activée" />
 				</FormGroup>
 			</Box>
 			<Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-				<Grid
-					container
-					direction="column"
-					spacing={2}
-					justifyContent="flex-start"
-					alignItems="flex-start"
-				>
+				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					{[trigger].map((el, index) => (
 						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
 							<GenericButton {...el} />
@@ -65,13 +43,7 @@ export default function PipelineEditPage({
 
 				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
 
-				<Grid
-					container
-					direction="column"
-					spacing={2}
-					justifyContent="flex-start"
-					alignItems="flex-start"
-				>
+				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					{actions.map((el, index) => (
 						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
 							<GenericButton {...el} />
@@ -85,8 +57,7 @@ export default function PipelineEditPage({
 				loading={false}
 				loadingPosition="start"
 				startIcon={<AddBoxIcon />}
-				variant="contained"
-			>
+				variant="contained">
 				Ajouter une réaction
 			</LoadingButton>
 			<LoadingButton
@@ -94,8 +65,7 @@ export default function PipelineEditPage({
 				color="error"
 				startIcon={<DeleteIcon />}
 				loadingPosition="start"
-				loading={false}
-			>
+				loading={false}>
 				Supprimer la pipeline
 			</LoadingButton>
 		</div>

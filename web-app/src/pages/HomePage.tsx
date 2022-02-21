@@ -48,13 +48,11 @@ export default function HomePage() {
 
 	const svc: ServiceProps = {
 		altText: "youTube",
-		imageSrc:
-			"https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
 	};
 	const svc2: ServiceProps = {
 		altText: "Spotify",
-		imageSrc:
-			"https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
 
 	const actions: Array<GenericButtonProps> = [
@@ -98,8 +96,7 @@ export default function HomePage() {
 					trigger: {
 						title: "Eh oui j'ai été set autrement",
 						service: {
-							imageSrc:
-								"https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
+							imageSrc: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
 							altText: "github logo",
 						},
 						trailingIcon: <MoreVert />,
@@ -108,8 +105,7 @@ export default function HomePage() {
 						{
 							title: "j'aime l'eau",
 							service: {
-								imageSrc:
-									"https://upload.wikimedia.org/wikipedia/sco/9/9f/Twitter_bird_logo_2012.svg",
+								imageSrc: "https://upload.wikimedia.org/wikipedia/sco/9/9f/Twitter_bird_logo_2012.svg",
 								altText: "twitter logo",
 							},
 							trailingIcon: <AddIcon />,
@@ -181,10 +177,7 @@ export default function HomePage() {
 	return (
 		<div className={classes.divHomePage}>
 			<PipelineBoxesLayout data={data} />
-			<PipelineModal
-				isOpen={isModalOpen}
-				handleClose={() => setIsModalOpen(false)}
-			>
+			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
 				<PipelineEditPage {...modalData} />
 			</PipelineModal>
 
@@ -194,8 +187,7 @@ export default function HomePage() {
 					position: "fixed",
 					bottom: "5px",
 					right: "5px",
-				}}
-			>
+				}}>
 				<Fab
 					size="medium"
 					color="secondary"
@@ -206,8 +198,7 @@ export default function HomePage() {
 							trigger: {
 								title: "Ajouter une action",
 								service: {
-									imageSrc:
-										"https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
+									imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
 									altText: "Action inconnue",
 								},
 								trailingIcon: <AddIcon />,
@@ -215,8 +206,7 @@ export default function HomePage() {
 							actions: [],
 						} as PipelineEditPageProps);
 						setIsModalOpen(!isModalOpen);
-					}}
-				>
+					}}>
 					<AddIcon />
 				</Fab>
 			</Box>

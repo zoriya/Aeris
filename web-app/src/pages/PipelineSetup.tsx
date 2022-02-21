@@ -1,10 +1,4 @@
-import {
-	Google,
-	GitHub,
-	MusicNote,
-	Twitter,
-	YouTube,
-} from "@mui/icons-material";
+import { Google, GitHub, MusicNote, Twitter, YouTube } from "@mui/icons-material";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -26,10 +20,7 @@ interface PipelineSetupPageProps {
 
 export type { PipelineSetupPageProps, PipelineTriggersProps };
 
-export default function PipelineSetupModal({
-	actionName,
-	data,
-}: PipelineSetupPageProps) {
+export default function PipelineSetupModal({ actionName, data }: PipelineSetupPageProps) {
 	const servicesItems = [
 		{
 			name: "Twitter",
@@ -68,8 +59,7 @@ export default function PipelineSetupModal({
 					alignItems: "center",
 					justifyContent: "space-between",
 					marginBottom: "100px",
-				}}
-			>
+				}}>
 				<Typography variant="h2" noWrap align="left">
 					Setup Action: {actionName}
 				</Typography>
@@ -80,8 +70,7 @@ export default function PipelineSetupModal({
 					flexDirection: "row",
 					alignItems: "right",
 					justifyContent: "flex-end",
-				}}
-			>
+				}}>
 				<Typography variant="h3" noWrap align="right" sx={{ mr: 4 }}>
 					11 available actions for
 				</Typography>
@@ -101,13 +90,7 @@ export default function PipelineSetupModal({
 					))}
 				</Select>
 			</Box>
-			<Grid
-				container
-				direction="row"
-				justifyContent="space-around"
-				rowSpacing={4}
-				alignItems="flex-start"
-			>
+			<Grid container direction="row" justifyContent="space-around" rowSpacing={4} alignItems="flex-start">
 				{data.map((el, index) => (
 					<Grid item sm={10} md={10} lg={5} xl={4} key={0}>
 						<Box alignItems="center" justifyContent="center">

@@ -18,21 +18,13 @@ export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 					alignItems: "center",
 					justifyContent: "space-between",
 					marginBottom: "35px",
-				}}
-			>
+				}}>
 				<Typography variant="h4" noWrap align="left" minWidth={300}>
 					'{title}' Parameters
 				</Typography>
 			</Box>
-			<Box
-				sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-			>
-				<TextField
-					id="params_1"
-					label="Parameter 1 name"
-					placeholder="Parameter 1 name"
-					variant="standard"
-				/>
+			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+				<TextField id="params_1" label="Parameter 1 name" placeholder="Parameter 1 name" variant="standard" />
 				<TextField
 					sx={{ marginTop: "20px" }}
 					id="params_2"
@@ -46,8 +38,7 @@ export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 					loading={false}
 					loadingPosition="start"
 					startIcon={<Save />}
-					variant="contained"
-				>
+					variant="contained">
 					Save
 				</LoadingButton>
 			</Box>
