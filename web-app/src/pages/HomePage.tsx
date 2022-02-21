@@ -57,7 +57,7 @@ export default function HomePage() {
 		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
 
-	const actions: Array<GenericButtonProps> = [
+	let actions: Array<GenericButtonProps> = [
 		{
 			title: "Une vidéo à été rg erg ergr rgrg  publiée",
 			service: svc,
@@ -160,6 +160,8 @@ export default function HomePage() {
 			service2: svc2,
 		},
 	];
+
+	actions.push(...actions);
 
 	return (
 		<div className={classes.divHomePage}>

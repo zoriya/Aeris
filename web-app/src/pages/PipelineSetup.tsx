@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { AppServiceType } from "../utils/globals";
 import GenericButton, { GenericButtonProps } from "./../components/GenericButton";
+import { useState } from "react";
 
 interface PipelineSetupPageProps {
 	name: string;
@@ -20,8 +21,8 @@ interface PipelineSetupPageProps {
 export type { PipelineSetupPageProps };
 
 export default function PipelineSetupModal({ name, services, elements }: PipelineSetupPageProps) {
+	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
 
-	//TODO On line 63, need to change number 11 to number of available actions
 	return (
 		<div>
 			<Box
@@ -41,6 +42,7 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 				<Select
 					labelId="pipeline-setup-select-label"
 					defaultValue={"youtube"}
+					onChange={newValue => setServiceToShow(newValue.target.value)}
 					label="Services" >
 					{services.map((item) => (
 						<MenuItem value={item.uid}>
@@ -56,22 +58,18 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 						</MenuItem>
 					))}
 				</Select>
-				<FormHelperText>11 actions disponibles</FormHelperText>
+				<FormHelperText>{elements[serviceToShow]?.length ?? "aucune" } actions disponibles</FormHelperText>
 			</Box>
-			
-			<Grid container direction="row" justifyContent="space-around"  alignItems="flex-start">
-				{ Object.entries(elements).map((el) => {
-
-					if (el[0] !== "youtube")
-						return null;
+			<Grid container direction="row" justifyContent="space-around" spacing={2} alignItems="flex-start">
+				{ elements[serviceToShow]?.map((el, elIndex) => {
 					return (
-						<Grid item key={0}>
-							<GenericButton {...el[1][0]} />
+						<Grid item key={ elIndex }>
+							<GenericButton {...el} />
 						</Grid>
-						)
-					}
-					)
-				}
+					);
+						
+				})
+			}
 			</Grid>
 		</div>
 	);
