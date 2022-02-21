@@ -75,7 +75,7 @@ getPipelineHandler pipelineId = do
 postPipelineHandler :: PostPipelineData -> AppM [ReactionId]
 postPipelineHandler x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) (UserId 1)
-    sequence $ mapInd (reactionMap (head actionId)) r
+    sequence $ mapInd (reactionMap actionId) r
   where
     p = action x
     r = reactions x
