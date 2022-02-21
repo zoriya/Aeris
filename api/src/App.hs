@@ -1,12 +1,14 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use newtype instead of data" #-}
 module App where
 
+import Control.Monad.Trans.Reader (ReaderT, ask, runReaderT)
 import Hasql.Pool (Pool)
-import Control.Monad.Trans.Reader  (ReaderT, ask, runReaderT)
 import Servant (Handler)
 
 data State = State
-  { dbPool :: Pool
-  }
+    { dbPool :: Pool
+    }
 
 type AppM = ReaderT State Handler
 

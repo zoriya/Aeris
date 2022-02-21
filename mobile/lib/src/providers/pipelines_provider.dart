@@ -1,96 +1,90 @@
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:aeris/src/models/pipeline_collection.dart';
-import 'package:aeris/src/models/reaction.dart';
-import 'package:aeris/src/models/service.dart';
-import 'package:aeris/src/models/trigger.dart';
+import 'package:get_it/get_it.dart';
 
 /// Provider class for Pipelines
 class PipelineProvider extends ChangeNotifier {
   /// List of Pipelines stored in Provider
-  late PipelineCollection pipelineCollection;
+  late PipelineCollection _pipelineCollection;
+
+  /// Tells if the provers has loaded data at least once
+  bool initialized = false;
 
   PipelineProvider() {
-    var trigger1 = Trigger(
-        service: const Service.spotify(),
-        name: "Play song",
-        last: DateTime.now());
-    var trigger3 = Trigger(
-        service: const Service.discord(),
-        name: "Send a message",
-        last: DateTime.now());
-    var trigger2 = Trigger(
-        service: const Service.spotify(),
-        name: "Play song",
-        last: DateTime.parse("2022-01-01"));
-    var reaction = Reaction(
-        service: const Service.twitter(), parameters: {}, name: "Post a tweet");
-    var pipeline1 = Pipeline(
-        id: 10,
-        name: "My Action",
-        triggerCount: 1,
-        enabled: true,
-        parameters: {},
-        trigger: trigger1,
-        reactions: [reaction]);
-    var pipeline2 = Pipeline(
-        id: 10,
-        name: "My very long action Action",
-        triggerCount: 10,
-        enabled: true,
-        trigger: trigger2,
-        parameters: {},
-        reactions: [reaction, reaction]);
-    var pipeline3 = Pipeline(
-        id: 10,
-        name: "Disabled",
-        triggerCount: 3,
-        enabled: false,
-        trigger: trigger3,
-        parameters: {},
-        reactions: [reaction]);
-    pipelineCollection = PipelineCollection(pipelines: [
-      pipeline3,
-      pipeline2,
-      pipeline1,
-      pipeline3,
-      pipeline2,
-      pipeline1,
-      pipeline3,
-      pipeline2,
-      pipeline1
-    ], sortingMethod: PipelineCollectionSort.last, sortingSplitDisabled: true);
+    _pipelineCollection = PipelineCollection(
+        pipelines: [],
+        sortingMethod: PipelineCollectionSort.last,
+        sortingSplitDisabled: true);
+    fetchPipelines();
+  }
+
+  /// Fetches the pipelines from API and put them in the collection
+  Future<void> fetchPipelines() {
+    return GetIt.I<AerisAPI>().getPipelines().then((pipelines) {
+      _pipelineCollection.pipelines = pipelines;
+      sortPipelines();
+      initialized = true;
+    });
   }
 
   /// Adds a pipeline in the Provider
-  addPipelineInProvider(Pipeline newPipeline) {
-    pipelineCollection.pipelines.add(newPipeline);
+  addPipeline(Pipeline newPipeline) {
+    initialized = true;
+    _pipelineCollection.pipelines.add(newPipeline);
+    GetIt.I<AerisAPI>().createPipeline(newPipeline);
     sortPipelines();
     notifyListeners();
   }
 
-  /// Sets a new list of pipelines into the Provider
-  setPipelineProvider(List<Pipeline> newPipelines) {
-    pipelineCollection.pipelines = [];
-    pipelineCollection.pipelines = newPipelines;
-    sortPipelines();
-  }
-
-  /// Sort pipelines inside the Provider
+  /// Sort pipelines inside the Provider, and notify listeners
   sortPipelines() {
-    pipelineCollection.sort();
+    _pipelineCollection.sort();
     notifyListeners();
   }
 
-  /// Removes a specific pipeline from the Provider
+  /// Removes a specific pipeline from the Provider, and notify listeners
   removePipeline(Pipeline pipeline) {
-    pipelineCollection.pipelines.remove(pipeline);
+    _pipelineCollection.pipelines.remove(pipeline);
+    GetIt.I<AerisAPI>().removePipeline(pipeline);
     notifyListeners();
   }
 
-  /// Removes every pipeline from the Provider
-  clearProvider() {
-    pipelineCollection.pipelines.clear();
+  /// Removes piplines matching predicates, and notify listeners
+  removePipelinesWhere(bool Function(Pipeline) predicate) {
+    List<Pipeline> toRemove =
+        _pipelineCollection.pipelines.where(predicate).toList();
+    for (Pipeline pipeline in toRemove) {
+      GetIt.I<AerisAPI>().removePipeline(pipeline);
+      _pipelineCollection.pipelines.remove(pipeline);
+    }
     notifyListeners();
   }
+
+  /// returns the number of piepliens currently in the collection
+  int get pipelineCount => _pipelineCollection.pipelines.length;
+
+  /// returns the pipeline a t the given index in the collection.
+  /// Warning: if the pipeline is updated, no call will be made to api
+  Pipeline getPipelineAt(int index) {
+    return _pipelineCollection.pipelines[index];
+  }
+
+  PipelineCollectionSort get sortingMethod => _pipelineCollection.sortingMethod;
+
+  /// Sets sorting method for pipelines, and sorts
+  set sortingMethod(PipelineCollectionSort sortingMethod) {
+    _pipelineCollection.sortingMethod = sortingMethod;
+    sortPipelines();
+  }
+
+  /// Sets sorting method for pipelines, and sorts
+  set splitDisabled(bool split) {
+    _pipelineCollection.sortingSplitDisabled = split;
+    sortPipelines();
+  }
+
+  /// Sets sorting method for pipelines, does not execute sorting
+  bool get disabledSplit => _pipelineCollection.sortingSplitDisabled;
 }

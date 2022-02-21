@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aeris/src/widgets/background/animated_background.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Application base page, holds scaffold and background
 class AerisPage extends StatelessWidget {
@@ -10,18 +9,22 @@ class AerisPage extends StatelessWidget {
   /// Display appbar or not
   final bool displayAppbar;
 
+  final Widget? floatingActionButton;
+
   /// Actions for appbar
   final List<Widget> actions;
   const AerisPage(
       {Key? key,
       required this.body,
       this.displayAppbar = true,
+      this.floatingActionButton,
       this.actions = const []})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: false,
       body: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -31,9 +34,8 @@ class AerisPage extends StatelessWidget {
       appBar: displayAppbar
           ? AppBar(
               title: const Text("AERIS"),
-              centerTitle: true,
+              centerTitle: false,
               elevation: 0,
-              leading: Container(),
               actions: [
                 for (Widget action in actions)
                   Padding(

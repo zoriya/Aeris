@@ -1,3 +1,4 @@
+import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
@@ -7,6 +8,7 @@ import 'package:aeris/src/providers/user_services_provider.dart';
 import 'package:aeris/src/widgets/action_card.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -51,6 +53,7 @@ class ServicePage extends StatelessWidget {
     ];
     UserServiceProvider uServiceProvider =
         Provider.of<UserServiceProvider>(context, listen: false);
+    uServiceProvider.clearProvider();
     for (var service in services) {
       uServiceProvider.createUserService(service);
     }
@@ -76,8 +79,7 @@ class ServicePage extends StatelessWidget {
                           message: AppLocalizations.of(context)
                               .disconnectServiceWarningMessage,
                           onAccept: () => {
-                                provider.pipelineCollection.pipelines
-                                    .removeWhere((Pipeline pipeline) {
+                                provider.removePipelinesWhere((Pipeline pipeline) {
                                   if (pipeline.trigger.service == service) {
                                     return true;
                                   }
@@ -89,11 +91,8 @@ class ServicePage extends StatelessWidget {
                                   }
                                   return false;
                                 }),
-
-                                /// TODO Remove service from provider
-                                provider.notifyListeners(),
-                                print("Disconnect")
-                              } /* TODO Delete service form db + related actions*/,
+                                GetIt.I<AerisAPI>().disconnectService(service)
+                              },
                           warnedAction:
                               AppLocalizations.of(context).disconnect)),
                   context),

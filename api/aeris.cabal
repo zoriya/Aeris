@@ -27,6 +27,7 @@ library
       Api
       Api.About
       Api.Auth
+      Api.OIDC
       Api.Pipeline
       App
       Config
@@ -38,6 +39,12 @@ library
       Db.Reaction
       Db.User
       Lib
+      OIDC
+      OIDC.Discord
+      OIDC.Github
+      OIDC.Google
+      OIDC.Spotify
+      OIDC.Twitter
       Password
       Repository
       Repository.Pipeline
@@ -53,6 +60,7 @@ library
       aeson
     , base >=4.7 && <5
     , bytestring
+    , containers
     , cryptonite
     , hasql
     , hasql-migration
@@ -90,6 +98,7 @@ executable aeris-exe
     , aeson
     , base
     , bytestring
+    , containers
     , cryptonite
     , hasql
     , hasql-migration
@@ -100,7 +109,7 @@ executable aeris-exe
     , memory
     , mr-env
     , network
-    , opaleye >=0.9.0.0 && <0.9.2.0
+    , opaleye >=0.9.0.0 && <0.9.1.0
     , rel8
     , servant
     , servant-auth
@@ -128,6 +137,7 @@ test-suite aeris-test
     , aeson
     , base
     , bytestring
+    , containers
     , cryptonite
     , hasql
     , hasql-migration
@@ -141,7 +151,7 @@ test-suite aeris-test
     , memory
     , mr-env
     , network
-    , opaleye >=0.9.0.0 && <0.9.2.0
+    , opaleye >=0.9.0.0 && <0.9.1.0
     , rel8
     , servant
     , servant-auth

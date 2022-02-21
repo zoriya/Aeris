@@ -7,8 +7,10 @@
     "nameOfThePipeline": "Nom de la pipeline",
     "addReaction": "Ajouter une Reaction",
     "addTrigger": "Ajouter un Déclancheur",
+    "setupTrigger": "Gérer une Déclancheur",
+    "setupReaction": "Gérer une Réaction",
     "action": "Action",
-    "reactions": "Reactions",
+    "reactions": "Réactions",
     "modify": "Modifier",
     "delete": "Supprimer",
     "services": "Services",
@@ -27,7 +29,12 @@
     "avalableActionsFor": "Actions disponibles pour",
     "mergeDisabledPipelines": "Mélanger les pipelines désactivées",
     "seperateDisabledPipelines": "Séparer les pipelines désactivées",
-    "aerisDescription": "Aeris est le meilleur AREA de Nantes! Prennez le contrôle de vos réseaux sociaux avec Aeris, la nouvelle application de pipeline!",
+    "aerisDescription": "Votre gestionnaire personnel d'action-reactions professionnelles",
     "dangerZone": "Zone dangereuse",
-    "createNewPipeline": "Créer une nouvelle pipeline"
+    "createNewPipeline": "Créer une nouvelle pipeline",
+    "save": "Enregistrer",
+    "pipelineFormMisingAction": "Vous devez selectionner au moins un déclancheur et une réaction",
+    "logoutWarningMessage": "Êtes-vous sûr(e) de voulour vous déconnecter d'Aeris?",
+    "warning": "Attention",
+    "cancel": "Annuler"
 }

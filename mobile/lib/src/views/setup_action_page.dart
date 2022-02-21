@@ -1,11 +1,15 @@
+import 'package:aeris/src/models/action_template.dart';
+import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/models/trigger.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/service.dart';
-import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/widgets/action_form.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
@@ -20,30 +24,31 @@ class SetupActionPage extends StatefulWidget {
 
 class _SetupActionPageState extends State<SetupActionPage> {
   Service? serviceState;
+  List<ActionTemplate>? availableActions;
+
+  @override
+  void initState() {
+    super.initState();
+    serviceState = widget.action.service;
+    GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
+      availableActions = actions;
+    }));
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    serviceState ??= widget.action.service;
-
-    // TODO Call provider
-    List<aeris.Action> availableActions = [
-      for (int i = 0; i <= 10; i++)
-        Trigger(
-            last: DateTime.now(),
-            service: widget.action.service,
-            name: "action",
-            parameters: {'key1': 'value1', 'key2': 'value2'})
-    ];
 
     final Widget serviceDropdown = DropdownButton<Service>(
       value: serviceState,
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
+        GetIt.I<AerisAPI>().getActionsFor(service!, widget.action).then((actions) => setState(() {
+            availableActions = actions;
+        }));
         setState(() {
           serviceState = service;
-          // TODO call api to get available actions
+          availableActions = [];
         });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
@@ -67,8 +72,10 @@ class _SetupActionPageState extends State<SetupActionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Setup Action",
-              style: TextStyle(
+          Text(widget.action is Trigger 
+                ? AppLocalizations.of(context).setupTrigger
+                : AppLocalizations.of(context).setupReaction,
+              style: const TextStyle(
                 fontSize: 25,
               )),
           const SizedBox(height: 40),
@@ -79,7 +86,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                 child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${availableActions.length} ${AppLocalizations.of(context).avalableActionsFor} ",
+                      "${availableActions == null ? 0 : availableActions!.length} ${AppLocalizations.of(context).avalableActionsFor} ",
                     )),
               ),
               Expanded(
@@ -92,7 +99,14 @@ class _SetupActionPageState extends State<SetupActionPage> {
             ],
           ),
           const SizedBox(height: 30),
-          for (aeris.Action availableAction in availableActions) ...[
+          if (availableActions == null)
+            SkeletonLoader(
+                builder: const Card(child: SizedBox(height: 40), elevation: 5),
+                items: 10,
+                highlightColor: Theme.of(context).colorScheme.secondary
+            )
+          else 
+            ...[for (aeris.Action availableAction in availableActions!)
             Card(
               elevation: 5,
               child: ExpandablePanel(
@@ -108,7 +122,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),
-                        initValues: widget.action.parameters,
+                        initValues: widget.action.name == availableAction.name
+                                    && availableAction.service.name == widget.action.service.name
+                                    ? widget.action.parameters : const {},
                         onValidate: (parameters) {
                           widget.action.service = serviceState!;
                           widget.action.parameters = parameters;

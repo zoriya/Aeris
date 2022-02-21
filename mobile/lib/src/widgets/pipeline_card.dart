@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/views/pipeline_detail_page.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'aeris_card_page.dart';
 
@@ -33,7 +32,7 @@ class _PipelineCardState extends State<PipelineCard> {
           showAerisCardPage(
             context,
             (context) => PipelineDetailPage(pipeline: widget.pipeline),
-          );
+          ).then((_) => setState(() {}));
         },
         color: widget.pipeline.enabled == false
             ? const Color.fromARGB(115, 34, 34, 34).withOpacity(0.8)
@@ -41,10 +40,10 @@ class _PipelineCardState extends State<PipelineCard> {
         body: Container(
             width: double.infinity,
             padding:
-                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 10),
+                const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 25),
             child: Row(children: [
               Expanded(
-                  flex: 4,
+                  flex: 5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -60,7 +59,7 @@ class _PipelineCardState extends State<PipelineCard> {
                               color: widget.pipeline.enabled == false
                                   ? Theme.of(context).colorScheme.onSurface
                                   : const Color.fromARGB(255, 83, 83, 83),
-                              fontSize: 12)),
+                              fontSize: 14)),
                     ],
                   )),
               Expanded(
@@ -77,17 +76,6 @@ class _PipelineCardState extends State<PipelineCard> {
                         const SizedBox(width: 10),
                         Column(children: reactionLogos)
                       ])),
-              Expanded(
-                  flex: 1,
-                  child: Column(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        )
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start)),
             ])));
   }
 }

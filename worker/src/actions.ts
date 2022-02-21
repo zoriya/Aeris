@@ -1,14 +1,8 @@
-import { catchError, EMPTY, groupBy, lastValueFrom, map, mergeAll, NEVER, Observable, of, switchAll, tap } from "rxjs";
-import { Twitter } from "./services/twitter";
-import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
+import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
+import { BaseService } from "./models/base-service";
+import { Pipeline, PipelineEnv } from "./models/pipeline";
 import { Runner } from "./runner";
 
-export type ActionListener = (params: any) => Observable<PipelineEnv>;
-export type ActionListeners = {[key: string]: ActionListener};
-
-export const listenerFactory: ActionListeners = {
-	[PipelineType.Twitter_OnTweet]: Twitter.listenTweet
-};
 
 export class Manager {
 	private _pipelines: Observable<Pipeline>;
@@ -22,22 +16,32 @@ export class Manager {
 			.pipe(
 				groupBy((x: Pipeline) => x.id),
 				switchAll(),
-				map((x: Pipeline) =>
-					listenerFactory[x.type](x.params).pipe(
+				mergeMap((x: Pipeline) =>
+					this.createPipeline(x).pipe(
 						map((env: PipelineEnv) => [x, env]),
-						catchError(err => {
-							console.error(`Unhandled exception while trying to listen for the pipeline ${x.name} (type: ${x.type.toString()}).`, err)
-							// TODO call the api to inform of the issue
-							return NEVER;
-						}),
+						catchError(err => this.handlePipelineError(x, err)),
 					)
 				),
-				mergeAll(),
 				tap(([x, env]: [Pipeline, PipelineEnv]) => {
 					console.log(`Running pipeline ${x.name}`)
 					console.table(env)
 					new Runner(x).run(env)
 				}),
 			));
+	}
+
+	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
+		try {
+			const service = BaseService.createService(pipeline.service, pipeline);
+			return service.getAction(pipeline.type)(pipeline.params)
+		} catch (err) {
+			return this.handlePipelineError(pipeline, err);
+		}
+	}
+
+	handlePipelineError(pipeline: Pipeline, error: Error): Observable<never> {
+		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type.toString()}).`, error)
+		// TODO call the api to inform of the issue
+		return NEVER;
 	}
 }

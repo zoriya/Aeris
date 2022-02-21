@@ -1,3 +1,4 @@
+import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -46,7 +47,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                   key: _formKey,
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: Column(children: [
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       FormBuilderTextField(
                         name: 'name',
                         initialValue: name,
@@ -62,6 +63,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                           name = value;
                         },
                       ),
+                      const SizedBox(height: 10),
+                      trigger != Trigger.template()
+                      ? Text(AppLocalizations.of(context).action,
+                        style: const TextStyle(fontWeight: FontWeight.w500))
+                      : Container(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: trigger == Trigger.template()
@@ -71,7 +77,6 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                     .secondaryContainer,
                                 text: AppLocalizations.of(context).addTrigger,
                                 onTap: () {
-                                  print("add trigger"); // TODO add reaction
                                   showAerisCardPage(
                                           context,
                                           (_) =>
@@ -80,28 +85,37 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: trigger.service.name,
+                                title: trigger.name,
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
                                     action: trigger,
                                     then: () => setState(() {})),
                               ),
                       ),
-                      ...[
-                        for (Reaction reaction in reactions)
-                          ActionCard(
+                      reactions.isNotEmpty
+                        ? Text(AppLocalizations.of(context).reactions,
+                          style: const TextStyle(fontWeight: FontWeight.w500))
+                        : Container(),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child:  ReorderableReactionCardsList(
+                              reactionList: reactions,
+                              onReorder: () {  },
+                              itemBuilder: (reaction) => ActionCard(
+                              key: ValueKey(reactions.indexOf(reaction)),
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: reaction.service.name,
+                              title: reaction.name,
                               trailing: ActionCardPopupMenu(
-                                  deletable: reaction != reactions[0],
+                                  deletable: reactions.length > 1,
                                   action: reaction,
                                   then: () => setState(() {}),
                                   onDelete: () {
                                     setState(() {
                                       reactions.remove(reaction);
                                     });
-                                  }))
-                      ],
+                                  })),
+                          )
+                        ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ColoredClickableCard(
@@ -110,17 +124,20 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 .secondaryContainer,
                             text: AppLocalizations.of(context).addReaction,
                             onTap: () async {
-                              // TODO add to db
-                              reactions.add(Reaction.template());
+                              var newreact = Reaction.template();
                               showAerisCardPage(
                                       context,
                                       (_) => SetupActionPage(
-                                          action: reactions.last))
-                                  .then(setState(() {}));
+                                          action: newreact))
+                                  .then((_) => setState(() {
+                                    if (newreact != Reaction.template()) {
+                                      reactions.add(newreact);
+                                    }
+                                  }));
                             }),
                       ),
-                      ElevatedButton(
-                        child: const Text("Save"),
+                      Center(child: ElevatedButton(
+                        child: Text(AppLocalizations.of(context).save),
                         onPressed: () {
                           _formKey.currentState!.save();
                           if (_formKey.currentState!.validate()) {
@@ -141,19 +158,18 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   name: _formKey.currentState!.value['name'],
                                   triggerCount: 0,
                                   enabled: true,
-                                  parameters: {},
                                   trigger: trigger,
                                   reactions: reactions);
-                              provider.addPipelineInProvider(newPipeline);
-
-                              ///TODO add to db
-                              Navigator.of(context).popAndPushNamed('/pipeline',
-                                  arguments:
-                                      PipelineDetailPageArguments(newPipeline));
+                              provider.addPipeline(newPipeline);
+                              Navigator.of(context).pop();
+                              showAerisCardPage(
+                                context,
+                                (_) => PipelineDetailPage(pipeline: newPipeline)
+                              );
                             }
                           }
                         },
-                      ),
+                      )),
                     ]),
                   )),
             ])));

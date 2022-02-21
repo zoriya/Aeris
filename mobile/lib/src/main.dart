@@ -1,3 +1,4 @@
+import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
@@ -9,8 +10,11 @@ import 'package:aeris/src/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  AerisAPI interface = AerisAPI();
+  GetIt.I.registerSingleton<AerisAPI>(interface);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PipelineProvider()),
     ChangeNotifierProvider(create: (_) => UserServiceProvider())
@@ -25,7 +29,6 @@ class Aeris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        locale: const Locale('fr', ''),
         navigatorKey: Aeris.materialKey,
         debugShowCheckedModeBanner: false,
         title: 'Aeris',
@@ -50,14 +53,17 @@ class Aeris extends StatelessWidget {
               settings: settings,
               pageBuilder: (_, __, ___) => routes[settings.name].call(),
               transitionDuration: const Duration(milliseconds: 350),
-              transitionsBuilder: (context, animation, secondaryAnimation,
-                      child) => ScaleTransition(
-                          child: child,
-                          scale: CurvedAnimation(
-                            parent: animation,
-                            curve: Curves.ease,
-                          ))
-                      );
+              transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+                SlideTransition(
+                  child: child,
+                  position: animation.drive(
+                      Tween(
+                        begin: const Offset(1.0, 0.0),
+                        end: Offset.zero
+                      )
+                  )
+                )
+            );
         });
   }
 }

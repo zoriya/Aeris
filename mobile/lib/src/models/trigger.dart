@@ -1,3 +1,5 @@
+// ignore_for_file: hash_and_equals
+
 import 'package:flutter/material.dart';
 import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/service.dart';
@@ -17,7 +19,7 @@ class Trigger extends aeris_action.Action {
       : super(service: service, name: name, parameters: parameters);
 
   ///TODO Constructor from DB 'Type' field
-  ///TODO translate
+
   String lastToString() {
     var context = AppLocalizations.of(Aeris.materialKey.currentContext!);
     String lastStr = context.lastTrigger;
@@ -33,6 +35,7 @@ class Trigger extends aeris_action.Action {
       : super(service: const Service.twitter(), name: '', parameters: {});
 
   @override
+  // ignore: avoid_renaming_method_parameters
   bool operator ==(Object o) {
     Trigger other = o as Trigger;
     return service.name == other.service.name &&

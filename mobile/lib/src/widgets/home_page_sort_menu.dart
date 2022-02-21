@@ -23,17 +23,19 @@ class HomePageSortMenu extends StatelessWidget {
       case PipelineCollectionSort.name:
         return Icons.text_rotate_vertical;
       case PipelineCollectionSort.triggeringService:
-        return Icons.webhook;
+        return Icons.blur_circular_rounded;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    bool split = collectionProvider.disabledSplit;
     return AerisPopupMenu(
       itemBuilder: (context) => [
         ...[
           for (var sortingMethod in PipelineCollectionSort.values)
             AerisPopupMenuItem(
+                selected: collectionProvider.sortingMethod == sortingMethod,
                 context: context,
                 icon: sortMethodGetIcon(sortingMethod),
                 title: ReCase(sortingMethod.name).titleCase,
@@ -42,21 +44,18 @@ class HomePageSortMenu extends StatelessWidget {
         AerisPopupMenuItem(
             context: context,
             icon: Icons.call_merge,
-            title: collectionProvider.pipelineCollection.sortingSplitDisabled
+            title: split
                 ? AppLocalizations.of(context).mergeDisabledPipelines
                 : AppLocalizations.of(context).seperateDisabledPipelines,
-            value: ""),
+            value: !split),
       ],
       onSelected: (sortingMethod) {
         /// TODO: not clean
-        if (sortingMethod == "") {
-          collectionProvider.pipelineCollection.sortingSplitDisabled =
-              !collectionProvider.pipelineCollection.sortingSplitDisabled;
+        if (sortingMethod is bool) {
+          collectionProvider.splitDisabled = sortingMethod;
         } else {
-          collectionProvider.pipelineCollection.sortingMethod =
-              sortingMethod as PipelineCollectionSort;
+          collectionProvider.sortingMethod = sortingMethod as PipelineCollectionSort;
         }
-        collectionProvider.sortPipelines();
       },
       icon: Icons.sort,
       menuOffset: const Offset(0, 50),

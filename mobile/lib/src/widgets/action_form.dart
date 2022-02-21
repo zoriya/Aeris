@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Form for an action
 class ActionForm extends StatefulWidget {
@@ -46,11 +45,11 @@ class _ActionFormState extends State<ActionForm> {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
             ]),
-            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is Int ? TextInputType.number : null,
+            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is int ? TextInputType.number : null,
           )),
           ...[
             ElevatedButton(
-              child: const Text("Save"),
+              child: Text(AppLocalizations.of(context).save),
               onPressed: () {
                 _formKey.currentState!.save();
                 if (_formKey.currentState!.validate()) {

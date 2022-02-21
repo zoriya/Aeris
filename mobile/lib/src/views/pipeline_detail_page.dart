@@ -1,25 +1,19 @@
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
+import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:aeris/src/widgets/action_card.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-/// Class to get the pipeline's name in route's arguments
-class PipelineDetailPageArguments {
-  final Pipeline pipeline;
-
-  ///TODO Should be later defined as an int, to fetch from db, or as the object
-
-  PipelineDetailPageArguments(this.pipeline);
-}
 
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
@@ -75,9 +69,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         onToggle: (value) {
                           setState(() {
                             pipeline.enabled = !pipeline.enabled;
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
                             provider.sortPipelines();
-                            provider.notifyListeners();
-                            // TODO call api
                           });
                         },
                       ),
@@ -107,10 +100,11 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 if (newreaction != Reaction.template()) {
                   setState(() {
                     pipeline.reactions.add(newreaction);
+                    GetIt.I<AerisAPI>().editPipeline(pipeline);
                   });
                 }
                 return r;
-              }); // TODO add reaction in db
+              });
             });
 
         final Widget deleteButton = ColoredClickableCard(
@@ -123,7 +117,6 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                       AppLocalizations.of(context).deletePipelineWarningMessage,
                   onAccept: () {
                     provider.removePipeline(pipeline);
-                    print("Delete pipeline"); /*TODO call api*/
                     Navigator.of(context).pop();
                   },
                   warnedAction: AppLocalizations.of(context).delete)),
@@ -133,34 +126,47 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             body: Padding(
           padding: const EdgeInsets.only(top: 10),
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
               child: cardHeader,
             ),
-            Text(AppLocalizations.of(context).action, style: const TextStyle(fontWeight: FontWeight.w500)),
+            Text(AppLocalizations.of(context).action,
+                style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
                 title: pipeline.trigger.name,
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     action: pipeline.trigger,
-                    then: () => setState(() {}))),
+                    then: () {
+                      setState(() {});
+                      GetIt.I<AerisAPI>().editPipeline(pipeline);
+                    })),
             const SizedBox(height: 25),
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            for (var reaction in pipeline.reactions)
-              ActionCard(
-                  leading: reaction.service.getLogo(logoSize: 50),
-                  title: reaction.name,
-                  trailing: ActionCardPopupMenu(
-                    deletable: reaction != pipeline.reactions.first,
-                    action: reaction,
-                    then: () => setState(() {}),
-                    onDelete: () {
-                      pipeline.reactions.remove(reaction);
-                    },
-                  )),
+            ReorderableReactionCardsList(
+              onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
+              reactionList: pipeline.reactions,
+              itemBuilder: (reaction) => ActionCard(
+                      key: ValueKey(pipeline.reactions.indexOf(reaction)),
+                      leading: reaction.service.getLogo(logoSize: 50),
+                      title: reaction.name,
+                      trailing: ActionCardPopupMenu(
+                          deletable: pipeline.reactions.length > 1,
+                          action: reaction,
+                          then: () {
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          },
+                          onDelete: () {
+                            pipeline.reactions.remove(reaction);
+                            setState(() {});
+                            GetIt.I<AerisAPI>().editPipeline(pipeline);
+                          }),
+                    )
+            ),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),
