@@ -11,8 +11,11 @@ export enum PipelineType {
 	OnYtPlaylistAdd,
 };
 
+
 export enum ReactionType {
 	Tweet,
+	YtLike,
+	YtComment,
 };
 
 

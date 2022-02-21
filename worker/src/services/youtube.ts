@@ -1,7 +1,7 @@
 import { interval, mergeAll, mergeMap, Observable } from "rxjs";
-import { Pipeline, PipelineEnv, PipelineType, ServiceType } from "../models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { youtube_v3 } from '@googleapis/youtube';
-import { BaseService, service } from "../models/base-service";
+import { BaseService, reaction, service } from "../models/base-service";
 import { action } from "../models/base-service";
 
 @service(ServiceType.Youtube)
@@ -34,12 +34,16 @@ export class Youtube extends BaseService {
 				maxResults: 25,
 				publishedAfter: since.toISOString(),
 			}, {});
-			return ret.data.items.map(x => ({
-				TITLE: x.snippet.title,
-				DESCRIPTION: x.snippet.description,
-				PUBLISHED_AT: x.snippet.publishedAt,
-				CHANNEL_TITLE: x.snippet.channelTitle,
-			}));
+			return ret.data.items
+				.filter(x => x.snippet.type === "upload")
+				.map(x => ({
+					ID: x.contentDetails.upload.videoId,
+					CHANNEL_ID: x.snippet.channelId,
+					TITLE: x.snippet.title,
+					DESCRIPTION: x.snippet.description,
+					PUBLISHED_AT: x.snippet.publishedAt,
+					CHANNEL_TITLE: x.snippet.channelTitle,
+				}));
 
 		})
 	}
@@ -65,11 +69,45 @@ export class Youtube extends BaseService {
 			return ret.data.items
 				.filter(x => new Date(x.snippet.publishedAt) >= since)
 				.map(x => ({
+					ID: x.snippet.resourceId.videoId,
+					CHANNEL_ID: x.snippet.videoOwnerChannelId,
+					CHANNEL_TITLE: x.snippet.videoOwnerChannelTitle,
 					TITLE: x.snippet.title,
 					DESCRIPTION: x.snippet.description,
-					LIKED_AT: x.snippet.publishedAt
+					LIKED_AT: x.snippet.publishedAt,
 				}));
 
 		});
+	}
+
+	@reaction(ReactionType.YtLike, ["videoId"])
+	async reactLike(params: any): Promise<PipelineEnv> {
+		await this._youtube.videos.rate({
+			id: params.videoId,
+			rating: "like",
+		});
+		return {
+			ID: params.videoId,
+		};
+	}
+
+	@reaction(ReactionType.YtComment, ["videoId", "body"])
+	async reactComment(params: any): Promise<PipelineEnv> {
+		let infos = await this._youtube.commentThreads.insert({
+			part: ["snippet"],
+			requestBody: {
+				snippet: {
+					videoId: params.videoId,
+					topLevelComment: {
+						snippet: {
+							textOriginal: params.body
+						}
+					}
+				}
+			}
+		});
+		return {
+			ID: infos.data.id,
+		}
 	}
 };
