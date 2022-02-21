@@ -5,7 +5,7 @@ import { BaseService, reaction, service } from "../models/base-service";
 @service(ServiceType.Spotify)
 export class Spotify extends BaseService {
 
-	private _spotify;
+	private _spotify: SpotifyWebApi.SpotifyWebApiJs;
 
 	constructor(_: Pipeline) {
 		super();
