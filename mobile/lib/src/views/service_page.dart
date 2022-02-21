@@ -53,6 +53,7 @@ class ServicePage extends StatelessWidget {
     ];
     UserServiceProvider uServiceProvider =
         Provider.of<UserServiceProvider>(context, listen: false);
+    uServiceProvider.clearProvider();
     for (var service in services) {
       uServiceProvider.createUserService(service);
     }
