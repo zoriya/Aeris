@@ -3,6 +3,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 
@@ -25,21 +26,21 @@ import Hasql.Statement (Statement)
 import Hasql.Transaction (Transaction, statement)
 import Rel8 (asc, each, insert, limit, orderBy, select)
 import Repository
-import Servant (Capture, Get, JSON, err401, throwError, type (:>))
-import Servant.API (Delete, Post, Put, ReqBody)
+import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent))
+import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (mapInd)
 
 data PipelineData = PipelineData
-    { pipelineDataName :: Text
-    , pipelineDataType :: PipelineType
-    , pipelineDataParams :: PipelineParams
+    { name :: Text
+    , pType :: PipelineType
+    , pParams :: PipelineParams
     }
 
 data ReactionData = ReactionData
-    { reactionDataType :: ReactionType
-    , reactionDataParams :: ReactionParams
+    { rType :: ReactionType
+    , rParams :: ReactionParams
     }
 
 data PostPipelineData = PostPipelineData
@@ -54,10 +55,11 @@ $(deriveJSON defaultOptions ''ReactionData)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
-    { get :: mode :- Capture "id" PipelineId :> Get '[JSON] GetPipelineResponse
-    , post :: mode :- ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
-    , put :: mode :- Capture "id" PipelineId :> Put '[JSON] (Pipeline Identity)
-    , del :: mode :- Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
+    { get   :: mode :- "workflow" :> Capture "id" PipelineId :> Get '[JSON] GetPipelineResponse
+    , post  :: mode :- "workflow" :> ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
+    , put   :: mode :- "workflow" :> Capture "id" PipelineId :> Put '[JSON] (Pipeline Identity)
+    , del   :: mode :- "workflow" :> Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
+    , all   :: mode :- "workflows" :> QueryParam "API_KEY" String :>Get '[JSON] NoContent 
     }
     deriving stock (Generic)
 
@@ -71,14 +73,14 @@ getPipelineHandler pipelineId = do
 
 postPipelineHandler :: PostPipelineData -> AppM [ReactionId]
 postPipelineHandler x = do
-    actionId <- createPipeline $ Pipeline (PipelineId 1) (pipelineDataName p) (pipelineDataType p) (pipelineDataParams p)
+    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p)
     sequence $ mapInd (reactionMap (head actionId)) r
   where
     p = action x
     r = reactions x
     reactionMap :: PipelineId -> ReactionData -> Int -> AppM ReactionId
     reactionMap actionId s i = do
-        res <- createReaction $ Reaction (ReactionId 1) (reactionDataType s) (reactionDataParams s) actionId (fromIntegral i)
+        res <- createReaction $ Reaction (ReactionId 1) (rType s) (rParams s) actionId (fromIntegral i)
         return $ head res
 
 putPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
@@ -87,6 +89,12 @@ putPipelineHandler pipelineId = throwError err401
 delPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
 delPipelineHandler pipelineId = throwError err401
 
+allPipelineHandler :: Maybe String -> AppM NoContent 
+allPipelineHandler Nothing = do
+  --pipelines <- getPipelineByUser
+  return NoContent 
+allPipelineHandler (Just key) = return NoContent 
+
 pipelineHandler :: PipelineAPI (AsServerT AppM)
 pipelineHandler =
     PipelineAPI
@@ -94,4 +102,5 @@ pipelineHandler =
         , post = postPipelineHandler
         , put = putPipelineHandler
         , del = delPipelineHandler
+        , Api.Pipeline.all = allPipelineHandler
         }

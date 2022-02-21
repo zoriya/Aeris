@@ -1,4 +1,4 @@
 - toPassword check security
-- Separate User and UserDB
-- Craft JWT ?
-- Crud pipelines
+- UPDATE DELETE pipelines
+- pipeline actions using jwt
+- 

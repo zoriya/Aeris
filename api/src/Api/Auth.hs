@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE TypeOperators #-}
 
 module Api.Auth where
@@ -38,14 +39,14 @@ import Password (hashPassword'', toPassword, validatePassword')
 import Repository (createUser, getUserByName')
 
 data LoginUser = LoginUser
-    { loginUsername :: String
-    , loginPassword :: String
+    { username :: String
+    , password :: String
     }
     deriving (Eq, Show, Read, Generic)
 
 data SignupUser = SignupUser
-    { signupUsername :: String
-    , signupPassword :: String
+    { username :: String
+    , password :: String
     }
     deriving (Eq, Show, Read, Generic)
 
@@ -63,12 +64,12 @@ protected (Servant.Auth.Server.Authenticated user) = return $ toUser user
 protected _ = throwAll err401
 
 type Unprotected =
-    "login"
+        "login"
         :> ReqBody '[JSON] LoginUser
         :> Post '[JSON] (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
-        :<|> "signup"
-            :> ReqBody '[JSON] SignupUser
-            :> Post '[JSON] NoContent
+    :<|> "signup"
+        :> ReqBody '[JSON] SignupUser
+        :> Post '[JSON] NoContent
 
 loginHandler ::
     CookieSettings ->
@@ -78,7 +79,7 @@ loginHandler ::
 loginHandler cs jwts (LoginUser username p) = do
     users' <- getUserByName' $ pack username
     let usr = head users'
-    if validatePassword' (toPassword $ pack p) (password usr)
+    if validatePassword' (toPassword $ pack p) (Db.User.password usr)
         then do
             mApplyCookies <- liftIO $ acceptLogin cs jwts usr
             case mApplyCookies of
@@ -102,9 +103,8 @@ unprotected cs jwts =
 data AuthAPI mode = AuthAPI
     { protectedApi ::
         mode
-            :- ( Servant.Auth.Server.Auth '[JWT] User'
-                    :> Protected
-               )
+            :- Servant.Auth.Server.Auth '[JWT] User'
+                :> Protected
     , unprotectedApi ::
         mode
             :- Unprotected
