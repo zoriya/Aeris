@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - dev
+      - mobile_client
   workflow_dispatch:
 
 jobs:
