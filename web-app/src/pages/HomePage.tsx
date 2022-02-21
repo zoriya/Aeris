@@ -164,7 +164,21 @@ export default function HomePage() {
                 />
             </PipelineModal>
             <Box sx={{ '& > :not(style)': { m: 1 }, position:"fixed", bottom: "5px", right:"5px" }}>
-              <Fab size="medium" color="secondary" aria-label="add">
+              <Fab size="medium" color="secondary" aria-label="add" onClick={() => {
+                 setModalData({
+                  title: "Nouvelle pipeline",
+                  trigger: {
+                    title: "Ajouter une action",
+                    service: {
+                      imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
+                      altText: "Action inconnue",
+                    },
+                    trailingIcon: <AddIcon />
+                  },
+                  actions: []
+                } as PipelineEditPageProps );
+                setIsModalOpen(!isModalOpen);
+              }}>
                 <AddIcon />
               </Fab>
           </Box>
