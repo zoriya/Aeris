@@ -1,9 +1,0 @@
-.GenericButton {
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-}
-
-.GenericButtonMedia {
-    justify-content: center;
-}
