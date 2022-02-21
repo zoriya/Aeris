@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	name VARCHAR(255) NOT NULL,
 	type VARCHAR(255) NOT NULL,
 	params JSONB NOT NULL,
-  user_id INTEGER NOT NULL,
-  CONSTRAINT fk_user
+	user_id INTEGER NOT NULL,
+	CONSTRAINT fk_user
 		FOREIGN KEY (user_id)
 			REFERENCES users(id)
 );
