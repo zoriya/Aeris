@@ -15,12 +15,12 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 
 interface PipelineTriggersProps {
-	name: String;
-	triggers: Array<String>;
+	name: string;
+	triggers: Array<string>;
 }
 
 interface PipelineSetupPageProps {
-	actionName: String;
+	actionName: string;
 	data: Array<PipelineTriggersProps>;
 }
 

@@ -46,18 +46,18 @@ export default function HomePage() {
 		],
 	} as PipelineEditPageProps);
 
-	let svc: ServiceProps = {
+	const svc: ServiceProps = {
 		altText: "youTube",
 		imageSrc:
 			"https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
 	};
-	let svc2: ServiceProps = {
+	const svc2: ServiceProps = {
 		altText: "Spotify",
 		imageSrc:
 			"https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
 	};
 
-	let actions: Array<GenericButtonProps> = [
+	const actions: Array<GenericButtonProps> = [
 		{
 			title: "Une vidéo à été rg erg ergr rgrg  publiée",
 			service: svc,
@@ -70,7 +70,7 @@ export default function HomePage() {
 		},
 	];
 
-	let data: Array<PipelineBoxProps> = [
+	const data: Array<PipelineBoxProps> = [
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
@@ -163,18 +163,18 @@ export default function HomePage() {
 		},
 	];
 
-	let triggersAvailable: Array<PipelineTriggersProps> = [
+	const triggersAvailable: Array<PipelineTriggersProps> = [
 		{
 			name: "Test",
-			triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2"),
+			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
 		},
 		{
 			name: "Test 2",
-			triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2"),
+			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
 		},
 		{
 			name: "Test 3",
-			triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2"),
+			triggers: new Array<string>("Lorem Ipsum", "Lorem Ipsum 2"),
 		},
 	];
 
