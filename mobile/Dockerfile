@@ -11,7 +11,7 @@ COPY . .
 RUN flutter pub get
 
 RUN env
-RUN ls -l 
+RUN ls -la 
 # Generate traduction files
 RUN flutter gen-l10n
 # Generate launcher icon

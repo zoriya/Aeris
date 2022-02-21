@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - dev
-      - mobile_client
   workflow_dispatch:
 
 jobs:
@@ -16,18 +15,26 @@ jobs:
         working-directory: ./mobile
     steps:
       - uses: actions/checkout@v2
-      - name: Pull Docker Image
-        run: docker pull androidsdk/android-31:latest
-      # - uses: actions/cache@v1
-      #   name: Cache for Mobile Build
-      #   id: cache_mobile_build
-      #   with:
-      #     path: ${{ env.CONAN_USER_HOME }}
-      #     key: ${{ runner.os }}-builder-${{ env.cache-name }}-${{ hashFiles('conanfile.txt') }}
-      - name: Build Docker
-        run: docker build . -t aeris_mobile_build 
-      - name: Run Docker
-        run: docker run -v $PWD:/dist aeris_mobile_build
+      - uses: subosito/flutter-action@v2.2.0
+        with:
+          channel: 'dev'
+      - name: Get Flutter dependencies
+        run: |
+          flutter upgrade;
+          flutter pub get;
+          flutter gen-l10n;
+          flutter pub run flutter_launcher_icons:main;
+          flutter pub run flutter_native_splash:create;
+      - name: Build APK - Release
+        if: github.ref == 'refs/heads/master'
+        run: |
+          flutter build apk lib/src/main.dart
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+      - name: Build APK - Debug
+        if: github.ref != 'refs/heads/master'
+        run: |
+          flutter build apk lib/src/main.dart --profile
+          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
       - name: Upload build artifact
         if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
