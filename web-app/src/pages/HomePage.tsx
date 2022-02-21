@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from 'react';
 import { PipelineEditPageProps } from './PipelineEditPage';
+import PipelineSetupModal, { PipelineTriggersProps } from './PipelineSetup';
 import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
 
 
@@ -154,6 +155,21 @@ export default function HomePage() {
         },
       ]
 
+      let triggersAvailable: Array<PipelineTriggersProps> = [
+        {
+          name: "Test",
+          triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+        },
+        {
+          name: "Test 2",
+          triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+        },
+        {
+          name: "Test 3",
+          triggers: new Array<String>("Lorem Ipsum", "Lorem Ipsum 2")
+        }
+      ]
+
 
       return (
           <div className={classes.divHomePage} >
@@ -163,6 +179,7 @@ export default function HomePage() {
                     {...modalData}
                 />
             </PipelineModal>
+
             <Box sx={{ '& > :not(style)': { m: 1 }, position:"fixed", bottom: "5px", right:"5px" }}>
               <Fab size="medium" color="secondary" aria-label="add" onClick={() => {
                  setModalData({

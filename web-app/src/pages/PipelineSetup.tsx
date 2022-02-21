@@ -71,8 +71,7 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: "right",
-                    justifyContent: "flex-end",
-                    marginBottom: "50px"
+                    justifyContent: "flex-end"
                 }}
             >
                 <Typography variant="h3" noWrap align="right"
@@ -87,14 +86,17 @@ export default function PipelineSetupModal({ actionName, data } : PipelineSetupP
                 >
                     {servicesItems.map((item, index) => (
                         <MenuItem value={item.key}>
-                            <Box
-                                sx={{display: 'flex', gap: 1}}
-                            >
+                            <img
+                                loading="lazy"
+                                width="20"
+                                src={`https://flagcdn.com/w20/ad.png`}
+                                srcSet={`https://flagcdn.com/w40/ad.png 2x`}
+                                alt={`Flag of Andorra`}
+                            />
                                 <ListItemIcon>
                                     {item.icon}
                                 </ListItemIcon>
                                 <ListItemText primary={item.name}/>
-                            </Box>
                         </MenuItem>
                     ))}
                 </Select>

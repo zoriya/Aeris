@@ -4,7 +4,7 @@ import { Typography, Box, Button } from '@mui/material';
 import type { ServiceProps } from './components/types';
 import './App.css';
 
-import { PipelineTriggersProps } from "./components/Pipelines/PipelineSetup";
+import { PipelineTriggersProps } from "./pages/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
