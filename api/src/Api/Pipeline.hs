@@ -81,8 +81,7 @@ postPipelineHandler x = do
     r = reactions x
     reactionMap :: PipelineId -> ReactionData -> Int -> AppM ReactionId
     reactionMap actionId s i = do
-        res <- createReaction $ Reaction (ReactionId 1) (rType s) (rParams s) actionId (fromIntegral i)
-        return $ head res
+        createReaction $ Reaction (ReactionId 1) (rType s) (rParams s) actionId (fromIntegral i)
 
 putPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
 putPipelineHandler pipelineId = throwError err401

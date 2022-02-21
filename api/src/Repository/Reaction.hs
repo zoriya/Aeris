@@ -13,8 +13,10 @@ import Hasql.Transaction (Transaction, statement)
 import Rel8 (asc, insert, orderBy, select)
 import Repository.Utils (runQuery)
 
-createReaction :: Reaction Identity -> AppM [ReactionId]
-createReaction reaction = runQuery (insert $ insertReaction reaction)
+createReaction :: Reaction Identity -> AppM ReactionId
+createReaction reaction = do
+  res <- runQuery (insert $ insertReaction reaction)
+  return $ head res
 
 getReactionsByPipelineId' :: PipelineId -> AppM [Reaction Identity]
 getReactionsByPipelineId' pId = runQuery (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
