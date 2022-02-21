@@ -11,6 +11,7 @@ COPY pubspec.* ./
 RUN flutter pub get
 
 COPY . .
+RUN env
 RUN ls -l 
 # Generate launcher icon
 RUN flutter pub run flutter_launcher_icons:main
