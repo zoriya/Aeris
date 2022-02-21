@@ -13,23 +13,23 @@ export enum PipelineType {
 export enum ReactionType {
 	Tweet,
 	// Github reactions
-	openPR,
+	OpenPR,
 	commentPR,
 	closePR,
-	mergePR,
-	createIssue,
-	commentIssue,
-	closeIssue,
-	createRepo,
-	createPrivateRepo,
-	updateDescription,
-	forkRepo,
-	starRepo,
-	watchRepo,
+	MergePR,
+	CreateIssue,
+	CommentIssue,
+	CloseIssue,
+	CreateRepo,
+	CreatePrivateRepo,
+	UpdateDescription,
+	ForkRepo,
+	StarRepo,
+	WatchRepo,
 	//Spotify reaction
-	playTrack,
-	addTrackToLibrary,
-	addToPlaylist,
+	PlayTrack,
+	AddTrackToLibrary,
+	AddToPlaylist,
 };
 
 

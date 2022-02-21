@@ -5,7 +5,7 @@ import { BaseService, reaction, service } from "../models/base-service";
 @service(ServiceType.Spotify)
 export class Spotify extends BaseService {
 
-	private _spotify: SpotifyWebApi.SpotifyWebApiJs;
+	private _spotify;
 
 	constructor(_: Pipeline) {
 		super();
@@ -13,57 +13,39 @@ export class Spotify extends BaseService {
 		this._spotify = new SpotifyWebApi();
 	}
 
-	private async searchTrack(artistName: string, trackName: string)  {
-		return this._spotify.searchTracks(`artist=${artistName}&track=${trackName}`).then(
-			function (searchResult) {
-				if (searchResult.tracks.total == 0)
-					throw new Error(`Spotify API: '${trackName}' by ${artistName}: no such track`);
-				return searchResult.tracks.items[0];
-			}
-		);
+	private async _searchTrack(artistName: string, trackName: string)  {
+		let searchResult = await this._spotify.searchTracks(`artist=${artistName}&track=${trackName}`);
+		if (searchResult.tracks.total == 0)
+			throw new Error(`Spotify API: '${trackName}' by ${artistName}: no such track`);
+		return searchResult.tracks.items[0];
 	}
 
-	private async searchPlaylist(playlistName: string)  {
-		return this._spotify.searchPlaylists(`name=${playlistName}&type=playlist`).then(
-			function (searchResult) {
-				if (searchResult.playlists.total == 0)
-					throw new Error(`Spotify API: '${playlistName}': no such playlist`);
-				return searchResult.playlists.items[0];
-			}
-		);
+	private async _searchPlaylist(playlistName: string)  {
+		let searchResult = await this._spotify.searchPlaylists(`name=${playlistName}&type=playlist`);
+		if (searchResult.playlists.total == 0)
+			throw new Error(`Spotify API: '${playlistName}': no such playlist`);
+		return searchResult.playlists.items[0];
 	}
 
-	@reaction(ReactionType.playTrack, ['artist', 'track'])
-	playTrack(params: any) {
-		this.searchTrack(params['artist'], params['track']).then(
-			function (track) {
-				this._spotify.playTrack([track.id]);
-			}
-		);
+	@reaction(ReactionType.PlayTrack, ['artist', 'track'])
+	async playTrack(params: any) {
+		let track = await this._searchTrack(params['artist'], params['track']);
+		this._spotify.play({uris: [track.uri]});
 	}
 
-	@reaction(ReactionType.addTrackToLibrary, ['artist', 'track'])
-	addTrackToLibrary(params: any) {
-		this.searchTrack(params['artist'], params['track']).then(
-			function (track) {
-				this._spotify.addToMySavedTracks([track.id]);
-			}
-		);
-		
+	@reaction(ReactionType.AddTrackToLibrary, ['artist', 'track'])
+	async addTrackToLibrary(params: any) {
+		let track = await this._searchTrack(params['artist'], params['track']);
+		this._spotify.addToMySavedTracks([track.id]);
+
 	}
 
 
-	@reaction(ReactionType.addToPlaylist, ['artist', 'track', 'playlist'])
-	addToPlaylist(params: any) {
-		this.searchPlaylist(params['playlist']).then(
-			function (playlist) {
-				this.searchTrack(params['artist'], params['track']).then(
-					function (track) {
-						this._spotify.addToPlaylist(playlist.id, [track.uri]);
-					}
-				)
-			}
-		);
+	@reaction(ReactionType.AddToPlaylist, ['artist', 'track', 'playlist'])
+	async addToPlaylist(params: any) {
+		let playlist = await this._searchPlaylist( params['playlist']);
+		let track = await this._searchTrack(params['artist'], params['track']);
+		this._spotify.addTracksToPlaylist(playlist.id, [track.uri]);
 	}
 
 }

@@ -13,7 +13,7 @@ export class Github extends BaseService {
 		this._github = new Octokit();
 	}
 
-	@reaction(ReactionType.openPR, ['owner', 'repo', 'title', 'head', 'base'])
+	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
 	openPR(params: any) {
 		this._github.pulls.create({
 			owner: params['owner'], repo: params['repo'], 
@@ -37,7 +37,7 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.mergePR, ['owner', 'repo', 'pull_number'])
+	@reaction(ReactionType.MergePR, ['owner', 'repo', 'pull_number'])
 	mergePR(params: any) {
 		this._github.pulls.merge({
 			owner: params['owner'], repo: params['repo'], 
@@ -45,7 +45,7 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.createIssue, ['owner', 'repo', 'title', 'body'])
+	@reaction(ReactionType.CreateIssue, ['owner', 'repo', 'title', 'body'])
 	createIssue(params: any) {
 		this._github.issues.create({
 			owner: params['owner'], repo: params['repo'], 
@@ -53,7 +53,7 @@ export class Github extends BaseService {
 		});
 	}
 	
-	@reaction(ReactionType.commentIssue, ['owner', 'repo', 'issue_number', 'body'])
+	@reaction(ReactionType.CommentIssue, ['owner', 'repo', 'issue_number', 'body'])
 	commentIssue(params: any) {
 		this._github.issues.createComment({
 			owner: params['owner'], repo: params['repo'], 
@@ -61,7 +61,7 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.closeIssue, ['owner', 'repo', 'issue_number'])
+	@reaction(ReactionType.CloseIssue, ['owner', 'repo', 'issue_number'])
 	closeIssue(params: any) {
 		this._github.issues.update({
 			owner: params['owner'], repo: params['repo'], 
@@ -69,21 +69,21 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.createRepo, ['name'])
+	@reaction(ReactionType.CreateRepo, ['name'])
 	createRepo(params: any) {
 		this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name']
 		});
 	}
 
-	@reaction(ReactionType.createPrivateRepo, ['name'])
+	@reaction(ReactionType.CreatePrivateRepo, ['name'])
 	createPrivateRepo(params: any) {
 		this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name'], private: true
 		});
 	}
 
-	@reaction(ReactionType.updateDescription, ['owner', 'repo', 'description'])
+	@reaction(ReactionType.UpdateDescription, ['owner', 'repo', 'description'])
 	updateDescription(params:any) {
 		this._github.repos.update({
 			owner: params['owner'], repo: params['repo'],
@@ -91,21 +91,21 @@ export class Github extends BaseService {
 		});
 	}
 
-	@reaction(ReactionType.forkRepo, ['owner', 'repo'])
+	@reaction(ReactionType.ForkRepo, ['owner', 'repo'])
 	forkRepo(params: any) {
 		this._github.repos.createFork({
 			owner: params['owner'], repo: params['repo']
 		});
 	}
 
-	@reaction(ReactionType.starRepo, ['owner', 'repo'])
+	@reaction(ReactionType.StarRepo, ['owner', 'repo'])
 	starRepo(params: any) {
 		this._github.activity.starRepoForAuthenticatedUser({
 			owner: params['owner'], repo: params['repo']
 		});
 	}
 
-	@reaction(ReactionType.watchRepo, ['owner', 'repo'])
+	@reaction(ReactionType.WatchRepo, ['owner', 'repo'])
 	watchRepo(params: any) {
 		this._github.activity.setRepoSubscription({
 			owner: params['owner'], repo: params['repo']
