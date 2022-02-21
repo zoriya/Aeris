@@ -3,6 +3,7 @@ WORKDIR /
 
 # Download Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git
+# Using Stable flutter version
 RUN git -C flutter checkout stable
 ENV PATH "/flutter/bin:$PATH"
 
@@ -21,5 +22,4 @@ RUN flutter pub run flutter_launcher_icons:main
 # Generate native splashscreen
 RUN flutter pub run flutter_native_splash:create
 RUN flutter build apk lib/src/main.dart
-RUN ls -lRa build
 CMD mv ./build/app/outputs/flutter-apk/app-release.apk /dist/aeris_android.apk
