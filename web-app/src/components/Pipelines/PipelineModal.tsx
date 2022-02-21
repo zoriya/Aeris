@@ -47,7 +47,7 @@ export default function PipelineModal({ isOpen, children, handleClose } : Pipeli
                   timeout: 500
                 }}
             >
-                <Fade in={isOpen}>
+                <Fade in={isOpen} >
                     <div className={classes.paper} >
                         <IconButton
                             onClick={handleClose}

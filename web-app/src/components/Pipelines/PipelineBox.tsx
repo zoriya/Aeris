@@ -45,14 +45,14 @@ export default function PipelineBox({ title, statusText, service1, service2, onC
 					<Box sx={{ display: 'flex', width:"30%" , flexDirection: 'row', padding:'10px', alignItems:"center", justifyContent:"center", flexWrap: "true" }}>
 						<CardMedia
 							component="img"
-							sx={{ width: 50 }}
+							sx={{ width: "30%" }}
 							image={ service1.imageSrc }
 							alt={ service1.altText }
 						/>
 						<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
 						<CardMedia
 							component="img"
-							sx={{ width: 50 }}
+							sx={{ width: "30%" }}
 							image={ service2.imageSrc }
 							alt={ service2.altText }
 						/>

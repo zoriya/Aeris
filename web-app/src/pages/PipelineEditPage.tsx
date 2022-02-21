@@ -9,7 +9,7 @@ import GenericButton from "../components/GenericButton"
 
 import { GenericButtonProps } from "./../components/GenericButton";
 
-interface PipelineEditPageProps {
+export interface PipelineEditPageProps {
   title: string,
   trigger: GenericButtonProps,
   actions: Array<GenericButtonProps>
