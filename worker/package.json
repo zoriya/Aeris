@@ -1,0 +1,41 @@
+{
+  "name": "aeris-worker",
+  "version": "1.0.0",
+  "description": "The worker of aeris",
+  "scripts": {
+    "build": "tsc",
+    "start": "node --es-module-specifier-resolution=node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnonymusRaccoon/Aeris.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AnonymusRaccoon/Aeris/issues"
+  },
+  "homepage": "https://github.com/AnonymusRaccoon/Aeris#readme",
+  "dependencies": {
+    "@discordjs/rest": "^0.3.0",
+    "@googleapis/youtube": "^2.0.0",
+    "@octokit/rest": "^18.12.0",
+    "discord-api-types": "^0.27.2",
+    "discord.js": "^13.6.0",
+    "express": "^4.17.2",
+    "express-ws": "^5.0.2",
+    "rxjs": "^7.5.2",
+    "spotify-web-api-js": "^1.5.2",
+    "twitter-api-v2": "^1.10.0",
+    "ws": "^8.4.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-ws": "^3.0.1",
+    "@types/ws": "^8.2.2",
+    "ts-lint": "^4.5.1",
+    "typescript": "^4.5.5"
+  },
+  "type": "module"
+}
