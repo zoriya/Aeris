@@ -5,8 +5,6 @@
 
 module Api where
 
-
-
 import GHC.Generics (Generic)
 import Servant (Get, Handler, HasServer (ServerT), JSON, NamedRoutes, RemoteHost, type (:>))
 import Servant.API.Generic (ToServantApi, type (:-))

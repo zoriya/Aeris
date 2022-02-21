@@ -19,7 +19,7 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
 import Data.Text (Text)
-import Db.Pipeline (Pipeline (Pipeline, pipelineType), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema)
+import Db.Pipeline (Pipeline (Pipeline, pipelineType), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
 import GHC.Generics (Generic)
 import Hasql.Statement (Statement)
@@ -31,6 +31,7 @@ import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (mapInd)
+import Core.User (UserId(UserId))
 
 data PipelineData = PipelineData
     { name :: Text
@@ -59,7 +60,7 @@ data PipelineAPI mode = PipelineAPI
     , post  :: mode :- "workflow" :> ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
     , put   :: mode :- "workflow" :> Capture "id" PipelineId :> Put '[JSON] (Pipeline Identity)
     , del   :: mode :- "workflow" :> Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
-    , all   :: mode :- "workflows" :> QueryParam "API_KEY" String :>Get '[JSON] NoContent 
+    , all   :: mode :- "workflows" :> QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponse] 
     }
     deriving stock (Generic)
 
@@ -73,7 +74,7 @@ getPipelineHandler pipelineId = do
 
 postPipelineHandler :: PostPipelineData -> AppM [ReactionId]
 postPipelineHandler x = do
-    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p)
+    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) (UserId 1)
     sequence $ mapInd (reactionMap (head actionId)) r
   where
     p = action x
@@ -89,11 +90,11 @@ putPipelineHandler pipelineId = throwError err401
 delPipelineHandler :: PipelineId -> AppM (Pipeline Identity)
 delPipelineHandler pipelineId = throwError err401
 
-allPipelineHandler :: Maybe String -> AppM NoContent 
+allPipelineHandler :: Maybe String -> AppM [GetPipelineResponse] 
 allPipelineHandler Nothing = do
-  --pipelines <- getPipelineByUser
-  return NoContent 
-allPipelineHandler (Just key) = return NoContent 
+  pipelines <- getPipelineByUser (UserId 1)
+  mapM (getPipelineHandler . pipelineId) pipelines
+allPipelineHandler (Just key) = return [] 
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
 pipelineHandler =

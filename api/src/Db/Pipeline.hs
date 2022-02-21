@@ -25,6 +25,7 @@ import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncode
 import Core.Pipeline
 import Data.Functor.Identity (Identity)
 import Servant (FromHttpApiData)
+import Core.User (UserId(UserId))
 
 newtype PipelineId = PipelineId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
@@ -35,6 +36,7 @@ data Pipeline f = Pipeline
     , pipelineName :: Column f Text
     , pipelineType :: Column f PipelineType
     , pipelineParams :: Column f PipelineParams
+    , pipelineUserId :: Column f UserId
     }
     deriving stock (Generic)
     deriving anyclass (Rel8able)
@@ -55,6 +57,7 @@ pipelineSchema =
                 , pipelineName = "name"
                 , pipelineType = "type"
                 , pipelineParams = "params"
+                , pipelineUserId = "user_id" 
                 }
         }
 
@@ -67,8 +70,14 @@ getPipelineById uid = do
     where_ $ pipelineId u ==. lit uid
     return u
 
+getPipelineByUserId :: UserId -> Query (Pipeline Expr)
+getPipelineByUserId uid = do
+  u <- selectAllPipelines
+  where_ $ pipelineUserId u ==. lit uid
+  return u
+
 insertPipeline :: Pipeline Identity -> Insert [PipelineId]
-insertPipeline (Pipeline _ name type' params) =
+insertPipeline (Pipeline _ name type' params uid) =
     Insert
         { into = pipelineSchema
         , rows =
@@ -78,6 +87,7 @@ insertPipeline (Pipeline _ name type' params) =
                     , pipelineName = lit name
                     , pipelineType = lit type'
                     , pipelineParams = lit params
+                    , pipelineUserId = lit uid
                     }
                 ]
         , onConflict = DoNothing
