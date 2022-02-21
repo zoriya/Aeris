@@ -8,6 +8,7 @@ import { PipelineTriggersProps } from "./components/Pipelines/PipelineSetup";
 
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import * as React from "react";
   /*
   <PipelineBoxesLayout data={data} />
           <PipelineModal height="500" width="500"> 
@@ -122,7 +123,7 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div id='container'>
-          <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}} >
+          <Box  sx={{ display: 'flex', flexDirection: 'column', alignItems: "center" }}>
             <Box
                 component="img"
 
