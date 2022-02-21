@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 type State = {
     username: string
     password: string
+    confirmedPassword: string
     isButtonDisabled: boolean
     helperText: string
     isError: boolean
@@ -64,6 +65,7 @@ type State = {
 const initialState: State = {
     username: '',
     password: '',
+    confirmedPassword: '',
     isButtonDisabled: true,
     helperText: '',
     isError: false,
@@ -73,6 +75,7 @@ const initialState: State = {
 
 type Action = { type: 'setUsername', payload: string }
     | { type: 'setPassword', payload: string }
+    | { type: 'setConfirmedPassword', payload: string }
     | { type: 'setIsButtonDisabled', payload: boolean }
     | { type: 'loginSuccess', payload: string }
     | { type: 'loginFailed', payload: string }
@@ -91,6 +94,11 @@ const reducer = (state: State, action: Action): State => {
             return {
                 ...state,
                 password: action.payload
+            };
+        case 'setConfirmedPassword':
+            return {
+                ...state,
+                confirmedPassword: action.payload
             };
         case 'setIsButtonDisabled':
             return {
@@ -134,10 +142,22 @@ export default function AuthComponent(this: any) {
 
     useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
-            dispatch({
-                type: 'setIsButtonDisabled',
-                payload: false
-            });
+            if (!state.isConfirmButtonVisible) {
+                dispatch({
+                    type: 'setIsButtonDisabled',
+                    payload: false
+                });
+            } else if (state.isConfirmButtonVisible && state.password == state.confirmedPassword) {
+                dispatch({
+                    type: 'setIsButtonDisabled',
+                    payload: false
+                });
+            } else {
+                dispatch({
+                    type: 'setIsButtonDisabled',
+                    payload: true
+                });
+            }
         } else {
             dispatch({
                 type: 'setIsButtonDisabled',
@@ -179,6 +199,14 @@ export default function AuthComponent(this: any) {
         (event) => {
             dispatch({
                 type: 'setPassword',
+                payload: event.target.value
+            });
+        }
+
+    const handleConfirmedPasswordChange: React.ChangeEventHandler<HTMLInputElement> =
+        (event) => {
+            dispatch({
+                type: 'setConfirmedPassword',
                 payload: event.target.value
             });
         }
@@ -252,7 +280,7 @@ export default function AuthComponent(this: any) {
                                     variant='outlined'
                                     size="small"
                                     helperText={state.helperText}
-                                    onChange={handlePasswordChange}
+                                    onChange={handleConfirmedPasswordChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -265,13 +293,6 @@ export default function AuthComponent(this: any) {
                             }
                         </div>
                     </CardContent>
-                    <CardActions style={{ justifyContent: 'center', alignContent: 'center' }}>
-                        <RouterLink to='/forget'>
-                            <Typography>
-                                Forgot password?
-                            </Typography>
-                        </RouterLink>
-                    </CardActions>
                     <CardActions>
                         <Button
                             variant="contained"
@@ -281,13 +302,15 @@ export default function AuthComponent(this: any) {
                             disabled={state.isButtonDisabled}>
                             {state.authMode === 'login' ? 'Connection' : "Signup"}
                         </Button>
-                    </CardActions>
-                    <CardActions>
                         <Button
                             variant="text"
                             size="large"
                             className={classes.switchBtn}
                             onClick={() => {
+                                dispatch({
+                                    type: 'setIsButtonDisabled',
+                                    payload: state.authMode === 'login' ? true : state.isButtonDisabled
+                                });
                                 dispatch({
                                     type: 'setAuthMode',
                                     payload: state.authMode === 'login' ? 'auth' : 'login'
@@ -298,6 +321,18 @@ export default function AuthComponent(this: any) {
                                 });
                             }}>
                             {state.authMode === 'login' ? "Signup" : "Connection"}
+                        </Button>
+                    </CardActions>
+                    <CardActions style={{ justifyContent: 'center', alignContent: 'center' }}>
+                        <Button
+                            disableFocusRipple disableRipple
+                            style={{ textTransform: "none" }}
+                            variant="text" color="primary"
+                            onClick={() => {
+                                navigate('/forget');
+                            }}
+                        >
+                            Forgot password ?
                         </Button>
                     </CardActions>
                 </Card>
