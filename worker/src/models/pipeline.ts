@@ -2,6 +2,7 @@ export enum ServiceType {
 	Twitter,
 	Youtube,
 	Github,
+	Spotify,
 };
 
 export enum PipelineType {
@@ -25,6 +26,10 @@ export enum ReactionType {
 	forkRepo,
 	starRepo,
 	watchRepo,
+	//Spotify reaction
+	playTrack,
+	addTrackToLibrary,
+	addToPlaylist,
 };
 
 
