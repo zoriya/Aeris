@@ -34,11 +34,9 @@ export default function PipelineEditPage({ title, trigger, actions }: PipelineEd
 			</Box>
 			<Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
-					{[trigger].map((el, index) => (
-						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-							<GenericButton {...el} />
-						</Grid>
-					))}
+					<Grid item sm={10} md={10} lg={5} xl={4}>
+						<GenericButton {...trigger} />
+					</Grid>
 				</Grid>
 
 				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
