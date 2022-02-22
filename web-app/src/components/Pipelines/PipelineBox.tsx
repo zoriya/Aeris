@@ -8,7 +8,6 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-import "./PipelineBox.css";
 import { borderRadius } from "@mui/system";
 import type { ImageProps } from "./../types";
 
