@@ -36,7 +36,7 @@ import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (mapInd, UserAuth, AuthRes)
-import Core.User (UserId(UserId))
+import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
 
 data PipelineData = PipelineData
@@ -85,8 +85,8 @@ getPipelineHandler (Authenticated user) pipelineId = do
 getPipelineHandler _ _ = throwError err401
 
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
-postPipelineHandler (Authenticated user) x = do
-    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) (UserId 1)
+postPipelineHandler (Authenticated (User uid uname slug)) x = do
+    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
     sequence $ mapInd (reactionMap actionId) r
   where
     p = action x
