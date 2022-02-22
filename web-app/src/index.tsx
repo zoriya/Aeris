@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./App.css";
 
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthComponent from "./pages/Login/LoginPage";
 import PipelinePage from "./pages/HomePage";

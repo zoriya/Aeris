@@ -23,13 +23,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const randomProperty = function (obj: Object): any {
-	const keys = Object.keys(obj);
-	//@ts-ignore
-	return obj[keys[(keys.length * Math.random()) << 0]] as any;
-};
-randomProperty;
-
 export default function HomePage() {
 	const classes = useStyles();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -59,8 +52,8 @@ export default function HomePage() {
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setModalData({
 					title: "louis",
@@ -99,44 +92,44 @@ export default function HomePage() {
 		{
 			title: "Vous êtes débiles bande de trou du cul",
 			statusText: "Last: 2d ago",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: randomProperty(AppServicesLogos),
-			service2: randomProperty(AppServicesLogos),
+			service1: AppServicesLogos["twitter"],
+			service2: AppServicesLogos["twitter"],
 		},
 	];
 
