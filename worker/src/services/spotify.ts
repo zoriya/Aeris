@@ -1,5 +1,5 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-import { Pipeline, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { BaseService, reaction, service } from "../models/base-service";
 
 @service(ServiceType.Spotify)
@@ -28,24 +28,26 @@ export class Spotify extends BaseService {
 	}
 
 	@reaction(ReactionType.PlayTrack, ['artist', 'track'])
-	async playTrack(params: any) {
+	async playTrack(params: any): Promise<PipelineEnv> {
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.play({uris: [track.uri]});
+		return {...params, 'url': track.uri}
 	}
 
 	@reaction(ReactionType.AddTrackToLibrary, ['artist', 'track'])
-	async addTrackToLibrary(params: any) {
+	async addTrackToLibrary(params: any): Promise<PipelineEnv> {
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.addToMySavedTracks([track.id]);
-
+		return {...params, 'url': track.uri}
 	}
 
 
 	@reaction(ReactionType.AddToPlaylist, ['artist', 'track', 'playlist'])
-	async addToPlaylist(params: any) {
+	async addToPlaylist(params: any): Promise<PipelineEnv> {
 		let playlist = await this._searchPlaylist( params['playlist']);
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.addTracksToPlaylist(playlist.id, [track.uri]);
+		return {...params, 'url': track.uri}
 	}
 
 }
