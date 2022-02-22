@@ -27,7 +27,7 @@ import Data.Aeson (FromJSON, ToJSON)
 import Db.User (User', UserDB (UserDB), password, toUser)
 import GHC.Generics (Generic)
 import Servant.API.Generic (ToServantApi, (:-))
-import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin)
+import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin, AuthResult (Authenticated))
 import qualified Servant.Auth.Server
 import Servant.Server.Generic (AsServerT)
 
@@ -37,6 +37,7 @@ import Core.User (User, UserId (UserId))
 import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
 import Repository (createUser, getUserByName')
+import Utils (UserAuth, AuthRes)
 
 data LoginUser = LoginUser
     { username :: String
@@ -59,8 +60,8 @@ instance FromJSON SignupUser
 type Protected =
     "me" :> Get '[JSON] User
 
-protected :: Servant.Auth.Server.AuthResult User' -> ServerT Protected AppM
-protected (Servant.Auth.Server.Authenticated user) = return $ toUser user
+protected :: AuthRes -> ServerT Protected AppM
+protected (Authenticated user) = return user
 protected _ = throwAll err401
 
 type Unprotected =
@@ -81,7 +82,7 @@ loginHandler cs jwts (LoginUser username p) = do
     let usr = head users'
     if validatePassword' (toPassword $ pack p) (Db.User.password usr)
         then do
-            mApplyCookies <- liftIO $ acceptLogin cs jwts usr
+            mApplyCookies <- liftIO $ acceptLogin cs jwts (toUser usr)
             case mApplyCookies of
                 Nothing -> throwError err401
                 Just applyCookies -> return $ applyCookies NoContent
@@ -101,16 +102,9 @@ unprotected cs jwts =
         :<|> signupHandler
 
 data AuthAPI mode = AuthAPI
-    { protectedApi ::
-        mode
-            :- Servant.Auth.Server.Auth '[JWT] User'
-                :> Protected
-    , unprotectedApi ::
-        mode
-            :- Unprotected
-    , oauthApi ::
-        mode
-            :- OauthAPI
+    { protectedApi :: mode :- UserAuth :> Protected
+    , unprotectedApi :: mode :- Unprotected
+    , oauthApi :: mode :- OauthAPI
     }
     deriving stock (Generic)
 

@@ -12,6 +12,7 @@ import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
+import Utils (lookupObj)
 
 data GithubOAuth2 = GithubOAuth2
     { oauthClientId :: String
@@ -54,11 +55,6 @@ tokenEndpoint code oa =
         , "&code="
         , code
         ]
-
-lookupObj :: Object -> Text -> Maybe String
-lookupObj obj key = case HM.lookup key obj of
-    Just (String x) -> Just . T.unpack $ x
-    _ -> Nothing
 
 getGithubAuthEndpoint :: IO String
 getGithubAuthEndpoint = githubAuthEndpoint <$> getGithubConfig
