@@ -57,7 +57,7 @@ library
   hs-source-dirs:
       src
   build-depends:
-      aeson
+      aeson ==1.5.6.0
     , base >=4.7 && <5
     , bytestring
     , containers
@@ -95,7 +95,7 @@ executable aeris-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeris
-    , aeson
+    , aeson ==1.5.6.0
     , base
     , bytestring
     , containers
