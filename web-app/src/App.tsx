@@ -7,7 +7,6 @@ import "./App.css";
 
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import * as React from "react";
 
 export default function App() {
 	let svc: ImageProps = {

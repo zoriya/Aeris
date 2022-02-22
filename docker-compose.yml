@@ -31,7 +31,7 @@ services:
     depends_on:
       - "api"
     environment:
-      - YOUTUBE_KEY=$(YOUTUBE_KEY)
+      - YOUTUBE_KEY=${YOUTUBE_KEY}
 
 volumes:
   apk:

@@ -31,7 +31,6 @@ interface PipelineModalProps {
 export default function PipelineModal({ isOpen, children, handleClose }: PipelineModalProps) {
 	const classes = useStyles();
 	const theme = useTheme();
-	//             <Button onClick={handleOpen}>Show pipeline</Button>
 
 	return (
 		<div>

@@ -150,7 +150,7 @@ export default function HomePage() {
 			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
 				<PipelineEditPage {...modalData} />
 			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}} >
+			<PipelineModal isOpen={true} handleClose={() => {}} >
 				<PipelineSetupModal name="oui oui" services={AppServices} elements={ ServiceActions } />
 			</PipelineModal>
 			<PipelineModal isOpen={false} handleClose={() => {}} >

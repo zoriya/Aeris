@@ -8,6 +8,10 @@ export interface AppServiceType {
     logo: ImageProps
 }
 
+export interface AppActionType {
+    title: string
+}
+
 export const AppServicesLogos:{[key:string]: ImageProps} = {
     "youtube": {
         imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
