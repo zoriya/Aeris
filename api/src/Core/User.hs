@@ -19,6 +19,7 @@ import Rel8 (DBEq, DBType, JSONBEncoded (JSONBEncoded))
 import Servant (AuthProtect, FromHttpApiData)
 import Servant.API (FromHttpApiData (parseUrlPiece))
 import Servant.Server.Experimental.Auth (AuthServerData)
+import Servant.Auth.JWT (ToJWT, FromJWT)
 
 newtype UserId = UserId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
@@ -54,3 +55,5 @@ data User = User
     deriving stock (Generic)
 
 $(deriveJSON defaultOptions ''User)
+instance FromJWT User
+instance ToJWT User
