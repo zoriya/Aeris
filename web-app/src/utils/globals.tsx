@@ -1,15 +1,12 @@
 import { GenericButtonProps } from "../components/GenericButton";
 import { ImageProps } from "../components/types";
+import { AppActionType, ReactionTypeEnum, AppReactionType, ActionTypeEnum, ParamType } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
 
 export interface AppServiceType {
 	label: string;
 	uid: string;
 	logo: ImageProps;
-}
-
-export interface AppActionType {
-	title: string;
 }
 
 export const AppServicesLogos: { [key: string]: ImageProps } = {
@@ -156,3 +153,37 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 		},
 	],
 };
+
+const AppListActions: Array<AppActionType> = [
+    {
+        type: ActionTypeEnum.TwitterNewPost,
+        params: {
+            tag: "jsp",
+            contents: {
+                "author": {
+                    value: "me",
+                    description: "author of the post",
+                    type: ParamType.String
+                }
+            }
+        },
+        description: "Un nouveau tweet à été posté"
+    }
+]
+
+const AppListReactions: Array<AppReactionType> = [
+    {
+        type: ReactionTypeEnum.TwitterTweet,
+        params: {
+            tag: "jsp",
+            contents: {
+                "body": {
+                    value: "yatta",
+                    description: "The text to tweet",
+                    type: ParamType.String
+                }
+            }
+        },
+        description: "Création d'un tweet"
+    }
+]
