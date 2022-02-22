@@ -1,16 +1,28 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+
+/// Requests types supported by Aeris API
+enum AerisAPIRequestType { get, post, put, delete }
 
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   ///TODO set status based on stored credentials
   bool connected = false;
   late List<Pipeline> fakeAPI;
+
+  /// JWT token used to request API
+  late String jwt;
+
+  ///TODO Use .env
+  String baseRoute = 'http://aeris.com';
 
   AerisAPI() {
     var trigger1 = Trigger(
@@ -30,7 +42,9 @@ class AerisAPI {
     var reaction2 = Reaction(
         service: const Service.gmail(), parameters: {}, name: "Do smth");
     var reaction1 = Reaction(
-        service: const Service.youtube(), parameters: {}, name: "Do smth youtube");
+        service: const Service.youtube(),
+        parameters: {},
+        name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -63,6 +77,47 @@ class AerisAPI {
       pipeline2,
       pipeline1
     ];
+  }
+
+  /// Name of the file that contains the JWT used for Aeris' API requestd
+  static const String jwtFile = 'aeris_jwt.txt';
+
+  /// Retrieves the file containing the JWT
+  Future<File> getJWTFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    return File('$path/$jwtFile.txt');
+  }
+
+  /// Registers new user in the database and connects it
+  Future<void> signUpUser(String username, String password) async {}
+
+  /// On success, sets API as connected to given user
+  Future<void> createConnection(String username, String password) async {}
+
+  /// Create an API connection using previously created credentials
+  Future<void> restoreConnection() async {
+    try {
+      final file = await getJWTFile();
+      final cred = await file.readAsString();
+      if (cred == "") {
+        throw Exception("Empty creds");
+      }
+      jwt = cred;
+      connected = true;
+    } catch (e) {
+      return;
+    }
+  }
+
+  /// Delete JWT file and disconnect from API
+  Future<void> stopConnection() async {
+    File credentials = await getJWTFile();
+
+    if (credentials.existsSync()) {
+      await credentials.delete();
+    }
+    connected = false;
   }
 
   /// Adds new pipeline to API
@@ -123,5 +178,25 @@ class AerisAPI {
             name: "action$i",
             parameters: {'key1': 'value1', 'key2': 'value2'})
     ];
+  }
+
+  /// Encodes Uri for request
+  Uri _encoreUri(String route) {
+    return Uri.parse('$baseRoute$route');
+  }
+
+  /// Calls API using a HTTP request type, a route and body
+  Future<http.Response> _requestAPI(
+      String route, AerisAPIRequestType requestType, Object? body) async {
+    switch (requestType) {
+      case AerisAPIRequestType.delete:
+        return await http.delete(_encoreUri(route), body: body);
+      case AerisAPIRequestType.get:
+        return await http.get(_encoreUri(route));
+      case AerisAPIRequestType.post:
+        return await http.post(_encoreUri(route), body: body);
+      case AerisAPIRequestType.put:
+        return await http.put(_encoreUri(route), body: body);
+    }
   }
 }

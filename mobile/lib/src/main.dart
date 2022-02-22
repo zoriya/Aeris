@@ -12,9 +12,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
-void main() {
+void main() async {
   AerisAPI interface = AerisAPI();
   GetIt.I.registerSingleton<AerisAPI>(interface);
+  await interface.restoreConnection();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PipelineProvider()),
     ChangeNotifierProvider(create: (_) => UserServiceProvider())

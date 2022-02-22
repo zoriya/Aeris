@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
 
   /// Opens signup page of [FlutterLogin] widget
   Future<String?> _signupUser(SignupData data) {
-    debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
+    
     return Future.delayed(loginDuration).then((_) {
       return null;
     });
@@ -42,7 +42,6 @@ class LoginPage extends StatelessWidget {
 
   /// Opens user password recovery page
   Future<String?> _recoverPassword(String name) {
-    debugPrint('Name: $name');
     return Future.delayed(loginDuration).then((_) {
       if (!users.containsKey(name)) {
         return AppLocalizations.of(Aeris.materialKey.currentContext!)
@@ -59,7 +58,8 @@ class LoginPage extends StatelessWidget {
         body: FlutterLogin(
             disableCustomPageTransformer: true,
             logo: const AssetImage("assets/logo.png"),
-            onRecoverPassword: _recoverPassword,
+            hideForgotPasswordButton: true,
+            onRecoverPassword: (_) => null,
             theme: LoginTheme(
                 pageColorLight: Colors.transparent,
                 pageColorDark: Colors.transparent,
