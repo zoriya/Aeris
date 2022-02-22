@@ -89,10 +89,20 @@ class AerisAPI {
     return File('$path/$jwtFile.txt');
   }
 
-  /// Registers new user in the database and connects it
-  Future<void> signUpUser(String username, String password) async {}
+  /// Registers new user in the database and connects it. Returns false if register failed
+  Future<bool> signUpUser(String username, String password) async {
+    http.Response response =
+        await _requestAPI('/auth/signup', AerisAPIRequestType.post, {
+      username: username,
+      password: password,
+    });
+    if (response.statusCode != 200) {
+      return false;
+    }
+    return createConnection(username, password);
+  }
 
-  /// On success, sets API as connected to given user
+  /// On success, sets API as connected to given user. Returns false if connection false
   Future<bool> createConnection(String username, String password) async {
     http.Response response =
         await _requestAPI('/auth/login', AerisAPIRequestType.post, {
@@ -102,17 +112,21 @@ class AerisAPI {
     if (response.statusCode != 200) {
       return false;
     }
-    final String jwt = response.headers[HttpHeaders.setCookieHeader]!
-        .split(';')
-        .where((element) => element.trim().startsWith('JWT-Cookie='))
-        .first
-        .replaceAll('JWT-Cookie=', "")
-        .trim();
+    try {
+      final String jwt = response.headers[HttpHeaders.setCookieHeader]!
+          .split(';')
+          .where((element) => element.trim().startsWith('JWT-Cookie='))
+          .first
+          .replaceAll('JWT-Cookie=', "")
+          .trim();
 
-    final File jwtFile = await getJWTFile();
-    jwtFile.writeAsString(jwt);
-    connected = true;
-    this.jwt = jwt;
+      final File jwtFile = await getJWTFile();
+      jwtFile.writeAsString(jwt);
+      connected = true;
+      this.jwt = jwt;
+    } catch (e) {
+      return false;
+    }
     return true;
   }
 
@@ -207,11 +221,14 @@ class AerisAPI {
   }
 
   /// Calls API using a HTTP request type, a route and body
-  Future<http.Response> _requestAPI(String route, AerisAPIRequestType requestType, Object? body) async {
-    final Map<String, String>? header = connected ? {'authorization': 'Bearer $jwt'} : null;
+  Future<http.Response> _requestAPI(
+      String route, AerisAPIRequestType requestType, Object? body) async {
+    final Map<String, String>? header =
+        connected ? {'authorization': 'Bearer $jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
-        return await http.delete(_encoreUri(route), body: body, headers: header);
+        return await http.delete(_encoreUri(route),
+            body: body, headers: header);
       case AerisAPIRequestType.get:
         return await http.get(_encoreUri(route), headers: header);
       case AerisAPIRequestType.post:
