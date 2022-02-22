@@ -1,16 +1,20 @@
-FROM androidsdk/android-30:latest
+FROM androidsdk/android-31:latest
+WORKDIR /
 
 # Download Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git
-ENV PATH "$PATH:/opt/android-sdk-linux/flutter/bin"
+# Using Stable flutter version
+RUN git -C flutter checkout stable
+ENV PATH "/flutter/bin:$PATH"
 
 # Run basic check to download Dark SDK
-RUN flutter doctor
+RUN flutter upgrade && flutter doctor
 
-COPY pubspec.* ./
-RUN flutter pub get
+RUN which flutter
 
 COPY . .
+RUN flutter pub get
+
 # Generate traduction files
 RUN flutter gen-l10n
 # Generate launcher icon

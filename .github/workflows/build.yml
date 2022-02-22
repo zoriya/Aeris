@@ -15,21 +15,10 @@ jobs:
         working-directory: ./mobile
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2.2.0
-        with:
-          channel: 'dev'
-      - name: Get Flutter dependencies
-        run: flutter upgrade ; flutter pub get
-      - name: Build APK - Release
-        if: github.ref == 'refs/heads/master'
-        run: |
-          flutter build apk lib/src/main.dart --release
-          mv ./build/app/outputs/flutter-apk/app-release.apk aeris_android.apk
-      - name: Build APK - Debug
-        if: github.ref != 'refs/heads/master'
-        run: |
-          flutter build apk lib/src/main.dart --profile
-          mv ./build/app/outputs/flutter-apk/app-profile.apk aeris_android.apk
+      - name: Build Docker
+        run: docker build . -t aeris_mobile_build 
+      - name: Run Docker
+        run: docker run -v $PWD:/dist aeris_mobile_build
       - name: Upload build artifact
         if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
