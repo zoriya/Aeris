@@ -1,6 +1,5 @@
-
 import { Google, GitHub, MusicNote, Twitter, YouTube } from "@mui/icons-material";
-import { InputLabel, FormHelperText, Avatar, ListItemAvatar } from "@mui/material"
+import { InputLabel, FormHelperText, Avatar, ListItemAvatar } from "@mui/material";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
@@ -14,8 +13,8 @@ import { useState } from "react";
 
 interface PipelineSetupPageProps {
 	name: string;
-	services: Array<AppServiceType>,
-	elements: {[key: string]: Array<GenericButtonProps> };
+	services: Array<AppServiceType>;
+	elements: { [key: string]: Array<GenericButtonProps> };
 }
 
 export type { PipelineSetupPageProps };
@@ -35,41 +34,33 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 				<Typography variant="h4" noWrap align="left">
 					Setup Action: {name}
 				</Typography>
-				
 			</Box>
-			<Box sx={{ float:"right" }} >
+			<Box sx={{ float: "right" }}>
 				<InputLabel id="pipeline-setup-select-label">Service</InputLabel>
 				<Select
 					labelId="pipeline-setup-select-label"
 					defaultValue={"youtube"}
-					onChange={newValue => setServiceToShow(newValue.target.value)}
-					label="Services" >
+					onChange={(newValue) => setServiceToShow(newValue.target.value)}
+					label="Services">
 					{services.map((item) => (
 						<MenuItem value={item.uid}>
-							<Box sx={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-								<img
-									loading="lazy"
-									width="20"
-									src={item.logo.imageSrc}
-									alt={item.logo.altText}
-								/>
+							<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+								<img loading="lazy" width="20" src={item.logo.imageSrc} alt={item.logo.altText} />
 								{item.label}
 							</Box>
 						</MenuItem>
 					))}
 				</Select>
-				<FormHelperText>{elements[serviceToShow]?.length ?? "aucune" } actions disponibles</FormHelperText>
+				<FormHelperText>{elements[serviceToShow]?.length ?? "aucune"} actions disponibles</FormHelperText>
 			</Box>
 			<Grid container direction="row" justifyContent="flex-start" spacing={2} alignItems="flex-start">
-				{ elements[serviceToShow]?.map((el, elIndex) => {
+				{elements[serviceToShow]?.map((el, elIndex) => {
 					return (
-						<Grid item key={ elIndex }>
+						<Grid item key={elIndex}>
 							<GenericButton {...el} />
 						</Grid>
 					);
-						
-				})
-			}
+				})}
 			</Grid>
 		</div>
 	);

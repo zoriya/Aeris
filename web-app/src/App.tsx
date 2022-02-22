@@ -4,7 +4,6 @@ import { Typography, Box, Button } from "@mui/material";
 import type { ImageProps } from "./components/types";
 import "./App.css";
 
-
 import { useNavigate } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 

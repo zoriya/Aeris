@@ -57,10 +57,10 @@ export default function ServiceSetupModal() {
 									marginRight: "10px",
 								}}>
 								{AppServices.map((elem, index) => (
-								<Grid item mb={4} key={index}>
-									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
-								</Grid>
-							))}
+									<Grid item mb={4} key={index}>
+										<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
+									</Grid>
+								))}
 							</Box>
 						</Grid>
 					</Grid>

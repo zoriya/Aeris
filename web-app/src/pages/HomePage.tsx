@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
 const randomProperty = function (obj: Object): any {
 	const keys = Object.keys(obj);
 	//@ts-ignore
-    return obj[keys[ keys.length * Math.random() << 0]] as any;
+	return obj[keys[(keys.length * Math.random()) << 0]] as any;
 };
+randomProperty;
 
 export default function HomePage() {
 	const classes = useStyles();
@@ -54,7 +55,6 @@ export default function HomePage() {
 		],
 	} as PipelineEditPageProps);
 
-
 	const data: Array<PipelineBoxProps> = [
 		{
 			title: "My super action",
@@ -66,10 +66,7 @@ export default function HomePage() {
 					title: "louis",
 					trigger: ServiceActions["youtube"][0],
 					trailingIcon: <MoreVert />,
-					actions: [
-						ServiceActions["twitter"][0],
-						ServiceActions["spotify"][1]
-					],
+					actions: [ServiceActions["twitter"][0], ServiceActions["spotify"][1]],
 				} as PipelineEditPageProps);
 				setIsModalOpen(!isModalOpen);
 			},
@@ -143,17 +140,16 @@ export default function HomePage() {
 		},
 	];
 
-
 	return (
 		<div className={classes.divHomePage}>
 			<PipelineBoxesLayout data={data} />
 			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
 				<PipelineEditPage {...modalData} />
 			</PipelineModal>
-			<PipelineModal isOpen={true} handleClose={() => {}} >
-				<PipelineSetupModal name="oui oui" services={AppServices} elements={ ServiceActions } />
+			<PipelineModal isOpen={true} handleClose={() => {}}>
+				<PipelineSetupModal name="oui oui" services={AppServices} elements={ServiceActions} />
 			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}} >
+			<PipelineModal isOpen={false} handleClose={() => {}}>
 				<ServiceSetupModal />
 			</PipelineModal>
 
