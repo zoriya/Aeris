@@ -15,13 +15,19 @@ import { PipelineEditPageProps } from "./PipelineEditPage";
 import PipelineSetupModal from "./PipelineSetup";
 import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices } from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos } from "../utils/globals";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
 		display: "contents",
 	},
 }));
+
+const randomProperty = function (obj: Object): any {
+	const keys = Object.keys(obj);
+	//@ts-ignore
+    return obj[keys[ keys.length * Math.random() << 0]] as any;
+};
 
 export default function HomePage() {
 	const classes = useStyles();
@@ -48,40 +54,22 @@ export default function HomePage() {
 		],
 	} as PipelineEditPageProps);
 
-	const svc: ImageProps = {
-		altText: "youTube",
-		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg",
-	};
-	const svc2: ImageProps = {
-		altText: "Spotify",
-		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg",
-	};
-
-	let actions: Array<GenericButtonProps> = [
-		{
-			title: "Une vidéo à été rg erg ergr rgrg  publiée",
-			service: svc,
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Riz aux oignons",
-			service: svc2,
-			trailingIcon: <MoreVert />,
-		},
-	];
 
 	const data: Array<PipelineBoxProps> = [
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: svc,
-			service2: svc2,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 			onClickCallback: () => {
 				setModalData({
 					title: "louis",
-					trigger: actions[0],
+					trigger: ServiceActions["youtube"][0],
 					trailingIcon: <MoreVert />,
-					actions: actions,
+					actions: [
+						ServiceActions["twitter"][0],
+						ServiceActions["spotify"][1]
+					],
 				} as PipelineEditPageProps);
 				setIsModalOpen(!isModalOpen);
 			},
@@ -90,26 +78,20 @@ export default function HomePage() {
 			title: "Lorem ipsum behm uit's long",
 			statusText:
 				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: svc2,
-			service2: svc,
+			service1: AppServicesLogos["gmail"],
+			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setModalData({
 					title: "clickable",
 					trigger: {
 						title: "Eh oui j'ai été set autrement",
-						service: {
-							imageSrc: "https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg",
-							altText: "github logo",
-						},
+						service: AppServicesLogos["github"],
 						trailingIcon: <MoreVert />,
 					},
 					actions: [
 						{
 							title: "j'aime l'eau",
-							service: {
-								imageSrc: "https://upload.wikimedia.org/wikipedia/sco/9/9f/Twitter_bird_logo_2012.svg",
-								altText: "twitter logo",
-							},
+							service: AppServicesLogos["twitter"],
 							trailingIcon: <AddIcon />,
 						},
 					],
@@ -120,48 +102,47 @@ export default function HomePage() {
 		{
 			title: "Vous êtes débiles bande de trou du cul",
 			statusText: "Last: 2d ago",
-			service1: svc,
-			service2: svc2,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: svc2,
-			service2: svc,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: svc,
-			service2: svc2,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: svc2,
-			service2: svc,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: svc,
-			service2: svc2,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText: "Vive la france !",
-			service1: svc2,
-			service2: svc,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
-			service1: svc,
-			service2: svc2,
+			service1: randomProperty(AppServicesLogos),
+			service2: randomProperty(AppServicesLogos),
 		},
 	];
 
-	actions.push(...actions);
 
 	return (
 		<div className={classes.divHomePage}>
@@ -169,8 +150,8 @@ export default function HomePage() {
 			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
 				<PipelineEditPage {...modalData} />
 			</PipelineModal>
-			<PipelineModal isOpen={true} handleClose={() => {}} >
-				<PipelineSetupModal name="oui oui" services={AppServices} elements={ {"youtube": actions} } />
+			<PipelineModal isOpen={false} handleClose={() => {}} >
+				<PipelineSetupModal name="oui oui" services={AppServices} elements={ ServiceActions } />
 			</PipelineModal>
 			<PipelineModal isOpen={false} handleClose={() => {}} >
 				<ServiceSetupModal />

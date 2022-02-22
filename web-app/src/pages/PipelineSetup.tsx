@@ -60,7 +60,7 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 				</Select>
 				<FormHelperText>{elements[serviceToShow]?.length ?? "aucune" } actions disponibles</FormHelperText>
 			</Box>
-			<Grid container direction="row" justifyContent="space-around" spacing={2} alignItems="flex-start">
+			<Grid container direction="row" justifyContent="flex-start" spacing={2} alignItems="flex-start">
 				{ elements[serviceToShow]?.map((el, elIndex) => {
 					return (
 						<Grid item key={ elIndex }>
