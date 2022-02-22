@@ -93,7 +93,28 @@ class AerisAPI {
   Future<void> signUpUser(String username, String password) async {}
 
   /// On success, sets API as connected to given user
-  Future<void> createConnection(String username, String password) async {}
+  Future<bool> createConnection(String username, String password) async {
+    http.Response response =
+        await _requestAPI('/auth/login', AerisAPIRequestType.post, {
+      username: username,
+      password: password,
+    });
+    if (response.statusCode != 200) {
+      return false;
+    }
+    final String jwt = response.headers[HttpHeaders.setCookieHeader]!
+        .split(';')
+        .where((element) => element.trim().startsWith('JWT-Cookie='))
+        .first
+        .replaceAll('JWT-Cookie=', "").trim();
+
+    final File jwtFile = await getJWTFile();
+    jwtFile.writeAsString(jwt);
+    response.headers['Set-Cookie'];
+    connected = true;
+    this.jwt = jwt;
+    return true;
+  }
 
   /// Create an API connection using previously created credentials
   Future<void> restoreConnection() async {
