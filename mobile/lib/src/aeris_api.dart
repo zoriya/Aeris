@@ -9,7 +9,7 @@ import 'package:aeris/src/models/trigger.dart';
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   ///TODO set status based on stored credentials
-  bool connected = true;
+  bool connected = false;
   late List<Pipeline> fakeAPI;
 
   AerisAPI() {
