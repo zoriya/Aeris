@@ -6,11 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
 
-const users = {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
-
 /// Login Page Widget
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -20,7 +15,8 @@ class LoginPage extends StatelessWidget {
 
   /// Called when user clicks on [FlutterLogin] widget 'login' button
   Future<String?> _authUser(LoginData data) async {
-    bool connected = await GetIt.I<AerisAPI>().createConnection(data.name, data.password);
+    bool connected =
+        await GetIt.I<AerisAPI>().createConnection(data.name, data.password);
     if (!connected) {
       return AppLocalizations.of(Aeris.materialKey.currentContext!)
           .usernameOrPasswordIncorrect;
@@ -29,21 +25,13 @@ class LoginPage extends StatelessWidget {
   }
 
   /// Opens signup page of [FlutterLogin] widget
-  Future<String?> _signupUser(SignupData data) {
-    return Future.delayed(loginDuration).then((_) {
-      return null;
-    });
-  }
-
-  /// Opens user password recovery page
-  Future<String?> _recoverPassword(String name) {
-    return Future.delayed(loginDuration).then((_) {
-      if (!users.containsKey(name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)
-            .userDoesNotExist;
-      }
-      return null;
-    });
+  Future<String?> _signupUser(SignupData data) async {
+    bool connected =
+        await GetIt.I<AerisAPI>().signUpUser(data.name!, data.password!);
+    if (connected == false) {
+      return AppLocalizations.of(Aeris.materialKey.currentContext!).errorOnSignup;
+    }
+    return null;
   }
 
   @override

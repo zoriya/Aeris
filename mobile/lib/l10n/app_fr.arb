@@ -36,5 +36,6 @@
     "pipelineFormMisingAction": "Vous devez selectionner au moins un déclancheur et une réaction",
     "logoutWarningMessage": "Êtes-vous sûr(e) de voulour vous déconnecter d'Aeris?",
     "warning": "Attention",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "errorOnSignup": "Une erreur est survenue, veuillez réessayer"
 }

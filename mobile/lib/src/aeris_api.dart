@@ -14,12 +14,14 @@ enum AerisAPIRequestType { get, post, put, delete }
 
 /// Call to interact with Aeris' Back end
 class AerisAPI {
-  ///TODO set status based on stored credentials
-  bool connected = false;
+  /// Get Connection state
+  bool _connected = false;
+  bool get isConnected => _connected;
+
   late List<Pipeline> fakeAPI;
 
   /// JWT token used to request API
-  late String jwt;
+  late String _jwt;
 
   ///TODO Use .env
   String baseRoute = 'http://aeris.com';
@@ -89,6 +91,7 @@ class AerisAPI {
     return File('$path/$jwtFile.txt');
   }
 
+  ///ROUTES
   /// Registers new user in the database and connects it. Returns false if register failed
   Future<bool> signUpUser(String username, String password) async {
     http.Response response =
@@ -122,8 +125,8 @@ class AerisAPI {
 
       final File jwtFile = await getJWTFile();
       jwtFile.writeAsString(jwt);
-      connected = true;
-      this.jwt = jwt;
+      _connected = true;
+      _jwt = jwt;
     } catch (e) {
       return false;
     }
@@ -138,8 +141,8 @@ class AerisAPI {
       if (cred == "") {
         throw Exception("Empty creds");
       }
-      jwt = cred;
-      connected = true;
+      _jwt = cred;
+      _connected = true;
     } catch (e) {
       return;
     }
@@ -152,7 +155,7 @@ class AerisAPI {
     if (credentials.existsSync()) {
       await credentials.delete();
     }
-    connected = false;
+    _connected = false;
   }
 
   /// Adds new pipeline to API
@@ -224,7 +227,7 @@ class AerisAPI {
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String>? header =
-        connected ? {'authorization': 'Bearer $jwt'} : null;
+        _connected ? {'authorization': 'Bearer $_jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
         return await http.delete(_encoreUri(route),

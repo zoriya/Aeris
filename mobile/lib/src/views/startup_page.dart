@@ -17,7 +17,7 @@ class StartupPage extends StatefulWidget {
 class _StartupPageState extends State<StartupPage> {
   @override
   Widget build(BuildContext context) {
-    bool isConnected = GetIt.I<AerisAPI>().connected;
+    bool isConnected = GetIt.I<AerisAPI>().isConnected;
     return AerisPage(
       displayAppbar: false,
       body: Column(
