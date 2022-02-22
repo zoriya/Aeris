@@ -19,6 +19,7 @@ export enum ReactionType {
 	// Youtube reactions
 	YtLike,
 	YtComment,
+	YtAddToPlaylist,
 	// Github reactions
 	OpenPR,
 	CommentPR,
