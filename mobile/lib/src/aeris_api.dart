@@ -106,11 +106,11 @@ class AerisAPI {
         .split(';')
         .where((element) => element.trim().startsWith('JWT-Cookie='))
         .first
-        .replaceAll('JWT-Cookie=', "").trim();
+        .replaceAll('JWT-Cookie=', "")
+        .trim();
 
     final File jwtFile = await getJWTFile();
     jwtFile.writeAsString(jwt);
-    response.headers['Set-Cookie'];
     connected = true;
     this.jwt = jwt;
     return true;
@@ -207,17 +207,17 @@ class AerisAPI {
   }
 
   /// Calls API using a HTTP request type, a route and body
-  Future<http.Response> _requestAPI(
-      String route, AerisAPIRequestType requestType, Object? body) async {
+  Future<http.Response> _requestAPI(String route, AerisAPIRequestType requestType, Object? body) async {
+    final Map<String, String>? header = connected ? {'authorization': 'Bearer $jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
-        return await http.delete(_encoreUri(route), body: body);
+        return await http.delete(_encoreUri(route), body: body, headers: header);
       case AerisAPIRequestType.get:
-        return await http.get(_encoreUri(route));
+        return await http.get(_encoreUri(route), headers: header);
       case AerisAPIRequestType.post:
-        return await http.post(_encoreUri(route), body: body);
+        return await http.post(_encoreUri(route), body: body, headers: header);
       case AerisAPIRequestType.put:
-        return await http.put(_encoreUri(route), body: body);
+        return await http.put(_encoreUri(route), body: body, headers: header);
     }
   }
 }
