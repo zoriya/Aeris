@@ -5,6 +5,7 @@ import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:tuple/tuple.dart';
 
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
@@ -18,7 +19,20 @@ class Trigger extends aeris_action.Action {
       this.last})
       : super(service: service, name: name, parameters: parameters);
 
-  ///TODO Constructor from DB 'Type' field
+  /// Unserialize
+  static Trigger fromJSON(Object action) {
+    var triggerJSON = action as Map<String, Object>;
+    Tuple2<Service, String> service =
+        aeris_action.Action.parseServiceAndName(triggerJSON['pType'] as String);
+    DateTime last = DateTime.parse(action['lastTrigger'] as String);
+
+    return Trigger(
+        service: service.item1,
+        name: service.item2,
+        last: last.year == 0 ? null : last,
+        parameters: (triggerJSON['pParams'] as Map<String, Object>)['contents']
+            as Map<String, Object>);
+  }
 
   String lastToString() {
     var context = AppLocalizations.of(Aeris.materialKey.currentContext!);
