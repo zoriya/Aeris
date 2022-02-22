@@ -89,7 +89,7 @@ export default function AuthComponent() {
 
 	const handleLogin = () => {
 		//TODO Implements back auth routes
-		if (authData.username === "abc@email.com" && authData.password === "password") {
+		if (authData.username === "b" && authData.password === "b") {
 			setAuthData((prevState => {
 				return {...prevState, isError: false, helperText: 'Login successful!'};
 			}));
