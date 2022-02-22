@@ -74,17 +74,14 @@ export default function AuthComponent() {
 	});
 
 	useEffect(() => {
-		if (authData.username.trim() && authData.password.trim() && (!authData.isConfirmButtonVisible
-			|| (authData.isConfirmButtonVisible && authData.confirmedPassword.trim() == authData.password.trim()))) {
-			setAuthData((prevState => {
-				console.log(prevState.password)
-				return {...prevState, isButtonDisabled: false};
-			}));
-		} else {
-			setAuthData((prevState => {
-				return {...prevState, isButtonDisabled: true};
-			}));
-		}
+		setAuthData((prevState => {
+			return {
+				...prevState,
+				isButtonDisabled: (!(authData.username.trim() && authData.password.trim() &&
+				(!authData.isConfirmButtonVisible ||
+				(authData.isConfirmButtonVisible && authData.confirmedPassword.trim() == authData.password.trim()))))
+			};
+		}));
 	}, [authData.username, authData.password, authData.confirmedPassword]);
 
 	const handleLogin = () => {
