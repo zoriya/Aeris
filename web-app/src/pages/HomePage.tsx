@@ -161,9 +161,6 @@ export default function HomePage() {
 					right: "5px",
 				}}>
 				<Fab
-					size="medium"
-					color="secondary"
-					aria-label="add"
 					onClick={() => {
 						setModalData({
 							title: "Nouvelle pipeline",
@@ -178,7 +175,10 @@ export default function HomePage() {
 							actions: [],
 						} as PipelineEditPageProps);
 						setIsModalOpen(!isModalOpen);
-					}}>
+					}}
+					size="medium"
+					color="secondary"
+					aria-label="add">
 					<AddIcon />
 				</Fab>
 			</Box>
