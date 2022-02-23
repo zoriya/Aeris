@@ -150,6 +150,22 @@ export class Github extends BaseService {
 		});
 		return {...params, 'url': res.data.url};
 	}
+
+	@action(Pipeline.OnCreateIssue, ['owner', 'repo'])
+	listenOnCreateIssue(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issues.opened",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login,
+			})
+		);
+	}
 	
 	@reaction(ReactionType.CommentIssue, ['owner', 'repo', 'issue_number', 'body'])
 	async commentIssue(params: any): Promise<PipelineEnv> {
@@ -160,6 +176,24 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
+	@action(Pipeline.OnCommentIssue, ['owner', 'repo'])
+	listenOnCommentIssue(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issue_comment",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login,
+				COMMENT: payload.comment.body,
+				COMMENTER: payload.comment.user.login
+			})
+		);
+	}
+
 	@reaction(ReactionType.CloseIssue, ['owner', 'repo', 'issue_number'])
 	async closeIssue(params: any): Promise<PipelineEnv> {
 		let res = await this._github.issues.update({
@@ -167,6 +201,22 @@ export class Github extends BaseService {
 			issue_number: params['issue_number'], state: 'closed'
 		});
 		return {...params, 'url': res.data.url};
+	}
+
+	@action(Pipeline.OnCloseIssue, ['owner', 'repo'])
+	listenOnIssueClose(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issues.opened",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login
+			})
+		);
 	}
 
 	@reaction(ReactionType.CreateRepo, ['name'])
