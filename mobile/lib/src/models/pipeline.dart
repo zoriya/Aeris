@@ -16,7 +16,6 @@ class Pipeline {
   /// Is the pipeline enabled
   bool enabled;
 
-
   ///The pipeline's reactions
   final List<Reaction> reactions;
 
@@ -29,4 +28,19 @@ class Pipeline {
       required this.enabled,
       required this.trigger,
       required this.reactions});
+
+  static Pipeline fromJSON(Map<String, Object> data) {
+    var action = data['action'] as Map<String, Object>;
+    var reactions = data['reactions'] as Map<String, Object>;
+
+    return Pipeline(
+        name: action['name'] as String,
+        enabled: action['enabled'] as bool,
+        id: action['id'] as int,
+        triggerCount: action['triggerCount'] as int,
+        trigger: Trigger.fromJSON(action),
+        reactions: (reactions as List<Object>)
+          .map<Reaction>((e) => Reaction.fromJSON(e)).toList()
+    );
+  }
 }

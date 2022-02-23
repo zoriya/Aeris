@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';
+import 'package:recase/recase.dart';
+import 'package:tuple/tuple.dart';
 
 ///Base class for reactions and trigger
 abstract class Action {
@@ -16,4 +18,12 @@ abstract class Action {
       required this.service,
       required this.name,
       this.parameters = const {}});
+
+  static Tuple2<Service, String> parseServiceAndName(String rType) {
+    var snake = ReCase(rType).snakeCase.split('_');
+    return Tuple2(
+      Service.factory(snake.first),
+      ReCase(snake.getRange(1, snake.length - 1).join('_')).titleCase
+    );
+  }
 }

@@ -61,4 +61,11 @@ class Service {
         Service.twitter(),
         Service.spotify()
       ];
+
+  static Service factory(String name) {
+    for (Service service in Service.all()) {
+      if (service.name.toLowerCase() == name.toLowerCase()) return service;
+    }
+    throw Exception("Unknown service");
+  }
 }
