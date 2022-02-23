@@ -1,13 +1,8 @@
 import { GenericButtonProps } from "../components/GenericButton";
-import { ImageProps } from "../components/types";
-import { AppActionType, ReactionTypeEnum, AppReactionType, ActionTypeEnum, ParamType } from "./types";
+import { AppActionType, ReactionTypeEnum, AppReactionType, ActionTypeEnum, ParamType, AppPipelineType, ImageProps, AppServiceType } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
 
-export interface AppServiceType {
-	label: string;
-	uid: string;
-	logo: ImageProps;
-}
+
 
 export const AppServicesLogos: { [key: string]: ImageProps } = {
 	youtube: {
@@ -154,11 +149,10 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 	],
 };
 
-const AppListActions: Array<AppActionType> = [
+export const AppListActions: Array<AppActionType> = [
     {
         type: ActionTypeEnum.TwitterNewPost,
         params: {
-            tag: "jsp",
             contents: {
                 "author": {
                     value: "me",
@@ -167,15 +161,15 @@ const AppListActions: Array<AppActionType> = [
                 }
             }
         },
-        description: "Un nouveau tweet à été posté"
+        description: "Un nouveau tweet à été posté",
+		service: AppServices[3]
     }
 ]
 
-const AppListReactions: Array<AppReactionType> = [
+export const AppListReactions: Array<AppReactionType> = [
     {
         type: ReactionTypeEnum.TwitterTweet,
         params: {
-            tag: "jsp",
             contents: {
                 "body": {
                     value: "yatta",
@@ -184,6 +178,22 @@ const AppListReactions: Array<AppReactionType> = [
                 }
             }
         },
-        description: "Création d'un tweet"
+        description: "Création d'un tweet",
+		service: AppServices[3]
     }
+]
+
+export const AppListPipelines: Array<AppPipelineType> = [
+	{
+		name: "my pipe",
+		action: AppListActions[0],
+		reactions: [
+			AppListReactions[0]
+		],
+		data: {
+			enabled: true,
+			status: "il fait beau aujourd'hui",
+			error: false
+		}
+	}
 ]

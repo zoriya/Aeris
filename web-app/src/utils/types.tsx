@@ -1,3 +1,16 @@
+export interface ImageProps {
+	// the image src preferable to use svg files
+	imageSrc: string;
+	// the alt text (screen readers, etc)
+	altText: string;
+}
+
+export interface AppServiceType {
+	label: string;
+	uid: string;
+	logo: ImageProps;
+}
+
 export enum ParamType {
     Bool = "boolean",
     String = "string",
@@ -22,19 +35,19 @@ export interface ParamsType {
 export interface AppActionType {
     type: ActionTypeEnum,
     params: {
-        tag: string,
         contents: { [key:string]: ParamsType }
     }
-    description?: string
+    description?: string,
+    service: AppServiceType
 }
 
 export interface AppReactionType {
     type: ReactionTypeEnum,
     params: {
-        tag: string,
         contents: { [key:string]: ParamsType }
     },
-    description?: string
+    description?: string,
+    service: AppServiceType
 }
 
 export interface AppPipelineInfoType {
@@ -46,6 +59,6 @@ export interface AppPipelineInfoType {
 export interface AppPipelineType {
     name: string,
     action: AppActionType,
-    reactions: Array<AppActionType>,
+    reactions: Array<AppReactionType>,
     data: AppPipelineInfoType
 }

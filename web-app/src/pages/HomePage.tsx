@@ -13,9 +13,10 @@ import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { PipelineEditPageProps } from "./PipelineEditPage";
 import PipelineSetupModal from "./PipelineSetup";
-import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
+import PipelineNameSetup from "./PipelineNameSetup";
+import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, ServiceActions, AppServicesLogos } from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos, AppListActions, AppListReactions, AppListPipelines } from "../utils/globals";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -23,9 +24,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+enum ModalSelection {
+	None,
+	PipelineEdit,
+	ActionSelector,
+	ReactionSelector,
+	ArgumentSelector
+}
+
 export default function HomePage() {
 	const classes = useStyles();
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
+	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
 	const [modalData, setModalData] = useState<PipelineEditPageProps>({
 		title: "",
 		trigger: {
@@ -61,7 +71,7 @@ export default function HomePage() {
 					trailingIcon: <MoreVert />,
 					actions: [ServiceActions["twitter"][0], ServiceActions["spotify"][1]],
 				} as PipelineEditPageProps);
-				setIsModalOpen(!isModalOpen);
+				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
 		{
@@ -76,7 +86,7 @@ export default function HomePage() {
 					trigger: {
 						title: "Eh oui j'ai été set autrement",
 						service: AppServicesLogos["github"],
-						trailingIcon: <MoreVert />,
+						trailingIcon: <MoreVert />
 					},
 					actions: [
 						{
@@ -86,7 +96,7 @@ export default function HomePage() {
 						},
 					],
 				} as PipelineEditPageProps);
-				setIsModalOpen(!isModalOpen);
+				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
 		{
@@ -133,18 +143,29 @@ export default function HomePage() {
 		},
 	];
 
+	let sAcopy = ServiceActions;
+
+	sAcopy["twitter"].map((el) => {
+		return el["onClickCallback"] = () => alert("test")
+	})
+
 	return (
 		<div className={classes.divHomePage}>
 			<PipelineBoxesLayout data={data} />
-			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
+
+			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage {...modalData} />
 			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}}>
-				<PipelineSetupModal name="oui oui" services={AppServices} elements={ServiceActions} />
+			<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
+				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
 			</PipelineModal>
 			<PipelineModal isOpen={false} handleClose={() => {}}>
 				<ServiceSetupModal />
 			</PipelineModal>
+			<PipelineModal isOpen={modalMode === ModalSelection.ArgumentSelector} handleClose={() => setModalMode(ModalSelection.ActionSelector)}>
+				<PipelineNameSetup title="j'aime les frites" actions={ServiceActions["youtube"]} />
+			</PipelineModal>
+			
 
 			<Box
 				sx={{
@@ -164,10 +185,20 @@ export default function HomePage() {
 									altText: "Action inconnue",
 								},
 								trailingIcon: <AddIcon />,
+								onClickCallback: () => setModalMode(ModalSelection.ActionSelector)
 							},
-							actions: [],
+							actions: [
+								{
+									title: "Ajouter une réaction",
+									service: {
+										imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
+										altText: "Réaction inconnue",
+									},
+									trailingIcon: <AddIcon />,
+								}
+							],
 						} as PipelineEditPageProps);
-						setIsModalOpen(!isModalOpen);
+						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
 					color="secondary"

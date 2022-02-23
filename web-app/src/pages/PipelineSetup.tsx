@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { AppServiceType } from "../utils/globals";
+import { AppServiceType } from "../utils/types";
 import GenericButton, { GenericButtonProps } from "./../components/GenericButton";
 import { useState } from "react";
 
@@ -39,7 +39,8 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 				<InputLabel id="pipeline-setup-select-label">Service</InputLabel>
 				<Select
 					labelId="pipeline-setup-select-label"
-					defaultValue={"youtube"}
+					defaultValue={"twitter"}
+					variant="standard"
 					onChange={(newValue) => setServiceToShow(newValue.target.value)}
 					label="Services">
 					{services.map((item) => (
