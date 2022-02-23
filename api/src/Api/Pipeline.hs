@@ -57,8 +57,15 @@ data PostPipelineData = PostPipelineData
 
 type GetPipelineResponse = PostPipelineData
 
+data GetPipelineResponseWithId = GetPipelineResponseWithId
+    { res :: PostPipelineData
+    , id :: PipelineId
+    }
+
+
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
+$(deriveJSON defaultOptions ''GetPipelineResponseWithId)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
@@ -71,7 +78,7 @@ data PipelineAPI mode = PipelineAPI
     , del   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
     , all   :: mode :- "workflows" :> UserAuth :>
-        QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponse]
+        QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponseWithId]
     }
     deriving stock (Generic)
 
@@ -104,10 +111,13 @@ delPipelineHandler :: AuthRes -> PipelineId -> AppM (Pipeline Identity)
 delPipelineHandler (Authenticated user) pipelineId = throwError err401
 delPipelineHandler _ _ = throwError err401
 
-allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
-allPipelineHandler (Authenticated user) Nothing = do
-  pipelines <- getPipelineByUser (UserId 1)
-  mapM (getPipelineHandler (Authenticated user) . pipelineId) pipelines
+allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponseWithId]
+allPipelineHandler (Authenticated (User uid uname slug)) Nothing = do
+  pipelines <- getPipelineByUser uid
+  res <- mapM (getPipelineHandler (Authenticated (User uid uname slug)) . pipelineId) pipelines
+  let ids = fmap pipelineId pipelines
+  let zipped = zip res ids
+  return $ fmap (\(r, id) -> GetPipelineResponseWithId {res=r, id=id}) zipped
 allPipelineHandler _ (Just key) = return []
 allPipelineHandler _ _ =  throwError err401
 
