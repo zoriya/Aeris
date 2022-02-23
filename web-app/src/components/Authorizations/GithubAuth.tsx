@@ -4,9 +4,10 @@ import { API_ROUTE } from "../..";
 
 const sendAuthCode = async (authCode: string): Promise<boolean> => {
     const response = await fetch(API_ROUTE + '/auth/github?code=' + authCode, {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Accept': 'application/json',
+            //TODO Get aeris_jwt token
             'Authorization': 'Bearer ' + authCode
         }
     });
@@ -21,11 +22,15 @@ const sendAuthCode = async (authCode: string): Promise<boolean> => {
 export default function GithubAuth({authCode}: {authCode: string}) {
     const navigate = useNavigate();
 
-    async function sendUserCode() {
-        if (authCode.trim())
-            if (await sendAuthCode(authCode))
+    useEffect(() => {
+        async function sendUserCode() {
+            if (authCode.trim()) {
+                await sendAuthCode(authCode);
                 navigate('/pipelines');
-    }
+            }
+        }
+        sendUserCode();
+    }, []);
 
     return(<div/>);
 }
