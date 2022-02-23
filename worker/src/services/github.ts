@@ -224,6 +224,21 @@ export class Github extends BaseService {
 		return params;
 	}
 
+	@action(Pipeline.OnStarRepo, ['owner', 'repo'])
+	listenOnStarRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"star.created",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				STAR_COUNT: payload.repository.stargazers_count,
+				STARER: payload.sender.login
+			})
+		);
+	}
+
 	@reaction(ReactionType.WatchRepo, ['owner', 'repo'])
 	async watchRepo(params: any): Promise<PipelineEnv> {
 		await this._github.activity.setRepoSubscription({
