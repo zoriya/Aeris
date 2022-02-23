@@ -22,4 +22,38 @@ export class Discord extends BaseService {
 				})),
 			);
 	}
+
+	@reaction(ReactionType.PostDiscordMessage)
+	async postMessage(_:any): Promise<PipelineEnv> {
+
+	}
+
+	@reaction(ReactionType.PostDiscordDM)
+	async postDM(_:any): Promise<PipelineEnv> {
+		
+	}
+
+	@reaction(ReactionType.markDiscordMessageAsread)
+	async markAsread(_:any): Promise<PipelineEnv> {
+	}
+
+	@reaction(ReactionType.joinDiscordServer)
+	async joinServer(_:any): Promise<PipelineEnv> {
+		
+	}
+
+	@reaction(ReactionType.leaveDiscordServer)
+	async leaveServer(_:any): Promise<PipelineEnv> {
+		let guilds = await this._client.guilds.
+	}
+
+	@reaction(ReactionType.setDiscordStatus, ['status'])
+	async setStatus(params:any): Promise<PipelineEnv> {
+		let res = await this._client.user.setStatus(params['status']);
+		return {
+			'user_id': res.userId,
+			'username': res.user.username,
+			'status': params['status']
+		};
+	}
 }
