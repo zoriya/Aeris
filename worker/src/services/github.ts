@@ -211,4 +211,18 @@ export class Github extends BaseService {
 		});
 		return params;
 	}
+
+	@action(Pipeline.OnWatchRepo, ['owner', 'repo'])
+	listenOnWatchRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"watch.started",
+			(payload) => payload.repo.owner == params['owner'] 
+				&& payload.repo.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repo.name,
+				REPO_OWNER: payload.repo.owner,
+				WATCH_COUNT: payload.repo.subscribers.length,
+			})
+		);
+	}
 }
