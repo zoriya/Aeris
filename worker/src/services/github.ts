@@ -64,6 +64,25 @@ export class Github extends BaseService {
 		return params;
 	}
 
+	@action(PipelineType.OnCommentPR, ['owner', 'repo', 'pull_number'])
+	listenCommentPR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request_review_comment.created",
+			(payload) => payload.repo.owner == params['owner'] 
+				&& payload.repo.name == params['repo']
+				&& payload.pull_number == params['pull_number'],
+			(payload) => ({
+				PR_NAME: payload.name,
+				PR_OPENER: payload.owner,
+				PR_HEAD: payload.head,
+				PR_BASE: payload.base,
+				REPO_NAME: payload.repo.name,
+				REPO_OWNER: payload.repo.owner,
+				PR_COMMENT: payload.body
+			})
+		);
+	}
+
 	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
 	async closePR(params: any): Promise<PipelineEnv> {
 		await this._github.pulls.update({
@@ -71,6 +90,24 @@ export class Github extends BaseService {
 			pull_number: params['pull_number'], state: "closed"
 		});
 		return params;
+	}
+
+	@action(PipelineType.OnClosePR, ['owner', 'repo', 'pull_number'])
+	listenClosePR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request.closed",
+			(payload) => payload.repo.owner == params['owner'] 
+				&& payload.repo.name == params['repo']
+				&& payload.pull_number == params['pull_number'],
+			(payload) => ({
+				PR_NAME: payload.name,
+				PR_OPENER: payload.owner,
+				PR_HEAD: payload.head,
+				PR_BASE: payload.base,
+				REPO_NAME: payload.repo.name,
+				REPO_OWNER: payload.repo.owner
+			})
+		);
 	}
 
 	@reaction(ReactionType.MergePR, ['owner', 'repo', 'pull_number'])
