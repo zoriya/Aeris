@@ -3,10 +3,18 @@ import Typography from "@mui/material/Typography";
 import { Grid, TextField } from "@mui/material";
 import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import { AppPipelineType, AppAREAType } from "../../utils/types";
 
 import { PipelineActionListProps } from "../../components/PipelineActionList";
 
-export default function PipelineNameSetup({ title }: PipelineActionListProps) {
+interface PipelineEditParamsProps {
+	pipelineData: AppPipelineType,
+	AREA: AppAREAType,
+	setParams: any,
+	handleQuit: any
+} 
+
+export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	return (
 		<div>
 			<Box
@@ -18,7 +26,7 @@ export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 					marginBottom: "35px",
 				}}>
 				<Typography variant="h4" noWrap align="left" minWidth={300}>
-					'{title}' Parameters
+					'{AREA.type}' Parameters
 				</Typography>
 			</Box>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -35,6 +43,7 @@ export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 					loading={false}
 					loadingPosition="start"
 					startIcon={<Save />}
+					onClick={() => setParams(AREA)}
 					variant="contained">
 					Save
 				</LoadingButton>

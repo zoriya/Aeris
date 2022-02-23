@@ -52,14 +52,17 @@ export default function PipelineEditPage( { pipelineData, setPipelineData, servi
 			return <PipelineEditAREA 
 						pipelineData={editPipelineData} 
 						setEditMode={setMode} 
-						setAREA={(AREA: AppAREAType) => setEditActionData(AREA)} 
+						setAREA={(AREA: AppAREAType) => {
+							setEditActionData(AREA);
+							setMode(PipelineEditMode.Pipeline);
+						}} 
 						services={services}
 						AREAs={actions} />
 		case PipelineEditMode.Reactions:
 			return <PipelineEditAREA 
 						pipelineData={editPipelineData} 
 						setEditMode={setMode} 
-						setAREA={(AREA: AppAREAType) => {}} 
+						setAREA={(AREA: AppAREAType) => alert("pas de sauvegarde pour les réactions")} 
 						services={services}
 						AREAs={reactions} />
 		case PipelineEditMode.QuitEdit:

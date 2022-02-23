@@ -49,7 +49,14 @@ export default function PipelineEditPipeline( {pipelineData, setPipelineData, se
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					{pipelineData.reactions.map((el, index) => (
 						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-							<GenericButton service={el.service.logo} title={el.type} trailingIcon={<AddBoxIcon/>} />
+							<GenericButton
+								service={el.service.logo}
+								title={el.type} 
+								onClickCallback={() => {
+									setEditMode(PipelineEditMode.Reactions);
+									setEditReactionIndex(index);
+								} }
+								trailingIcon={<AddBoxIcon/>} />
 						</Grid>
 					))}
 				</Grid>

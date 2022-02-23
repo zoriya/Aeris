@@ -10,9 +10,11 @@ import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AppServiceType, AppAREAType, AppPipelineType } from "../../utils/types";
 import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
+import PipelineModal from "../../components/Pipelines/PipelineModal";
+import PipelineEditParams from "./PipelineEditParams";
 import { useState } from "react";
 
-export interface PipelineSetupPageProps {
+export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType,
 	services: Array<AppServiceType>,
 	AREAs: Array<AppAREAType>,
@@ -20,10 +22,15 @@ export interface PipelineSetupPageProps {
 	setAREA: any
 }
 
-export default function PipelineEditAREA({ pipelineData, services, AREAs, setAREA }: PipelineSetupPageProps) {
+export default function PipelineEditAREA({ pipelineData, services, AREAs, setEditMode, setAREA }: PipelineEditAREAProps) {
 	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
+	const [isOPenParamsModal, setIsOpenParamsModal] = useState<boolean>(false);
+
 
 	let filteredElements = AREAs.filter(el => el.service.uid === serviceToShow);
+
+	const [AREAData, setAREAData] = useState<AppAREAType>();
+
 
 	return (
 		<div>
@@ -61,11 +68,31 @@ export default function PipelineEditAREA({ pipelineData, services, AREAs, setARE
 				{filteredElements.map((el, elIndex) => {
 					return (
 						<Grid item key={elIndex}>
-							<GenericButton title={el.type} service={el.service.logo} trailingIcon={<MoreVertIcon/>} onClickCallback={el.onClickCallback} />
+							<GenericButton 
+								title={el.type}
+								service={el.service.logo}
+								trailingIcon={<MoreVertIcon/>}
+								onClickCallback={() => {
+									setAREAData(el);
+									setIsOpenParamsModal(true)
+								}} />
 						</Grid>
 					);
 				})}
 			</Grid>
+
+				{ isOPenParamsModal ?
+			(<PipelineModal
+				isOpen={isOPenParamsModal}
+				handleClose={() => setIsOpenParamsModal(false)}
+			>
+				<PipelineEditParams 
+					pipelineData={pipelineData}
+					AREA={AREAData ?? filteredElements[0]}
+					handleQuit={() => setIsOpenParamsModal(false)}
+					setParams={(AREA: AppAREAType) => setAREA(AREA)} />
+			</PipelineModal>) : <div></div>
+			}
 		</div>
 	);
 }
