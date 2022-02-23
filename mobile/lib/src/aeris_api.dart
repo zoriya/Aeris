@@ -11,9 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 
 extension IsOk on http.Response {
-  bool get ok {
-    return (statusCode ~/ 100) == 2;
-  }
+  bool get ok => (statusCode ~/ 100) == 2;
 }
 
 /// Requests types supported by Aeris API
@@ -192,16 +190,17 @@ class AerisAPI {
   Future<List<Pipeline>> getPipelines() async {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     List<Object> body = jsonDecode(res.body);
+
     ///TODO error handling
     ///TODO return body.map((e) => Pipeline.fromJSON(e as Map<String, Object>)).toList();
     return fakeAPI;
   }
 
   /// Disconnects the user from the service
-  Future<void> disconnectService(Service service) async {
-    ///TODO disconnect service from user
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+  Future<bool> disconnectService(Service service) async {
+    var res = await _requestAPI('/auth/${service.name.toLowerCase()}',
+        AerisAPIRequestType.delete, null);
+    return res.ok;
   }
 
   Future<List<ActionTemplate>> getActionsFor(
@@ -233,7 +232,8 @@ class AerisAPI {
         _connected ? {'authorization': 'Bearer $_jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
-        return await http.delete(_encoreUri(route), body: body, headers: header);
+        return await http.delete(_encoreUri(route),
+            body: body, headers: header);
       case AerisAPIRequestType.get:
         return await http.get(_encoreUri(route), headers: header);
       case AerisAPIRequestType.post:

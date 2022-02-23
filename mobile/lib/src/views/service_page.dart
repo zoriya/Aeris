@@ -1,7 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
-import 'package:aeris/src/models/pipeline.dart';
-import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/providers/user_services_provider.dart';
@@ -78,21 +76,9 @@ class ServicePage extends StatelessWidget {
                       builder: (BuildContext context) => WarningDialog(
                           message: AppLocalizations.of(context)
                               .disconnectServiceWarningMessage,
-                          onAccept: () => {
-                                provider.removePipelinesWhere((Pipeline pipeline) {
-                                  if (pipeline.trigger.service == service) {
-                                    return true;
-                                  }
-                                  if (pipeline.reactions
-                                      .where((Reaction react) =>
-                                          react.service == service)
-                                      .isNotEmpty) {
-                                    return true;
-                                  }
-                                  return false;
-                                }),
-                                GetIt.I<AerisAPI>().disconnectService(service)
-                              },
+                          onAccept: () => GetIt.I<AerisAPI>()
+                            .disconnectService(service)
+                            .then((_) => provider.fetchPipelines()),
                           warnedAction:
                               AppLocalizations.of(context).disconnect)),
                   context),
