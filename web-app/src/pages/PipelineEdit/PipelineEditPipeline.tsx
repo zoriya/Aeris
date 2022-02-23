@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { AppPipelineType } from "../../utils/types";
-import { Box, Switch, FormControl, Grid, Typography, FormGroup, FormControlLabel } from "@mui/material"
+import { Box, Switch, FormControl, Grid, Typography, FormGroup, FormControlLabel, Button } from "@mui/material"
 import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import CancelIcon from '@mui/icons-material/Cancel';
 import { PipelineEditMode } from "./PipelineEditPage"
 
 interface PipelineEditPipelineProps {
@@ -70,6 +71,13 @@ export default function PipelineEditPipeline( {pipelineData, setPipelineData, se
 				loading={false}>
 				Supprimer la pipeline
 			</LoadingButton>
+			<Button
+				color="primary"
+				startIcon={<CancelIcon />}
+				onClick={() => setEditMode(PipelineEditMode.QuitEdit)}
+				variant="contained">
+				Annuler
+			</Button>
 		</div>
 	);
 }

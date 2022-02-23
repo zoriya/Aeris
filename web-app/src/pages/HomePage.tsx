@@ -134,7 +134,8 @@ export default function HomePage() {
 					setPipelineData={setPipelineData}
 					services={AppServices}
 					actions={AppListActions}
-					reactions={AppListReactions} />
+					reactions={AppListReactions}
+					handleQuit={() => setModalMode(ModalSelection.None)} />
 			</PipelineModal>
 			
 			

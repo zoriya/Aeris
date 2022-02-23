@@ -21,16 +21,19 @@ interface PipelineEditProps {
 	setPipelineData: any,
 	services: Array<AppServiceType>,
 	actions: Array<AppAREAType>,
-	reactions: Array<AppAREAType>
+	reactions: Array<AppAREAType>,
+	handleQuit: any
 }
 
 export enum PipelineEditMode {
 	Pipeline,
 	Action,
-	Reactions
+	Reactions,
+	SaveEdit,
+	QuitEdit
 }
 
-export default function PipelineEditPage( { pipelineData, setPipelineData, services, actions, reactions } : PipelineEditProps) {
+export default function PipelineEditPage( { pipelineData, setPipelineData, services, actions, reactions, handleQuit } : PipelineEditProps) {
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
 	const [editPipelineData, setEditPipelineData] = useState<AppPipelineType>(pipelineData);
 	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);
@@ -59,6 +62,18 @@ export default function PipelineEditPage( { pipelineData, setPipelineData, servi
 						setAREA={(AREA: AppAREAType) => {}} 
 						services={services}
 						AREAs={reactions} />
+		case PipelineEditMode.QuitEdit:
+			handleQuit();
+			return <div></div>;
+		case PipelineEditMode.SaveEdit:
+			setEditPipelineData({
+				name: pipelineData.name,
+				data: pipelineData.data,
+				onClickCallback: pipelineData.onClickCallback,
+				action: editActionData,
+				reactions: editReactionsData
+			} as AppPipelineType);
+			return <div></div>;
 
 	}
 }
