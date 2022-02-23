@@ -61,15 +61,12 @@ type AuthCompProps = {
 	isConfirmButtonVisible: boolean;
 };
 
-const requestWorkflows = async () => {
-	console.log(document.cookie)
-	const rawResponse = await fetch( API_ROUTE + '/workflows', {
-	  method: 'GET',
-	});
-
-	console.log(rawResponse.headers.get("content-type"))
-  };
-
+function setCookie(cname:string, cvalue:string, exdays:number) {
+	const d = new Date();
+	d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	let expires = "expires="+ d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 const requestLogin = async (username: string, password: string, signup: boolean) => {
 	const rawResponse = await fetch( API_ROUTE + '/auth/' + (signup ? "signup" : "login"), {
@@ -81,7 +78,7 @@ const requestLogin = async (username: string, password: string, signup: boolean)
 	  body: JSON.stringify({username: username, password: password})
 	});
 	console.log(rawResponse)
-	console.log(rawResponse.headers.get("date"))
+	setCookie("aeris_jwt", "valeur", 180);
   };
 
 export default function AuthComponent() {

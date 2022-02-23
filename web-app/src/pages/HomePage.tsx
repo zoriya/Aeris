@@ -29,7 +29,8 @@ enum ModalSelection {
 	PipelineEdit,
 	ActionSelector,
 	ReactionSelector,
-	ArgumentSelector
+	ArgumentSelector,
+	ServiceSetup
 }
 
 export default function HomePage() {
@@ -132,7 +133,7 @@ export default function HomePage() {
 			<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
 				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
 			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}}>
+			<PipelineModal isOpen={modalMode === ModalSelection.ServiceSetup } handleClose={() => {}}>
 				<ServiceSetupModal />
 			</PipelineModal>
 			<PipelineModal isOpen={modalMode === ModalSelection.ArgumentSelector} handleClose={() => setModalMode(ModalSelection.ActionSelector)}>
