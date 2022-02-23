@@ -43,6 +43,7 @@ data PipelineData = PipelineData
     { name :: Text
     , pType :: PipelineType
     , pParams :: PipelineParams
+    , id :: PipelineId
     }
 
 data ReactionData = ReactionData
@@ -57,15 +58,8 @@ data PostPipelineData = PostPipelineData
 
 type GetPipelineResponse = PostPipelineData
 
-data GetPipelineResponseWithId = GetPipelineResponseWithId
-    { res :: PostPipelineData
-    , id :: PipelineId
-    }
-
-
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
-$(deriveJSON defaultOptions ''GetPipelineResponseWithId)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
@@ -78,7 +72,7 @@ data PipelineAPI mode = PipelineAPI
     , del   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
     , all   :: mode :- "workflows" :> UserAuth :>
-        QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponseWithId]
+        QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponse]
     }
     deriving stock (Generic)
 
@@ -86,7 +80,7 @@ getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
 getPipelineHandler (Authenticated user) pipelineId = do
     pipeline <- getPipelineById' pipelineId
     reactions <- getReactionsByPipelineId' pipelineId
-    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline)
+    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) pipelineId
     let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
     return $ PostPipelineData actionResult reactionsResult
 getPipelineHandler _ _ = throwError err401
@@ -111,13 +105,10 @@ delPipelineHandler :: AuthRes -> PipelineId -> AppM (Pipeline Identity)
 delPipelineHandler (Authenticated user) pipelineId = throwError err401
 delPipelineHandler _ _ = throwError err401
 
-allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponseWithId]
-allPipelineHandler (Authenticated (User uid uname slug)) Nothing = do
+allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
+allPipelineHandler usr@(Authenticated (User uid uname slug)) Nothing = do
   pipelines <- getPipelineByUser uid
-  res <- mapM (getPipelineHandler (Authenticated (User uid uname slug)) . pipelineId) pipelines
-  let ids = fmap pipelineId pipelines
-  let zipped = zip res ids
-  return $ fmap (\(r, id) -> GetPipelineResponseWithId {res=r, id=id}) zipped
+  mapM (getPipelineHandler usr . pipelineId) pipelines
 allPipelineHandler _ (Just key) = return []
 allPipelineHandler _ _ =  throwError err401
 
