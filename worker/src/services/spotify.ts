@@ -59,14 +59,22 @@ export class Spotify extends BaseService {
 	async playTrack(params: any): Promise<PipelineEnv> {
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.play({uris: [track.uri]});
-		return {...params, 'url': track.uri}
+		return {
+			URL: track.uri,
+			ARTIST: track.artists?.[0].name,
+			TRACK: track.name,
+		};
 	}
 
 	@reaction(ReactionType.AddTrackToLibrary, ['artist', 'track'])
 	async addTrackToLibrary(params: any): Promise<PipelineEnv> {
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.addToMySavedTracks([track.id]);
-		return {...params, 'url': track.uri}
+		return {
+			URL: track.uri,
+			ARTIST: track.artists?.[0].name,
+			TRACK: track.name,
+		};
 	}
 
 	@reaction(ReactionType.AddToPlaylist, ['artist', 'track', 'playlist'])
@@ -74,7 +82,11 @@ export class Spotify extends BaseService {
 		let playlist = await this._searchPlaylist( params['playlist']);
 		let track = await this._searchTrack(params['artist'], params['track']);
 		this._spotify.addTracksToPlaylist(playlist.id, [track.uri]);
-		return {...params, 'url': track.uri}
+		return {
+			URL: track.uri,
+			ARTIST: track.artists?.[0].name,
+			TRACK: track.name,
+		};
 	}
 
 }
