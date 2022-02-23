@@ -7,20 +7,21 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { AppServiceType } from "../utils/types";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { AppServiceType, AppActionType, AppReactionType } from "../utils/types";
 import GenericButton, { GenericButtonProps } from "./../components/GenericButton";
 import { useState } from "react";
 
-interface PipelineSetupPageProps {
+export interface PipelineSetupPageProps {
 	name: string;
 	services: Array<AppServiceType>;
-	elements: { [key: string]: Array<GenericButtonProps> };
+	elements: Array<AppActionType | AppReactionType>;
 }
-
-export type { PipelineSetupPageProps };
 
 export default function PipelineSetupModal({ name, services, elements }: PipelineSetupPageProps) {
 	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
+
+	let filteredElements = elements.filter(el => el.service.uid === serviceToShow);
 
 	return (
 		<div>
@@ -52,13 +53,13 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 						</MenuItem>
 					))}
 				</Select>
-				<FormHelperText>{elements[serviceToShow]?.length ?? "aucune"} actions disponibles</FormHelperText>
+				<FormHelperText>{filteredElements.length ?? "aucune"} actions disponibles</FormHelperText>
 			</Box>
 			<Grid container direction="row" justifyContent="flex-start" spacing={2} alignItems="flex-start">
-				{elements[serviceToShow]?.map((el, elIndex) => {
+				{filteredElements.map((el, elIndex) => {
 					return (
 						<Grid item key={elIndex}>
-							<GenericButton {...el} />
+							<GenericButton title={el.type} service={el.service.logo} trailingIcon={<MoreVertIcon/>} onClickCallback={el.onClickCallback} />
 						</Grid>
 					);
 				})}

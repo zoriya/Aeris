@@ -40,7 +40,8 @@ export interface AppActionType {
         contents: { [key:string]: ParamsType }
     }
     description?: string,
-    service: AppServiceType
+    service: AppServiceType,
+    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export interface AppReactionType {
@@ -49,7 +50,8 @@ export interface AppReactionType {
         contents: { [key:string]: ParamsType }
     },
     description?: string,
-    service: AppServiceType
+    service: AppServiceType,
+    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
 }
 
 export interface AppPipelineInfoType {
@@ -62,5 +64,6 @@ export interface AppPipelineType {
     name: string,
     action: AppActionType,
     reactions: Array<AppReactionType>,
-    data: AppPipelineInfoType
+    data: AppPipelineInfoType,
+    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
 }
