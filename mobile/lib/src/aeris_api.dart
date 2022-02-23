@@ -121,13 +121,7 @@ class AerisAPI {
       return false;
     }
     try {
-      final String jwt = response.headers[HttpHeaders.setCookieHeader]!
-          .split(';')
-          .where((element) => element.trim().startsWith('JWT-Cookie='))
-          .first
-          .replaceAll('JWT-Cookie=', "")
-          .trim();
-
+      final String jwt = jsonDecode(response.body)['jwt'];
       final File jwtFile = await getJWTFile();
       jwtFile.writeAsString(jwt);
       _connected = true;
