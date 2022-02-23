@@ -59,6 +59,20 @@ type AuthCompProps = {
 	isConfirmButtonVisible: boolean;
 };
 
+const requestLogin = async (username: string, password: string) => {
+	const rawResponse = await fetch('http://localhost:81/api/auth/login', {
+	  method: 'POST',
+	  headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify({username: username, password: password})
+	});
+	const content = await rawResponse.json();
+  
+	console.log(content);
+  };
+
 export default function AuthComponent() {
 	const classes = useStyles();
 	const navigate = useNavigate();
