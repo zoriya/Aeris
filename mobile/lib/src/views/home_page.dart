@@ -1,3 +1,4 @@
+import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/views/create_pipeline_page.dart';
 import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
@@ -8,6 +9,7 @@ import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
 import 'package:aeris/src/widgets/home_page_sort_menu.dart';
 import 'package:aeris/src/widgets/pipeline_card.dart';
+import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
@@ -36,7 +38,10 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) => WarningDialog(
           message: AppLocalizations.of(context).logoutWarningMessage,
-          onAccept: () => Navigator.of(context).popAndPushNamed('/'), //TODO logout
+          onAccept: () {
+            GetIt.I<AerisAPI>().stopConnection();
+            Navigator.of(context).popAndPushNamed('/');
+          },
           warnedAction: AppLocalizations.of(context).logout
         )
       ),

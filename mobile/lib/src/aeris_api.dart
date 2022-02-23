@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_template.dart';
@@ -8,6 +9,12 @@ import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+
+extension IsOk on http.Response {
+  bool get ok {
+    return (statusCode ~/ 100) == 2;
+  }
+}
 
 /// Requests types supported by Aeris API
 enum AerisAPIRequestType { get, post, put, delete }
@@ -99,7 +106,7 @@ class AerisAPI {
       username: username,
       password: password,
     });
-    if (response.statusCode != 200) {
+    if (!response.ok) {
       return false;
     }
     return createConnection(username, password);
@@ -112,7 +119,7 @@ class AerisAPI {
       username: username,
       password: password,
     });
-    if (response.statusCode != 200) {
+    if (!response.ok) {
       return false;
     }
     try {
@@ -158,39 +165,35 @@ class AerisAPI {
     _connected = false;
   }
 
-  /// Adds new pipeline to API
-  Future<void> createPipeline(Pipeline newPipeline) async {
-    ///TODO Send Pipeline to API
+  /// Adds new pipeline to API, returns false if post failed
+  Future<bool> createPipeline(Pipeline newPipeline) async {
     fakeAPI.add(newPipeline);
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+    var res = await _requestAPI(
+        '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
+
+    return res.ok;
   }
 
   /// Removes pipeline from API
-  Future<void> removePipeline(Pipeline pipeline) async {
-    ///TODO Send delete request to API
-    fakeAPI.remove(pipeline);
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+  Future<bool> removePipeline(Pipeline pipeline) async {
+    var res = await _requestAPI(
+        '/workflow/${pipeline.id}', AerisAPIRequestType.delete, null);
+    return res.ok;
   }
 
-  Future<void> editPipeline(Pipeline updatedPipeline) async {
-    ///TODO Send update request to API
-    for (var pipeline in fakeAPI) {
-      if (pipeline.id == updatedPipeline.id) {
-        ///TODO Call Api
-        break;
-      }
-    }
-
-    await Future.delayed(const Duration(seconds: 2));
-    return;
+  /// Send PUT request to update Pipeline, returns false if failed
+  Future<bool> editPipeline(Pipeline updatedPipeline) async {
+    var res = await _requestAPI('/workflow/${updatedPipeline.id}',
+        AerisAPIRequestType.put, updatedPipeline.toJSON());
+    return res.ok;
   }
 
   /// Fetches the Pipelines from the API
   Future<List<Pipeline>> getPipelines() async {
-    /// TODO Fetch the API
-    await Future.delayed(const Duration(seconds: 2));
+    var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
+    List<Object> body = jsonDecode(res.body);
+    ///TODO error handling
+    ///TODO return body.map((e) => Pipeline.fromJSON(e as Map<String, Object>)).toList();
     return fakeAPI;
   }
 
@@ -230,8 +233,7 @@ class AerisAPI {
         _connected ? {'authorization': 'Bearer $_jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
-        return await http.delete(_encoreUri(route),
-            body: body, headers: header);
+        return await http.delete(_encoreUri(route), body: body, headers: header);
       case AerisAPIRequestType.get:
         return await http.get(_encoreUri(route), headers: header);
       case AerisAPIRequestType.post:

@@ -49,6 +49,7 @@ class Pipeline {
   /// Serialize Pipeline into JSON
   Object toJSON() => {
     "action": {
+      "id": id,
       "name": name,
       "pType": aeris_action.Action.getType(trigger.service, trigger.name),
       "pParams": trigger.parameters,
