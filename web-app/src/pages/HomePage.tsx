@@ -35,7 +35,7 @@ enum ModalSelection {
 
 export default function HomePage() {
 	const classes = useStyles();
-	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
+	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.ServiceSetup);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
 	const [selectedAREA, setAREA] = useState<AppActionType | AppReactionType>(AppListActions[0]);
 
@@ -134,7 +134,7 @@ export default function HomePage() {
 				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
 			</PipelineModal>
 			<PipelineModal isOpen={modalMode === ModalSelection.ServiceSetup } handleClose={() => {}}>
-				<ServiceSetupModal />
+				<ServiceSetupModal services={AppServices} />
 			</PipelineModal>
 			<PipelineModal isOpen={modalMode === ModalSelection.ArgumentSelector} handleClose={() => setModalMode(ModalSelection.ActionSelector)}>
 				<PipelineNameSetup title="j'aime les frites" actions={ServiceActions["youtube"]} />

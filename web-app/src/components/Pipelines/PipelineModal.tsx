@@ -33,7 +33,6 @@ export default function PipelineModal({ isOpen, children, handleClose }: Pipelin
 	const theme = useTheme();
 
 	return (
-		<div>
 			<Modal
 				className={classes.modal}
 				aria-labelledby="simple-modal-title"
@@ -61,6 +60,5 @@ export default function PipelineModal({ isOpen, children, handleClose }: Pipelin
 					</div>
 				</Fade>
 			</Modal>
-		</div>
 	);
 }

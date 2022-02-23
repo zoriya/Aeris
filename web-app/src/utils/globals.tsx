@@ -36,31 +36,43 @@ export const AppServices: Array<AppServiceType> = [
 		label: "YouTube",
 		uid: "youtube",
 		logo: AppServicesLogos["youtube"],
+		urlAuth: "",
+		linked: false
 	},
 	{
 		label: "Spotify",
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
+		urlAuth: "",
+		linked: false
 	},
 	{
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
+		urlAuth: "https://github.com/login/oauth/authorize?client_id=Iv1.c32d1b598854bac9&response_type=code&redirect_uri=http://localhost:8080/authorization/github",
+		linked: false
 	},
 	{
 		label: "Twitter",
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
+		urlAuth: "",
+		linked: true
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
+		urlAuth: "",
+		linked: true
 	},
 	{
 		label: "GMail",
 		uid: "gmail",
 		logo: AppServicesLogos["gmail"],
+		urlAuth: "",
+		linked: false
 	},
 ];
 

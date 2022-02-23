@@ -9,6 +9,8 @@ export interface AppServiceType {
 	label: string;
 	uid: string;
 	logo: ImageProps;
+    urlAuth: string,
+    linked: boolean
 }
 
 export enum ParamType {
