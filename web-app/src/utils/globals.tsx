@@ -50,7 +50,7 @@ export const AppServices: Array<AppServiceType> = [
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
-		urlAuth: "https://github.com/login/oauth/authorize?client_id=Iv1.c32d1b598854bac9&response_type=code&redirect_uri=http://localhost:8080/authorization/github",
+		urlAuth: "https://github.com/login/oauth/authorize?client_id=Iv1.c32d1b598854bac9&response_type=code&redirect_uri=http://localhost:8080/auth/github",
 		linked: false
 	},
 	{

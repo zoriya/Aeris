@@ -13,9 +13,9 @@ export interface ServiceSetupProps {
 }
 
 export default function ServiceSetupModal({ services } : ServiceSetupProps) {
-
 	const linkedServices = services.filter(el => el.linked);
 	const unlinkedServices = services.filter(el => !el.linked);
+
 	return (
 		<div>
 			<Box
@@ -66,7 +66,7 @@ export default function ServiceSetupModal({ services } : ServiceSetupProps) {
 								}}>
 								{unlinkedServices.map((elem, index) => (
 									<Grid item mb={4} key={index}>
-										<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Login />} />
+										<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Login />} onClickCallback={() => window.location.href = elem.urlAuth} />
 									</Grid>
 								))}
 							</Box>
