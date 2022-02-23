@@ -1,16 +1,22 @@
 import { Octokit } from "@octokit/rest";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { BaseService, reaction, service } from "../models/base-service";
+import { Webhooks, createNodeMiddleware } from "@octokit/webhooks";
+import { Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Github extends BaseService {
 
 	private _github: Octokit;
+	private _websocket: Webhooks;
 
 	constructor(_: Pipeline) {
 		super();
 		///TODO Get various credentials
 		this._github = new Octokit();
+		this._websocket = new Webhooks({
+			secret: "bidibi"
+		});
 	}
 
 	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
@@ -20,6 +26,11 @@ export class Github extends BaseService {
 			title: params['title'], base: params['base'], head: params['head']
 		});
 		return {...params, 'url': res.data.url};
+	}
+
+	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
+	listenOpenPR(params: any): Observable<PipelineEnv> {
+		this._websocket.on("pull_request.opened", ()
 	}
 
 	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
