@@ -10,7 +10,7 @@
 module Api.Pipeline where
 
 import App (AppM, State (State, dbPool))
-import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.Reader (ask)
 import Core.Pipeline (PipelineParams, PipelineType)
 import Core.Reaction (ReactionParams, ReactionType)
@@ -19,7 +19,7 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
 import Data.Text (Text)
-import Db.Pipeline (Pipeline (Pipeline, pipelineType), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
+import Db.Pipeline (Pipeline (Pipeline, pipelineType, pipelineUserId), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
 import GHC.Generics (Generic)
 import Hasql.Statement (Statement)
@@ -30,7 +30,7 @@ import Repository
       getPipelineById',
       getPipelineByUser,
       createReaction,
-      getReactionsByPipelineId' )
+      getReactionsByPipelineId', getWorkflow' )
 import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent))
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
@@ -38,6 +38,7 @@ import Servant.Server.Generic (AsServerT)
 import Utils (mapInd, UserAuth, AuthRes)
 import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
+import System.Environment.MrEnv (envAsString)
 
 data PipelineData = PipelineData
     { name :: Text
@@ -77,16 +78,18 @@ data PipelineAPI mode = PipelineAPI
     deriving stock (Generic)
 
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
-getPipelineHandler (Authenticated user) pipelineId = do
-    pipeline <- getPipelineById' pipelineId
-    reactions <- getReactionsByPipelineId' pipelineId
-    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) pipelineId
-    let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
-    return $ PostPipelineData actionResult reactionsResult
+getPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
+    (pipeline, reactions) <- getWorkflow' pipelineId
+    if pipelineUserId pipeline == uid then do
+        let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) pipelineId
+        let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
+        return $ PostPipelineData actionResult reactionsResult
+    else
+        throwError err401
 getPipelineHandler _ _ = throwError err401
 
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
-postPipelineHandler (Authenticated (User uid uname slug)) x = do
+postPipelineHandler (Authenticated (User uid _ _)) x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
     sequence $ mapInd (reactionMap actionId) r
   where
@@ -106,10 +109,16 @@ delPipelineHandler (Authenticated user) pipelineId = throwError err401
 delPipelineHandler _ _ = throwError err401
 
 allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
-allPipelineHandler usr@(Authenticated (User uid uname slug)) Nothing = do
+allPipelineHandler usr@(Authenticated (User uid _ _)) Nothing = do
   pipelines <- getPipelineByUser uid
   mapM (getPipelineHandler usr . pipelineId) pipelines
-allPipelineHandler _ (Just key) = return []
+allPipelineHandler _ (Just key) = do
+  k <- liftIO $ envAsString "WORKER_API_KEY" ""
+  {--  if k == key then do
+    pipelines <- getPipelines 
+    mapM (getPipelineHandler usr . pipelineId) pipelines
+  else --}
+  throwError err401 
 allPipelineHandler _ _ =  throwError err401
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
