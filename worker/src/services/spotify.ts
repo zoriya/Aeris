@@ -1,6 +1,8 @@
 import SpotifyWebApi from 'spotify-web-api-js';
-import { Pipeline, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
-import { BaseService, reaction, service } from "../models/base-service";
+import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
+import { action, BaseService, reaction, service } from "../models/base-service";
+import { exhaustMap, from, Observable } from 'rxjs';
+import { Utils } from '../utils';
 
 @service(ServiceType.Spotify)
 export class Spotify extends BaseService {
@@ -11,6 +13,32 @@ export class Spotify extends BaseService {
 		super();
 		// TODO load credentials
 		this._spotify = new SpotifyWebApi();
+	}
+
+	@action(PipelineType.OnSpotifyAddToPlaylist, ["playlistId"])
+	listenAddToPlaylist(params: any): Observable<PipelineEnv> {
+		return Utils.longPulling(async since => {
+			let ret = await this._spotify.getPlaylistTracks(params.playlistId);
+			return ret.items
+				.filter(x => new Date(x.added_at) >= since)
+				.map(x => ({
+					ID: x.track.id,
+					NAME: x.track.name,
+				}));
+		});
+	}
+
+	@action(PipelineType.OnSpotifySaveToLibrary, [])
+	listenSaveToLibrary(_: any): Observable<PipelineEnv> {
+		return Utils.longPulling(async since => {
+			let ret = await this._spotify.getMySavedTracks();
+			return ret.items
+				.filter(x => new Date(x.added_at) >= since)
+				.map(x => ({
+					ID: x.track.id,
+					NAME: x.track.name,
+				}));
+		});
 	}
 
 	private async _searchTrack(artistName: string, trackName: string)  {
@@ -39,7 +67,6 @@ export class Spotify extends BaseService {
 		this._spotify.addToMySavedTracks([track.id]);
 
 	}
-
 
 	@reaction(ReactionType.AddToPlaylist, ['artist', 'track', 'playlist'])
 	async addToPlaylist(params: any) {

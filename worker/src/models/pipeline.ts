@@ -11,6 +11,9 @@ export enum PipelineType {
 	OnYtUpload,
 	OnYtLike,
 	OnYtPlaylistAdd,
+
+	OnSpotifyAddToPlaylist,
+	OnSpotifySaveToLibrary,
 };
 
 
