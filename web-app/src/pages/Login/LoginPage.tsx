@@ -113,7 +113,7 @@ export default function AuthComponent() {
 	};
 
 	const handleKeyPress = (event: React.KeyboardEvent) => {
-		if (event.keyCode === 13 || event.which === 13) {
+		if (event.key === 'Enter') {
 			authData.isButtonDisabled || handleLogin();
 		}
 	};
