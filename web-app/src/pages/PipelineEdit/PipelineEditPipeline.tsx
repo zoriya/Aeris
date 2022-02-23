@@ -1,23 +1,19 @@
-import { Box, Typography, FormGroup, FormControlLabel, Switch, Grid } from "@mui/material";
+import { useState } from "react";
+import { AppPipelineType } from "../../utils/types";
+import { Box, Switch, FormControl, Grid, Typography, FormGroup, FormControlLabel } from "@mui/material"
+import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import PipelineActionList from "../components/PipelineActionList";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { styled } from "@mui/material/styles";
-import GenericButton from "../components/GenericButton";
 
-import { AppActionType, AppReactionType } from "../utils/types"
-
-import { GenericButtonProps } from "./../components/GenericButton";
-
-export interface PipelineEditPageProps {
-	title: string;
-	action: AppActionType;
-	reactions: Array<AppReactionType>;
+interface PipelineEditPipelineProps {
+	pipelineData: AppPipelineType,
+	setPipelineData: any,
+	setEditMode: any
 }
 
-export default function PipelineEditPage({ title, action, reactions }: PipelineEditPageProps) {
+export default function PipelineEditPipeline( {pipelineData, setPipelineData, setEditMode} : PipelineEditPipelineProps) {
 	return (
 		<div>
 			<Box
@@ -28,7 +24,7 @@ export default function PipelineEditPage({ title, action, reactions }: PipelineE
 					justifyContent: "space-between",
 				}}>
 				<Typography variant="h2" noWrap align="left">
-					{title}
+					{pipelineData.name}
 				</Typography>
 				<FormGroup>
 					<FormControlLabel control={<Switch defaultChecked />} color="secondary" label="Pipeline activée" />
@@ -37,14 +33,14 @@ export default function PipelineEditPage({ title, action, reactions }: PipelineE
 			<Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					<Grid item sm={10} md={10} lg={5} xl={4}>
-						<GenericButton service={action.service.logo} title={action.type} trailingIcon={<AddBoxIcon/>} />
+						<GenericButton service={pipelineData.action.service.logo} title={pipelineData.action.type} trailingIcon={<AddBoxIcon/>} />
 					</Grid>
 				</Grid>
 
 				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
 
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
-					{reactions.map((el, index) => (
+					{pipelineData.reactions.map((el, index) => (
 						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
 							<GenericButton service={el.service.logo} title={el.type} trailingIcon={<AddBoxIcon/>} />
 						</Grid>

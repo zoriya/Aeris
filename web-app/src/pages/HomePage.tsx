@@ -3,7 +3,7 @@ import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import { GenericButtonProps } from "../components/GenericButton";
 import type { ImageProps } from "../components/types";
-import PipelineEditPage from "./PipelineEditPage";
+import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,9 +11,6 @@ import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
-import { PipelineEditPageProps } from "./PipelineEditPage";
-import PipelineSetupModal from "./PipelineSetup";
-import PipelineNameSetup from "./PipelineNameSetup";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppActionType, AppReactionType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, ServiceActions, AppServicesLogos, AppListActions, AppListReactions, AppListPipelines } from "../utils/globals";
@@ -37,7 +34,6 @@ export default function HomePage() {
 	const classes = useStyles();
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.ServiceSetup);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [selectedAREA, setAREA] = useState<AppActionType | AppReactionType>(AppListActions[0]);
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -118,19 +114,13 @@ export default function HomePage() {
 
 	sAcopy.map((el) => {
 		return el["onClickCallback"] = () => {
-			setAREA(el);
 			setModalMode(ModalSelection.ArgumentSelector);
 		}
 	})
 
-	return (
-		<div className={classes.divHomePage}>
-			<PipelineBoxesLayout data={data} />
+	/*
 
-			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
-				<PipelineEditPage title={pipelineData.name} action={pipelineData.action} reactions={pipelineData.reactions} />
-			</PipelineModal>
-			<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
+	<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
 				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
 			</PipelineModal>
 			<PipelineModal isOpen={modalMode === ModalSelection.ServiceSetup } handleClose={() => {}}>
@@ -139,6 +129,17 @@ export default function HomePage() {
 			<PipelineModal isOpen={modalMode === ModalSelection.ArgumentSelector} handleClose={() => setModalMode(ModalSelection.ActionSelector)}>
 				<PipelineNameSetup title="j'aime les frites" actions={ServiceActions["youtube"]} />
 			</PipelineModal>
+
+	*/
+
+	return (
+		<div className={classes.divHomePage}>
+			<PipelineBoxesLayout data={data} />
+
+			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
+				<PipelineEditPage pipelineData={pipelineData} setPipelineData={setPipelineData} />
+			</PipelineModal>
+			
 			
 
 			<Box

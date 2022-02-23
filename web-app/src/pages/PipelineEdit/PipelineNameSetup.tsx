@@ -4,7 +4,7 @@ import { Grid, TextField } from "@mui/material";
 import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 
-import { PipelineActionListProps } from "../components/PipelineActionList";
+import { PipelineActionListProps } from "../../components/PipelineActionList";
 
 export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 	return (

@@ -8,8 +8,8 @@ import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { AppServiceType, AppActionType, AppReactionType } from "../utils/types";
-import GenericButton, { GenericButtonProps } from "./../components/GenericButton";
+import { AppServiceType, AppActionType, AppReactionType } from "../../utils/types";
+import GenericButton, { GenericButtonProps } from "./../../components/GenericButton";
 import { useState } from "react";
 
 export interface PipelineSetupPageProps {
