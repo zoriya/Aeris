@@ -14,7 +14,7 @@ import { useState } from "react";
 import { PipelineEditPageProps } from "./PipelineEditPage";
 import PipelineSetupModal from "./PipelineSetup";
 import PipelineNameSetup from "./PipelineNameSetup";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum } from "../utils/types";
+import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppActionType, AppReactionType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, ServiceActions, AppServicesLogos, AppListActions, AppListReactions, AppListPipelines } from "../utils/globals";
 
@@ -36,6 +36,7 @@ export default function HomePage() {
 	const classes = useStyles();
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
+	const [selectedAREA, setAREA] = useState<AppActionType | AppReactionType>(AppListActions[0]);
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -112,10 +113,13 @@ export default function HomePage() {
 		},
 	];
 
-	let sAcopy = ServiceActions;
+	let sAcopy = AppListActions;
 
-	sAcopy["twitter"].map((el) => {
-		return el["onClickCallback"] = () => alert("test")
+	sAcopy.map((el) => {
+		return el["onClickCallback"] = () => {
+			setAREA(el);
+			setModalMode(ModalSelection.ArgumentSelector);
+		}
 	})
 
 	return (
