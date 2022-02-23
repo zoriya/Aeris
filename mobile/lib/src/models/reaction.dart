@@ -30,14 +30,10 @@ class Reaction extends aeris_action.Action {
   }
 
   /// Serialize Reaction to JSON
-  Object toJSON() {
-    return {
-      "rType": aeris_action.Action.getType(service, name),
-      "rParams": {
-        "contents": parameters
-      }
-    };
-  }
+  Object toJSON() => {
+    "rType": aeris_action.Action.getType(service, name),
+    "rParams": {"contents": parameters}
+  };
 
   @override
   bool operator ==(Object other) {
