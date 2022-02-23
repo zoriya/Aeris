@@ -1,49 +1,39 @@
-// import express from "express";
-// import expressWs, { Application } from "express-ws"
-// import WebSocket from "ws"
-
-import { from } from "rxjs";
+import { fromEvent, merge, Observable } from "rxjs";
+import { fromFetch } from 'rxjs/fetch';
 import { Manager } from "./actions";
-import { Pipeline, PipelineType, ReactionType, ServiceType } from "./models/pipeline";
 import "./services";
+import fetch from 'node-fetch';
+import AbortController from 'abort-controller';
+import { Pipeline, PipelineType } from "./models/pipeline";
+import { EventEmitter } from "events"
+import express from "express";
 
-// const app: Application = expressWs(express()).app;
-// const port = process.env.PORT || 8999;
+// @ts-ignore
+global.fetch  = fetch;
+global.AbortController = AbortController;
 
+const app = express()
+const pipelineEvent = new EventEmitter();
 
-// app.ws("/ws-path", (ws: WebSocket) => {
-// 	ws.on("message", (message: string) => {
-// 		console.log("received: %s", message);
-// 		ws.send(`Hello, you sent -> ${message}`);
-// 	});
+app.put("/workflow", (req: Pipeline) => {
+	pipelineEvent.emit("event", req);
+});
 
-// 	ws.send("Hi there, I am a WebSocket server");
-// });
+app.post("/workflow", (req: Pipeline) => {
+	pipelineEvent.emit("event", req);
+});
 
-// app.listen(port, () => {
-// 	console.log(`Server started on port ${port}`);
-// });
+app.delete("/workflow", (req: Pipeline) => {
+	req.type = PipelineType.Never;
+	pipelineEvent.emit("event", req);
+});
 
-const pipelines: Pipeline[] = [
-	{
-		id: 1,
-		enabled: true,
-		lastTrigger: new Date(),
-		triggerCount: 0,
-		name: "toto",
-		service: ServiceType.Youtube,
-		type: PipelineType.OnUpload,
-		params: {
-			channel: "UCq-Fj5jknLsUf-MWSy4_brA"
-		},
-		userData: { },
-		reactions: [{
-			id: 1,
-			service: ServiceType.Twitter,
-			type: ReactionType.Tweet,
-			params: {}
-		}]
-	}
-];
-const manager: Manager = new Manager(from(pipelines));
+app.listen(5000);
+
+const pipelines = merge(
+	fromFetch<Pipeline>(`${process.env["API_URL"]}/workflows?API_KEY=${process.env["API_KEY"]}`, {selector: x => x.json()}),
+	fromEvent(pipelineEvent, "event"),
+) as Observable<Pipeline>;
+
+const manager: Manager = new Manager(pipelines);
 await manager.run()

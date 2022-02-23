@@ -1,6 +1,6 @@
 import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
 import { BaseService } from "./models/base-service";
-import { Pipeline, PipelineEnv } from "./models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
 import { Runner } from "./runner";
 
 
@@ -31,6 +31,9 @@ export class Manager {
 	}
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
+		if (pipeline.type === PipelineType.Never)
+			return NEVER;
+
 		try {
 			const service = BaseService.createService(pipeline.service, pipeline);
 			return service.getAction(pipeline.type)(pipeline.params)
