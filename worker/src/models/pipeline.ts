@@ -23,6 +23,8 @@ export enum PipelineType {
 	OnForkRepo,
 	OnStarRepo,
 	OnWatchRepo,
+	OnSpotifyAddToPlaylist,
+	OnSpotifySaveToLibrary,
 };
 
 

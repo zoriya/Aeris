@@ -1,8 +1,9 @@
-import { interval, mergeAll, mergeMap, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { youtube_v3 } from '@googleapis/youtube';
 import { BaseService, reaction, service } from "../models/base-service";
 import { action } from "../models/base-service";
+import { Utils } from "../utils";
 
 @service(ServiceType.Youtube)
 export class Youtube extends BaseService {
@@ -15,19 +16,9 @@ export class Youtube extends BaseService {
 		});
 	}
 
-	private _longPulling(call: (since: Date) => Promise<PipelineEnv[]>): Observable<PipelineEnv> {
-		const startTime: number = Date.now();
-		const delay = 60_000;
-
-		return interval(delay).pipe(
-			mergeMap(i => call(new Date(startTime + i * delay))),
-			mergeAll(),
-		);
-	}
-
 	@action(PipelineType.OnYtUpload, ["channel"])
 	listenChannel(params: any): Observable<PipelineEnv> {
-		return this._longPulling(async (since) => {
+		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
 				part: ["snippet"],
 				channelId: params.channel,
@@ -61,7 +52,7 @@ export class Youtube extends BaseService {
 
 	@action(PipelineType.OnYtPlaylistAdd, ["playlistId"])
 	listenPlaylist(params: any): Observable<PipelineEnv> {
-		return this._longPulling(async (since) => {
+		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.playlistItems.list({
 				part: ["snippet"],
 				playlistId: params.playlistId,

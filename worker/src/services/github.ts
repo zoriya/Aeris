@@ -36,7 +36,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			title: params['title'], base: params['base'], head: params['head']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url,
+		};
 	}
 
 	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
@@ -63,7 +65,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number'], body: params['body']
 		});
-		return params;
+		return {
+			URL: res.url,
+		};
 	}
 
 	@action(PipelineType.OnCommentPR, ['owner', 'repo'])
@@ -92,7 +96,7 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number'], state: "closed"
 		});
-		return params;
+		return {};
 	}
 
 	@action(PipelineType.OnClosePR, ['owner', 'repo'])
@@ -120,7 +124,7 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			pull_number: params['pull_number']
 		});
-		return params;
+		return {};
 	}
 
 	@action(PipelineType.OnMergePR, ['owner', 'repo'])
@@ -148,7 +152,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			title: params['title'], body: params['body']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url,
+		};
 	}
 
 	@action(PipelineType.OnCreateIssue, ['owner', 'repo'])
@@ -173,7 +179,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], body: params['body']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url,
+		};
 	}
 
 	@action(PipelineType.OnCommentIssue, ['owner', 'repo'])
@@ -200,7 +208,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], state: 'closed'
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@action(PipelineType.OnCloseIssue, ['owner', 'repo'])
@@ -224,7 +234,9 @@ export class Github extends BaseService {
 		let res = await this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.CreatePrivateRepo, ['name'])
@@ -232,7 +244,9 @@ export class Github extends BaseService {
 		let res = await this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name'], private: true
 		});
-		return {...params, 'url': res.data.url}; 
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.UpdateDescription, ['owner', 'repo', 'description'])
@@ -241,7 +255,9 @@ export class Github extends BaseService {
 			owner: params['owner'], repo: params['repo'],
 			description: params['description']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.ForkRepo, ['owner', 'repo'])
@@ -249,7 +265,9 @@ export class Github extends BaseService {
 		let res = await this._github.repos.createFork({
 			owner: params['owner'], repo: params['repo']
 		});
-		return {...params, 'url': res.data.url};
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@action(PipelineType.OnForkRepo, ['owner', 'repo'])
@@ -271,7 +289,7 @@ export class Github extends BaseService {
 		await this._github.activity.starRepoForAuthenticatedUser({
 			owner: params['owner'], repo: params['repo']
 		});
-		return params;
+		return {};
 	}
 
 	@action(PipelineType.OnStarRepo, ['owner', 'repo'])
@@ -294,7 +312,7 @@ export class Github extends BaseService {
 		await this._github.activity.setRepoSubscription({
 			owner: params['owner'], repo: params['repo']
 		});
-		return params;
+		return {};
 	}
 
 	@action(PipelineType.OnWatchRepo, ['owner', 'repo'])
