@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./App.css";
 
 import App from "./App";
+import GithubAuth from "./components/Authorizations/GithubAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthComponent from "./pages/Login/LoginPage";
 import PipelinePage from "./pages/HomePage";
@@ -26,6 +27,7 @@ function AerisRouter() {
 							<Route path="/" element={<App />} />
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
+							<Route path='/authorization/github' element={<GithubAuth authCode='codeExample' />} />
 						</Routes>
 					</BrowserRouter>
 				</header>
