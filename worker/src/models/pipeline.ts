@@ -11,6 +11,8 @@ export enum PipelineType {
 	OnYtUpload,
 	OnYtLike,
 	OnYtPlaylistAdd,
+
+	OnOpenPR
 };
 
 

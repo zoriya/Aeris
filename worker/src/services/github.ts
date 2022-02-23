@@ -1,8 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
-import { BaseService, reaction, service } from "../models/base-service";
+import { action, BaseService, reaction, service } from "../models/base-service";
 import { Webhooks, createNodeMiddleware } from "@octokit/webhooks";
-import { Observable } from "rxjs";
+import { from, fromEvent, fromEventPattern, Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Github extends BaseService {
@@ -30,7 +30,18 @@ export class Github extends BaseService {
 
 	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
 	listenOpenPR(params: any): Observable<PipelineEnv> {
-		this._websocket.on("pull_request.opened", ()
+		return fromEventPattern(
+			handler => this._websocket.on("pull_request.opened", handler),
+			({ id, name, payload }) => {
+				if (payload.repository.name == params['repo'] && payload.repository.owner == params['owner']) {
+					openEvent.subscribe(subscriber => {
+						subscriber.next({
+							'': ""
+						});
+					})
+				}
+			}
+		)
 	}
 
 	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
