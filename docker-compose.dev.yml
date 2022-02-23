@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  db:
+    container_name: db
+    image: postgres:alpine3.14
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - "./api/sql/dump.sql:/docker-entrypoint-initdb.d/dump.sql"
+  api:
+    build: ./api
+    ports:
+      - "81:8080"
+    depends_on:
+      - "db"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+  worker:
+    build: ./worker
+    ports:
+      - "3001:8999"
+    depends_on:
+      - "api"
+    environment:
+      - YOUTUBE_KEY=${YOUTUBE_KEY}
+
+volumes:
+  apk:
+
