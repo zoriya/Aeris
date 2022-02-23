@@ -9,6 +9,7 @@ import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 extension IsOk on http.Response {
   bool get ok => (statusCode ~/ 100) == 2;
@@ -29,9 +30,10 @@ class AerisAPI {
   late String _jwt;
 
   ///TODO Use .env
-  String baseRoute = 'http://aeris.com';
+  late final String baseRoute;
 
   AerisAPI() {
+    baseRoute = dotenv.env['HOSTNAME']!;
     var trigger1 = Trigger(
         service: const Service.spotify(),
         name: "Play song",
