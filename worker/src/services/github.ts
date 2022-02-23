@@ -43,14 +43,16 @@ export class Github extends BaseService {
 	listenOpenPR(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"pull_request.opened",
-			(payload) => payload.repo.owner == params['owner'] && payload.repo.name == params['repo'],
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo'],
 			(payload) => ({
-				PR_NAME: payload.name,
-				PR_OPENER: payload.owner,
-				PR_HEAD: payload.head,
-				PR_BASE: payload.base,
-				REPO_NAME: payload.repo.name,
-				REPO_OWNER: payload.repo.owner
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
 			})
 		);
 	}
@@ -68,17 +70,18 @@ export class Github extends BaseService {
 	listenCommentPR(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"pull_request_review_comment.created",
-			(payload) => payload.repo.owner == params['owner'] 
-				&& payload.repo.name == params['repo']
-				&& payload.pull_number == params['pull_number'],
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo'],
 			(payload) => ({
-				PR_NAME: payload.name,
-				PR_OPENER: payload.owner,
-				PR_HEAD: payload.head,
-				PR_BASE: payload.base,
-				REPO_NAME: payload.repo.name,
-				REPO_OWNER: payload.repo.owner,
-				PR_COMMENT: payload.body
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				COMMENTER: payload.comment.user.login,
+				COMMENT_BODY: payload.comment.body
 			})
 		);
 	}
@@ -96,15 +99,17 @@ export class Github extends BaseService {
 	listenClosePR(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"pull_request.closed",
-			(payload) => payload.repo.owner == params['owner'] 
-				&& payload.repo.name == params['repo'],
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo']
+				&& payload.action == "closed" && payload.pull_request.merged == false,
 			(payload) => ({
-				PR_NAME: payload.name,
-				PR_OPENER: payload.owner,
-				PR_HEAD: payload.head,
-				PR_BASE: payload.base,
-				REPO_NAME: payload.repo.name,
-				REPO_OWNER: payload.repo.owner
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
 			})
 		);
 	}
@@ -122,16 +127,17 @@ export class Github extends BaseService {
 	listenMergePR(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"pull_request.edited",
-			(payload) => payload.repo.owner == params['owner'] 
-				&& payload.repo.name == params['repo']
-				&& payload.state == "merged",
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo']
+				&& payload.action == "closed" && payload.pull_request.merged,
 			(payload) => ({
-				PR_NAME: payload.name,
-				PR_OPENER: payload.owner,
-				PR_HEAD: payload.head,
-				PR_BASE: payload.base,
-				REPO_NAME: payload.repo.name,
-				REPO_OWNER: payload.repo.owner
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
 			})
 		);
 	}
@@ -196,6 +202,20 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
+	@action(Pipeline.OnForkRepo, ['owner', 'repo'])
+	listenOnForkRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"fork",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				FORKER: payload.forkee.owner.login,
+			})
+		);
+	}
+
 	@reaction(ReactionType.StarRepo, ['owner', 'repo'])
 	async starRepo(params: any): Promise<PipelineEnv> {
 		await this._github.activity.starRepoForAuthenticatedUser({
@@ -216,12 +236,13 @@ export class Github extends BaseService {
 	listenOnWatchRepo(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"watch.started",
-			(payload) => payload.repo.owner == params['owner'] 
-				&& payload.repo.name == params['repo'],
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
 			(payload) => ({
-				REPO_NAME: payload.repo.name,
-				REPO_OWNER: payload.repo.owner,
-				WATCH_COUNT: payload.repo.subscribers.length,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				WATCH_COUNT: payload.repository.watchers,
+				WATCHER: payload.sender.login
 			})
 		);
 	}
