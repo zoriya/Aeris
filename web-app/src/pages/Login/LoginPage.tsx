@@ -4,7 +4,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import { InputAdornment, Typography } from "@mui/material";
-import { AccountCircle, Lock } from "@mui/icons-material";
+import { AccountCircle, Cookie, Lock } from "@mui/icons-material";
+
+import { API_ROUTE } from "../..";
 
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -59,8 +61,18 @@ type AuthCompProps = {
 	isConfirmButtonVisible: boolean;
 };
 
-const requestLogin = async (username: string, password: string) => {
-	const rawResponse = await fetch('http://localhost:81/api/auth/login', {
+const requestWorkflows = async () => {
+	console.log(document.cookie)
+	const rawResponse = await fetch( API_ROUTE + '/workflows', {
+	  method: 'GET',
+	});
+
+	console.log(rawResponse.headers.get("content-type"))
+  };
+
+
+const requestLogin = async (username: string, password: string, signup: boolean) => {
+	const rawResponse = await fetch( API_ROUTE + '/auth/' + (signup ? "signup" : "login"), {
 	  method: 'POST',
 	  headers: {
 		'Accept': 'application/json',
@@ -68,9 +80,8 @@ const requestLogin = async (username: string, password: string) => {
 	  },
 	  body: JSON.stringify({username: username, password: password})
 	});
-	const content = await rawResponse.json();
-  
-	console.log(content);
+	console.log(rawResponse)
+	console.log(rawResponse.headers.get("date"))
   };
 
 export default function AuthComponent() {
@@ -99,7 +110,11 @@ export default function AuthComponent() {
 	}, [authData.username, authData.password, authData.confirmedPassword]);
 
 	const handleLogin = () => {
+		console.log(authData);
 		//TODO Implements back auth routes
+
+		requestLogin(authData.username, authData.password, authData.authMode === "auth");
+
 		if (authData.username === "b" && authData.password === "b") {
 			setAuthData((prevState => {
 				return {...prevState, isError: false, helperText: 'Login successful!'};
