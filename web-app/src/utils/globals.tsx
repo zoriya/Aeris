@@ -1,5 +1,5 @@
 import { GenericButtonProps } from "../components/GenericButton";
-import { AppActionType, ReactionTypeEnum, AppReactionType, ActionTypeEnum, ParamType, AppPipelineType, ImageProps, AppServiceType } from "./types";
+import { AppAREAType, ReactionTypeEnum, ActionTypeEnum, ParamType, AppPipelineType, ImageProps, AppServiceType } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
 
 
@@ -161,8 +161,9 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 	],
 };
 
-export const AppListActions: Array<AppActionType> = [
+export const AppListActions: Array<AppAREAType> = [
     {
+		isAction: true,
         type: ActionTypeEnum.TwitterNewPost,
         params: {
             contents: {
@@ -177,6 +178,7 @@ export const AppListActions: Array<AppActionType> = [
 		service: AppServices[3]
     },
 	{
+		isAction: true,
         type: ActionTypeEnum.None,
         params: {
             contents: {
@@ -187,8 +189,9 @@ export const AppListActions: Array<AppActionType> = [
     }
 ]
 
-export const AppListReactions: Array<AppReactionType> = [
+export const AppListReactions: Array<AppAREAType> = [
     {
+		isAction: false,
         type: ReactionTypeEnum.TwitterTweet,
         params: {
             contents: {
@@ -203,6 +206,7 @@ export const AppListReactions: Array<AppReactionType> = [
 		service: AppServices[3]
     },
 	{
+		isAction: false,
         type: ReactionTypeEnum.None,
         params: {
             contents: {

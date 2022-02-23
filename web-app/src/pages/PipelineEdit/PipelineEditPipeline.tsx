@@ -6,14 +6,16 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { PipelineEditMode } from "./PipelineEditPage"
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType,
 	setPipelineData: any,
-	setEditMode: any
+	setEditMode: any,
+	setEditReactionIndex: any
 }
 
-export default function PipelineEditPipeline( {pipelineData, setPipelineData, setEditMode} : PipelineEditPipelineProps) {
+export default function PipelineEditPipeline( {pipelineData, setPipelineData, setEditMode, setEditReactionIndex} : PipelineEditPipelineProps) {
 	return (
 		<div>
 			<Box
@@ -33,7 +35,11 @@ export default function PipelineEditPipeline( {pipelineData, setPipelineData, se
 			<Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					<Grid item sm={10} md={10} lg={5} xl={4}>
-						<GenericButton service={pipelineData.action.service.logo} title={pipelineData.action.type} trailingIcon={<AddBoxIcon/>} />
+						<GenericButton 
+							service={pipelineData.action.service.logo}
+							title={pipelineData.action.type}
+							onClickCallback={() => setEditMode(PipelineEditMode.Action)}
+							trailingIcon={<AddBoxIcon/>} />
 					</Grid>
 				</Grid>
 

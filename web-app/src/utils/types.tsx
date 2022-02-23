@@ -36,21 +36,12 @@ export interface ParamsType {
 
 }
 
-export interface AppActionType {
-    type: ActionTypeEnum,
+export interface AppAREAType {
+    isAction: boolean
+    type: ActionTypeEnum | ReactionTypeEnum,
     params: {
         contents: { [key:string]: ParamsType }
     }
-    description?: string,
-    service: AppServiceType,
-    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
-}
-
-export interface AppReactionType {
-    type: ReactionTypeEnum,
-    params: {
-        contents: { [key:string]: ParamsType }
-    },
     description?: string,
     service: AppServiceType,
     onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
@@ -64,8 +55,8 @@ export interface AppPipelineInfoType {
 
 export interface AppPipelineType {
     name: string,
-    action: AppActionType,
-    reactions: Array<AppReactionType>,
+    action: AppAREAType,
+    reactions: Array<AppAREAType>,
     data: AppPipelineInfoType,
     onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
 }

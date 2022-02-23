@@ -11,7 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppActionType, AppReactionType } from "../utils/types";
+import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, ServiceActions, AppServicesLogos, AppListActions, AppListReactions, AppListPipelines } from "../utils/globals";
 
@@ -110,14 +110,6 @@ export default function HomePage() {
 		},
 	];
 
-	let sAcopy = AppListActions;
-
-	sAcopy.map((el) => {
-		return el["onClickCallback"] = () => {
-			setModalMode(ModalSelection.ArgumentSelector);
-		}
-	})
-
 	/*
 
 	<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
@@ -137,7 +129,12 @@ export default function HomePage() {
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
-				<PipelineEditPage pipelineData={pipelineData} setPipelineData={setPipelineData} />
+				<PipelineEditPage 
+					pipelineData={pipelineData}
+					setPipelineData={setPipelineData}
+					services={AppServices}
+					actions={AppListActions}
+					reactions={AppListReactions} />
 			</PipelineModal>
 			
 			

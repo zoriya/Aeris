@@ -8,20 +8,22 @@ import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { AppServiceType, AppActionType, AppReactionType } from "../../utils/types";
-import GenericButton, { GenericButtonProps } from "./../../components/GenericButton";
+import { AppServiceType, AppAREAType, AppPipelineType } from "../../utils/types";
+import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
 import { useState } from "react";
 
 export interface PipelineSetupPageProps {
-	name: string;
-	services: Array<AppServiceType>;
-	elements: Array<AppActionType | AppReactionType>;
+	pipelineData: AppPipelineType,
+	services: Array<AppServiceType>,
+	AREAs: Array<AppAREAType>,
+	setEditMode: any,
+	setAREA: any
 }
 
-export default function PipelineSetupModal({ name, services, elements }: PipelineSetupPageProps) {
+export default function PipelineEditAREA({ pipelineData, services, AREAs, setAREA }: PipelineSetupPageProps) {
 	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
 
-	let filteredElements = elements.filter(el => el.service.uid === serviceToShow);
+	let filteredElements = AREAs.filter(el => el.service.uid === serviceToShow);
 
 	return (
 		<div>
@@ -40,7 +42,7 @@ export default function PipelineSetupModal({ name, services, elements }: Pipelin
 				<InputLabel id="pipeline-setup-select-label">Service</InputLabel>
 				<Select
 					labelId="pipeline-setup-select-label"
-					defaultValue={"twitter"}
+					defaultValue={serviceToShow}
 					variant="standard"
 					onChange={(newValue) => setServiceToShow(newValue.target.value)}
 					label="Services">

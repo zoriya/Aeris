@@ -9,31 +9,56 @@ import GenericButton from "../../components/GenericButton";
 import { useState } from "react";
 
 
-import { AppActionType, AppPipelineInfoType, AppPipelineType, AppReactionType } from "../../utils/types"
+import { AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types"
 
 import { GenericButtonProps } from "../../components/GenericButton";
 
 import PipelineEditPipeline from "./PipelineEditPipeline";
+import PipelineEditAREA from "./PipelineEditAREA"
 
 interface PipelineEditProps {
 	pipelineData: AppPipelineType,
-	setPipelineData: any
+	setPipelineData: any,
+	services: Array<AppServiceType>,
+	actions: Array<AppAREAType>,
+	reactions: Array<AppAREAType>
 }
 
-enum PipelineEditMode {
+export enum PipelineEditMode {
 	Pipeline,
 	Action,
 	Reactions
 }
 
-export default function PipelineEditPage( { pipelineData, setPipelineData } : PipelineEditProps) {
+export default function PipelineEditPage( { pipelineData, setPipelineData, services, actions, reactions } : PipelineEditProps) {
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
 	const [editPipelineData, setEditPipelineData] = useState<AppPipelineType>(pipelineData);
+	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);
+	const [editReactionsData, setEditReactionsData] = useState<Array<AppAREAType>>(pipelineData.reactions);
+	const [editReactionIndex, setEditReactionIndex] = useState<number>(0);
 
 	switch (mode) {
 		default:
 		case PipelineEditMode.Pipeline:
-			return <PipelineEditPipeline pipelineData={editPipelineData} setEditMode={setMode} setPipelineData={setPipelineData} />
+			return <PipelineEditPipeline 
+						pipelineData={editPipelineData} 
+						setEditMode={setMode}
+						setPipelineData={setPipelineData} 
+						setEditReactionIndex={setEditReactionIndex} />
+		case PipelineEditMode.Action:
+			return <PipelineEditAREA 
+						pipelineData={editPipelineData} 
+						setEditMode={setMode} 
+						setAREA={(AREA: AppAREAType) => setEditActionData(AREA)} 
+						services={services}
+						AREAs={actions} />
+		case PipelineEditMode.Reactions:
+			return <PipelineEditAREA 
+						pipelineData={editPipelineData} 
+						setEditMode={setMode} 
+						setAREA={(AREA: AppAREAType) => {}} 
+						services={services}
+						AREAs={reactions} />
 
 	}
 }
