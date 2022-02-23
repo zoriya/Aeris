@@ -2,7 +2,7 @@ import { Octokit } from "@octokit/rest";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
 import { Webhooks, createNodeMiddleware } from "@octokit/webhooks";
-import { from, fromEvent, fromEventPattern, Observable } from "rxjs";
+import { filter, from, fromEvent, fromEventPattern, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Github extends BaseService {
@@ -30,18 +30,23 @@ export class Github extends BaseService {
 
 	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
 	listenOpenPR(params: any): Observable<PipelineEnv> {
+		const eventName = "pull_request.opened";
 		return fromEventPattern(
-			handler => this._websocket.on("pull_request.opened", handler),
-			({ id, name, payload }) => {
-				if (payload.repository.name == params['repo'] && payload.repository.owner == params['owner']) {
-					openEvent.subscribe(subscriber => {
-						subscriber.next({
-							'': ""
-						});
-					})
-				}
-			}
-		)
+			(h) => this._websocket.on(eventName, h),
+			(h) => this._websocket.removeListener(eventName, h))
+			.pipe(
+				filter(({ _, __, payload }) => 
+					payload.repo.owner == params['owner']
+					&& payload.repo.name == params['repo']),
+				map(({ _, __, payload }) => ({
+					PR_NAME: payload.name,
+					PR_OPENER: payload.owner,
+					PR_HEAD: payload.head,
+					PR_BASE: payload.base,
+					REPO_NAME: payload.repo.name,
+					REPO_OWNER: payload.repo.owner
+				})),
+			);
 	}
 
 	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
