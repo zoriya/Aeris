@@ -3,6 +3,7 @@ export enum ServiceType {
 	Youtube,
 	Github,
 	Spotify,
+	Discord,
 };
 
 export enum PipelineType {
@@ -14,6 +15,8 @@ export enum PipelineType {
 
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
+
+	OnDiscordMessage,
 };
 
 
