@@ -1,8 +1,8 @@
 import { Octokit } from "@octokit/rest";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
-import { Webhooks, createNodeMiddleware, EmitterWebhookEventName } from "@octokit/webhooks";
-import { filter, from, fromEvent, fromEventPattern, map, Observable } from "rxjs";
+import { Webhooks, EmitterWebhookEventName } from "@octokit/webhooks";
+import { filter, fromEventPattern, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Github extends BaseService {
@@ -151,7 +151,7 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
-	@action(Pipeline.OnCreateIssue, ['owner', 'repo'])
+	@action(PipelineType.OnCreateIssue, ['owner', 'repo'])
 	listenOnCreateIssue(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"issues.opened",
@@ -176,7 +176,7 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
-	@action(Pipeline.OnCommentIssue, ['owner', 'repo'])
+	@action(PipelineType.OnCommentIssue, ['owner', 'repo'])
 	listenOnCommentIssue(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"issue_comment",
@@ -203,7 +203,7 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
-	@action(Pipeline.OnCloseIssue, ['owner', 'repo'])
+	@action(PipelineType.OnCloseIssue, ['owner', 'repo'])
 	listenOnIssueClose(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"issues.opened",
@@ -252,7 +252,7 @@ export class Github extends BaseService {
 		return {...params, 'url': res.data.url};
 	}
 
-	@action(Pipeline.OnForkRepo, ['owner', 'repo'])
+	@action(PipelineType.OnForkRepo, ['owner', 'repo'])
 	listenOnForkRepo(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"fork",
@@ -274,7 +274,7 @@ export class Github extends BaseService {
 		return params;
 	}
 
-	@action(Pipeline.OnStarRepo, ['owner', 'repo'])
+	@action(PipelineType.OnStarRepo, ['owner', 'repo'])
 	listenOnStarRepo(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"star.created",
@@ -297,7 +297,7 @@ export class Github extends BaseService {
 		return params;
 	}
 
-	@action(Pipeline.OnWatchRepo, ['owner', 'repo'])
+	@action(PipelineType.OnWatchRepo, ['owner', 'repo'])
 	listenOnWatchRepo(params: any): Observable<PipelineEnv> {
 		return this.fromGitHubEvent(
 			"watch.started",

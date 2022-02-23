@@ -14,7 +14,15 @@ export enum PipelineType {
 	OnYtPlaylistAdd,
 
 	OnOpenPR,
-	OnClosePR
+	OnCommentPR,
+	OnClosePR,
+	OnMergePR,
+	OnCreateIssue,
+	OnCommentIssue,
+	OnCloseIssue,
+	OnForkRepo,
+	OnStarRepo,
+	OnWatchRepo,
 };
 
 
