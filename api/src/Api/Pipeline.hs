@@ -43,6 +43,7 @@ data PipelineData = PipelineData
     { name :: Text
     , pType :: PipelineType
     , pParams :: PipelineParams
+    , id :: PipelineId
     }
 
 data ReactionData = ReactionData
@@ -79,7 +80,7 @@ getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
 getPipelineHandler (Authenticated user) pipelineId = do
     pipeline <- getPipelineById' pipelineId
     reactions <- getReactionsByPipelineId' pipelineId
-    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline)
+    let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) pipelineId
     let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
     return $ PostPipelineData actionResult reactionsResult
 getPipelineHandler _ _ = throwError err401
@@ -105,9 +106,9 @@ delPipelineHandler (Authenticated user) pipelineId = throwError err401
 delPipelineHandler _ _ = throwError err401
 
 allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
-allPipelineHandler (Authenticated user) Nothing = do
-  pipelines <- getPipelineByUser (UserId 1)
-  mapM (getPipelineHandler (Authenticated user) . pipelineId) pipelines
+allPipelineHandler usr@(Authenticated (User uid uname slug)) Nothing = do
+  pipelines <- getPipelineByUser uid
+  mapM (getPipelineHandler usr . pipelineId) pipelines
 allPipelineHandler _ (Just key) = return []
 allPipelineHandler _ _ =  throwError err401
 
