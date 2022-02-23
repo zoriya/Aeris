@@ -16,6 +16,7 @@ import Card from "@material-ui/core/Card";
 import Box from "@mui/material/Box";
 
 import aerisTheme from "../../Aeris.theme";
+import { resolve } from "node:path/win32";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -68,7 +69,7 @@ function setCookie(cname:string, cvalue:string, exdays:number) {
 	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-const requestLogin = async (username: string, password: string, signup: boolean) => {
+const requestLogin = async (username: string, password: string, signup: boolean): Promise<boolean> => {
 	const rawResponse = await fetch( API_ROUTE + '/auth/' + (signup ? "signup" : "login"), {
 	  method: 'POST',
 	  headers: {
@@ -77,8 +78,13 @@ const requestLogin = async (username: string, password: string, signup: boolean)
 	  },
 	  body: JSON.stringify({username: username, password: password})
 	});
-	console.log(rawResponse)
-	setCookie("aeris_jwt", "valeur", 180);
+	if (!rawResponse.ok)
+		return false;
+	if (signup)
+		return requestLogin(username, password, false);
+	let json = await rawResponse.json();
+	setCookie("aeris_jwt", json["jwt"], 180);
+	return true;
   };
 
 export default function AuthComponent() {
@@ -106,13 +112,10 @@ export default function AuthComponent() {
 		}));
 	}, [authData.username, authData.password, authData.confirmedPassword]);
 
-	const handleLogin = () => {
-		console.log(authData);
-		//TODO Implements back auth routes
+	const handleLogin = async () => {
 
-		requestLogin(authData.username, authData.password, authData.authMode === "auth");
 
-		if (authData.username === "b" && authData.password === "b") {
+		if (await requestLogin(authData.username, authData.password, authData.authMode === "auth")) {
 			setAuthData((prevState => {
 				return {...prevState, isError: false, helperText: 'Login successful!'};
 			}));
