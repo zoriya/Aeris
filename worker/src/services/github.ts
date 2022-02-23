@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
-import { Webhooks, createNodeMiddleware } from "@octokit/webhooks";
+import { Webhooks, createNodeMiddleware, EmitterWebhookEventName } from "@octokit/webhooks";
 import { filter, from, fromEvent, fromEventPattern, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
@@ -18,6 +18,17 @@ export class Github extends BaseService {
 			secret: "bidibi"
 		});
 	}
+	
+	private fromGitHubEvent(eventName: EmitterWebhookEventName,
+		filterMe: (_: any) => boolean, mapMe: (_: any) => any): Observable<PipelineEnv> {
+		return fromEventPattern(
+			(h) => this._websocket.on(eventName, h),
+			(h) => this._websocket.removeListener(eventName, h))
+			.pipe(
+				filter(({ _, __, payload }) => filterMe.call(payload)),
+				map(({ _, __, payload }) => mapMe(payload)),
+			);
+	}
 
 	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
 	async openPR(params: any): Promise<PipelineEnv> {
@@ -30,23 +41,18 @@ export class Github extends BaseService {
 
 	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
 	listenOpenPR(params: any): Observable<PipelineEnv> {
-		const eventName = "pull_request.opened";
-		return fromEventPattern(
-			(h) => this._websocket.on(eventName, h),
-			(h) => this._websocket.removeListener(eventName, h))
-			.pipe(
-				filter(({ _, __, payload }) => 
-					payload.repo.owner == params['owner']
-					&& payload.repo.name == params['repo']),
-				map(({ _, __, payload }) => ({
-					PR_NAME: payload.name,
-					PR_OPENER: payload.owner,
-					PR_HEAD: payload.head,
-					PR_BASE: payload.base,
-					REPO_NAME: payload.repo.name,
-					REPO_OWNER: payload.repo.owner
-				})),
-			);
+		return this.fromGitHubEvent(
+			"pull_request.opened",
+			(payload) => payload.repo.owner == params['owner'] && payload.repo.name == params['repo'],
+			(payload) => ({
+				PR_NAME: payload.name,
+				PR_OPENER: payload.owner,
+				PR_HEAD: payload.head,
+				PR_BASE: payload.base,
+				REPO_NAME: payload.repo.name,
+				REPO_OWNER: payload.repo.owner
+			})
+		);
 	}
 
 	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
