@@ -36,27 +36,6 @@ export default function HomePage() {
 	const classes = useStyles();
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [modalData, setModalData] = useState<PipelineEditPageProps>({
-		title: "",
-		trigger: {
-			title: "",
-			service: {
-				imageSrc: "",
-				altText: "",
-			},
-			trailingIcon: <MoreVert />,
-		},
-		actions: [
-			{
-				title: "",
-				service: {
-					imageSrc: "",
-					altText: "",
-				},
-				trailingIcon: <MoreVert />,
-			},
-		],
-	} as PipelineEditPageProps);
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -65,12 +44,16 @@ export default function HomePage() {
 			service1: AppServicesLogos["twitter"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
-				setModalData({
-					title: "louis",
-					trigger: ServiceActions["youtube"][0],
-					trailingIcon: <MoreVert />,
-					actions: [ServiceActions["twitter"][0], ServiceActions["spotify"][1]],
-				} as PipelineEditPageProps);
+				setPipelineData({
+					name: "louis",
+					action: AppListActions[0],
+					reactions: [AppListReactions[0]],
+					data: {
+						enabled: true,
+						error: false,
+						status: 'mdr'
+					}
+				} as AppPipelineType);
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -81,21 +64,7 @@ export default function HomePage() {
 			service1: AppServicesLogos["gmail"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
-				setModalData({
-					title: "clickable",
-					trigger: {
-						title: "Eh oui j'ai été set autrement",
-						service: AppServicesLogos["github"],
-						trailingIcon: <MoreVert />
-					},
-					actions: [
-						{
-							title: "j'aime l'eau",
-							service: AppServicesLogos["twitter"],
-							trailingIcon: <AddIcon />,
-						},
-					],
-				} as PipelineEditPageProps);
+				setPipelineData(AppListPipelines[0]);
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -154,7 +123,7 @@ export default function HomePage() {
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
-				<PipelineEditPage {...modalData} />
+				<PipelineEditPage title={pipelineData.name} action={pipelineData.action} reactions={pipelineData.reactions} />
 			</PipelineModal>
 			<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
 				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
@@ -176,28 +145,7 @@ export default function HomePage() {
 				}}>
 				<Fab
 					onClick={() => {
-						setModalData({
-							title: "Nouvelle pipeline",
-							trigger: {
-								title: "Ajouter une action",
-								service: {
-									imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
-									altText: "Action inconnue",
-								},
-								trailingIcon: <AddIcon />,
-								onClickCallback: () => setModalMode(ModalSelection.ActionSelector)
-							},
-							actions: [
-								{
-									title: "Ajouter une réaction",
-									service: {
-										imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
-										altText: "Réaction inconnue",
-									},
-									trailingIcon: <AddIcon />,
-								}
-							],
-						} as PipelineEditPageProps);
+						setPipelineData(AppListPipelines[1]);
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"

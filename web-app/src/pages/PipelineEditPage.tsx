@@ -7,15 +7,17 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { styled } from "@mui/material/styles";
 import GenericButton from "../components/GenericButton";
 
+import { AppActionType, AppReactionType } from "../utils/types"
+
 import { GenericButtonProps } from "./../components/GenericButton";
 
 export interface PipelineEditPageProps {
 	title: string;
-	trigger: GenericButtonProps;
-	actions: Array<GenericButtonProps>;
+	action: AppActionType;
+	reactions: Array<AppReactionType>;
 }
 
-export default function PipelineEditPage({ title, trigger, actions }: PipelineEditPageProps) {
+export default function PipelineEditPage({ title, action, reactions }: PipelineEditPageProps) {
 	return (
 		<div>
 			<Box
@@ -35,16 +37,16 @@ export default function PipelineEditPage({ title, trigger, actions }: PipelineEd
 			<Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
 					<Grid item sm={10} md={10} lg={5} xl={4}>
-						<GenericButton {...trigger} />
+						<GenericButton service={action.service.logo} title={action.type} trailingIcon={<AddBoxIcon/>} />
 					</Grid>
 				</Grid>
 
 				<ArrowForwardIcon sx={{ height: 38, width: 38 }} />
 
 				<Grid container direction="column" spacing={2} justifyContent="flex-start" alignItems="flex-start">
-					{actions.map((el, index) => (
+					{reactions.map((el, index) => (
 						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-							<GenericButton {...el} />
+							<GenericButton service={el.service.logo} title={el.type} trailingIcon={<AddBoxIcon/>} />
 						</Grid>
 					))}
 				</Grid>

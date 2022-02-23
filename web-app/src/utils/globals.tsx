@@ -163,6 +163,15 @@ export const AppListActions: Array<AppActionType> = [
         },
         description: "Un nouveau tweet à été posté",
 		service: AppServices[3]
+    },
+	{
+        type: ActionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une action",
+		service: AppServices[0]
     }
 ]
 
@@ -180,6 +189,15 @@ export const AppListReactions: Array<AppReactionType> = [
         },
         description: "Création d'un tweet",
 		service: AppServices[3]
+    },
+	{
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
     }
 ]
 
@@ -193,6 +211,18 @@ export const AppListPipelines: Array<AppPipelineType> = [
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",
+			error: false
+		}
+	},
+	{
+		name: "nouvelle pipeline",
+		action: AppListActions[1],
+		reactions: [
+			AppListReactions[1]
+		],
+		data: {
+			enabled: true,
+			status: "ninjago",
 			error: false
 		}
 	}

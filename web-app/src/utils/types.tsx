@@ -18,10 +18,12 @@ export enum ParamType {
 }
 
 export enum ActionTypeEnum {
+    None = "None",
     TwitterNewPost = "TwitterNewPost"
 }
 
 export enum ReactionTypeEnum {
+    None = "None",
     TwitterTweet = "TwitterTweet"
 }
 
