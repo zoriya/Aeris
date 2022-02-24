@@ -197,6 +197,16 @@ export const AppListActions: Array<AppAREAType> = [
         },
         description: "Ajouter une action",
 		service: AppServices[0]
+    },
+	{
+		isAction: true,
+        type: ActionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une action",
+		service: AppServices[0]
     }
 ]
 
