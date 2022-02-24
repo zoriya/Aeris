@@ -272,7 +272,7 @@
                     "description": "The body of the new comment on an issue of the repository given as parameter"
                 },
                 {
-                    "name": "ISSUE_AUTHOR",
+                    "name": "COMMENTER",
                     "description": "The author of the comment on an issue"
                 }
             ]
@@ -468,7 +468,7 @@
                 },
                 {
                     "name": "pull_number",
-                    "type": "number",
+                    "type": "integer",
                     "description": "The number assigned to the commented pull request"
                 },
                 {
@@ -500,7 +500,7 @@
                 },
                 {
                     "name": "pull_number",
-                    "type": "number",
+                    "type": "integer",
                     "description": "The number assigned to the closed pull request"
                 }
             ],
@@ -522,7 +522,7 @@
                 },
                 {
                     "name": "pull_number",
-                    "type": "number",
+                    "type": "integer",
                     "description": "The number assigned to the closed pull request"
                 }
             ],
@@ -576,7 +576,7 @@
                 },
                 {
                     "name": "issue_number",
-                    "type": "string",
+                    "type": "integer",
                     "description": "The number assigned to the commented issue"
                 },
                 {
@@ -608,7 +608,7 @@
                 },
                 {
                     "name": "issue_number",
-                    "type": "string",
+                    "type": "integer",
                     "description": "The number assigned to the commented issue"
                 }
             ],
@@ -626,7 +626,7 @@
                 {
                     "name": "name",
                     "type": "string",
-                    "description": "The name of the newly created repository"
+                    "description": "The name of the repository to create"
                 }
             ],
             "returns": [
@@ -643,7 +643,7 @@
                 {
                     "name": "name",
                     "type": "string",
-                    "description": "The name of the newly created private repository"
+                    "description": "The name of the private repository to create"
                 }
             ],
             "returns": [
