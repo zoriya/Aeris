@@ -5,6 +5,7 @@ export enum ServiceType {
 	Spotify,
 };
 
+
 export enum PipelineType {
 	OnTweet,
 
@@ -12,6 +13,16 @@ export enum PipelineType {
 	OnYtLike,
 	OnYtPlaylistAdd,
 
+	OnOpenPR,
+	OnCommentPR,
+	OnClosePR,
+	OnMergePR,
+	OnCreateIssue,
+	OnCommentIssue,
+	OnCloseIssue,
+	OnForkRepo,
+	OnStarRepo,
+	OnWatchRepo,
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
 };
