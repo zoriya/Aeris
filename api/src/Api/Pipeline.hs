@@ -4,6 +4,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeOperators #-}
 
@@ -38,6 +39,9 @@ import Servant.Server.Generic (AsServerT)
 import Utils (mapInd, UserAuth, AuthRes)
 import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
+import Network.HTTP.Simple (setRequestBodyJSON, httpJSONEither, setRequestMethod, addRequestHeader, parseRequest, httpBS)
+import Network.HTTP.Client.Conduit (Request(requestBody), httpNoBody)
+import Data.ByteString (ByteString)
 
 data PipelineData = PipelineData
     { name :: Text
@@ -76,6 +80,17 @@ data PipelineAPI mode = PipelineAPI
     }
     deriving stock (Generic)
 
+informWorker :: ByteString -> Pipeline Identity -> IO()
+informWorker method pipeline = do
+    request <- parseRequest "toto"
+    response <- httpBS
+        $ setRequestMethod method
+        $ addRequestHeader "Accept" "application/json"
+        $ setRequestBodyJSON pipeline
+        $ request
+    return ()
+
+
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
 getPipelineHandler (Authenticated user) pipelineId = do
     pipeline <- getPipelineById' pipelineId
@@ -88,6 +103,7 @@ getPipelineHandler _ _ = throwError err401
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
 postPipelineHandler (Authenticated (User uid uname slug)) x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
+    -- informWorker "POST" -- pipelinetoadd
     sequence $ mapInd (reactionMap actionId) r
   where
     p = action x
