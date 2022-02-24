@@ -50,9 +50,16 @@ export class Discord extends BaseService {
 		
 	}
 
-	@reaction(ReactionType.leaveDiscordServer)
-	async leaveServer(_:any): Promise<PipelineEnv> {
-		let guilds = await this._client.guilds.
+	@reaction(ReactionType.leaveDiscordServer, ['server_id'])
+	async leaveServer(params :any): Promise<PipelineEnv> {
+		let guild = await this._client.guilds.fetch(params['server_id']);
+		guild.leave();
+		return {
+			SERVER_NAME: guild.name,
+			SERVER_ID: guild.id,
+			USER_ID: guild.me.user.id,
+			USERNAME: guild.me.user.username,
+		}
 	}
 
 	@reaction(ReactionType.setDiscordStatus, ['status'])
