@@ -52,7 +52,7 @@ export default function HomePage() {
 				setPipelineData({
 					name: "louis",
 					action: AppListActions[0],
-					reactions: [AppListReactions[0]],
+					reactions: AppListReactions,
 					data: {
 						enabled: true,
 						error: false,

@@ -17,10 +17,11 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import CancelIcon from "@mui/icons-material/Cancel";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { getCookie, PipeLineHostToApi } from "../../utils/utils";
 import { API_ROUTE } from "../..";
+import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -56,23 +57,29 @@ export default function PipelineEditPipeline({
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "5fr 1fr 5fr",
-					gridTemplateRows: "100px 50px auto 100px 100px",
+					gridTemplateColumns: "25vw 5vw 12vw 13vw",
+					gridTemplateRows: "2fr 1fr 40vh 3fr 1fr",
 					gridTemplateAreas: `
-							'pipelineTitle 	pipelineTitle	enabledStatus'
-							'actionTitle 	. 				reactionTitle'
-							'actionData 	arrow 			reactionData'
-							'. 				. 				buttonAddReaction'
-							'buttonDelete	. 				buttonCancelSave'
+							'pipelineTitle 	pipelineTitle	pipelineTitle		enabledStatus'
+							'actionTitle 	. 				reactionTitle		reactionTitle'
+							'actionData 	arrow 			reactionData		reactionData'
+							'. 				. 				buttonAddReaction	buttonAddReaction'
+							'buttonDelete	. 				buttonCancelSave	buttonCancelSave'
 						`,
-					placeItems: "center",
+					justifyItems: "center",
+					alignItems: "center",
 				}}>
-				<Typography style={{ gridArea: "pipelineTitle", justifySelf: "left" }} variant="h2" noWrap align="left">
+				<Typography
+					style={{ gridArea: "pipelineTitle", justifySelf: "left" }}
+					width="100%"
+					variant="h2"
+					noWrap
+					align="left">
 					{pipelineData.name}
 				</Typography>
 
-				<FormGroup style={{ gridArea: "enabledStatus", justifySelf:"right" }}>
-					<FormControlLabel control={<Switch defaultChecked />} color="secondary" label="Pipeline activée" />
+				<FormGroup style={{ gridArea: "enabledStatus" }}>
+					<FormControlLabel control={<Switch defaultChecked />} color="secondary" label="Activée" />
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
@@ -102,27 +109,29 @@ export default function PipelineEditPipeline({
 
 				<ArrowForwardIcon sx={{ gridArea: "arrow", height: 38, width: 38 }} />
 
-				<Grid
-					container
-					gridArea={"reactionData"}
-					direction="column"
-					spacing={2}
-					justifyContent="flex-start"
-					alignItems="flex-start">
-					{pipelineData.reactions.map((el, index) => (
-						<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-							<GenericButton
-								service={el.service.logo}
-								title={el.type}
-								onClickCallback={() => {
-									setEditMode(PipelineEditMode.Reactions);
-									setEditReactionIndex(index);
-								}}
-								trailingIcon={<AddBoxIcon />}
-							/>
-						</Grid>
-					))}
-				</Grid>
+				<div
+					style={{
+						width: "100%",
+						height: "100%",
+						overflow: "auto",
+						gridArea: "reactionData",
+					}}>
+					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
+						{pipelineData.reactions.map((el, index) => (
+							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
+								<GenericButton
+									service={el.service.logo}
+									title={index + 1 + " - " + el.type}
+									onClickCallback={() => {
+										setEditMode(PipelineEditMode.Reactions);
+										setEditReactionIndex(index);
+									}}
+									trailingIcon={<DeleteIcon />}
+								/>
+							</Grid>
+						))}
+					</Grid>
+				</div>
 
 				<LoadingButton
 					sx={{ gridArea: "buttonAddReaction" }}
@@ -147,13 +156,6 @@ export default function PipelineEditPipeline({
 				<ButtonGroup sx={{ gridArea: "buttonCancelSave", justifySelf: "right" }}>
 					<Button
 						color="primary"
-						startIcon={<CancelIcon />}
-						onClick={() => setEditMode(PipelineEditMode.QuitEdit)}
-						variant="contained">
-						Annuler
-					</Button>
-					<Button
-						color="secondary"
 						startIcon={<SaveIcon />}
 						onClick={async () => {
 							if (await requestCreatePipeline(pipelineData)) {

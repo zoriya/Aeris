@@ -18,7 +18,7 @@ export default function GenericButton({ title, service, trailingIcon, onClickCal
 				display: "flex",
 				alignItems: "center",
 				borderRadius: "15px",
-				width: "500px",
+				width: "100%",
 			}}>
 			<CardActionArea onClick={onClickCallback} >
 				<Box sx={{ display: "flex", flexDirection:"row" }}>

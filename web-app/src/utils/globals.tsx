@@ -235,6 +235,56 @@ export const AppListReactions: Array<AppAREAType> = [
         },
         description: "Ajouter une réaction",
 		service: AppServices[0]
+    },
+	{
+		isAction: false,
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
+    },
+	{
+		isAction: false,
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
+    },
+	{
+		isAction: false,
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
+    },
+	{
+		isAction: false,
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
+    },
+	{
+		isAction: false,
+        type: ReactionTypeEnum.None,
+        params: {
+            contents: {
+            }
+        },
+        description: "Ajouter une réaction",
+		service: AppServices[0]
     }
 ]
 
