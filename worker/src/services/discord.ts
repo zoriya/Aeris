@@ -24,6 +24,19 @@ export class Discord extends BaseService {
 			);
 	}
 
+	@action(PipelineType.OnDiscordMessageFrom, ['user_id'])
+	listenMessagesFrom(params: any): Observable<PipelineEnv> {
+		return fromEvent(this._client, "messageCreated")
+			.pipe(
+				filter((x: Message) => x.author.id == params['user_id']),
+				map((x: Message) => ({
+					MESSAGE: x.content,
+					AUTHOR_ID: x.author.id,
+					AUTHOR_NAME: x.author.username,
+				})),
+			);
+	}
+
 	@action(PipelineType.OnDiscordMention, [])
 	listenMentions(_: any): Observable<PipelineEnv> {
 		return fromEvent(this._client, "message")
@@ -46,7 +59,6 @@ export class Discord extends BaseService {
 					NEW_MEMBER_NAME: member.user.username,
 					SERVER_ID: member.guild.id,
 					SERVER_NAME: member.guild.name
-
 				})),
 			);
 	}

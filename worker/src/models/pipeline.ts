@@ -13,6 +13,14 @@ export enum ServiceType {
 
 
 
+
+
+
+
+
+
+
+
 export enum PipelineType {
 	OnTweet,
 
@@ -26,7 +34,8 @@ export enum PipelineType {
 	OnDiscordMessage,
 	OnDiscordMention,
 	OnNewDiscordGuildMember,
-	OnDiscordGuildLeave
+	OnDiscordGuildLeave,
+	OnDiscordMessageFrom
 };
 
 
