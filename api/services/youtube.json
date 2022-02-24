@@ -84,6 +84,72 @@
 				]
 			}
 		],
-		"reactions": []
+		"reactions": [
+			{
+				"name": "YtLike",
+				"description": "Like a Youtube video",
+				"params": [
+					{
+						"name": "videoId",
+						"type": "string",
+						"description": "ID of the video to like"
+					}
+				],
+				"returns": [
+					{
+						"name": "ID",
+						"description": "Youtube ID of the liked video"
+					}
+				]
+			},
+			{
+				"name": "YtComment",
+				"description": "Comment a Youtube video",
+				"params": [
+					{
+						"name": "videoId",
+						"type": "string",
+						"description": "ID of the video to like"
+					},
+					{
+						"name": "body",
+						"type": "string",
+						"description": "Content of the comment"
+					}
+				],
+				"returns": [
+					{
+						"name": "ID",
+						"description": "Youtube ID of the commented video"
+					}
+				]
+			},
+			{
+				"name": "YtAddToPlaylist",
+				"description": "Add a Youtube video to a playlist",
+				"params": [
+					{
+						"name": "videoId",
+						"type": "string",
+						"description": "ID of the video to add"
+					},
+					{
+						"name": "playlistId",
+						"type": "string",
+						"description": "ID of the playlist to add the video to"
+					}
+				],
+				"returns": [
+					{
+						"name": "VIDEO_ID",
+						"description": "Youtube ID of the added video"
+					},
+					{
+						"name": "PLAYLIST_ID",
+						"description": "Youtube ID of the playlist"
+					}
+				]
+			}
+		]
 	}
 ]
