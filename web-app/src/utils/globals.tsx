@@ -42,32 +42,6 @@ const generateRandomString = (): string => {
 	return randomString;
 }
 
-export const getCookieValue = (name: string): string => {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i].trim();
-		if (c.indexOf(nameEQ) == 0)
-			return c.substring(nameEQ.length,c.length);
-	}
-	return "";
-};
-
-export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string): Promise<boolean> => {
-	const response = await fetch(API_ROUTE + serviceEndpoint + '?code=' + authToken, {
-		method: 'GET',
-		headers: {
-			'Authorization': 'Bearer ' + getCookieValue('aeris_jwt')
-		}
-	});
-
-	if (!response.ok) {
-		console.log(response);
-		return false;
-	}
-	return true;
-};
-
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
