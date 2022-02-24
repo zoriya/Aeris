@@ -1,155 +1,153 @@
-[
-	{
-		"name": "Youtube",
-		"actions": [
-			{
-				"name": "OnYtUpload",
-				"description": "Event triggered on video upload",
-				"params": [
-					{
-						"name": "channel",
-						"type": "string",
-						"description": "Name of the channel to watch over"
-					}
-				],
-				"returns": [
-					{
-						"name": "ID",
-						"description": "Youtube ID of the uploaded video"
-					},
-					{
-						"name": "CHANNEL_ID",
-						"description": "Youtube ID of the channel the video was uploaded to"
-					},
-					{
-						"name": "TITLE",
-						"description": "Title of the uploaded video"
-					},
-					{
-						"name": "DESCRIPTION",
-						"description": "Description of the uploaded video"
-					},
-					{
-						"name": "PUBLISHED_AT",
-						"description": "Date of the release"
-					},
-					{
-						"name": "CHANNEL_TITLE",
-						"description": "Name of the channel the video was uploaded to"
-					}
-				]
-			},
-			{
-				///TODO implement action
-				"name": "OnYtLike",
-				"description": "Event triggered on video like",
-				"params": [],
-				"returns": []
-			},
-			{
-				"name": "OnYtPlaylistAdd",
-				"description": "Event triggered when a video is added to a playlist",
-				"params": [
-					{
-						"name": "playlistId",
-						"type": "string",
-						"description": "ID of the playlist to watch over"
-					}
-				],
-				"returns": [
-					{
-						"name": "ID",
-						"description": "Youtube ID of the added video"
-					},
-					{
-						"name": "CHANNEL_ID",
-						"description": "Youtube ID of the channel the video was uploaded to"
-					},
-					{
-						"name": "TITLE",
-						"description": "Title of the uploaded video"
-					},
-					{
-						"name": "DESCRIPTION",
-						"description": "Description of the uploaded video"
-					},
-					{
-						"name": "LIKED_AT",
-						"description": "Date of the video like"
-					},
-					{
-						"name": "CHANNEL_TITLE",
-						"description": "Name of the channel the video was uploaded to"
-					}
-				]
-			}
-		],
-		"reactions": [
-			{
-				"name": "YtLike",
-				"description": "Like a Youtube video",
-				"params": [
-					{
-						"name": "videoId",
-						"type": "string",
-						"description": "ID of the video to like"
-					}
-				],
-				"returns": [
-					{
-						"name": "ID",
-						"description": "Youtube ID of the liked video"
-					}
-				]
-			},
-			{
-				"name": "YtComment",
-				"description": "Comment a Youtube video",
-				"params": [
-					{
-						"name": "videoId",
-						"type": "string",
-						"description": "ID of the video to like"
-					},
-					{
-						"name": "body",
-						"type": "string",
-						"description": "Content of the comment"
-					}
-				],
-				"returns": [
-					{
-						"name": "ID",
-						"description": "Youtube ID of the commented video"
-					}
-				]
-			},
-			{
-				"name": "YtAddToPlaylist",
-				"description": "Add a Youtube video to a playlist",
-				"params": [
-					{
-						"name": "videoId",
-						"type": "string",
-						"description": "ID of the video to add"
-					},
-					{
-						"name": "playlistId",
-						"type": "string",
-						"description": "ID of the playlist to add the video to"
-					}
-				],
-				"returns": [
-					{
-						"name": "VIDEO_ID",
-						"description": "Youtube ID of the added video"
-					},
-					{
-						"name": "PLAYLIST_ID",
-						"description": "Youtube ID of the playlist"
-					}
-				]
-			}
-		]
-	}
-]
+{
+	"name": "Youtube",
+	"actions": [
+		{
+			"name": "OnYtUpload",
+			"description": "Event triggered on video upload",
+			"params": [
+				{
+					"name": "channel",
+					"type": "string",
+					"description": "Name of the channel to watch over"
+				}
+			],
+			"returns": [
+				{
+					"name": "ID",
+					"description": "Youtube ID of the uploaded video"
+				},
+				{
+					"name": "CHANNEL_ID",
+					"description": "Youtube ID of the channel the video was uploaded to"
+				},
+				{
+					"name": "TITLE",
+					"description": "Title of the uploaded video"
+				},
+				{
+					"name": "DESCRIPTION",
+					"description": "Description of the uploaded video"
+				},
+				{
+					"name": "PUBLISHED_AT",
+					"description": "Date of the release"
+				},
+				{
+					"name": "CHANNEL_TITLE",
+					"description": "Name of the channel the video was uploaded to"
+				}
+			]
+		},
+		{
+			///TODO implement action
+			"name": "OnYtLike",
+			"description": "Event triggered on video like",
+			"params": [],
+			"returns": []
+		},
+		{
+			"name": "OnYtPlaylistAdd",
+			"description": "Event triggered when a video is added to a playlist",
+			"params": [
+				{
+					"name": "playlistId",
+					"type": "string",
+					"description": "ID of the playlist to watch over"
+				}
+			],
+			"returns": [
+				{
+					"name": "ID",
+					"description": "Youtube ID of the added video"
+				},
+				{
+					"name": "CHANNEL_ID",
+					"description": "Youtube ID of the channel the video was uploaded to"
+				},
+				{
+					"name": "TITLE",
+					"description": "Title of the uploaded video"
+				},
+				{
+					"name": "DESCRIPTION",
+					"description": "Description of the uploaded video"
+				},
+				{
+					"name": "LIKED_AT",
+					"description": "Date of the video like"
+				},
+				{
+					"name": "CHANNEL_TITLE",
+					"description": "Name of the channel the video was uploaded to"
+				}
+			]
+		}
+	],
+	"reactions": [
+		{
+			"name": "YtLike",
+			"description": "Like a Youtube video",
+			"params": [
+				{
+					"name": "videoId",
+					"type": "string",
+					"description": "ID of the video to like"
+				}
+			],
+			"returns": [
+				{
+					"name": "ID",
+					"description": "Youtube ID of the liked video"
+				}
+			]
+		},
+		{
+			"name": "YtComment",
+			"description": "Comment a Youtube video",
+			"params": [
+				{
+					"name": "videoId",
+					"type": "string",
+					"description": "ID of the video to like"
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"description": "Content of the comment"
+				}
+			],
+			"returns": [
+				{
+					"name": "ID",
+					"description": "Youtube ID of the commented video"
+				}
+			]
+		},
+		{
+			"name": "YtAddToPlaylist",
+			"description": "Add a Youtube video to a playlist",
+			"params": [
+				{
+					"name": "videoId",
+					"type": "string",
+					"description": "ID of the video to add"
+				},
+				{
+					"name": "playlistId",
+					"type": "string",
+					"description": "ID of the playlist to add the video to"
+				}
+			],
+			"returns": [
+				{
+					"name": "VIDEO_ID",
+					"description": "Youtube ID of the added video"
+				},
+				{
+					"name": "PLAYLIST_ID",
+					"description": "Youtube ID of the playlist"
+				}
+			]
+		}
+	]
+}
