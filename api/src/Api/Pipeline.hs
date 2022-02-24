@@ -11,7 +11,7 @@
 module Api.Pipeline where
 
 import App (AppM, State (State, dbPool))
-import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.IO.Class (MonadIO, liftIO)
 import Control.Monad.Trans.Reader (ask)
 import Core.Pipeline (PipelineParams, PipelineType)
 import Core.Reaction (ReactionParams, ReactionType)
@@ -19,7 +19,7 @@ import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode)
 import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
-import Data.Text (Text)
+import Data.Text (Text, pack)
 import Db.Pipeline (Pipeline (Pipeline, pipelineType), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
 import GHC.Generics (Generic)
@@ -39,9 +39,11 @@ import Servant.Server.Generic (AsServerT)
 import Utils (mapInd, UserAuth, AuthRes)
 import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
-import Network.HTTP.Simple (setRequestBodyJSON, httpJSONEither, setRequestMethod, addRequestHeader, parseRequest, httpBS)
+import Network.HTTP.Simple (setRequestBodyJSON, httpJSONEither, setRequestMethod, addRequestHeader, parseRequest, httpBS, setRequestPath)
 import Network.HTTP.Client.Conduit (Request(requestBody), httpNoBody)
 import Data.ByteString (ByteString)
+import Data.Text.Encoding (encodeUtf8)
+import System.Environment.MrEnv (envAsString)
 
 data PipelineData = PipelineData
     { name :: Text
@@ -80,13 +82,14 @@ data PipelineAPI mode = PipelineAPI
     }
     deriving stock (Generic)
 
-informWorker :: ByteString -> Pipeline Identity -> IO()
-informWorker method pipeline = do
-    request <- parseRequest "toto"
+informWorker :: ByteString -> PipelineId -> IO()
+informWorker method id = do
+    url <- envAsString "WORKER_URL" "worker/"
+    request <- parseRequest url
     response <- httpBS
         $ setRequestMethod method
         $ addRequestHeader "Accept" "application/json"
-        $ setRequestBodyJSON pipeline
+        $ setRequestPath (encodeUtf8 (pack $ "/worker" <> show id))
         $ request
     return ()
 
@@ -103,7 +106,7 @@ getPipelineHandler _ _ = throwError err401
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
 postPipelineHandler (Authenticated (User uid uname slug)) x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
-    -- informWorker "POST" -- pipelinetoadd
+    liftIO $ informWorker "POST" actionId
     sequence $ mapInd (reactionMap actionId) r
   where
     p = action x
