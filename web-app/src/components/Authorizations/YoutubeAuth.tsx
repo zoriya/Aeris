@@ -3,20 +3,20 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function SpotifyAuth() {
+export default function YouTubeAuth() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
     const authCode = searchParams.get('code') as string;
 
     useEffect(() => {
-        async function sendSpotifyCode() {
+        async function sendYoutubeCode() {
             if (authCode.trim()) {
-                await sendServiceAuthToken(authCode, '/auth/spotify');
+                await sendServiceAuthToken(authCode, '/auth/youtube');
                 navigate('/pipelines');
             }
         }
-        sendSpotifyCode();
+        sendYoutubeCode();
     }, []);
 
     return (<div/>);

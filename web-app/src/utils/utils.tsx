@@ -1,4 +1,5 @@
 import { pipeline } from "stream";
+import { API_ROUTE } from "..";
 import { AppPipelineType, ParamsType } from "./types";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
@@ -14,15 +15,28 @@ export function getCookie(cname: string): string {
 	let ca = decodedCookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
 		let c = ca[i];
-		while (c.charAt(0) == " ") {
-			c = c.substring(1);
-		}
+		c.trim();
 		if (c.indexOf(name) == 0) {
 			return c.substring(name.length, c.length);
 		}
 	}
 	return "";
 }
+
+export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string): Promise<boolean> => {
+	const response = await fetch(API_ROUTE + serviceEndpoint + '?code=' + authToken, {
+		method: 'GET',
+		headers: {
+			'Authorization': 'Bearer ' + getCookie('aeris_jwt')
+		}
+	});
+
+	if (!response.ok) {
+		console.log(response);
+		return false;
+	}
+	return true;
+};
 
 export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: ParamsType }) => {
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));

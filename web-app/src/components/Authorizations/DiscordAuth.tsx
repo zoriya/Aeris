@@ -3,20 +3,20 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function SpotifyAuth() {
+export default function DiscordAuth() {
     const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
 
-    const authCode = searchParams.get('code') as string;
+    const authToken = searchParams.get('code') as string;
 
     useEffect(() => {
-        async function sendSpotifyCode() {
-            if (authCode.trim()) {
-                await sendServiceAuthToken(authCode, '/auth/spotify');
+        async function sendDiscordCode() {
+            if (authToken.trim()) {
+                await sendServiceAuthToken(authToken, '/auth/discord');
                 navigate('/pipelines');
             }
         }
-        sendSpotifyCode();
+        sendDiscordCode();
     }, []);
 
     return (<div/>);
