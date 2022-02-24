@@ -6,6 +6,13 @@ export enum ServiceType {
 	Discord,
 };
 
+
+
+
+
+
+
+
 export enum PipelineType {
 	OnTweet,
 
@@ -17,6 +24,9 @@ export enum PipelineType {
 	OnSpotifySaveToLibrary,
 
 	OnDiscordMessage,
+	OnDiscordMention,
+	OnNewDiscordGuildMember,
+	OnDiscordGuildLeave
 };
 
 

@@ -1,7 +1,7 @@
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
-import { Client, Intents, Message, TextChannel } from "discord.js";
-import { fromEvent, map, Observable } from "rxjs";
+import { Client, GuildMember, Intents, Message, TextChannel } from "discord.js";
+import { filter, fromEvent, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Discord extends BaseService {
@@ -18,7 +18,49 @@ export class Discord extends BaseService {
 			.pipe(
 				map((x: Message) => ({
 					MESSAGE: x.content,
-					AUTHOR: x.author.username,
+					AUTHOR_ID: x.author.id,
+					AUTHOR_NAME: x.author.username,
+				})),
+			);
+	}
+
+	@action(PipelineType.OnDiscordMention, [])
+	listenMentions(_: any): Observable<PipelineEnv> {
+		return fromEvent(this._client, "message")
+			.pipe(
+				filter((x: Message) => x.mentions.has(this._client.user)),
+				map((x: Message) => ({
+					MESSAGE: x.content,
+					AUTHOR_ID: x.author.id,
+					AUTHOR_NAME: x.author.username,
+				})),
+			);
+	}
+
+	@action(PipelineType.OnNewDiscordGuildMember, [])
+	listenNewGuildMember(_: any): Observable<PipelineEnv> {
+		return fromEvent(this._client, "guildMemberAdd")
+			.pipe(
+				map((member: GuildMember) => ({
+					NEW_MEMBER_ID: member.user.id,
+					NEW_MEMBER_NAME: member.user.username,
+					SERVER_ID: member.guild.id,
+					SERVER_NAME: member.guild.name
+
+				})),
+			);
+	}
+
+	@action(PipelineType.OnDiscordGuildLeave, [])
+	listenGuildLeave(_: any): Observable<PipelineEnv> {
+		return fromEvent(this._client, "guildMemberRemove")
+			.pipe(
+				map((member: GuildMember) => ({
+					NEW_MEMBER_ID: member.user.id,
+					NEW_MEMBER_NAME: member.user.username,
+					SERVER_ID: member.guild.id,
+					SERVER_NAME: member.guild.name
+
 				})),
 			);
 	}
