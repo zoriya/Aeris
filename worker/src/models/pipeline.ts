@@ -34,6 +34,22 @@ export enum PipelineType {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export enum ReactionType {
 	Tweet,
 	// Youtube reactions
@@ -60,7 +76,8 @@ export enum ReactionType {
 	AddToPlaylist,
 	setDiscordStatus,
 	PostDiscordDM,
-	leaveDiscordServer
+	leaveDiscordServer,
+	PostDiscordMessage
 };
 
 

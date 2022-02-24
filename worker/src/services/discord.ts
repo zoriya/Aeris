@@ -1,6 +1,6 @@
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
-import { Client, Intents, Message } from "discord.js";
+import { Client, Intents, Message, TextChannel } from "discord.js";
 import { fromEvent, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
@@ -23,15 +23,27 @@ export class Discord extends BaseService {
 			);
 	}
 
-	@reaction(ReactionType.PostDiscordMessage)
-	async postMessage(_:any): Promise<PipelineEnv> {
+	@reaction(ReactionType.PostDiscordMessage, ['server_id', 'channel_id', 'content'])
+	async postMessage(params :any): Promise<PipelineEnv> {
+		let guild = await this._client.guilds.fetch(params['server_id']);
+		let channel = guild.channels.cache.get(params['channel_id']);
+		let message = await (<TextChannel> channel).send(params['content']);
+		return {
+			USER_ID: this._client.user.username,
+			USERNAME: this._client.user.id,
+			MESSAGE_CONTENT: message.content,
+			CHANNEL_ID: channel.id,
+			CHANNEL_NAME: channel.name,
+			SERVER_ID: guild.id,
+			SERVER_NAME: guild.name,
+		};
 
 	}
 
-	@reaction(ReactionType.PostDiscordDM, ['other_id', 'message'])
+	@reaction(ReactionType.PostDiscordDM, ['other_id', 'content'])
 	async postDM(params: any): Promise<PipelineEnv> {
 		let res = await this._client.users.fetch(params['other_id']).then(user => 
-			user.send(params['message']));
+			user.send(params['content']));
 		return {
 			USER_ID: res.author.id,
 			USERNAME: res.author.username,
@@ -43,11 +55,6 @@ export class Discord extends BaseService {
 
 	@reaction(ReactionType.markDiscordMessageAsread)
 	async markAsread(_:any): Promise<PipelineEnv> {
-	}
-
-	@reaction(ReactionType.joinDiscordServer)
-	async joinServer(_:any): Promise<PipelineEnv> {
-		
 	}
 
 	@reaction(ReactionType.leaveDiscordServer, ['server_id'])
@@ -66,7 +73,7 @@ export class Discord extends BaseService {
 	async setStatus(params:any): Promise<PipelineEnv> {
 		let res = await this._client.user.setStatus(params['status']);
 		return {
-			USER_ID: res.userId,
+			USER_ID: res.user.id,
 			USERNAME: res.user.username,
 			STATUS: params['status']
 		};
