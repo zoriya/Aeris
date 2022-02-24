@@ -4,7 +4,7 @@
 		"actions": [
 			{
 				"name": "OnDiscordMessage",
-				"description": "A even triggered by the reception of a direct message",
+				"description": "An even triggered by the reception of a direct message",
 				"params": [],
 				"returns": [
 					{
@@ -23,7 +23,7 @@
 			},
 			{
 				"name": "OnDiscordMessageFrom",
-				"description": "A even triggered by the reception of a direct message from a specified user",
+				"description": "An even triggered by the reception of a direct message from a specified user",
 				"params": [
 					{
 						"name": "user_id",
@@ -48,7 +48,7 @@
 			},
 			{
 				"name": "OnDiscordMention",
-				"description": "A even triggered when the authenticated user is mentioned",
+				"description": "An even triggered when the authenticated user is mentioned",
 				"params": [],
 				"returns": [
 					{
@@ -67,7 +67,7 @@
 			},
 			{
 				"name": "OnNewDiscordGuildMember",
-				"description": "A even triggered when a new member joins a guild",
+				"description": "An even triggered when a new member joins a guild",
 				"params": [],
 				"returns": [
 					{
@@ -90,7 +90,7 @@
 			},
 			{
 				"name": "OnDiscordGuildLeave",
-				"description": "A even triggered when a member leaves a guild",
+				"description": "An even triggered when a member leaves a guild",
 				"params": [],
 				"returns": [
 					{
@@ -113,7 +113,149 @@
 			}
 		],
 		"reactions": [
-
+			{
+				"name": "PostDiscordMessage",
+				"description": "Posts a message on a given server (in a given channel)",
+				"params": [
+					{
+						"name": "server_id",
+						"type": "string",
+						"description": "The Discord ID of the server"
+					},
+					{
+						"name": "channel_id",
+						"type": "string",
+						"description": "The Discord ID of the channel"
+					},
+					{
+						"name": "content",
+						"type": "string",
+						"description": "The body of the message to post"
+					}
+				],
+				"returns": [
+					{
+						"name": "USER_ID",
+						"description": "The Discord ID of the sender"
+					},
+					{
+						"name": "USERNAME",
+						"description": "The Discord username of the sender"
+					},
+					{
+						"name": "MESSAGE_CONTENT",
+						"description": "The body of the posted message"
+					},
+					{
+						"name": "CHANNEL_ID",
+						"description": "The Discord ID of the channel"
+					},
+					{
+						"name": "CHANNEL_NAME",
+						"description": "The Discord name of the channel"
+					},
+					{
+						"name": "SERVER_ID",
+						"description": "The Discord ID of the server"
+					},
+					{
+						"name": "SERVER_NAME",
+						"description": "The Discord name of the server"
+					}
+				]
+			},
+			{
+				"name": "PostDiscordDM",
+				"description": "Sends a message to a given user",
+				"params": [
+					{
+						"name": "other_id",
+						"type": "string",
+						"description": "The Discord ID of the sendee"
+					},
+					{
+						"name": "content",
+						"type": "string",
+						"description": "The body of the message to send"
+					}
+				],
+				"returns": [
+					{
+						"name": "USER_ID",
+						"description": "The Discord ID of the sender"
+					},
+					{
+						"name": "USERNAME",
+						"description": "The Discord username of the sender"
+					},
+					{
+						"name": "MESSAGE_CONTENT",
+						"description": "The body of the posted message"
+					},
+					{
+						"name": "SENDEE_ID",
+						"description": "The Discord ID of the sendee"
+					},
+					{
+						"name": "SENDEE_USERNAME",
+						"description": "The Discord name of the sendee"
+					}
+				]
+			},
+			{
+				"name": "LeaveDiscordServer",
+				"description": "Leave given Discord server",
+				"params": [
+					{
+						"name": "server_id",
+						"type": "string",
+						"description": "The Discord ID of the server"
+					}
+				],
+				"returns": [
+					{
+						"name": "USER_ID",
+						"description": "The Discord ID of the leaver"
+					},
+					{
+						"name": "USERNAME",
+						"description": "The Discord username of the leaver"
+					},
+					{
+						"name": "SERVER_ID",
+						"description": "The Discord ID of the server"
+					},
+					{
+						"name": "SERVER_NAME",
+						"description": "The Discord name of the server"
+					}
+				]
+			},
+			{
+				"name": "SetDiscordStatus",
+				"description": "Leave given Discord server",
+				"params": [
+					{
+						"name": "status",
+						"type": "string",
+						"description": "The status to set"
+					}
+				],
+				"returns": [
+					{
+						"name": "USER_ID",
+						"description": "The Discord ID of the user"
+					},
+					{
+						"name": "USERNAME",
+						"description": "The Discord username of the user"
+					},
+					{
+						"name": "STATUS",
+						"description": "The Discord status of the user"
+					}
+				]
+			}
 		]
 	}
 ]
