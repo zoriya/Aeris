@@ -26,11 +26,11 @@ export class Github extends BaseService {
 	): Observable<PipelineEnv> {
 		return fromEventPattern(
 			(h) => this._websocket.on(eventName, h),
-			(h) => this._websocket.removeListener(eventName, h))
-			.pipe(
-				filter(({ _, __, payload }) => filterMe.call(payload)),
-				map(({ _, __, payload }) => mapMe(payload)),
-			);
+			(h) => this._websocket.removeListener(eventName, h)
+		).pipe(
+			filter(({ _, __, payload }) => filterMe.call(payload)),
+			map(({ _, __, payload }) => mapMe(payload)),
+		);
 	}
 
 	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
