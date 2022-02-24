@@ -26,4 +26,5 @@ CREATE TABLE IF NOT EXISTS reactions (
 	CONSTRAINT fk_pipeline
 		FOREIGN KEY (pipeline_id)
 			REFERENCES pipelines(id)
+				ON DELETE CASCADE
 );

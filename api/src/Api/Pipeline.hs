@@ -19,7 +19,7 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
 import Data.Text (Text)
-import Db.Pipeline (Pipeline (Pipeline, pipelineType, pipelineUserId, pipelineId), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
+import Db.Pipeline (Pipeline (Pipeline, pipelineType, pipelineUserId, pipelineId, pipelineEnabled), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
 import GHC.Generics (Generic)
 import Hasql.Statement (Statement)
@@ -35,7 +35,7 @@ import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (No
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
-import Utils (mapInd, UserAuth, AuthRes)
+import Utils (mapInd, UserAuth, AuthRes, defaultPipeline)
 import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
 import System.Environment.MrEnv (envAsString)
@@ -45,6 +45,7 @@ data PipelineData = PipelineData
     , pType :: PipelineType
     , pParams :: PipelineParams
     , id :: PipelineId
+    , enabled :: Bool
     }
 
 data ReactionData = ReactionData
@@ -82,7 +83,7 @@ formatGetPipelineResponse :: Pipeline Identity -> [Reaction Identity] -> GetPipe
 formatGetPipelineResponse pipeline reactions =
     PostPipelineData actionResult reactionsResult
     where
-        actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline)
+        actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline) (pipelineEnabled pipeline)
         reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
     
 
@@ -100,7 +101,12 @@ reactionDatasToReactions datas pId = fmap (\(s, i) -> Reaction (ReactionId 1) (r
 
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
 postPipelineHandler (Authenticated (User uid _ _)) x = do
-    actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
+    let newPipeline = defaultPipeline {
+          pipelineName = name p
+        , pipelineType = pType p
+        , pipelineParams = pParams p
+        , pipelineUserId = uid }
+    actionId <- createPipeline newPipeline
     createReactions $ reactionDatasToReactions (reactions x) actionId
   where
     p = action x
@@ -110,7 +116,7 @@ putPipelineHandler :: AuthRes -> PipelineId -> PutPipelineData -> AppM PutPipeli
 putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
     oldPipeline <- getPipelineById' pipelineId
     if pipelineUserId oldPipeline == uid then do
-        res <- putWorkflow pipelineId pipeline r
+        res <- putWorkflow pipelineId newPipeline r
         if res > 0 then
             return x
         else
@@ -119,7 +125,11 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
         throwError err401
     where
         p = action x
-        pipeline = lit $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
+        newPipeline = lit $ defaultPipeline {
+          pipelineName = name p
+        , pipelineType = pType p
+        , pipelineParams = pParams p
+        , pipelineUserId = uid }
         r = reactionDatasToReactions (reactions x) pipelineId
 putPipelineHandler _ _ _ = throwError err401
 
