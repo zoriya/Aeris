@@ -19,8 +19,11 @@ export class Github extends BaseService {
 		});
 	}
 	
-	private fromGitHubEvent(eventName: EmitterWebhookEventName,
-		filterMe: (_: any) => boolean, mapMe: (_: any) => any): Observable<PipelineEnv> {
+	private fromGitHubEvent(
+		eventName: EmitterWebhookEventName,
+		filterMe: (_: any) => boolean,
+		mapMe: (_: any) => any
+	): Observable<PipelineEnv> {
 		return fromEventPattern(
 			(h) => this._websocket.on(eventName, h),
 			(h) => this._websocket.removeListener(eventName, h))
