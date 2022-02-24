@@ -3,6 +3,7 @@ export enum ServiceType {
 	Youtube,
 	Github,
 	Spotify,
+	Discord,
 };
 
 
@@ -25,8 +26,13 @@ export enum PipelineType {
 	OnWatchRepo,
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
-};
 
+	OnDiscordMessage,
+	OnDiscordMention,
+	OnNewDiscordGuildMember,
+	OnDiscordGuildLeave,
+	OnDiscordMessageFrom
+};
 
 export enum ReactionType {
 	Tweet,
@@ -52,8 +58,13 @@ export enum ReactionType {
 	PlayTrack,
 	AddTrackToLibrary,
 	AddToPlaylist,
+	//Discord
+	SetDiscordStatus,
+	PostDiscordDM,
+	LeaveDiscordServer,
+	PostDiscordMessage,
+	Pause
 };
-
 
 export class Pipeline {
 	id: number;
@@ -79,4 +90,3 @@ export class Reaction {
 export class PipelineEnv {
 	[key: string]: any;
 };
-

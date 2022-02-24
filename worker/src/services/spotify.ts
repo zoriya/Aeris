@@ -66,6 +66,12 @@ export class Spotify extends BaseService {
 		};
 	}
 
+	@reaction(ReactionType.Pause, [])
+	async pause(params: any): Promise<PipelineEnv> {
+		this._spotify.pause();
+		return {};
+	}
+
 	@reaction(ReactionType.AddTrackToLibrary, ['artist', 'track'])
 	async addTrackToLibrary(params: any): Promise<PipelineEnv> {
 		let track = await this._searchTrack(params['artist'], params['track']);
