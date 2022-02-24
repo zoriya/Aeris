@@ -1,5 +1,5 @@
 import { GenericButtonProps } from "../components/GenericButton";
-import { AppAREAType, ReactionTypeEnum, ActionTypeEnum, ParamType, AppPipelineType, ImageProps, AppServiceType } from "./types";
+import { AppAREAType, ReactionTypeEnum, ActionTypeEnum, ParamTypeEnum, AppPipelineType, ImageProps, AppServiceType } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
 
 
@@ -170,7 +170,7 @@ export const AppListActions: Array<AppAREAType> = [
                 "author": {
                     value: "me",
                     description: "author of the post",
-                    type: ParamType.String
+                    type: ParamTypeEnum.String
                 }
             }
         },
@@ -198,7 +198,7 @@ export const AppListReactions: Array<AppAREAType> = [
                 "body": {
                     value: "yatta",
                     description: "The text to tweet",
-                    type: ParamType.String
+                    type: ParamTypeEnum.String
                 }
             }
         },
