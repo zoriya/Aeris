@@ -1,20 +1,9 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { getCookieValue } from '../../utils/globals';
 import React, { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-const getCookieValue = (name: string): string => {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(nameEQ) == 0)
-            return c.substring(nameEQ.length,c.length);
-    }
-    return "";
-}
-
 const sendAuthCode = async (authCode: string): Promise<boolean> => {
-    console.log(getCookieValue("aeris_jwt"));
     const response = await fetch(API_ROUTE + '/auth/github?code=' + authCode, {
         method: 'GET',
         headers: {

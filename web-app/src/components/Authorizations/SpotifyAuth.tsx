@@ -1,3 +1,4 @@
+import { getCookieValue, sendServiceAuthToken } from '../../utils/globals';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect } from "react";
 import { API_ROUTE } from "../..";
@@ -11,10 +12,12 @@ export default function SpotifyAuth() {
     useEffect(() => {
         async function sendSpotifyCode() {
             if (authCode.trim()) {
-                navigate('pipelines');
+                await sendServiceAuthToken(authCode, '/auth/spotify');
+                navigate('/pipelines');
             }
         }
-    });
+        sendSpotifyCode();
+    }, []);
 
     return (<div/>);
 }

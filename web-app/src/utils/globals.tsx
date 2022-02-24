@@ -1,6 +1,7 @@
 import { GenericButtonProps } from "../components/GenericButton";
 import { AppAREAType, ReactionTypeEnum, ActionTypeEnum, ParamTypeEnum, AppPipelineType, ImageProps, AppServiceType } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
+import { API_ROUTE } from "..";
 
 
 
@@ -31,40 +32,76 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
+const generateRandomString = (): string => {
+	let randomString = '';
+	const randomNumber = Math.floor(Math.random() * 10);
+
+	for (let i = 0; i < 20 + randomNumber; i++) {
+		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94));
+	}
+	return randomString;
+}
+
+export const getCookieValue = (name: string): string => {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i].trim();
+		if (c.indexOf(nameEQ) == 0)
+			return c.substring(nameEQ.length,c.length);
+	}
+	return "";
+};
+
+export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string): Promise<boolean> => {
+	const response = await fetch(API_ROUTE + serviceEndpoint + '?code=' + authToken, {
+		method: 'GET',
+		headers: {
+			'Authorization': 'Bearer ' + getCookieValue('aeris_jwt')
+		}
+	});
+
+	if (!response.ok) {
+		console.log(response);
+		return false;
+	}
+	return true;
+};
+
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
 		uid: "youtube",
 		logo: AppServicesLogos["youtube"],
-		urlAuth: "",
+		urlAuth: `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_CLIENT_ID}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${generateRandomString()}`,
 		linked: false
 	},
 	{
 		label: "Spotify",
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
-		urlAuth: "",
+		urlAuth: `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify`,
 		linked: false
 	},
 	{
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
-		urlAuth: "https://github.com/login/oauth/authorize?client_id=Iv1.c32d1b598854bac9&response_type=code&redirect_uri=http://localhost:3000/authorization/github",
+		urlAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/authorization/github`,
 		linked: false
 	},
 	{
 		label: "Twitter",
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
-		urlAuth: "",
+		urlAuth: `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${generateRandomString()}&code_challenge=challenge&code_challenge_method=plain`,
 		linked: true
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
-		urlAuth: "",
+		urlAuth: `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${process.env.DISCORD_CLIENT_ID}&scope=applications.commands%20applications.entitlements%20applications.store.update%20bot%20guilds%20guilds.join%20guilds.members.read%20identify%20messages.read%20webhook.incoming&state=${generateRandomString()}`,
 		linked: true
 	},
 	{

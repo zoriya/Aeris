@@ -4,6 +4,7 @@ import "./App.css";
 
 import App from "./App";
 import GithubAuth from "./components/Authorizations/GithubAuth";
+import SpotifyAuth from "./components/Authorizations/SpotifyAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthComponent from "./pages/Login/LoginPage";
 import PipelinePage from "./pages/HomePage";
@@ -28,6 +29,7 @@ function AerisRouter() {
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
 							<Route path='/authorization/github' element={<GithubAuth />} />
+							<Route path='/authorization/spotify' element={<SpotifyAuth />} />
 						</Routes>
 					</BrowserRouter>
 				</header>
