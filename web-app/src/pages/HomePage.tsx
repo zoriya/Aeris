@@ -1,12 +1,16 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import { GenericButtonProps } from "../components/GenericButton";
-import type { ImageProps } from "../components/types";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
+import type { ImageProps } from "../components/types";
+import AddIcon from "@mui/icons-material/Add";
+import AppBar from "@mui/material/AppBar";
+import React, { useEffect } from 'react';
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import { API_ROUTE } from '../';
 
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
@@ -21,6 +25,9 @@ import {
 	AppListReactions,
 	AppListPipelines,
 } from "../utils/globals";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -37,9 +44,39 @@ enum ModalSelection {
 	ServiceSetup,
 }
 
+const getCookieValue = (name: string): string => {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i].trim();
+		if (c.indexOf(nameEQ) == 0)
+			return c.substring(nameEQ.length,c.length);
+	}
+	return "";
+}
+
+const getUserName = async (): Promise<string> => {
+	const response = await fetch(API_ROUTE + "/auth/me", {
+		method: 'GET',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + getCookieValue('aeris_jwt')
+		}
+	});
+
+	if (response.ok) {
+		let json = await response.json();
+		return json["userName"];
+	}
+	console.error("Can't get username");
+	return '';
+}
+
 export default function HomePage() {
 	const classes = useStyles();
-	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.ServiceSetup);
+	const [username, setUsername] = useState<string>("");
+	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
 
 	const data: Array<PipelineBoxProps> = [
@@ -75,8 +112,28 @@ export default function HomePage() {
 		},
 	];
 
+	useEffect(() => {
+		async function fetchUsername() {
+			setUsername(await getUserName());
+		}
+		fetchUsername();
+	}, []);
+
 	return (
 		<div className={classes.divHomePage}>
+			<React.Fragment>
+				<AppBar position='fixed'>
+					<Toolbar variant="dense">
+						<Box sx={{ flexGrow: 1 }}/>
+						<IconButton onClick={() => { setModalMode(ModalSelection.ServiceSetup) }}>
+							<ElectricalServicesIcon/>
+						</IconButton>
+						<Typography noWrap sx={{ margin: 1 }} variant='h5' align='right'>
+							{username}
+						</Typography>
+					</Toolbar>
+				</AppBar>
+			</React.Fragment>
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal
@@ -90,6 +147,12 @@ export default function HomePage() {
 					reactions={AppListReactions}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
+			</PipelineModal>
+
+			<PipelineModal
+				isOpen={modalMode === ModalSelection.ServiceSetup}
+				handleClose={() => setModalMode(ModalSelection.None)}>
+				<ServiceSetupModal services={AppServices}/>
 			</PipelineModal>
 
 			<Box

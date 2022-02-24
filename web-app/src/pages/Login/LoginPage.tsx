@@ -3,8 +3,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
-import { InputAdornment, Typography } from "@mui/material";
 import { AccountCircle, Cookie, Lock } from "@mui/icons-material";
+import { InputAdornment } from "@mui/material";
 
 import { API_ROUTE } from "../..";
 
