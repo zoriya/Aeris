@@ -1,48 +1,119 @@
 [
 	{
-		"name": "Github",
+		"name": "Discord",
 		"actions": [
 			{
-				"name": "github_new",
-				"description": "Created a new repository on Github"
+				"name": "OnDiscordMessage",
+				"description": "A even triggered by the reception of a direct message",
+				"params": [],
+				"returns": [
+					{
+						"name": "MESSAGE",
+						"description": "The body of the received message"
+					},
+					{
+						"name": "AUTHOR_ID",
+						"description": "The Discord ID of the message's author"
+					},
+					{
+						"name": "AUTHOR_NAME",
+						"description": "The Discord username of the message's author"
+					}
+				]
 			},
 			{
-				"name": "github_forked",
-				"description": "Forked a new repository on Github"
+				"name": "OnDiscordMessageFrom",
+				"description": "A even triggered by the reception of a direct message from a specified user",
+				"params": [
+					{
+						"name": "user_id",
+						"type": "string",
+						"description": "The Discord ID of the sender"
+					}
+				],
+				"returns": [
+					{
+						"name": "MESSAGE",
+						"description": "The body of the received message"
+					},
+					{
+						"name": "AUTHOR_ID",
+						"description": "The Discord ID of the message's author"
+					},
+					{
+						"name": "AUTHOR_NAME",
+						"description": "The Discord username of the message's author"
+					}
+				]
+			},
+			{
+				"name": "OnDiscordMention",
+				"description": "A even triggered when the authenticated user is mentioned",
+				"params": [],
+				"returns": [
+					{
+						"name": "MESSAGE",
+						"description": "The body of the received message"
+					},
+					{
+						"name": "AUTHOR_ID",
+						"description": "The Discord ID of the message's author"
+					},
+					{
+						"name": "AUTHOR_NAME",
+						"description": "The Discord username of the message's author"
+					}
+				]
+			},
+			{
+				"name": "OnNewDiscordGuildMember",
+				"description": "A even triggered when a new member joins a guild",
+				"params": [],
+				"returns": [
+					{
+						"name": "NEW_MEMBER_ID",
+						"description": "The Discord ID of the new member"
+					},
+					{
+						"name": "NEW_MEMBER_NAME",
+						"description": "The Discord Username of the new member"
+					},
+					{
+						"name": "SERVER_ID",
+						"description": "The Discord ID of the guild"
+					},
+					{
+						"name": "SERVER_NAME",
+						"description": "The name of the guild"
+					}
+				]
+			},
+			{
+				"name": "OnDiscordGuildLeave",
+				"description": "A even triggered when a member leaves a guild",
+				"params": [],
+				"returns": [
+					{
+						"name": "NEW_MEMBER_ID",
+						"description": "The Discord ID of the new member"
+					},
+					{
+						"name": "NEW_MEMBER_NAME",
+						"description": "The Discord Username of the new member"
+					},
+					{
+						"name": "SERVER_ID",
+						"description": "The Discord ID of the guild"
+					},
+					{
+						"name": "SERVER_NAME",
+						"description": "The name of the guild"
+					}
+				]
 			}
 		],
 		"reactions": [
-			{
-				"name": "github_new",
-				"description": "Create a new repository on Github"
-			},
-			{
-				"name": "github_fork",
-				"description": "Forke a new repository on Github"
-			}
-		]
-	},
-	{
-		"name": "Facebook",
-		"actions": [
-			{
-				"name": "facebook_new",
-				"description": "Created a new post on Facebook"
-			},
-			{
-				"name": "facebook_comment",
-				"description": "Commented on a post on Facebook"
-			}
-		],
-		"reactions": [
-			{
-				"name": "facebook_new",
-				"description": "Create a new post on Facebook"
-			},
-			{
-				"name": "facebook_comment",
-				"description": "Comment on a post on Facebook"
-			}
+
 		]
 	}
 ]
