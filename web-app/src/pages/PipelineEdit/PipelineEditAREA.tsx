@@ -1,4 +1,4 @@
-import { InputLabel, FormHelperText, Avatar, ListItemAvatar } from "@mui/material";
+import { InputLabel, FormHelperText, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -10,6 +10,8 @@ import GenericButton, { GenericButtonProps } from "../../components/GenericButto
 import PipelineModal from "../../components/Pipelines/PipelineModal";
 import PipelineEditParams from "./PipelineEditParams";
 import { useState } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { PipelineEditMode } from "./PipelineEditPage";
 
 export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
@@ -39,10 +41,11 @@ export default function PipelineEditAREA({
 				style={{
 					display: "grid",
 					gridTemplateColumns: "8fr 1fr",
-					gridTemplateRows: "100px 50vh",
+					gridTemplateRows: "2fr 50vh 1fr",
 					gridTemplateAreas: `
-							'mainTitle select'
-							'AREAData AREAData'
+							'mainTitle 	select'
+							'AREAData 	AREAData'
+							'.			buttonBack'
 					`,
 					placeItems: "center",
 				}}>
@@ -70,25 +73,40 @@ export default function PipelineEditAREA({
 					<FormHelperText>{filteredElements.length} actions disponibles</FormHelperText>
 				</Box>
 
-				<Grid container gridArea={"AREAData"} alignSelf="start" direction="row" justifyContent="flex-start" spacing={2} alignItems="flex-start">
-				{filteredElements.map((el, elIndex) => {
-					return (
-						<Grid item key={elIndex}>
-							<GenericButton
-								title={el.type}
-								service={el.service.logo}
-								trailingIcon={<MoreVertIcon />}
-								onClickCallback={() => {
-									setAREAData(el);
-									setIsOpenParamsModal(true);
-								}}
-							/>
-						</Grid>
-					);
-				})}
-			</Grid>
+				<Grid
+					container
+					gridArea={"AREAData"}
+					alignSelf="start"
+					direction="row"
+					justifyContent="flex-start"
+					spacing={2}
+					alignItems="flex-start">
+					{filteredElements.map((el, elIndex) => {
+						return (
+							<Grid item key={elIndex}>
+								<GenericButton
+									title={el.type}
+									service={el.service.logo}
+									trailingIcon={<MoreVertIcon />}
+									onClickCallback={() => {
+										setAREAData(el);
+										setIsOpenParamsModal(true);
+									}}
+								/>
+							</Grid>
+						);
+					})}
+				</Grid>
+				
+				<Button
+					sx={{ gridArea: "buttonBack" }}
+					color="secondary"
+					startIcon={<ArrowBackIcon />}
+					onClick={() => setEditMode(PipelineEditMode.Pipeline)}
+					variant="contained">
+					Retour
+				</Button>
 			</div>
-			
 
 			{isOPenParamsModal ? (
 				<PipelineModal isOpen={isOPenParamsModal} handleClose={() => setIsOpenParamsModal(false)}>
