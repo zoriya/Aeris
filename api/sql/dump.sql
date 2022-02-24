@@ -12,6 +12,10 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	type VARCHAR(255) NOT NULL,
 	params JSONB NOT NULL,
 	user_id INTEGER NOT NULL,
+	enabled BOOLEAN NOT NULL,
+	error TEXT NOT NULL,
+	trigger_count INTEGER NOT NULL,
+	last_trigger TIMESTAMP NOT NULL,
 	CONSTRAINT fk_user
 		FOREIGN KEY (user_id)
 			REFERENCES users(id)
