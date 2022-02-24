@@ -53,11 +53,7 @@ export class Discord extends BaseService {
 		};
 	}
 
-	@reaction(ReactionType.markDiscordMessageAsread)
-	async markAsread(_:any): Promise<PipelineEnv> {
-	}
-
-	@reaction(ReactionType.leaveDiscordServer, ['server_id'])
+	@reaction(ReactionType.LeaveDiscordServer, ['server_id'])
 	async leaveServer(params :any): Promise<PipelineEnv> {
 		let guild = await this._client.guilds.fetch(params['server_id']);
 		guild.leave();
@@ -69,7 +65,7 @@ export class Discord extends BaseService {
 		}
 	}
 
-	@reaction(ReactionType.setDiscordStatus, ['status'])
+	@reaction(ReactionType.SetDiscordStatus, ['status'])
 	async setStatus(params:any): Promise<PipelineEnv> {
 		let res = await this._client.user.setStatus(params['status']);
 		return {

@@ -74,9 +74,10 @@ export enum ReactionType {
 	PlayTrack,
 	AddTrackToLibrary,
 	AddToPlaylist,
-	setDiscordStatus,
+	//Discord
+	SetDiscordStatus,
 	PostDiscordDM,
-	leaveDiscordServer,
+	LeaveDiscordServer,
 	PostDiscordMessage
 };
 
