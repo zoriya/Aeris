@@ -50,7 +50,7 @@ class _StartupPageState extends State<StartupPage> {
               ),
               onPressed: () {
                 if (isConnected) {
-                  Navigator.of(context).popAndPushNamed('/home');
+                  Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
                 } else {
                   Navigator.of(context).pushNamed('/login');
                 }

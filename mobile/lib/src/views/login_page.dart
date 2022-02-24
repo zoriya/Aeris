@@ -50,8 +50,7 @@ class LoginPage extends StatelessWidget {
             onLogin: _authUser,
             onSignup: _signupUser,
             onSubmitAnimationCompleted: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.of(context).popAndPushNamed("/home");
+              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
             }));
   }
 }
