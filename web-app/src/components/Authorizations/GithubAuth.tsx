@@ -14,6 +14,7 @@ const getCookieValue = (name: string): string => {
 }
 
 const sendAuthCode = async (authCode: string): Promise<boolean> => {
+    console.log(getCookieValue("aeris_jwt"));
     const response = await fetch(API_ROUTE + '/auth/github?code=' + authCode, {
         method: 'GET',
         headers: {
@@ -22,7 +23,7 @@ const sendAuthCode = async (authCode: string): Promise<boolean> => {
     });
 
     if (!response.ok) {
-        console.error(await response.json());
+        console.error(response);
         return false;
     }
     return true;
