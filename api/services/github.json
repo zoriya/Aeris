@@ -1,0 +1,740 @@
+{
+    "name": "Github",
+    "actions": [
+        {
+            "name": "OnOpenPR",
+            "description": "An event triggered when a pull request is opened on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "PR_NAME",
+                    "description": "The opened pull request name"
+                },
+                {
+                    "name": "PR_BODY",
+                    "description": "The opened pull request body"
+                },
+                {
+                    "name": "PR_OPENER",
+                    "description": "The user's username that opened the pull request"
+                },
+                {
+                    "name": "PR_HEAD",
+                    "description": "The name of the branch to merge into the base branch"
+                },
+                {
+                    "name": "PR_BASE",
+                    "description": "The name of the branch to merge head branch into"
+                },
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                }
+            ]
+        },
+        {
+            "name": "OnCommentPR",
+            "description": "An event triggered by a new comment inside the pull request on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "PR_NAME",
+                    "description": "The opened pull request name"
+                },
+                {
+                    "name": "PR_BODY",
+                    "description": "The opened pull request body"
+                },
+                {
+                    "name": "PR_OPENER",
+                    "description": "The user's username that opened the pull request"
+                },
+                {
+                    "name": "PR_HEAD",
+                    "description": "The name of the branch to merge into the base branch"
+                },
+                {
+                    "name": "PR_BASE",
+                    "description": "The name of the branch to merge head branch into"
+                },
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "COMMENTER",
+                    "description": "The user's username that comment the pull request"
+                },
+                {
+                    "name": "COMMENT_BODY",
+                    "description": "The body of the new comment on the pull request"
+                }
+            ]
+        },
+        {
+            "name": "OnClosePR",
+            "description": "An event triggered when a pull request is closed on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "PR_NAME",
+                    "description": "The opened pull request name"
+                },
+                {
+                    "name": "PR_BODY",
+                    "description": "The opened pull request body"
+                },
+                {
+                    "name": "PR_OPENER",
+                    "description": "The user's username that opened the pull request"
+                },
+                {
+                    "name": "PR_HEAD",
+                    "description": "The name of the branch to merge into the base branch"
+                },
+                {
+                    "name": "PR_BASE",
+                    "description": "The name of the branch to merge head branch into"
+                },
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                }
+            ]
+        },
+        {
+            "name": "OnMergePR",
+            "description": "An event triggered when a pull request is merged on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "PR_NAME",
+                    "description": "The opened pull request name"
+                },
+                {
+                    "name": "PR_BODY",
+                    "description": "The opened pull request body"
+                },
+                {
+                    "name": "PR_OPENER",
+                    "description": "The user's username that opened the pull request"
+                },
+                {
+                    "name": "PR_HEAD",
+                    "description": "The name of the branch to merge into the base branch"
+                },
+                {
+                    "name": "PR_BASE",
+                    "description": "The name of the branch to merge head branch into"
+                },
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                }
+            ]
+        },
+        {
+            "name": "OnCreateIssue",
+            "description": "An event triggered when an issue is created on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "ISSUE_NAME",
+                    "description": "The title of the created issue"
+                },
+                {
+                    "name": "ISSUE_CONTENT",
+                    "description": "The description of the created issue"
+                },
+                {
+                    "name": "ISSUE_AUTHOR",
+                    "description": "The issue creator username"
+                }
+            ]
+        },
+        {
+            "name": "OnCommentIssue",
+            "description": "An event triggered when an user comments an issue on the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "ISSUE_NAME",
+                    "description": "The title of the created issue"
+                },
+                {
+                    "name": "ISSUE_CONTENT",
+                    "description": "The description of the created issue"
+                },
+                {
+                    "name": "ISSUE_AUTHOR",
+                    "description": "The issue creator username"
+                },
+                {
+                    "name": "COMMENT",
+                    "description": "The body of the new comment on an issue of the repository given as parameter"
+                },
+                {
+                    "name": "ISSUE_AUTHOR",
+                    "description": "The author of the comment on an issue"
+                }
+            ]
+        },
+        {
+            "name": "OnCloseIssue",
+            "description": "An event triggered when an issue is closed in the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "ISSUE_NAME",
+                    "description": "The title of the created issue"
+                },
+                {
+                    "name": "ISSUE_CONTENT",
+                    "description": "The description of the created issue"
+                },
+                {
+                    "name": "ISSUE_AUTHOR",
+                    "description": "The issue creator username"
+                }
+            ]
+        },
+        {
+            "name": "OnForkRepo",
+            "description": "An event triggered when the repository given as parameter is forked",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "FORKER",
+                    "description": "The username of the user that fork the repository"
+                }
+            ]
+        },
+        {
+            "name": "OnStarRepo",
+            "description": "An event triggered when a user star the repository given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "STAR_COUNT",
+                    "description": "The number of star on the watched repository"
+                },
+                {
+                    "name": "STARER",
+                    "description": "The username of the user that starred the watched repository"
+                }
+            ]
+        },
+        {
+            "name": "OnWatchRepo",
+            "description": "An event triggered when an user watch a repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The user's username that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The targeted repository's name"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "REPO_NAME",
+                    "description": "The name of the repository watched by the user"
+                },
+                {
+                    "name": "REPO_OWNER",
+                    "description": "The username of the user that owns the repository"
+                },
+                {
+                    "name": "WATCH_COUNT",
+                    "description": "The number of user watching the repository"
+                },
+                {
+                    "name": "WATCHER",
+                    "description": "The username of the user that watched the repository"
+                }
+            ]
+        }
+    ],
+    "reactions": [
+        {
+            "name": "OpenPR",
+            "description": "Open a pull request on a given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the user that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "description": "The title of the opened pull request"
+                },
+                {
+                    "name": "head",
+                    "type": "string",
+                    "description": "The name of the branch to merge into base branch"
+                },
+                {
+                    "name": "base",
+                    "type": "string",
+                    "description": "The name of the branch to merge intro head branch"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly opened pull request"
+                }
+            ]
+        },
+        {
+            "name": "CommentPR",
+            "description": "Comments the numbered pull request of the given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "pull_number",
+                    "type": "number",
+                    "description": "The number assigned to the commented pull request"
+                },
+                {
+                    "name": "body",
+                    "type": "string",
+                    "description": "The body of the comment written under the pull request"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url to the comment"
+                }
+            ]
+        },
+        {
+            "name": "ClosePR",
+            "description": "Closes the pull request given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the user that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "pull_number",
+                    "type": "number",
+                    "description": "The number assigned to the closed pull request"
+                }
+            ],
+            "returns": []
+        },
+        {
+            "name": "MergePR",
+            "description": "Merges the pull request given as parameter into base branch",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the user that owns the repository"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "pull_number",
+                    "type": "number",
+                    "description": "The number assigned to the closed pull request"
+                }
+            ],
+            "returns": []
+        },
+        {
+            "name": "CreateIssue",
+            "description": "Creates an issue into the given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "title",
+                    "type": "string",
+                    "description": "The title of the created issue"
+                },
+                {
+                    "name": "body",
+                    "type": "string",
+                    "description": "The body of the created issue"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly created issue"
+                }
+            ]
+        },
+        {
+            "name": "CommentIssue",
+            "description": "Comments the given issue into the given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "issue_number",
+                    "type": "string",
+                    "description": "The number assigned to the commented issue"
+                },
+                {
+                    "name": "body",
+                    "type": "string",
+                    "description": "The body of the comment under the issue"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly created comment"
+                }
+            ]
+        },
+        {
+            "name": "CloseIssue",
+            "description": "Closes the given issue into the given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "issue_number",
+                    "type": "string",
+                    "description": "The number assigned to the commented issue"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly closed issue"
+                }
+            ]
+        },
+        {
+            "name": "CreateRepo",
+            "description": "Creates a new repository with the given name",
+            "params": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "description": "The name of the newly created repository"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly created repository"
+                }
+            ]
+        },
+        {
+            "name": "CreatePrivateRepo",
+            "description": "Creates a new private repository with the given name",
+            "params": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "description": "The name of the newly created private repository"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the newly created private repository"
+                }
+            ]
+        },
+        {
+            "name": "UpdateDescription",
+            "description": "Updates the description of the given repository",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                },
+                {
+                    "name": "description",
+                    "type": "string",
+                    "description": "The description to set to the given repository"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the repository"
+                }
+            ]
+        },
+        {
+            "name": "ForkRepo",
+            "description": "Forks the repository of the user given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                }
+            ],
+            "returns": [
+                {
+                    "name": "URL",
+                    "description": "The url of the forked repository"
+                }
+            ]
+        },
+        {
+            "name": "StarRepo",
+            "description": "Stars the repository of the user given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                }
+            ],
+            "returns": []
+        },
+        {
+            "name": "WatchRepo",
+            "description": "Watches the repository of the user given as parameter",
+            "params": [
+                {
+                    "name": "owner",
+                    "type": "string",
+                    "description": "The username of the repository owner"
+                },
+                {
+                    "name": "repo",
+                    "type": "string",
+                    "description": "The name of the repository"
+                }
+            ],
+            "returns": []
+        }
+    ]
+}

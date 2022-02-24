@@ -3,7 +3,7 @@
 	"actions": [
 		{
 			"name": "OnDiscordMessage",
-			"description": "An even triggered by the reception of a direct message",
+			"description": "An event triggered by the reception of a direct message",
 			"params": [],
 			"returns": [
 				{
@@ -22,7 +22,7 @@
 		},
 		{
 			"name": "OnDiscordMessageFrom",
-			"description": "An even triggered by the reception of a direct message from a specified user",
+			"description": "An event triggered by the reception of a direct message from a specified user",
 			"params": [
 				{
 					"name": "user_id",
@@ -47,7 +47,7 @@
 		},
 		{
 			"name": "OnDiscordMention",
-			"description": "An even triggered when the authenticated user is mentioned",
+			"description": "An event triggered when the authenticated user is mentioned",
 			"params": [],
 			"returns": [
 				{
@@ -66,7 +66,7 @@
 		},
 		{
 			"name": "OnNewDiscordGuildMember",
-			"description": "An even triggered when a new member joins a guild",
+			"description": "An event triggered when a new member joins a guild",
 			"params": [],
 			"returns": [
 				{
@@ -89,7 +89,7 @@
 		},
 		{
 			"name": "OnDiscordGuildLeave",
-			"description": "An even triggered when a member leaves a guild",
+			"description": "An event triggered when a member leaves a guild",
 			"params": [],
 			"returns": [
 				{
