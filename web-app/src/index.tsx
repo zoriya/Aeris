@@ -27,7 +27,7 @@ function AerisRouter() {
 							<Route path="/" element={<App />} />
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
-							<Route path='/authorization/github' element={<GithubAuth authCode='codeExample' />} />
+							<Route path='/authorization/github' element={<GithubAuth />} />
 						</Routes>
 					</BrowserRouter>
 				</header>
