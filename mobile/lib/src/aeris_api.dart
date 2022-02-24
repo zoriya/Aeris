@@ -29,7 +29,6 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  ///TODO Use .env
   late final String baseRoute;
 
   AerisAPI() {
@@ -164,7 +163,7 @@ class AerisAPI {
     fakeAPI.add(newPipeline);
     var res = await _requestAPI(
         '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
-
+    newPipeline = Pipeline.fromJSON(jsonDecode(res.body));
     return res.ok;
   }
 
