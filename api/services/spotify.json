@@ -37,8 +37,110 @@
 						"description": "Name of the added track"
 					}
 				]
-			},
+			}
 		],
-		"reactions": []
+		"reactions": [
+			{
+				"name": "PlayTrack",
+				"description": "Play a track",
+				"params": [
+					{
+						"name": "artist",
+						"type": "string",
+						"description": "Artist of the song to play"
+					},
+					{
+						"name": "track",
+						"type": "string",
+						"description": "Title of the song to play"
+					}
+				],
+				"returns": [
+					{
+						"name": "URL",
+						"description": "URL of the song"
+					},
+					{
+						"name": "ARTIST",
+						"description": "Artist of the song"
+					},
+					{
+						"name": "TRACK",
+						"description": "Title of the song"
+					}
+				]
+			},
+			{
+				"name": "Pause",
+				"description": "Pause play",
+				"params": [],
+				"returns": []
+			},
+			{
+				"name": "AddTrackToLibrary",
+				"description": "Add a track to library",
+				"params": [
+					{
+						"name": "artist",
+						"type": "string",
+						"description": "Artist of the song to add"
+					},
+					{
+						"name": "track",
+						"type": "string",
+						"description": "Title of the song to add"
+					}
+				],
+				"returns": [
+					{
+						"name": "URL",
+						"description": "URL of the added song"
+					},
+					{
+						"name": "ARTIST",
+						"description": "Artist of the added song"
+					},
+					{
+						"name": "TRACK",
+						"description": "Title of the added song"
+					}
+				]
+			},
+			{
+				"name": "AddToPlaylist",
+				"description": "Add a track to a playlist",
+				"params": [
+					{
+						"name": "artist",
+						"type": "string",
+						"description": "Artist of the song to add"
+					},
+					{
+						"name": "track",
+						"type": "string",
+						"description": "Title of the song to add"
+					},
+					{
+						"name": "playlist",
+						"type": "string",
+						"description": "Name of the playlist"
+					}
+				],
+				"returns": [
+					{
+						"name": "URL",
+						"description": "URL of the added song"
+					},
+					{
+						"name": "ARTIST",
+						"description": "Artist of the added song"
+					},
+					{
+						"name": "TRACK",
+						"description": "Title of the added song"
+					}
+				]
+			}
+		]
 	}
 ]
