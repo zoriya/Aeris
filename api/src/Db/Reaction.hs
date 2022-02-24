@@ -5,6 +5,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE TypeFamilies #-}
 
 module Db.Reaction where
@@ -19,7 +20,30 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Int (Int64)
 import Data.Text (Text)
 import GHC.Generics (Generic)
-import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncoded (JSONBEncoded), Name, OnConflict (DoNothing), Query, ReadShow (ReadShow), Rel8able, Result, Returning (Projection), TableSchema (TableSchema, columns, name, schema), each, into, lit, nextval, onConflict, returning, rows, unsafeCastExpr, values, where_, (==.), many, ListTable)
+
+import Rel8
+    ( DBEq,
+      DBType,
+      (==.),
+      unsafeCastExpr,
+      nextval,
+      each,
+      where_,
+      many,
+      values,
+      lit,
+      Column,
+      Expr,
+      Rel8able,
+      Query,
+      Name,
+      Result,
+      TableSchema(..),
+      Delete(..),
+      Insert(..),
+      OnConflict(DoNothing),
+      Returning(NumberOfRowsAffected, Projection),
+      ListTable )
 
 import Core.Reaction
 import Data.Functor.Identity (Identity)
@@ -107,3 +131,22 @@ getWorkflowsByUser uid = do
     pipeline <- getPipelineByUserId uid
     reactions <- many $ reactionsForPipeline pipeline
     return (pipeline, reactions)
+
+deleteReaction :: ReactionId -> Delete Int64
+deleteReaction rId =
+    Delete
+        { from = reactionSchema
+        , using = pure()
+        , deleteWhere = \_ row -> reactionId row ==. lit rId
+        , returning = NumberOfRowsAffected
+        }
+
+
+deleteReactionsByPipelineId :: PipelineId  -> Delete Int64
+deleteReactionsByPipelineId pId =
+    Delete
+        { from = reactionSchema
+        , using = pure()
+        , deleteWhere = \_ row -> reactionPipelineId row ==. lit pId
+        , returning = NumberOfRowsAffected
+        }

@@ -19,19 +19,19 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
 import Data.Text (Text)
-import Db.Pipeline (Pipeline (Pipeline, pipelineType, pipelineUserId), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
+import Db.Pipeline (Pipeline (Pipeline, pipelineType, pipelineUserId, pipelineId), PipelineId (PipelineId, toInt64), getPipelineById, insertPipeline, pipelineName, pipelineParams, pipelineSchema, pipelineId)
 import Db.Reaction (Reaction (Reaction, reactionOrder, reactionParams, reactionType), ReactionId (ReactionId), getReactionsByPipelineId, insertReaction)
 import GHC.Generics (Generic)
 import Hasql.Statement (Statement)
 import Hasql.Transaction (Transaction, statement)
-import Rel8 (asc, each, insert, limit, orderBy, select)
+import Rel8 (asc, each, insert, limit, orderBy, select, Expr, lit)
 import Repository
     ( createPipeline,
       getPipelineById',
       getPipelineByUser,
       createReaction,
-      getReactionsByPipelineId', getWorkflow' )
-import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent))
+      getReactionsByPipelineId', getWorkflow', getWorkflowsByUser', getWorkflows', createReactions, putWorkflow, delWorkflow )
+import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent), err400)
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
@@ -58,6 +58,7 @@ data PostPipelineData = PostPipelineData
     }
 
 type GetPipelineResponse = PostPipelineData
+type PutPipelineData = PostPipelineData
 
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
@@ -69,56 +70,75 @@ data PipelineAPI mode = PipelineAPI
     , post  :: mode :- "workflow" :> UserAuth :>
         ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
     , put   :: mode :- "workflow" :> UserAuth :>
-        Capture "id" PipelineId :> Put '[JSON] (Pipeline Identity)
+        Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineData
     , del   :: mode :- "workflow" :> UserAuth :>
-        Capture "id" PipelineId :> Delete '[JSON] (Pipeline Identity)
+        Capture "id" PipelineId :> Delete '[JSON] Int64
     , all   :: mode :- "workflows" :> UserAuth :>
         QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponse]
     }
     deriving stock (Generic)
 
+formatGetPipelineResponse :: Pipeline Identity -> [Reaction Identity] -> GetPipelineResponse
+formatGetPipelineResponse pipeline reactions =
+    PostPipelineData actionResult reactionsResult
+    where
+        actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline)
+        reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
+    
+
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
 getPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
     (pipeline, reactions) <- getWorkflow' pipelineId
-    if pipelineUserId pipeline == uid then do
-        let actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) pipelineId
-        let reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
-        return $ PostPipelineData actionResult reactionsResult
+    if pipelineUserId pipeline == uid then
+        return $ formatGetPipelineResponse pipeline reactions
     else
         throwError err401
 getPipelineHandler _ _ = throwError err401
 
+reactionDatasToReactions :: [ReactionData] -> PipelineId -> [Reaction Identity]
+reactionDatasToReactions datas pId = fmap (\(s, i) -> Reaction (ReactionId 1) (rType s) (rParams s) pId (fromIntegral i)) (zip datas [0 ..])
+
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
 postPipelineHandler (Authenticated (User uid _ _)) x = do
     actionId <- createPipeline $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
-    sequence $ mapInd (reactionMap actionId) r
+    createReactions $ reactionDatasToReactions (reactions x) actionId
   where
     p = action x
-    r = reactions x
-    reactionMap :: PipelineId -> ReactionData -> Int -> AppM ReactionId
-    reactionMap actionId s i = do
-        createReaction $ Reaction (ReactionId 1) (rType s) (rParams s) actionId (fromIntegral i)
 postPipelineHandler _ _ = throwError err401
 
-putPipelineHandler :: AuthRes -> PipelineId -> AppM (Pipeline Identity)
-putPipelineHandler (Authenticated user) pipelineId = throwError err401
-putPipelineHandler _ _ = throwError err401
+putPipelineHandler :: AuthRes -> PipelineId -> PutPipelineData -> AppM PutPipelineData
+putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
+    oldPipeline <- getPipelineById' pipelineId
+    if pipelineUserId oldPipeline == uid then do
+        res <- putWorkflow pipelineId pipeline r
+        if res > 0 then
+            return x
+        else
+            throwError err400
+    else
+        throwError err401
+    where
+        p = action x
+        pipeline = lit $ Pipeline (PipelineId 1) (name p) (pType p) (pParams p) uid
+        r = reactionDatasToReactions (reactions x) pipelineId
+putPipelineHandler _ _ _ = throwError err401
 
-delPipelineHandler :: AuthRes -> PipelineId -> AppM (Pipeline Identity)
-delPipelineHandler (Authenticated user) pipelineId = throwError err401
+delPipelineHandler :: AuthRes -> PipelineId -> AppM Int64 
+delPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
+    oldPipeline <- getPipelineById' pipelineId
+    if pipelineUserId oldPipeline == uid then do
+        delWorkflow pipelineId
+    else throwError err401
 delPipelineHandler _ _ = throwError err401
 
 allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
 allPipelineHandler usr@(Authenticated (User uid _ _)) Nothing = do
-  pipelines <- getPipelineByUser uid
-  mapM (getPipelineHandler usr . pipelineId) pipelines
+    workflows <- getWorkflowsByUser' uid
+    return $ fmap (uncurry formatGetPipelineResponse) workflows
 allPipelineHandler _ (Just key) = do
   k <- liftIO $ envAsString "WORKER_API_KEY" ""
-  {--  if k == key then do
-    pipelines <- getPipelines 
-    mapM (getPipelineHandler usr . pipelineId) pipelines
-  else --}
-  throwError err401 
+  if k == key then do fmap (uncurry formatGetPipelineResponse) <$> getWorkflows' 
+  else throwError err401 
 allPipelineHandler _ _ =  throwError err401
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
