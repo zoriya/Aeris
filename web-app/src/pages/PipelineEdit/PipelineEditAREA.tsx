@@ -40,7 +40,7 @@ export default function PipelineEditAREA({
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "8fr 1fr",
+					gridTemplateColumns: "50vw 1fr",
 					gridTemplateRows: "2fr 50vh 1fr",
 					gridTemplateAreas: `
 							'mainTitle 	select'
@@ -49,7 +49,7 @@ export default function PipelineEditAREA({
 					`,
 					placeItems: "center",
 				}}>
-				<Typography gridArea={"mainTitle"} justifySelf={"left"} variant="h4" noWrap align="left">
+				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
 					Setup {AREAs[0].isAction ? "Action" : "Réaction"} :
 				</Typography>
 
@@ -97,7 +97,7 @@ export default function PipelineEditAREA({
 						);
 					})}
 				</Grid>
-				
+
 				<Button
 					sx={{ gridArea: "buttonBack" }}
 					color="secondary"
