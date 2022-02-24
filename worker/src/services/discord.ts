@@ -28,9 +28,17 @@ export class Discord extends BaseService {
 
 	}
 
-	@reaction(ReactionType.PostDiscordDM)
-	async postDM(_:any): Promise<PipelineEnv> {
-		
+	@reaction(ReactionType.PostDiscordDM, ['other_id', 'message'])
+	async postDM(params: any): Promise<PipelineEnv> {
+		let res = await this._client.users.fetch(params['other_id']).then(user => 
+			user.send(params['message']));
+		return {
+			USER_ID: res.author.id,
+			USERNAME: res.author.username,
+			SENDEE_ID: res.member.user.id,
+			SENDEE_USERNAME: res.member.user.username,
+			MESSAGE: res.content,
+		};
 	}
 
 	@reaction(ReactionType.markDiscordMessageAsread)
@@ -51,9 +59,9 @@ export class Discord extends BaseService {
 	async setStatus(params:any): Promise<PipelineEnv> {
 		let res = await this._client.user.setStatus(params['status']);
 		return {
-			'user_id': res.userId,
-			'username': res.user.username,
-			'status': params['status']
+			USER_ID: res.userId,
+			USERNAME: res.user.username,
+			STATUS: params['status']
 		};
 	}
 }
