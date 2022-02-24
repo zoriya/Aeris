@@ -96,14 +96,14 @@ export class Discord extends BaseService {
 
 	@reaction(ReactionType.PostDiscordDM, ['other_id', 'content'])
 	async postDM(params: any): Promise<PipelineEnv> {
-		let res = await this._client.users.fetch(params['other_id'])
-			.then(user => user.send(params['content']));
+		let res = await this._client.users.fetch(params['other_id']);
+		let message = await res.send(params['content']);
 		return {
-			USER_ID: res.author.id,
-			USERNAME: res.author.username,
-			SENDEE_ID: res.member.user.id,
-			SENDEE_USERNAME: res.member.user.username,
-			MESSAGE: res.content,
+			USER_ID: message.author.id,
+			USERNAME: message.author.username,
+			SENDEE_ID: message.member.user.id,
+			SENDEE_USERNAME: message.member.user.username,
+			MESSAGE: message.content,
 		};
 	}
 
