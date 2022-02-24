@@ -5,8 +5,6 @@ import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { AppPipelineType, AppAREAType } from "../../utils/types";
 
-import { PipelineActionListProps } from "../../components/PipelineActionList";
-
 interface PipelineEditParamsProps {
 	pipelineData: AppPipelineType,
 	AREA: AppAREAType,
@@ -30,20 +28,29 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 				</Typography>
 			</Box>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-				<TextField label="Parameter 1 name" placeholder="Parameter 1 name" variant="standard" />
-				<TextField
-					sx={{ marginTop: "20px" }}
-					label="Parameter 2 name"
-					placeholder="Parameter 2 name"
-					variant="standard"
-				/>
+				{Object.entries(AREA.params.contents).map((param) => {
+					return (
+						<TextField
+							sx={{ marginTop: "20px" }}
+							label={param[0]}
+							helperText={param[1].description}
+							defaultValue={param[1].value}
+							variant="standard" />
+					);
+				})
+
+				}
+				
 				<LoadingButton
 					sx={{ marginTop: "30px" }}
 					color="secondary"
 					loading={false}
 					loadingPosition="start"
 					startIcon={<Save />}
-					onClick={() => setParams(AREA)}
+					onClick={() => setParams({
+						...AREA,
+						type: "Changed"
+					})}
 					variant="contained">
 					Save
 				</LoadingButton>

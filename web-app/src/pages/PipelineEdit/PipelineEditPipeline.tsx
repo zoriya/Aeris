@@ -5,6 +5,7 @@ import GenericButton, { GenericButtonProps } from "../../components/GenericButto
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save"
 import LoadingButton from "@mui/lab/LoadingButton";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { PipelineEditMode } from "./PipelineEditPage"
@@ -85,6 +86,15 @@ export default function PipelineEditPipeline( {pipelineData, setPipelineData, se
 				variant="contained">
 				Annuler
 			</Button>
+			<LoadingButton
+				variant="contained"
+				color="secondary"
+				startIcon={<SaveIcon />}
+				loadingPosition="start"
+				onClick={() => setPipelineData(pipelineData)}
+				loading={false}>
+				Sauvegarder la pipeline
+			</LoadingButton>
 		</div>
 	);
 }

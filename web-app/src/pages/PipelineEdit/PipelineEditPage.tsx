@@ -8,21 +8,20 @@ import { styled } from "@mui/material/styles";
 import GenericButton from "../../components/GenericButton";
 import { useState } from "react";
 
-
-import { AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types"
+import { AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types";
 
 import { GenericButtonProps } from "../../components/GenericButton";
 
 import PipelineEditPipeline from "./PipelineEditPipeline";
-import PipelineEditAREA from "./PipelineEditAREA"
+import PipelineEditAREA from "./PipelineEditAREA";
 
 interface PipelineEditProps {
-	pipelineData: AppPipelineType,
-	setPipelineData: any,
-	services: Array<AppServiceType>,
-	actions: Array<AppAREAType>,
-	reactions: Array<AppAREAType>,
-	handleQuit: any
+	pipelineData: AppPipelineType;
+	setPipelineData: any;
+	services: Array<AppServiceType>;
+	actions: Array<AppAREAType>;
+	reactions: Array<AppAREAType>;
+	handleQuit: any;
 }
 
 export enum PipelineEditMode {
@@ -30,10 +29,17 @@ export enum PipelineEditMode {
 	Action,
 	Reactions,
 	SaveEdit,
-	QuitEdit
+	QuitEdit,
 }
 
-export default function PipelineEditPage( { pipelineData, setPipelineData, services, actions, reactions, handleQuit } : PipelineEditProps) {
+export default function PipelineEditPage({
+	pipelineData,
+	setPipelineData,
+	services,
+	actions,
+	reactions,
+	handleQuit,
+}: PipelineEditProps) {
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
 	const [editPipelineData, setEditPipelineData] = useState<AppPipelineType>(pipelineData);
 	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);
@@ -43,40 +49,60 @@ export default function PipelineEditPage( { pipelineData, setPipelineData, servi
 	switch (mode) {
 		default:
 		case PipelineEditMode.Pipeline:
-			return <PipelineEditPipeline 
-						pipelineData={editPipelineData} 
-						setEditMode={setMode}
-						setPipelineData={setPipelineData} 
-						setEditReactionIndex={setEditReactionIndex} />
+			return (
+				<PipelineEditPipeline
+					pipelineData={editPipelineData}
+					setEditMode={setMode}
+					setPipelineData={setPipelineData}
+					setEditReactionIndex={setEditReactionIndex}
+				/>
+			);
 		case PipelineEditMode.Action:
-			return <PipelineEditAREA 
-						pipelineData={editPipelineData} 
-						setEditMode={setMode} 
-						setAREA={(AREA: AppAREAType) => {
-							setEditActionData(AREA);
-							setMode(PipelineEditMode.Pipeline);
-						}} 
-						services={services}
-						AREAs={actions} />
+			return (
+				<PipelineEditAREA
+					pipelineData={editPipelineData}
+					setEditMode={setMode}
+					setAREA={(AREA: AppAREAType) => {
+						setEditPipelineData({
+							...editPipelineData,
+							action: AREA,
+						});
+						setMode(PipelineEditMode.Pipeline);
+					}}
+					services={services}
+					AREAs={actions}
+				/>
+			);
 		case PipelineEditMode.Reactions:
-			return <PipelineEditAREA 
-						pipelineData={editPipelineData} 
-						setEditMode={setMode} 
-						setAREA={(AREA: AppAREAType) => alert("pas de sauvegarde pour les réactions")} 
-						services={services}
-						AREAs={reactions} />
+			return (
+				<PipelineEditAREA
+					pipelineData={editPipelineData}
+					setEditMode={setMode}
+					setAREA={(AREA: AppAREAType) => {
+						let reactionsTmp = editPipelineData.reactions;
+						reactionsTmp[editReactionIndex] = AREA;
+						setEditPipelineData({
+							...editPipelineData,
+							reactions: reactionsTmp,
+						});
+						setMode(PipelineEditMode.Pipeline);
+					}}
+					services={services}
+					AREAs={reactions}
+				/>
+			);
 		case PipelineEditMode.QuitEdit:
 			handleQuit();
 			return <div></div>;
 		case PipelineEditMode.SaveEdit:
-			setEditPipelineData({
+			handleQuit();
+			/*setPipelineData({
 				name: pipelineData.name,
 				data: pipelineData.data,
 				onClickCallback: pipelineData.onClickCallback,
 				action: editActionData,
-				reactions: editReactionsData
-			} as AppPipelineType);
+				reactions: editReactionsData,
+			} as AppPipelineType);*/
 			return <div></div>;
-
 	}
 }

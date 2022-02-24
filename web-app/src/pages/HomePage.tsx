@@ -13,7 +13,14 @@ import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, ServiceActions, AppServicesLogos, AppListActions, AppListReactions, AppListPipelines } from "../utils/globals";
+import {
+	AppServices,
+	ServiceActions,
+	AppServicesLogos,
+	AppListActions,
+	AppListReactions,
+	AppListPipelines,
+} from "../utils/globals";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -27,7 +34,7 @@ enum ModalSelection {
 	ActionSelector,
 	ReactionSelector,
 	ArgumentSelector,
-	ServiceSetup
+	ServiceSetup,
 }
 
 export default function HomePage() {
@@ -49,8 +56,8 @@ export default function HomePage() {
 					data: {
 						enabled: true,
 						error: false,
-						status: 'mdr'
-					}
+						status: "mdr",
+					},
 				} as AppPipelineType);
 				setModalMode(ModalSelection.PipelineEdit);
 			},
@@ -66,79 +73,24 @@ export default function HomePage() {
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
-		{
-			title: "Vous êtes débiles bande de trou du cul",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
 	];
-
-	/*
-
-	<PipelineModal isOpen={modalMode === ModalSelection.ActionSelector} handleClose={() => setModalMode(ModalSelection.PipelineEdit)}>
-				<PipelineSetupModal name="oui oui" services={AppServices} elements={sAcopy} />
-			</PipelineModal>
-			<PipelineModal isOpen={modalMode === ModalSelection.ServiceSetup } handleClose={() => {}}>
-				<ServiceSetupModal services={AppServices} />
-			</PipelineModal>
-			<PipelineModal isOpen={modalMode === ModalSelection.ArgumentSelector} handleClose={() => setModalMode(ModalSelection.ActionSelector)}>
-				<PipelineNameSetup title="j'aime les frites" actions={ServiceActions["youtube"]} />
-			</PipelineModal>
-
-	*/
 
 	return (
 		<div className={classes.divHomePage}>
 			<PipelineBoxesLayout data={data} />
 
-			<PipelineModal isOpen={modalMode === ModalSelection.PipelineEdit} handleClose={() => setModalMode(ModalSelection.None)}>
-				<PipelineEditPage 
+			<PipelineModal
+				isOpen={modalMode === ModalSelection.PipelineEdit}
+				handleClose={() => setModalMode(ModalSelection.None)}>
+				<PipelineEditPage
 					pipelineData={pipelineData}
 					setPipelineData={setPipelineData}
 					services={AppServices}
 					actions={AppListActions}
 					reactions={AppListReactions}
-					handleQuit={() => setModalMode(ModalSelection.None)} />
+					handleQuit={() => setModalMode(ModalSelection.None)}
+				/>
 			</PipelineModal>
-			
-			
 
 			<Box
 				sx={{

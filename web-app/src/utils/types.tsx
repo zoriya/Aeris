@@ -9,54 +9,55 @@ export interface AppServiceType {
 	label: string;
 	uid: string;
 	logo: ImageProps;
-    urlAuth: string,
-    linked: boolean
+	urlAuth: string;
+	linked: boolean;
 }
 
 export enum ParamType {
-    Bool = "boolean",
-    String = "string",
-    StringList = "stringList"
+	Bool = "boolean",
+	String = "string",
+	StringList = "stringList",
 }
 
 export enum ActionTypeEnum {
-    None = "None",
-    TwitterNewPost = "TwitterNewPost"
+	None = "None",
+	Changed = "Changed",
+	TwitterNewPost = "TwitterNewPost",
 }
 
 export enum ReactionTypeEnum {
-    None = "None",
-    TwitterTweet = "TwitterTweet"
+	None = "None",
+	Changed = "Changed",
+	TwitterTweet = "TwitterTweet",
 }
 
 export interface ParamsType {
-    value: string,
-    description: string,
-    type: ParamType
-
+	value: string;
+	description: string;
+	type: ParamType;
 }
 
 export interface AppAREAType {
-    isAction: boolean
-    type: ActionTypeEnum | ReactionTypeEnum,
-    params: {
-        contents: { [key:string]: ParamsType }
-    }
-    description?: string,
-    service: AppServiceType,
-    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
+	isAction: boolean;
+	type: ActionTypeEnum | ReactionTypeEnum;
+	params: {
+		contents: { [key: string]: ParamsType };
+	};
+	description?: string;
+	service: AppServiceType;
+	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface AppPipelineInfoType {
-    enabled: boolean,
-    status: string,
-    error: boolean
+	enabled: boolean;
+	status: string;
+	error: boolean;
 }
 
 export interface AppPipelineType {
-    name: string,
-    action: AppAREAType,
-    reactions: Array<AppAREAType>,
-    data: AppPipelineInfoType,
-    onClickCallback?: React.MouseEventHandler<HTMLButtonElement>
+	name: string;
+	action: AppAREAType;
+	reactions: Array<AppAREAType>;
+	data: AppPipelineInfoType;
+	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }

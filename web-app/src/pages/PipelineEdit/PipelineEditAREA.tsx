@@ -1,7 +1,4 @@
-import { Google, GitHub, MusicNote, Twitter, YouTube } from "@mui/icons-material";
 import { InputLabel, FormHelperText, Avatar, ListItemAvatar } from "@mui/material";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -42,7 +39,7 @@ export default function PipelineEditAREA({ pipelineData, services, AREAs, setEdi
 					alignItems: "center",
 				}}>
 				<Typography variant="h4" noWrap align="left">
-					Setup Action: {name}
+					Setup {AREAs[0].isAction ? "Action" : "Réaction"} :
 				</Typography>
 			</Box>
 			<Box sx={{ float: "right" }}>
@@ -62,7 +59,7 @@ export default function PipelineEditAREA({ pipelineData, services, AREAs, setEdi
 						</MenuItem>
 					))}
 				</Select>
-				<FormHelperText>{filteredElements.length ?? "aucune"} actions disponibles</FormHelperText>
+				<FormHelperText>{filteredElements.length} actions disponibles</FormHelperText>
 			</Box>
 			<Grid container direction="row" justifyContent="flex-start" spacing={2} alignItems="flex-start">
 				{filteredElements.map((el, elIndex) => {
