@@ -1,0 +1,44 @@
+[
+	{
+		"name": "Spotify",
+		"actions": [
+			{
+				"name": "OnSpotifyAddToPlaylist",
+				"description": "Event triggered when a song is added to a Spotify playlist",
+				"params": [
+					{
+						"name": "playlistId",
+						"type": "string",
+						"description": "The Spotify ID of the playlist to watch"
+					}
+				],
+				"returns": [
+					{
+						"name": "ID",
+						"description": "ID of the added track"
+					},
+					{
+						"name": "NAME",
+						"description": "Name of the added track"
+					}
+				]
+			},
+			{
+				"name": "OnSpotifySaveToLibrary",
+				"description": "Event triggered when a song is added to a Spotify library",
+				"params": [],
+				"returns": [
+					{
+						"name": "ID",
+						"description": "ID of the added track"
+					},
+					{
+						"name": "NAME",
+						"description": "Name of the added track"
+					}
+				]
+			},
+		],
+		"reactions": []
+	}
+]
