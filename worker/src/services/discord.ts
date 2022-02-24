@@ -3,7 +3,7 @@ import { action, BaseService, reaction, service } from "../models/base-service";
 import { Client, GuildMember, Intents, Message, TextChannel } from "discord.js";
 import { filter, fromEvent, map, Observable } from "rxjs";
 
-@service(ServiceType.Github)
+@service(ServiceType.Discord)
 export class Discord extends BaseService {
 	private _client: Client<boolean>;
 
