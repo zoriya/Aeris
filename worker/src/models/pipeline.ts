@@ -6,21 +6,6 @@ export enum ServiceType {
 	Discord,
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export enum PipelineType {
 	OnTweet,
 
@@ -37,69 +22,6 @@ export enum PipelineType {
 	OnDiscordGuildLeave,
 	OnDiscordMessageFrom
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export enum ReactionType {
 	Tweet,
@@ -133,7 +55,6 @@ export enum ReactionType {
 	Pause
 };
 
-
 export class Pipeline {
 	id: number;
 	service: ServiceType;
@@ -158,4 +79,3 @@ export class Reaction {
 export class PipelineEnv {
 	[key: string]: any;
 };
-
