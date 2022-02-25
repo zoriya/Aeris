@@ -8,8 +8,8 @@ import { AppPipelineType, AppAREAType } from "../../utils/types";
 interface PipelineEditParamsProps {
 	pipelineData: AppPipelineType;
 	AREA: AppAREAType;
-	setParams: any;
-	handleQuit: any;
+	setParams: (area: AppAREAType) => any;
+	handleQuit: () => any;
 }
 
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {

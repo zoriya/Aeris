@@ -25,9 +25,9 @@ import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
-	handleDelete: any;
-	handleSave: any;
-	setEditMode: any;
+	handleDelete: (pD: AppPipelineType) => any;
+	handleSave: (pD: AppPipelineType) => any;
+	setEditMode: (mode: PipelineEditMode) => any;
 	setEditReactionIndex: any;
 }
 

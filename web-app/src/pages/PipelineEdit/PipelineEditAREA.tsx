@@ -17,7 +17,7 @@ export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
 	services: Array<AppServiceType>;
 	AREAs: Array<AppAREAType>;
-	setEditMode: any;
+	setEditMode: (mode: PipelineEditMode) => any;
 	setAREA: any;
 }
 

@@ -17,12 +17,12 @@ import PipelineEditAREA from "./PipelineEditAREA";
 
 interface PipelineEditProps {
 	pipelineData: AppPipelineType;
-	handleSave: any;
-	handleDelete: any;
+	handleSave: (pD: AppPipelineType) => any;
+	handleDelete: (pD: AppPipelineType) => any;
 	services: Array<AppServiceType>;
 	actions: Array<AppAREAType>;
 	reactions: Array<AppAREAType>;
-	handleQuit: any;
+	handleQuit: () => void;
 }
 
 export enum PipelineEditMode {

@@ -59,7 +59,7 @@ export default function HomePage() {
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
+	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(() => (t: AppPipelineType) => {});
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
@@ -84,7 +84,7 @@ export default function HomePage() {
 						status: "mdr",
 					},
 				} as AppPipelineType);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -96,7 +96,7 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -148,7 +148,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineData(AppListPipelines[1]);
-						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
