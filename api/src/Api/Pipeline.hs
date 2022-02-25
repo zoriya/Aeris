@@ -35,10 +35,11 @@ import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (No
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
-import Utils (mapInd, UserAuth, AuthRes, defaultPipeline)
+import Utils (mapInd, UserAuth, AuthRes)
 import Core.User (UserId(UserId), User (User))
 import Servant.Auth.Server (AuthResult(Authenticated))
 import System.Environment.MrEnv (envAsString)
+import Data.Default (def)
 
 data PipelineData = PipelineData
     { name :: Text
@@ -101,7 +102,7 @@ reactionDatasToReactions datas pId = fmap (\(s, i) -> Reaction (ReactionId 1) (r
 
 postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
 postPipelineHandler (Authenticated (User uid _ _)) x = do
-    let newPipeline = defaultPipeline {
+    let newPipeline = def {
           pipelineName = name p
         , pipelineType = pType p
         , pipelineParams = pParams p
@@ -125,7 +126,7 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
         throwError err403
     where
         p = action x
-        newPipeline = lit $ defaultPipeline {
+        newPipeline = lit $ def {
           pipelineName = name p
         , pipelineType = pType p
         , pipelineParams = pParams p
