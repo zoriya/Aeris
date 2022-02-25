@@ -1,19 +1,22 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
+<<<<<<< HEAD
 import ElectricalServicesIcon from "@mui/icons-material/ElectricalServices";
+=======
+>>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
-import { GenericButtonProps } from "../components/GenericButton";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
-import type { ImageProps } from "../components/types";
 import AddIcon from "@mui/icons-material/Add";
+<<<<<<< HEAD
 import AppBar from "@mui/material/AppBar";
+=======
+>>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { getCookie } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
@@ -27,9 +30,7 @@ import {
 	AppListReactions,
 	AppListPipelines,
 } from "../utils/globals";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
+import AerisAppbar from "../components/AppBar";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -57,7 +58,11 @@ const getUserName = async (): Promise<string> => {
 		let json = await response.json();
 		return json["userName"];
 	}
+<<<<<<< HEAD
 	console.warn("Can't get username");
+=======
+	console.error("Can't get username");
+>>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 	return "";
 };
 
@@ -118,6 +123,7 @@ export default function HomePage() {
 
 	return (
 		<div className={classes.divHomePage}>
+<<<<<<< HEAD
 			<React.Fragment>
 				<AppBar position="fixed">
 					<Toolbar variant="dense">
@@ -134,6 +140,14 @@ export default function HomePage() {
 					</Toolbar>
 				</AppBar>
 			</React.Fragment>
+=======
+			<AerisAppbar
+				username={username}
+				onClickOnServices={() => {
+					setModalMode(ModalSelection.ServiceSetup);
+				}}
+			/>
+>>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal

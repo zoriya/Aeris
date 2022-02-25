@@ -15,7 +15,6 @@ import { ThemeProvider } from "@mui/material";
 
 import theme from "./Aeris.theme";
 
-
 export const API_ROUTE = process.env.API_ROUTE ?? "";
 
 /**
@@ -31,11 +30,11 @@ function AerisRouter() {
 							<Route path="/" element={<App />} />
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
-							<Route path='/authorization/github' element={<GithubAuth />} />
-							<Route path='/authorization/spotify' element={<SpotifyAuth />} />
-							<Route path='/authorization/youtube' element={<YouTubeAuth />} />
-							<Route path='/authorization/twitter' element={<TwitterAuth />} />
-							<Route path='/authorization/discord' element={<DiscordAuth />} />
+							<Route path="/authorization/github" element={<GithubAuth />} />
+							<Route path="/authorization/spotify" element={<SpotifyAuth />} />
+							<Route path="/authorization/youtube" element={<YouTubeAuth />} />
+							<Route path="/authorization/twitter" element={<TwitterAuth />} />
+							<Route path="/authorization/discord" element={<DiscordAuth />} />
 						</Routes>
 					</BrowserRouter>
 				</header>

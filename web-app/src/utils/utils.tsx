@@ -24,11 +24,11 @@ export function getCookie(cname: string): string {
 }
 
 export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string): Promise<boolean> => {
-	const response = await fetch(API_ROUTE + serviceEndpoint + '?code=' + authToken, {
-		method: 'GET',
+	const response = await fetch(API_ROUTE + serviceEndpoint + "?code=" + authToken, {
+		method: "GET",
 		headers: {
-			'Authorization': 'Bearer ' + getCookie('aeris_jwt')
-		}
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
 	});
 
 	if (!response.ok) {
@@ -42,6 +42,27 @@ export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: Params
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));
 };
 
+<<<<<<< HEAD
+=======
+export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean) => {
+	const jwt = getCookie("aeris_jwt");
+
+	const request = API_ROUTE + "/workflow/" + (creation ? pipelineData.id : "");
+
+	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
+		method: creation ? "POST" : "PUT",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + jwt,
+		},
+		body: JSON.stringify(PipeLineHostToApi(pipelineData)),
+	});
+	if (!rawResponse.ok) return false;
+	return true;
+};
+
+>>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 	return {
 		action: {
