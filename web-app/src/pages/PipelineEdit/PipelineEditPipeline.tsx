@@ -19,7 +19,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
-import { getCookie, PipeLineHostToApi } from "../../utils/utils";
+import { getCookie, PipeLineHostToApi, requestCreatePipeline } from "../../utils/utils";
 import { API_ROUTE } from "../..";
 import { Keyboard } from "@mui/icons-material";
 
@@ -36,21 +36,6 @@ export default function PipelineEditPipeline({
 	setEditMode,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
-	const requestCreatePipeline = async (pipelineData: AppPipelineType) => {
-		const jwt = getCookie("aeris_jwt");
-
-		const rawResponse = await fetch(API_ROUTE + "/workflow/", {
-			method: "POST",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				Authorization: "Bearer " + jwt,
-			},
-			body: JSON.stringify(PipeLineHostToApi(pipelineData)),
-		});
-		if (!rawResponse.ok) return false;
-		return true;
-	};
 
 	return (
 		<div>
@@ -157,11 +142,7 @@ export default function PipelineEditPipeline({
 					<Button
 						color="primary"
 						startIcon={<SaveIcon />}
-						onClick={async () => {
-							if (await requestCreatePipeline(pipelineData)) {
-								setPipelineData(pipelineData);
-							}
-						}}
+						onClick={async () => setPipelineData(pipelineData)}
 						variant="contained">
 						Sauvegarder
 					</Button>

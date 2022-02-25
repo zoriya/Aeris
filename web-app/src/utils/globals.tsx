@@ -290,6 +290,7 @@ export const AppListReactions: Array<AppAREAType> = [
 
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
+		id: 56,
 		name: "my pipe",
 		action: AppListActions[0],
 		reactions: [
@@ -302,6 +303,7 @@ export const AppListPipelines: Array<AppPipelineType> = [
 		}
 	},
 	{
+		id: 89,
 		name: "nouvelle pipeline",
 		action: AppListActions[1],
 		reactions: [

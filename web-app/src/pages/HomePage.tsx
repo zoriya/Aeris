@@ -15,6 +15,7 @@ import { API_ROUTE } from '../';
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
+import { getCookie } from "../utils/utils";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import {
@@ -38,21 +39,7 @@ const useStyles = makeStyles((theme) => ({
 enum ModalSelection {
 	None,
 	PipelineEdit,
-	ActionSelector,
-	ReactionSelector,
-	ArgumentSelector,
 	ServiceSetup,
-}
-
-const getCookieValue = (name: string): string => {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i].trim();
-		if (c.indexOf(nameEQ) == 0)
-			return c.substring(nameEQ.length,c.length);
-	}
-	return "";
 }
 
 const getUserName = async (): Promise<string> => {
@@ -61,7 +48,7 @@ const getUserName = async (): Promise<string> => {
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + getCookieValue('aeris_jwt')
+			'Authorization': 'Bearer ' + getCookie('aeris_jwt')
 		}
 	});
 
