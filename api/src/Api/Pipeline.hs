@@ -92,7 +92,7 @@ formatGetPipelineResponse pipeline reactions =
         actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline) (pipelineEnabled pipeline)
         reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
     
-informWorker :: ByteString -> PipelineId -> IO()
+informWorker :: ByteString -> PipelineId -> IO ()
 informWorker method id = do
     url <- envAsString "WORKER_URL" "worker/"
     request <- parseRequest url
@@ -136,6 +136,7 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
     if pipelineUserId oldPipeline == uid then do
         res <- putWorkflow pipelineId newPipeline r
         if res > 0 then
+            liftIO $ informWorker "PUT" actionId
             return x
         else
             throwError err500
@@ -155,6 +156,7 @@ delPipelineHandler :: AuthRes -> PipelineId -> AppM Int64
 delPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
     oldPipeline <- getPipelineById' pipelineId
     if pipelineUserId oldPipeline == uid then do
+        liftIO $ informWorker "DELETE" actionId
         delWorkflow pipelineId
     else throwError err403
 delPipelineHandler _ _ = throwError err401

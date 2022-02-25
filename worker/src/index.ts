@@ -15,17 +15,25 @@ global.AbortController = AbortController;
 const app = express()
 const pipelineEvent = new EventEmitter();
 
-app.put("/workflow", (req: Pipeline) => {
-	pipelineEvent.emit("event", req);
+app.put("/workflow/:id", req => {
+	fetch(`${process.env["API_URL"]}/workflow/${req.params.id}?API_KEY=${process.env["API_KEY"]}`)
+		.then(res => {
+			pipelineEvent.emit("event", res.json());
+		});
 });
 
-app.post("/workflow", (req: Pipeline) => {
-	pipelineEvent.emit("event", req);
+app.post("/workflow/:id", req => {
+	fetch(`${process.env["API_URL"]}/workflow/${req.params.id}?API_KEY=${process.env["API_KEY"]}`)
+		.then(res => {
+			pipelineEvent.emit("event", res.json());
+		});
 });
 
-app.delete("/workflow", (req: Pipeline) => {
-	req.type = PipelineType.Never;
-	pipelineEvent.emit("event", req);
+app.delete("/workflow/:id", req => {
+	pipelineEvent.emit("event", {
+		id: req.params.id,
+		type: PipelineType.Never,
+	});
 });
 
 app.listen(5000);
