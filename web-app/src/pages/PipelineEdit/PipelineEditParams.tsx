@@ -48,9 +48,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 					loadingPosition="start"
 					startIcon={<Save />}
 					onClick={() => setParams({
-						...AREA,
-						type: "Changed"
-					})}
+						...AREA					})}
 					variant="contained">
 					Save
 				</LoadingButton>

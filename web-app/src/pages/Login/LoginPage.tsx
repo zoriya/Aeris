@@ -17,6 +17,7 @@ import Box from "@mui/material/Box";
 
 import aerisTheme from "../../Aeris.theme";
 import { resolve } from "node:path/win32";
+import { setCookie, getCookie } from "../../utils/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -62,13 +63,6 @@ type AuthCompProps = {
 	isConfirmButtonVisible: boolean;
 };
 
-function setCookie(cname:string, cvalue:string, exdays:number) {
-	const d = new Date();
-	d.setTime(d.getTime() + (exdays*24*60*60*1000));
-	let expires = "expires="+ d.toUTCString();
-	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
 const requestLogin = async (username: string, password: string, signup: boolean): Promise<boolean> => {
 	const rawResponse = await fetch( API_ROUTE + '/auth/' + (signup ? "signup" : "login"), {
 	  method: 'POST',
@@ -83,7 +77,7 @@ const requestLogin = async (username: string, password: string, signup: boolean)
 	if (signup)
 		return requestLogin(username, password, false);
 	let json = await rawResponse.json();
-	setCookie("aeris_jwt", json["jwt"], 180);
+	setCookie("aeris_jwt", json["jwt"], 365);
 	return true;
   };
 
