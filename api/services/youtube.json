@@ -39,7 +39,6 @@
 			]
 		},
 		{
-			///TODO implement action
 			"name": "OnYtLike",
 			"description": "Event triggered on video like",
 			"params": [],
@@ -62,23 +61,19 @@
 				},
 				{
 					"name": "CHANNEL_ID",
-					"description": "Youtube ID of the channel the video was uploaded to"
+					"description": "Youtube ID of the channel the video was added to"
 				},
 				{
 					"name": "TITLE",
-					"description": "Title of the uploaded video"
+					"description": "Title of the added video"
 				},
 				{
 					"name": "DESCRIPTION",
-					"description": "Description of the uploaded video"
-				},
-				{
-					"name": "LIKED_AT",
-					"description": "Date of the video like"
+					"description": "Description of the added video"
 				},
 				{
 					"name": "CHANNEL_TITLE",
-					"description": "Name of the channel the video was uploaded to"
+					"description": "Name of the channel the video belongs to"
 				}
 			]
 		}
@@ -108,7 +103,7 @@
 				{
 					"name": "videoId",
 					"type": "string",
-					"description": "ID of the video to like"
+					"description": "ID of the video to comment"
 				},
 				{
 					"name": "body",

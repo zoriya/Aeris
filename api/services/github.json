@@ -177,7 +177,7 @@
 				},
 				{
 					"name": "PR_HEAD",
-					"description": "The name of the branch to merge into the base branch"
+					"description": "The name of the branch merged into the base branch"
 				},
 				{
 					"name": "PR_BASE",
@@ -371,11 +371,11 @@
 				},
 				{
 					"name": "STAR_COUNT",
-					"description": "The number of star on the watched repository"
+					"description": "The number of stars on the repository"
 				},
 				{
 					"name": "STARER",
-					"description": "The username of the user that starred the watched repository"
+					"description": "The username of the user that starred the repository"
 				}
 			]
 		},
@@ -405,7 +405,7 @@
 				},
 				{
 					"name": "WATCH_COUNT",
-					"description": "The number of user watching the repository"
+					"description": "The number of users watching the repository"
 				},
 				{
 					"name": "WATCHER",
@@ -501,7 +501,7 @@
 				{
 					"name": "pull_number",
 					"type": "integer",
-					"description": "The number assigned to the closed pull request"
+					"description": "The number assigned to the pull request to close"
 				}
 			],
 			"returns": []
@@ -523,7 +523,7 @@
 				{
 					"name": "pull_number",
 					"type": "integer",
-					"description": "The number assigned to the closed pull request"
+					"description": "The number assigned to the pull request to merge"
 				}
 			],
 			"returns": []
@@ -545,12 +545,12 @@
 				{
 					"name": "title",
 					"type": "string",
-					"description": "The title of the created issue"
+					"description": "The title of the issue to create"
 				},
 				{
 					"name": "body",
 					"type": "string",
-					"description": "The body of the created issue"
+					"description": "The body of the issue to create"
 				}
 			],
 			"returns": [
@@ -577,12 +577,12 @@
 				{
 					"name": "issue_number",
 					"type": "integer",
-					"description": "The number assigned to the commented issue"
+					"description": "The number assigned to the issue to comment"
 				},
 				{
 					"name": "body",
 					"type": "string",
-					"description": "The body of the comment under the issue"
+					"description": "The body of the comment"
 				}
 			],
 			"returns": [
@@ -609,13 +609,13 @@
 				{
 					"name": "issue_number",
 					"type": "integer",
-					"description": "The number assigned to the commented issue"
+					"description": "The number assigned to the issue to close"
 				}
 			],
 			"returns": [
 				{
 					"name": "URL",
-					"description": "The url of the newly closed issue"
+					"description": "The url of the closed issue"
 				}
 			]
 		},
