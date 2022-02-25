@@ -3,8 +3,10 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
-import { InputAdornment, Typography } from "@mui/material";
-import { AccountCircle, Lock } from "@mui/icons-material";
+import { AccountCircle, Cookie, Lock } from "@mui/icons-material";
+import { InputAdornment } from "@mui/material";
+
+import { API_ROUTE } from "../..";
 
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -14,25 +16,27 @@ import Card from "@material-ui/core/Card";
 import Box from "@mui/material/Box";
 
 import aerisTheme from "../../Aeris.theme";
+import { resolve } from "node:path/win32";
+import { setCookie, getCookie } from "../../utils/utils";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
 		display: "absolute",
 		flex: 0.5,
-		margin: `${theme.spacing(0)} auto`
+		margin: `${theme.spacing(0)} auto`,
 	},
 	loginBtn: {
 		display: "absolute",
 		backgroundColor: aerisTheme.palette.secondary.main,
 		color: aerisTheme.palette.primary.contrastText,
 		minWidth: 150,
-		margin: `${theme.spacing(0)} auto`
+		margin: `${theme.spacing(0)} auto`,
 	},
 	switchBtn: {
 		backgroundColor: aerisTheme.palette.primary.main,
 		color: aerisTheme.palette.primary.contrastText,
 		minWidth: 150,
-		margin: `${theme.spacing(0)} auto`
+		margin: `${theme.spacing(0)} auto`,
 	},
 	media: {
 		display: "absolute",
@@ -40,11 +44,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 		alignItems: "center",
 		width: 354.75,
 		height: 478.5,
-		marginBottom: 5
+		marginBottom: 5,
 	},
 	card: {
 		display: "absolute",
-		margin: `${theme.spacing(0)} auto`
+		margin: `${theme.spacing(0)} auto`,
 	},
 }));
 
@@ -59,6 +63,22 @@ type AuthCompProps = {
 	isConfirmButtonVisible: boolean;
 };
 
+const requestLogin = async (username: string, password: string, signup: boolean): Promise<boolean> => {
+	const rawResponse = await fetch(API_ROUTE + "/auth/" + (signup ? "signup" : "login"), {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ username: username, password: password }),
+	});
+	if (!rawResponse.ok) return false;
+	if (signup) return requestLogin(username, password, false);
+	let json = await rawResponse.json();
+	setCookie("aeris_jwt", json["jwt"], 365);
+	return true;
+};
+
 export default function AuthComponent() {
 	const classes = useStyles();
 	const navigate = useNavigate();
@@ -70,56 +90,58 @@ export default function AuthComponent() {
 		helperText: "",
 		isError: false,
 		authMode: "login",
-		isConfirmButtonVisible: false
+		isConfirmButtonVisible: false,
 	});
 
 	useEffect(() => {
-		setAuthData((prevState => {
+		setAuthData((prevState) => {
 			return {
 				...prevState,
-				isButtonDisabled: (!(authData.username.trim() && authData.password.trim() &&
-				(!authData.isConfirmButtonVisible ||
-				(authData.isConfirmButtonVisible && authData.confirmedPassword.trim() == authData.password.trim()))))
+				isButtonDisabled: !(
+					authData.username.trim() &&
+					authData.password.trim() &&
+					(!authData.isConfirmButtonVisible ||
+						(authData.isConfirmButtonVisible && authData.confirmedPassword.trim() == authData.password.trim()))
+				),
 			};
-		}));
+		});
 	}, [authData.username, authData.password, authData.confirmedPassword]);
 
-	const handleLogin = () => {
-		//TODO Implements back auth routes
-		if (authData.username === "b" && authData.password === "b") {
-			setAuthData((prevState => {
-				return {...prevState, isError: false, helperText: 'Login successful!'};
-			}));
+	const handleLogin = async () => {
+		if (await requestLogin(authData.username, authData.password, authData.authMode === "auth")) {
+			setAuthData((prevState) => {
+				return { ...prevState, isError: false, helperText: "Login successful!" };
+			});
 			navigate("/pipelines");
 		} else {
-			setAuthData((prevState => {
-				return {...prevState, isError: true, helperText: 'Incorrect username or password!'};
-			}));
+			setAuthData((prevState) => {
+				return { ...prevState, isError: true, helperText: "Incorrect username or password!" };
+			});
 		}
 	};
 
 	const handleKeyPress = (event: React.KeyboardEvent) => {
-		if (event.key === 'Enter') {
+		if (event.key === "Enter") {
 			authData.isButtonDisabled || handleLogin();
 		}
 	};
 
 	const handleUsernameChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-		setAuthData((prevState => {
-			return {...prevState, username: event.target.value};
-		}));
+		setAuthData((prevState) => {
+			return { ...prevState, username: event.target.value };
+		});
 	};
 
 	const handlePasswordChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-		setAuthData((prevState => {
-			return {...prevState, password: event.target.value};
-		}));
+		setAuthData((prevState) => {
+			return { ...prevState, password: event.target.value };
+		});
 	};
 
 	const handleConfirmedPasswordChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-		setAuthData((prevState => {
-			return {...prevState, confirmedPassword: event.target.value};
-		}));
+		setAuthData((prevState) => {
+			return { ...prevState, confirmedPassword: event.target.value };
+		});
 	};
 
 	return (
@@ -197,16 +219,22 @@ export default function AuthComponent() {
 						</div>
 					</CardContent>
 					<CardActions>
-						<Button variant="contained" size="large" className={classes.loginBtn} onClick={handleLogin} disabled={authData.isButtonDisabled}>
+						<Button
+							variant="contained"
+							size="large"
+							className={classes.loginBtn}
+							onClick={handleLogin}
+							disabled={authData.isButtonDisabled}>
 							{authData.authMode === "login" ? "Connection" : "Signup"}
 						</Button>
-						<Button onClick={() => {
-								setAuthData(prevState => {
+						<Button
+							onClick={() => {
+								setAuthData((prevState) => {
 									return {
 										...prevState,
 										isButtonDisabled: authData.authMode === "login" ? true : authData.isButtonDisabled,
 										authMode: authData.authMode === "login" ? "auth" : "login",
-										isConfirmButtonVisible: !authData.isConfirmButtonVisible
+										isConfirmButtonVisible: !authData.isConfirmButtonVisible,
 									};
 								});
 							}}
