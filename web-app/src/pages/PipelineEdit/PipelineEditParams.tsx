@@ -28,9 +28,10 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 				</Typography>
 			</Box>
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-				{Object.entries(AREA.params.contents).map((param) => {
+				{Object.entries(AREA.params.contents).map((param, key) => {
 					return (
 						<TextField
+							key={key}
 							sx={{ marginTop: "20px" }}
 							label={param[0]}
 							helperText={param[1].description}

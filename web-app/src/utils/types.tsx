@@ -39,7 +39,7 @@ export interface ParamsType {
 
 export interface AppAREAType {
 	isAction: boolean;
-	type: ActionTypeEnum | ReactionTypeEnum;
+	type: ActionTypeEnum | ReactionTypeEnum | string;
 	params: {
 		contents: { [key: string]: ParamsType };
 	};

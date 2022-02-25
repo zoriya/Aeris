@@ -10,7 +10,7 @@ import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie } from "../utils/utils";
+import { getCookie, deSerializeService } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
@@ -23,6 +23,7 @@ import {
 	AppListPipelines,
 } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
+import serviceDump from "../utils/discord.json";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -59,13 +60,18 @@ export default function HomePage() {
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(() => (t: AppPipelineType) => {});
+	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
+		() => (t: AppPipelineType) => {}
+	);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
 			return setModalMode(ModalSelection.None);
 		}
 	};
+
+	const AREAs = deSerializeService(serviceDump, AppServices);
+	console.log(AREAs);
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -125,8 +131,8 @@ export default function HomePage() {
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
 					services={AppServices}
-					actions={AppListActions}
-					reactions={AppListReactions}
+					actions={AREAs[0]}
+					reactions={AREAs[1]}
 					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>

@@ -1,4 +1,4 @@
-import { InputLabel, FormHelperText, Button } from "@mui/material";
+import { InputLabel, FormHelperText, Button, SelectChangeEvent } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -57,12 +57,12 @@ export default function PipelineEditAREA({
 					<InputLabel id="pipeline-setup-select-label">Service</InputLabel>
 					<Select
 						labelId="pipeline-setup-select-label"
-						defaultValue={serviceToShow}
 						variant="standard"
-						onChange={(newValue) => setServiceToShow(newValue.target.value)}
+						value={serviceToShow}
+						onChange={(newValue: SelectChangeEvent) => setServiceToShow(newValue.target.value as string)}
 						label="Services">
-						{services.map((item) => (
-							<MenuItem value={item.uid}>
+						{services.map((item, key) => (
+							<MenuItem value={item.uid} key={key}>
 								<Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 									<img loading="lazy" width="20" src={item.logo.imageSrc} alt={item.logo.altText} />
 									{item.label}

@@ -1,6 +1,7 @@
 import { pipeline } from "stream";
 import { API_ROUTE } from "..";
-import { AppPipelineType, ParamsType } from "./types";
+import { AppServices } from "./globals";
+import { AppAREAType, AppPipelineType, AppServiceType, ParamsType } from "./types";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
 	const d = new Date();
@@ -59,4 +60,37 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 			};
 		}),
 	};
+};
+
+const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: ParamsType } => {
+	let params: { [key: string]: ParamsType } = {};
+	dumpAREAParam.forEach((el) => {
+		params[el.name] = {
+			value: "",
+			type: el.type,
+			description: el.description,
+		};
+	});
+	return params;
+};
+
+export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppServiceType): AppAREAType => {
+	return {
+		type: dumpAREA.name,
+		description: dumpAREA.description,
+		isAction: isAction,
+		service: service,
+		params: {
+			contents: deSerializeAREAParams(dumpAREA.params),
+		},
+	};
+};
+
+export const deSerializeService = (dumpService: any, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
+	let service: AppServiceType = services.filter(el => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
+
+	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, true, service));
+	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, false, service));
+
+	return [actions, reactions];
 };
