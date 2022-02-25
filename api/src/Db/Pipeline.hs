@@ -22,10 +22,11 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncoded (JSONBEncoded), Name, OnConflict (DoNothing), Query, ReadShow (ReadShow), Rel8able, Result, Returning (Projection, NumberOfRowsAffected), TableSchema (TableSchema, columns, name, schema), each, into, lit, nextval, onConflict, returning, rows, unsafeCastExpr, values, where_, (==.), Update (Update, from, returning, set, target, updateWhere), target, from, Delete (Delete, deleteWhere, from, returning, using), target, from, using)
 
-import Core.Pipeline
+import Core.Pipeline ( PipelineParams, PipelineType )
 import Data.Functor.Identity (Identity)
 import Servant (FromHttpApiData)
 import Core.User (UserId(UserId))
+import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 
 newtype PipelineId = PipelineId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
@@ -37,6 +38,10 @@ data Pipeline f = Pipeline
     , pipelineType :: Column f PipelineType
     , pipelineParams :: Column f PipelineParams
     , pipelineUserId :: Column f UserId
+    , pipelineEnabled :: Column f Bool
+    , pipelineError :: Column f (Maybe Text)
+    , pipelineTriggerCount :: Column f Int64
+    , pipelineLastTrigger :: Column f (Maybe UTCTime)
     }
     deriving stock (Generic)
     deriving anyclass (Rel8able)
@@ -57,7 +62,11 @@ pipelineSchema =
                 , pipelineName = "name"
                 , pipelineType = "type"
                 , pipelineParams = "params"
-                , pipelineUserId = "user_id" 
+                , pipelineUserId = "user_id"
+                , pipelineEnabled = "enabled"
+                , pipelineError = "error"
+                , pipelineTriggerCount = "trigger_count"
+                , pipelineLastTrigger = "last_trigger"
                 }
         }
 
@@ -77,7 +86,7 @@ getPipelineByUserId uid = do
   return u
 
 insertPipeline :: Pipeline Identity -> Insert [PipelineId]
-insertPipeline (Pipeline _ name type' params uid) =
+insertPipeline (Pipeline _ name type' params uid _ _ _ _) =
     Insert
         { into = pipelineSchema
         , rows =
@@ -88,6 +97,10 @@ insertPipeline (Pipeline _ name type' params uid) =
                     , pipelineType = lit type'
                     , pipelineParams = lit params
                     , pipelineUserId = lit uid
+                    , pipelineEnabled = lit True
+                    , pipelineError = lit Nothing
+                    , pipelineTriggerCount = lit 0
+                    , pipelineLastTrigger = lit Nothing
                     }
                 ]
         , onConflict = DoNothing
@@ -104,7 +117,7 @@ deletePipeline pId =
         }
 
 updatePipeline :: PipelineId -> Pipeline Expr -> Update Int64
-updatePipeline pId (Pipeline _ newName newType newParams _) =
+updatePipeline pId (Pipeline _ newName newType newParams _ newEnabled _ _ _) =
     Update
         { target = pipelineSchema
         , from = pure ()
