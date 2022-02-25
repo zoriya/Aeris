@@ -126,6 +126,10 @@ export default function PipelineEditPipeline({
 					color="secondary"
 					loading={false}
 					loadingPosition="start"
+					onClick={() => {
+						setEditMode(PipelineEditMode.Reactions);
+						setEditReactionIndex(pipelineData.reactions.length);
+					}}
 					startIcon={<AddBoxIcon />}
 					variant="contained">
 					Ajouter une réaction
