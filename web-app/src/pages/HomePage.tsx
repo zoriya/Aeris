@@ -84,7 +84,7 @@ export default function HomePage() {
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
 					pipelineData={pipelineData}
-					setPipelineData={setPipelineData}
+					handleSave={setPipelineData}
 					services={AppServices}
 					actions={AppListActions}
 					reactions={AppListReactions}
