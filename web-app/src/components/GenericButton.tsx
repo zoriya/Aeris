@@ -3,10 +3,10 @@ import Card from "@mui/material/Card";
 import type { ImageProps } from "./types";
 
 interface GenericButtonProps {
-	title: string,
-	service: ImageProps,
-	trailingIcon: JSX.Element,
-	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>,
+	title: string;
+	service: ImageProps;
+	trailingIcon: JSX.Element;
+	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export type { GenericButtonProps };
@@ -18,10 +18,10 @@ export default function GenericButton({ title, service, trailingIcon, onClickCal
 				display: "flex",
 				alignItems: "center",
 				borderRadius: "15px",
-				width: "500px",
+				width: "100%",
 			}}>
-			<CardActionArea onClick={onClickCallback} >
-				<Box sx={{ display: "flex", flexDirection:"row" }}>
+			<CardActionArea onClick={onClickCallback}>
+				<Box sx={{ display: "flex", flexDirection: "row" }}>
 					<Box
 						className="GenericButtonMedia"
 						sx={{

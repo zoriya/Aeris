@@ -13,7 +13,7 @@ export interface AppServiceType {
 	linked: boolean;
 }
 
-export enum ParamType {
+export enum ParamTypeEnum {
 	Bool = "boolean",
 	String = "string",
 	StringList = "stringList",
@@ -34,7 +34,7 @@ export enum ReactionTypeEnum {
 export interface ParamsType {
 	value: string;
 	description: string;
-	type: ParamType;
+	type: ParamTypeEnum;
 }
 
 export interface AppAREAType {
@@ -55,6 +55,7 @@ export interface AppPipelineInfoType {
 }
 
 export interface AppPipelineType {
+	id: number;
 	name: string;
 	action: AppAREAType;
 	reactions: Array<AppAREAType>;

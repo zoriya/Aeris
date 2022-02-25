@@ -6,11 +6,11 @@ import Box from "@mui/material/Box";
 import { AppPipelineType, AppAREAType } from "../../utils/types";
 
 interface PipelineEditParamsProps {
-	pipelineData: AppPipelineType,
-	AREA: AppAREAType,
-	setParams: any,
-	handleQuit: any
-} 
+	pipelineData: AppPipelineType;
+	AREA: AppAREAType;
+	setParams: any;
+	handleQuit: any;
+}
 
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	return (
@@ -35,22 +35,22 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 							label={param[0]}
 							helperText={param[1].description}
 							defaultValue={param[1].value}
-							variant="standard" />
+							variant="standard"
+						/>
 					);
-				})
+				})}
 
-				}
-				
 				<LoadingButton
 					sx={{ marginTop: "30px" }}
 					color="secondary"
 					loading={false}
 					loadingPosition="start"
 					startIcon={<Save />}
-					onClick={() => setParams({
-						...AREA,
-						type: "Changed"
-					})}
+					onClick={() =>
+						setParams({
+							...AREA,
+						})
+					}
 					variant="contained">
 					Save
 				</LoadingButton>

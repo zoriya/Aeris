@@ -1,20 +1,16 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
-import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
-import { GenericButtonProps } from "../components/GenericButton";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
-import type { ImageProps } from "../components/types";
 import AddIcon from "@mui/icons-material/Add";
-import AppBar from "@mui/material/AppBar";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { API_ROUTE } from '../';
+import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
+import { getCookie } from "../utils/utils";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import {
@@ -25,9 +21,7 @@ import {
 	AppListReactions,
 	AppListPipelines,
 } from "../utils/globals";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
+import AerisAppbar from "../components/AppBar";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -38,31 +32,17 @@ const useStyles = makeStyles((theme) => ({
 enum ModalSelection {
 	None,
 	PipelineEdit,
-	ActionSelector,
-	ReactionSelector,
-	ArgumentSelector,
 	ServiceSetup,
-}
-
-const getCookieValue = (name: string): string => {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for(var i=0;i < ca.length;i++) {
-		var c = ca[i].trim();
-		if (c.indexOf(nameEQ) == 0)
-			return c.substring(nameEQ.length,c.length);
-	}
-	return "";
 }
 
 const getUserName = async (): Promise<string> => {
 	const response = await fetch(API_ROUTE + "/auth/me", {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + getCookieValue('aeris_jwt')
-		}
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
 	});
 
 	if (response.ok) {
@@ -70,8 +50,8 @@ const getUserName = async (): Promise<string> => {
 		return json["userName"];
 	}
 	console.error("Can't get username");
-	return '';
-}
+	return "";
+};
 
 export default function HomePage() {
 	const classes = useStyles();
@@ -89,7 +69,7 @@ export default function HomePage() {
 				setPipelineData({
 					name: "louis",
 					action: AppListActions[0],
-					reactions: [AppListReactions[0]],
+					reactions: AppListReactions,
 					data: {
 						enabled: true,
 						error: false,
@@ -121,19 +101,12 @@ export default function HomePage() {
 
 	return (
 		<div className={classes.divHomePage}>
-			<React.Fragment>
-				<AppBar position='fixed'>
-					<Toolbar variant="dense">
-						<Box sx={{ flexGrow: 1 }}/>
-						<IconButton onClick={() => { setModalMode(ModalSelection.ServiceSetup) }}>
-							<ElectricalServicesIcon/>
-						</IconButton>
-						<Typography noWrap sx={{ margin: 1 }} variant='h5' align='right'>
-							{username}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-			</React.Fragment>
+			<AerisAppbar
+				username={username}
+				onClickOnServices={() => {
+					setModalMode(ModalSelection.ServiceSetup);
+				}}
+			/>
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal
@@ -141,7 +114,7 @@ export default function HomePage() {
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
 					pipelineData={pipelineData}
-					setPipelineData={setPipelineData}
+					handleSave={setPipelineData}
 					services={AppServices}
 					actions={AppListActions}
 					reactions={AppListReactions}
@@ -152,7 +125,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={AppServices}/>
+				<ServiceSetupModal services={AppServices} />
 			</PipelineModal>
 
 			<Box

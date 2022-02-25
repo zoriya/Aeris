@@ -1,21 +1,22 @@
 import { getCookie, sendServiceAuthToken } from "../../utils/utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function GithubAuth() {
+export default function DiscordAuth() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
-	const authCode = searchParams.get("code") as string;
+
+	const authToken = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendUserCode() {
-			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/github");
+		async function sendDiscordCode() {
+			if (authToken.trim()) {
+				await sendServiceAuthToken(authToken, "/auth/discord");
 				navigate("/pipelines");
 			}
 		}
-		sendUserCode();
+		sendDiscordCode();
 	}, []);
 
 	return <div />;

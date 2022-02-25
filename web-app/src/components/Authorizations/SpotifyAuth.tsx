@@ -1,21 +1,22 @@
 import { getCookie, sendServiceAuthToken } from "../../utils/utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function GithubAuth() {
+export default function SpotifyAuth() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
+
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendUserCode() {
+		async function sendSpotifyCode() {
 			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/github");
+				await sendServiceAuthToken(authCode, "/auth/spotify");
 				navigate("/pipelines");
 			}
 		}
-		sendUserCode();
+		sendSpotifyCode();
 	}, []);
 
 	return <div />;

@@ -1,114 +1,335 @@
 import { Octokit } from "@octokit/rest";
-import { Pipeline, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
-import { BaseService, reaction, service } from "../models/base-service";
+import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
+import { action, BaseService, reaction, service } from "../models/base-service";
+import { Webhooks, EmitterWebhookEventName } from "@octokit/webhooks";
+import { filter, fromEventPattern, map, Observable } from "rxjs";
 
 @service(ServiceType.Github)
 export class Github extends BaseService {
 
 	private _github: Octokit;
+	private _websocket: Webhooks;
 
 	constructor(_: Pipeline) {
 		super();
 		///TODO Get various credentials
 		this._github = new Octokit();
-	}
-
-	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
-	openPR(params: any) {
-		this._github.pulls.create({
-			owner: params['owner'], repo: params['repo'], 
-			title: params['title'], base: params['base'], head: params['head']
-		});
-	}
-
-	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
-	commentPR(params: any) {
-		this._github.pulls.createReviewComment({
-			owner: params['owner'], repo: params['repo'], 
-			pull_number: params['pull_number'], body: params['body']
-		});
-	}
-
-	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
-	closePR(params: any) {
-		this._github.pulls.update({
-			owner: params['owner'], repo: params['repo'], 
-			pull_number: params['pull_number'], state: "closed"
-		});
-	}
-
-	@reaction(ReactionType.MergePR, ['owner', 'repo', 'pull_number'])
-	mergePR(params: any) {
-		this._github.pulls.merge({
-			owner: params['owner'], repo: params['repo'], 
-			pull_number: params['pull_number']
-		});
-	}
-
-	@reaction(ReactionType.CreateIssue, ['owner', 'repo', 'title', 'body'])
-	createIssue(params: any) {
-		this._github.issues.create({
-			owner: params['owner'], repo: params['repo'], 
-			title: params['title'], body: params['body']
+		this._websocket = new Webhooks({
+			secret: "bidibi"
 		});
 	}
 	
+	private fromGitHubEvent(
+		eventName: EmitterWebhookEventName,
+		filterMe: (_: any) => boolean,
+		mapMe: (_: any) => any
+	): Observable<PipelineEnv> {
+		return fromEventPattern(
+			(h) => this._websocket.on(eventName, h),
+			(h) => this._websocket.removeListener(eventName, h)
+		).pipe(
+			filter(({ _, __, payload }) => filterMe.call(payload)),
+			map(({ _, __, payload }) => mapMe(payload)),
+		);
+	}
+
+	@reaction(ReactionType.OpenPR, ['owner', 'repo', 'title', 'head', 'base'])
+	async openPR(params: any): Promise<PipelineEnv> {
+		let res = await this._github.pulls.create({
+			owner: params['owner'], repo: params['repo'], 
+			title: params['title'], base: params['base'], head: params['head']
+		});
+		return {
+			URL: res.data.url,
+		};
+	}
+
+	@action(PipelineType.OnOpenPR, ['owner', 'repo'])
+	listenOpenPR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request.opened",
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
+			})
+		);
+	}
+
+	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
+	async commentPR(params: any): Promise<PipelineEnv> {
+		let res = await this._github.pulls.createReviewComment({
+			owner: params['owner'], repo: params['repo'], 
+			pull_number: params['pull_number'], body: params['body']
+		});
+		return {
+			URL: res.url,
+		};
+	}
+
+	@action(PipelineType.OnCommentPR, ['owner', 'repo'])
+	listenCommentPR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request_review_comment.created",
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				COMMENTER: payload.comment.user.login,
+				COMMENT_BODY: payload.comment.body
+			})
+		);
+	}
+
+	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
+	async closePR(params: any): Promise<PipelineEnv> {
+		await this._github.pulls.update({
+			owner: params['owner'], repo: params['repo'], 
+			pull_number: params['pull_number'], state: "closed"
+		});
+		return {};
+	}
+
+	@action(PipelineType.OnClosePR, ['owner', 'repo'])
+	listenClosePR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request.closed",
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo']
+				&& payload.action == "closed" && payload.pull_request.merged == false,
+			(payload) => ({
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
+			})
+		);
+	}
+
+	@reaction(ReactionType.MergePR, ['owner', 'repo', 'pull_number'])
+	async mergePR(params: any): Promise<PipelineEnv> {
+		await this._github.pulls.merge({
+			owner: params['owner'], repo: params['repo'], 
+			pull_number: params['pull_number']
+		});
+		return {};
+	}
+
+	@action(PipelineType.OnMergePR, ['owner', 'repo'])
+	listenMergePR(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"pull_request.edited",
+			(payload) => payload.repository.owner.login == params['owner']
+				&& payload.repository.name == params['repo']
+				&& payload.action == "closed" && payload.pull_request.merged,
+			(payload) => ({
+				PR_NAME: payload.pull_request.title,
+				PR_BODY: payload.pull_request.body,
+				PR_OPENER: payload.sender.login,
+				PR_HEAD: payload.head.ref,
+				PR_BASE: payload.base.ref,
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login
+			})
+		);
+	}
+
+	@reaction(ReactionType.CreateIssue, ['owner', 'repo', 'title', 'body'])
+	async createIssue(params: any): Promise<PipelineEnv> {
+		let res = await this._github.issues.create({
+			owner: params['owner'], repo: params['repo'], 
+			title: params['title'], body: params['body']
+		});
+		return {
+			URL: res.data.url,
+		};
+	}
+
+	@action(PipelineType.OnCreateIssue, ['owner', 'repo'])
+	listenOnCreateIssue(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issues.opened",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login,
+			})
+		);
+	}
+	
 	@reaction(ReactionType.CommentIssue, ['owner', 'repo', 'issue_number', 'body'])
-	commentIssue(params: any) {
-		this._github.issues.createComment({
+	async commentIssue(params: any): Promise<PipelineEnv> {
+		let res = await this._github.issues.createComment({
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], body: params['body']
 		});
+		return {
+			URL: res.data.url,
+		};
+	}
+
+	@action(PipelineType.OnCommentIssue, ['owner', 'repo'])
+	listenOnCommentIssue(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issue_comment",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login,
+				COMMENT: payload.comment.body,
+				COMMENTER: payload.comment.user.login
+			})
+		);
 	}
 
 	@reaction(ReactionType.CloseIssue, ['owner', 'repo', 'issue_number'])
-	closeIssue(params: any) {
-		this._github.issues.update({
+	async closeIssue(params: any): Promise<PipelineEnv> {
+		let res = await this._github.issues.update({
 			owner: params['owner'], repo: params['repo'], 
 			issue_number: params['issue_number'], state: 'closed'
 		});
+		return {
+			URL: res.data.url
+		};
+	}
+
+	@action(PipelineType.OnCloseIssue, ['owner', 'repo'])
+	listenOnIssueClose(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"issues.opened",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				ISSUE_NAME: payload.issue.title,
+				ISSUE_CONTENT: payload.issue.body,
+				ISSUE_AUTHOR: payload.sender.login
+			})
+		);
 	}
 
 	@reaction(ReactionType.CreateRepo, ['name'])
-	createRepo(params: any) {
-		this._github.rest.repos.createForAuthenticatedUser({
+	async createRepo(params: any): Promise<PipelineEnv> {
+		let res = await this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name']
 		});
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.CreatePrivateRepo, ['name'])
-	createPrivateRepo(params: any) {
-		this._github.rest.repos.createForAuthenticatedUser({
+	async createPrivateRepo(params: any): Promise<PipelineEnv> {
+		let res = await this._github.rest.repos.createForAuthenticatedUser({
 			name: params['name'], private: true
 		});
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.UpdateDescription, ['owner', 'repo', 'description'])
-	updateDescription(params:any) {
-		this._github.repos.update({
+	async updateDescription(params:any): Promise<PipelineEnv> {
+		let res = await this._github.repos.update({
 			owner: params['owner'], repo: params['repo'],
 			description: params['description']
 		});
+		return {
+			URL: res.data.url
+		};
 	}
 
 	@reaction(ReactionType.ForkRepo, ['owner', 'repo'])
-	forkRepo(params: any) {
-		this._github.repos.createFork({
+	async forkRepo(params: any): Promise<PipelineEnv> {
+		let res = await this._github.repos.createFork({
 			owner: params['owner'], repo: params['repo']
 		});
+		return {
+			URL: res.data.url
+		};
+	}
+
+	@action(PipelineType.OnForkRepo, ['owner', 'repo'])
+	listenOnForkRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"fork",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				FORKER: payload.forkee.owner.login,
+			})
+		);
 	}
 
 	@reaction(ReactionType.StarRepo, ['owner', 'repo'])
-	starRepo(params: any) {
-		this._github.activity.starRepoForAuthenticatedUser({
+	async starRepo(params: any): Promise<PipelineEnv> {
+		await this._github.activity.starRepoForAuthenticatedUser({
 			owner: params['owner'], repo: params['repo']
 		});
+		return {};
+	}
+
+	@action(PipelineType.OnStarRepo, ['owner', 'repo'])
+	listenOnStarRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"star.created",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				STAR_COUNT: payload.repository.stargazers_count,
+				STARER: payload.sender.login
+			})
+		);
 	}
 
 	@reaction(ReactionType.WatchRepo, ['owner', 'repo'])
-	watchRepo(params: any) {
-		this._github.activity.setRepoSubscription({
+	async watchRepo(params: any): Promise<PipelineEnv> {
+		await this._github.activity.setRepoSubscription({
 			owner: params['owner'], repo: params['repo']
 		});
+		return {};
+	}
+
+	@action(PipelineType.OnWatchRepo, ['owner', 'repo'])
+	listenOnWatchRepo(params: any): Observable<PipelineEnv> {
+		return this.fromGitHubEvent(
+			"watch.started",
+			(payload) => payload.repository.owner.login == params['owner'] 
+				&& payload.repository.name == params['repo'],
+			(payload) => ({
+				REPO_NAME: payload.repository.name,
+				REPO_OWNER: payload.repository.owner.login,
+				WATCH_COUNT: payload.repository.watchers,
+				WATCHER: payload.sender.login
+			})
+		);
 	}
 }

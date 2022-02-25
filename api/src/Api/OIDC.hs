@@ -9,7 +9,7 @@ import Control.Monad.IO.Class (liftIO)
 import Core.User (ExternalToken (ExternalToken, service), Service (Github), UserId (UserId), User (User))
 import Data.Text (pack)
 import Core.OIDC ( getOauthTokens )
-import Repository.User (updateTokens)
+import Repository.User (updateTokens, getTokensByUserId)
 import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403)
 import Servant.API.Generic (type (:-))
 import Servant.Server.Generic (AsServerT)
@@ -27,7 +27,15 @@ oauthHandler (Authenticated (User uid _ _)) service (Just code) = do
 oauthHandler _ service (Just code) = throwError err401
 oauthHandler _ _ _ = throwError err400
 
+servicesHandler :: AuthRes -> AppM [String]
+servicesHandler (Authenticated (User uid name slug)) = do
+    tokens <- getTokensByUserId uid
+    return $ fmap (show . service) tokens
+servicesHandler _ = throwError err401
+
 type OauthAPI = UserAuth :> Capture "service" Service :> QueryParam "code" String :> Get '[JSON] NoContent
+            :<|> UserAuth :> "services" :> Get '[JSON] [String]
 
 oauth :: ServerT OauthAPI AppM
 oauth = oauthHandler
+    :<|> servicesHandler

@@ -1,21 +1,22 @@
 import { getCookie, sendServiceAuthToken } from "../../utils/utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function GithubAuth() {
+export default function TwitterAuth() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
+
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendUserCode() {
+		async function sendTwitterCode() {
 			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/github");
+				await sendServiceAuthToken(authCode, "/auth/twitter");
 				navigate("/pipelines");
 			}
 		}
-		sendUserCode();
+		sendTwitterCode();
 	}, []);
 
 	return <div />;

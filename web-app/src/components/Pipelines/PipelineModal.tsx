@@ -33,32 +33,32 @@ export default function PipelineModal({ isOpen, children, handleClose }: Pipelin
 	const theme = useTheme();
 
 	return (
-			<Modal
-				className={classes.modal}
-				aria-labelledby="simple-modal-title"
-				aria-describedby="simple-modal-description"
-				open={isOpen}
-				onClose={handleClose}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}>
-				<Fade in={isOpen}>
-					<div className={classes.paper}>
-						<IconButton
-							onClick={handleClose}
-							style={{
-								cursor: "pointer",
-								float: "right",
-								marginTop: "5px",
-								width: "20px",
-							}}>
-							<CloseIcon />
-						</IconButton>
-						{children}
-					</div>
-				</Fade>
-			</Modal>
+		<Modal
+			className={classes.modal}
+			aria-labelledby="simple-modal-title"
+			aria-describedby="simple-modal-description"
+			open={isOpen}
+			onClose={handleClose}
+			closeAfterTransition
+			BackdropComponent={Backdrop}
+			BackdropProps={{
+				timeout: 500,
+			}}>
+			<Fade in={isOpen}>
+				<div className={classes.paper}>
+					<IconButton
+						onClick={handleClose}
+						style={{
+							cursor: "pointer",
+							float: "right",
+							marginTop: "5px",
+							width: "20px",
+						}}>
+						<CloseIcon />
+					</IconButton>
+					{children}
+				</div>
+			</Fade>
+		</Modal>
 	);
 }
