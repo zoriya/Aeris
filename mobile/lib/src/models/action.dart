@@ -1,3 +1,4 @@
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:recase/recase.dart';
@@ -12,12 +13,12 @@ abstract class Action {
   String name;
 
   ///Action's parameters
-  Map<String, Object> parameters;
+  List<ActionParameter> parameters;
   Action(
       {Key? key,
       required this.service,
       required this.name,
-      this.parameters = const {}});
+      this.parameters = const []});
 
   static Tuple2<Service, String> parseServiceAndName(String rType) {
     var snake = ReCase(rType).snakeCase.split('_');

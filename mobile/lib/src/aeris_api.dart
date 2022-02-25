@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:aeris/src/models/action.dart';
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
@@ -46,13 +47,11 @@ class AerisAPI {
         name: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
-        service: const Service.twitter(), parameters: {}, name: "Post a tweet");
+        service: const Service.twitter(), parameters: [], name: "Post a tweet");
     var reaction2 = Reaction(
-        service: const Service.gmail(), parameters: {}, name: "Do smth");
+        service: const Service.gmail(), parameters: [], name: "Do smth");
     var reaction1 = Reaction(
-        service: const Service.youtube(),
-        parameters: {},
-        name: "Do smth youtube");
+        service: const Service.youtube(), parameters: [], name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -211,7 +210,10 @@ class AerisAPI {
         ActionTemplate(
             service: service,
             name: "action$i",
-            parameters: {'key1': 'value1', 'key2': 'value2'})
+            parameters: [
+              for (int j = 0; j < 3; j++) 
+                ActionParameter(name: "key$j", description: "description$j")
+            ])
     ];
   }
 
