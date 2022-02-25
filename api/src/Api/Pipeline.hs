@@ -31,7 +31,7 @@ import Repository
       getPipelineByUser,
       createReaction,
       getReactionsByPipelineId', getWorkflow', getWorkflowsByUser', getWorkflows', createReactions, putWorkflow, delWorkflow )
-import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent), err400)
+import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent), err400, err403, err500)
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
@@ -93,7 +93,7 @@ getPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
     if pipelineUserId pipeline == uid then
         return $ formatGetPipelineResponse pipeline reactions
     else
-        throwError err401
+        throwError err403 
 getPipelineHandler _ _ = throwError err401
 
 reactionDatasToReactions :: [ReactionData] -> PipelineId -> [Reaction Identity]
@@ -120,9 +120,9 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
         if res > 0 then
             return x
         else
-            throwError err400
+            throwError err500
     else
-        throwError err401
+        throwError err403
     where
         p = action x
         newPipeline = lit $ defaultPipeline {
@@ -138,7 +138,7 @@ delPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
     oldPipeline <- getPipelineById' pipelineId
     if pipelineUserId oldPipeline == uid then do
         delWorkflow pipelineId
-    else throwError err401
+    else throwError err403
 delPipelineHandler _ _ = throwError err401
 
 allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
@@ -148,7 +148,7 @@ allPipelineHandler usr@(Authenticated (User uid _ _)) Nothing = do
 allPipelineHandler _ (Just key) = do
   k <- liftIO $ envAsString "WORKER_API_KEY" ""
   if k == key then do fmap (uncurry formatGetPipelineResponse) <$> getWorkflows' 
-  else throwError err401 
+  else throwError err403 
 allPipelineHandler _ _ =  throwError err401
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
