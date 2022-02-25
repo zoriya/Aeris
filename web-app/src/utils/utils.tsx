@@ -31,11 +31,7 @@ export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: s
 		},
 	});
 
-	if (!response.ok) {
-		console.log(response);
-		return false;
-	}
-	return true;
+	return response.ok;
 };
 
 export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: ParamsType }) => {
@@ -45,7 +41,7 @@ export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: Params
 export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean) => {
 	const jwt = getCookie("aeris_jwt");
 
-	const request = API_ROUTE + "/workflow/" + (creation ? pipelineData.id : "");
+	const request = API_ROUTE + "/workflow/" + (!creation ? pipelineData.id : "");
 
 	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
 		method: creation ? "POST" : "PUT",
@@ -56,8 +52,7 @@ export const requestCreatePipeline = async (pipelineData: AppPipelineType, creat
 		},
 		body: JSON.stringify(PipeLineHostToApi(pipelineData)),
 	});
-	if (!rawResponse.ok) return false;
-	return true;
+	return rawResponse.ok;
 };
 
 export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
