@@ -32,7 +32,7 @@ const pipelines: Pipeline[] = [
 		triggerCount: 0,
 		name: "toto",
 		service: ServiceType.Youtube,
-		type: PipelineType.OnUpload,
+		type: PipelineType.OnYtUpload,
 		params: {
 			channel: "UCq-Fj5jknLsUf-MWSy4_brA"
 		},
