@@ -9,13 +9,9 @@ export default function GithubAuth() {
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendUserCode() {
-			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/github");
-				navigate("/pipelines");
-			}
-		}
-		sendUserCode();
+		sendServiceAuthToken(authCode, "/auth/github").then((ok) => {
+			navigate('/pipelines');
+		});
 	}, []);
 
 	return <div />;

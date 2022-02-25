@@ -10,13 +10,9 @@ export default function TwitterAuth() {
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendTwitterCode() {
-			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/twitter");
-				navigate("/pipelines");
-			}
-		}
-		sendTwitterCode();
+		sendServiceAuthToken(authCode, "/auth/twitter").then((ok) => {
+			navigate('/pipelines');
+		});
 	}, []);
 
 	return <div />;

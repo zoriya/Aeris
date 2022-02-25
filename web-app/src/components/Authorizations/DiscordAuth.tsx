@@ -10,13 +10,9 @@ export default function DiscordAuth() {
 	const authToken = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendDiscordCode() {
-			if (authToken.trim()) {
-				await sendServiceAuthToken(authToken, "/auth/discord");
-				navigate("/pipelines");
-			}
-		}
-		sendDiscordCode();
+		sendServiceAuthToken(authToken, "/auth/discord").then((ok) => {
+			navigate('/pipelines');
+		});
 	}, []);
 
 	return <div />;

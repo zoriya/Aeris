@@ -10,13 +10,9 @@ export default function YouTubeAuth() {
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendYoutubeCode() {
-			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/youtube");
-				navigate("/pipelines");
-			}
-		}
-		sendYoutubeCode();
+		sendServiceAuthToken(authCode, "/auth/youtube").then((ok) => {
+			navigate('/pipelines');
+		});
 	}, []);
 
 	return <div />;

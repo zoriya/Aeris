@@ -103,10 +103,9 @@ export default function HomePage() {
 	];
 
 	useEffect(() => {
-		async function fetchUsername() {
-			setUsername(await getUserName());
-		}
-		fetchUsername();
+		getUserName().then((username) => {
+			setUsername(username);
+		});
 	}, []);
 
 	return (
