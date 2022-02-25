@@ -17,9 +17,6 @@ getPipelineById' pId = do
 getPipelineByUser :: UserId -> AppM [Pipeline Identity]
 getPipelineByUser userId = runQuery (select $ getPipelineByUserId userId)
 
-getPipelines :: AppM [Pipeline Identity]
-getPipelines = runQuery (select selectAllPipelines)
-
 createPipeline :: Pipeline Identity -> AppM PipelineId
 createPipeline pipeline = do
   res <- runQuery (insert $ insertPipeline pipeline)
