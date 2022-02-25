@@ -57,7 +57,7 @@ const getUserName = async (): Promise<string> => {
 		let json = await response.json();
 		return json["userName"];
 	}
-	console.error("Can't get username");
+	console.warn("Can't get username");
 	return "";
 };
 
