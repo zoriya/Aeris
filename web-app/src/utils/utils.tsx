@@ -38,23 +38,6 @@ export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: Params
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));
 };
 
-export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean) => {
-	const jwt = getCookie("aeris_jwt");
-
-	const request = API_ROUTE + "/workflow/" + (!creation ? pipelineData.id : "");
-
-	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
-		method: creation ? "POST" : "PUT",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-			Authorization: "Bearer " + jwt,
-		},
-		body: JSON.stringify(PipeLineHostToApi(pipelineData)),
-	});
-	return rawResponse.ok;
-};
-
 export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 	return {
 		action: {
