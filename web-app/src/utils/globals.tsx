@@ -184,120 +184,23 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 	],
 };
 
-export const AppListActions: Array<AppAREAType> = [
-	{
-		isAction: true,
-		type: ActionTypeEnum.TwitterNewPost,
-		params: {
-			contents: {
-				author: {
-					value: "me",
-					description: "author of the post",
-					type: ParamTypeEnum.String,
-				},
-			},
-		},
-		description: "Un nouveau tweet à été posté",
-		service: AppServices[3],
+export const NoAREA: AppAREAType = {
+	type: "Nothing",
+	params: {
+		contents: {}
 	},
-	{
-		isAction: true,
-		type: ActionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une action",
-		service: AppServices[0],
-	},
-	{
-		isAction: true,
-		type: ActionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une action",
-		service: AppServices[0],
-	},
-];
-
-export const AppListReactions: Array<AppAREAType> = [
-	{
-		isAction: false,
-		type: ReactionTypeEnum.TwitterTweet,
-		params: {
-			contents: {
-				body: {
-					value: "yatta",
-					description: "The text to tweet",
-					type: ParamTypeEnum.String,
-				},
-			},
-		},
-		description: "Création d'un tweet",
-		service: AppServices[3],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-	{
-		isAction: false,
-		type: ReactionTypeEnum.None,
-		params: {
-			contents: {},
-		},
-		description: "Ajouter une réaction",
-		service: AppServices[0],
-	},
-];
+	returns: {},
+	description: "There's nothing",
+	isAction: true,
+	service: AppServices[0]
+}
 
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 56,
 		name: "my pipe",
-		action: AppListActions[0],
-		reactions: [AppListReactions[0]],
+		action: NoAREA,
+		reactions: [],
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",
@@ -307,8 +210,8 @@ export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 89,
 		name: "nouvelle pipeline",
-		action: AppListActions[1],
-		reactions: [AppListReactions[1]],
+		action: NoAREA,
+		reactions: [],
 		data: {
 			enabled: true,
 			status: "ninjago",

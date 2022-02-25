@@ -43,9 +43,9 @@ export interface AppAREAType {
 	params: {
 		contents: { [key: string]: ParamsType };
 	};
+	returns: { [key: string]: string };
 	description?: string;
 	service: AppServiceType;
-	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface AppPipelineInfoType {
@@ -60,5 +60,4 @@ export interface AppPipelineType {
 	action: AppAREAType;
 	reactions: Array<AppAREAType>;
 	data: AppPipelineInfoType;
-	onClickCallback?: React.MouseEventHandler<HTMLButtonElement>;
 }

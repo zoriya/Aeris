@@ -18,9 +18,8 @@ import {
 	AppServices,
 	ServiceActions,
 	AppServicesLogos,
-	AppListActions,
-	AppListReactions,
 	AppListPipelines,
+	NoAREA
 } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import serviceDump from "../utils/discord.json";
@@ -81,9 +80,10 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData({
+					id: 2,
 					name: "louis",
-					action: AppListActions[0],
-					reactions: AppListReactions,
+					action: NoAREA,
+					reactions: [],
 					data: {
 						enabled: true,
 						error: false,

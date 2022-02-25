@@ -74,6 +74,14 @@ const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: Para
 	return params;
 };
 
+const deSerializeAREAReturns = (dumpAREAReturns: Array<any>): { [key: string]: string } => {
+	let returns: { [key: string]: string } = {};
+	dumpAREAReturns.forEach((el) => {
+		returns[el.name] = el.description;
+	});
+	return returns;
+};
+
 export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppServiceType): AppAREAType => {
 	return {
 		type: dumpAREA.name,
@@ -83,6 +91,7 @@ export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppSe
 		params: {
 			contents: deSerializeAREAParams(dumpAREA.params),
 		},
+		returns: deSerializeAREAReturns(dumpAREA.returns)
 	};
 };
 
