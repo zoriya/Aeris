@@ -1,5 +1,5 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
-import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import ElectricalServicesIcon from "@mui/icons-material/ElectricalServices";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import { GenericButtonProps } from "../components/GenericButton";
@@ -7,15 +7,16 @@ import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
 import type { ImageProps } from "../components/types";
 import AddIcon from "@mui/icons-material/Add";
 import AppBar from "@mui/material/AppBar";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { API_ROUTE } from '../';
+import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { getCookie } from "../utils/utils";
+import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import {
@@ -44,12 +45,12 @@ enum ModalSelection {
 
 const getUserName = async (): Promise<string> => {
 	const response = await fetch(API_ROUTE + "/auth/me", {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + getCookie('aeris_jwt')
-		}
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
 	});
 
 	if (response.ok) {
@@ -57,14 +58,21 @@ const getUserName = async (): Promise<string> => {
 		return json["userName"];
 	}
 	console.error("Can't get username");
-	return '';
-}
+	return "";
+};
 
 export default function HomePage() {
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
+	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
+
+	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
+		if (await requestCreatePipeline(pD, creation)) {
+			return setModalMode(ModalSelection.None);
+		}
+	};
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -83,6 +91,7 @@ export default function HomePage() {
 						status: "mdr",
 					},
 				} as AppPipelineType);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -94,6 +103,7 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -109,13 +119,16 @@ export default function HomePage() {
 	return (
 		<div className={classes.divHomePage}>
 			<React.Fragment>
-				<AppBar position='fixed'>
+				<AppBar position="fixed">
 					<Toolbar variant="dense">
-						<Box sx={{ flexGrow: 1 }}/>
-						<IconButton onClick={() => { setModalMode(ModalSelection.ServiceSetup) }}>
-							<ElectricalServicesIcon/>
+						<Box sx={{ flexGrow: 1 }} />
+						<IconButton
+							onClick={() => {
+								setModalMode(ModalSelection.ServiceSetup);
+							}}>
+							<ElectricalServicesIcon />
 						</IconButton>
-						<Typography noWrap sx={{ margin: 1 }} variant='h5' align='right'>
+						<Typography noWrap sx={{ margin: 1 }} variant="h5" align="right">
 							{username}
 						</Typography>
 					</Toolbar>
@@ -128,10 +141,11 @@ export default function HomePage() {
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
 					pipelineData={pipelineData}
-					handleSave={setPipelineData}
+					handleSave={handleSavePipeline}
 					services={AppServices}
 					actions={AppListActions}
 					reactions={AppListReactions}
+					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
 			</PipelineModal>
@@ -139,7 +153,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={AppServices}/>
+				<ServiceSetupModal services={AppServices} />
 			</PipelineModal>
 
 			<Box
@@ -152,6 +166,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineData(AppListPipelines[1]);
+						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
