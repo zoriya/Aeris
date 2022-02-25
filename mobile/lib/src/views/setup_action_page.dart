@@ -66,6 +66,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
       }).toList(),
     );
 
+    var cardShape = const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)));
+
     return AerisCardPage(
         body: Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
@@ -101,7 +104,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
           const SizedBox(height: 30),
           if (availableActions == null)
             SkeletonLoader(
-                builder: const Card(child: SizedBox(height: 40), elevation: 5),
+                builder: Card(shape: cardShape, child: const SizedBox(height: 40), elevation: 5),
                 items: 10,
                 highlightColor: Theme.of(context).colorScheme.secondary
             )
@@ -109,7 +112,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
             ...[for (aeris.Action availableAction in availableActions!)
             Card(
               elevation: 5,
-              child: ExpandablePanel(
+                shape: cardShape,
+                child: ExpandablePanel(
                   header: Padding(
                       padding:
                           const EdgeInsets.only(left: 30, top: 20, bottom: 20),
@@ -119,6 +123,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   expanded: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ActionForm(
+                        description: "This is the action's very very very very long description", ///TODO Find actual description
                         name: availableAction.name,
                         parametersNames:
                             availableAction.parameters.keys.toList(),

@@ -11,6 +11,8 @@ class ActionForm extends StatefulWidget {
   final List<String> parametersNames;
   /// Initial values of the fields
   final Map<String, Object> initValues;
+  /// What the action does
+  final String description;
 
   /// On validate callback
   final void Function(Map<String, String>) onValidate;
@@ -18,6 +20,7 @@ class ActionForm extends StatefulWidget {
   const ActionForm(
       {Key? key,
       required this.name,
+      required this.description,
       required this.parametersNames,
       required this.onValidate,
       this.initValues = const {}})
@@ -36,6 +39,7 @@ class _ActionFormState extends State<ActionForm> {
       key: _formKey,
       child: Column(
         children: [
+          Text(widget.description, textAlign: TextAlign.left, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           ...widget.parametersNames.map((name) => FormBuilderTextField(
             initialValue: (widget.initValues.containsKey(name)) ? widget.initValues[name] as String : null,
             name: name,
