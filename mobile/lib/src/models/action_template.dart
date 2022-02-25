@@ -1,4 +1,5 @@
 import 'package:aeris/src/models/action.dart';
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:flutter/foundation.dart';
 
@@ -8,6 +9,6 @@ class ActionTemplate extends Action {
       {Key? key,
       required Service service,
       required String name,
-      Map<String, Object> parameters = const {}})
+      List<ActionParameter> parameters = const []})
       : super(service: service, name: name, parameters: parameters);
 }

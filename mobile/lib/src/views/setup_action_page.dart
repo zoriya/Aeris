@@ -1,3 +1,4 @@
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/trigger.dart';
@@ -126,13 +127,13 @@ class _SetupActionPageState extends State<SetupActionPage> {
                         description: "This is the action's very very very very long description", ///TODO Find actual description
                         name: availableAction.name,
                         parametersNames:
-                            availableAction.parameters.keys.toList(),
+                            availableAction.parameters.map((e) =>e.name).toList(),
                         initValues: widget.action.name == availableAction.name
                                     && availableAction.service.name == widget.action.service.name
-                                    ? widget.action.parameters : const {},
+                                    ? widget.action.parameters.asMap().map((_, e) => MapEntry<String, Object>(e.name, e.value ?? "")) : const {},
                         onValidate: (parameters) {
                           widget.action.service = serviceState!;
-                          widget.action.parameters = parameters;
+                          widget.action.parameters = ActionParameter.fromJSON(parameters);
                           widget.action.name = availableAction.name;
                           Navigator.of(context).pop();
                         }),
