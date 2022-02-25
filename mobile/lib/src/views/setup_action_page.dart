@@ -106,7 +106,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
           if (availableActions == null)
             SkeletonLoader(
                 builder: Card(shape: cardShape, child: const SizedBox(height: 40), elevation: 5),
-                items: 10,
+                items: 15,
                 highlightColor: Theme.of(context).colorScheme.secondary
             )
           else 
@@ -114,7 +114,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
             Card(
               elevation: 5,
                 shape: cardShape,
-                child: ExpandablePanel(
+                child: ExpandableNotifier(
+                  child: ScrollOnExpand(child: ExpandablePanel(
                   header: Padding(
                       padding:
                           const EdgeInsets.only(left: 30, top: 20, bottom: 20),
@@ -142,7 +143,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                           Navigator.of(context).pop();
                         }),
                   )),
-            ),
+            ))),
             const SizedBox(height: 10)
           ]
         ],
