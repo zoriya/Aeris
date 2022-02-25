@@ -43,9 +43,9 @@ export default function PipelineEditAREA({
 					gridTemplateColumns: "50vw 1fr",
 					gridTemplateRows: "2fr 50vh 1fr",
 					gridTemplateAreas: `
-							'mainTitle 	select'
-							'AREAData 	AREAData'
-							'.			buttonBack'
+							'mainTitle  select'
+							'AREAData   AREAData'
+							'.          buttonBack'
 					`,
 					placeItems: "center",
 				}}>

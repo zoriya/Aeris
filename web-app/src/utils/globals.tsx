@@ -1,9 +1,15 @@
 import { GenericButtonProps } from "../components/GenericButton";
-import { AppAREAType, ReactionTypeEnum, ActionTypeEnum, ParamTypeEnum, AppPipelineType, ImageProps, AppServiceType } from "./types";
+import {
+	AppAREAType,
+	ReactionTypeEnum,
+	ActionTypeEnum,
+	ParamTypeEnum,
+	AppPipelineType,
+	ImageProps,
+	AppServiceType,
+} from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
 import { API_ROUTE } from "..";
-
-
 
 export const AppServicesLogos: { [key: string]: ImageProps } = {
 	youtube: {
@@ -33,57 +39,63 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 };
 
 const generateRandomString = (): string => {
-	let randomString = '';
+	let randomString = "";
 	const randomNumber = Math.floor(Math.random() * 10);
 
 	for (let i = 0; i < 20 + randomNumber; i++) {
 		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94));
 	}
 	return randomString;
-}
+};
 
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
 		uid: "youtube",
 		logo: AppServicesLogos["youtube"],
-		urlAuth: `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${process.env.GOOGLE_CLIENT_ID}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${generateRandomString()}`,
-		linked: false
+		urlAuth: `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${
+			process.env.GOOGLE_CLIENT_ID
+		}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${generateRandomString()}`,
+		linked: false,
 	},
 	{
 		label: "Spotify",
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
 		urlAuth: `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify`,
-		linked: false
+		linked: false,
 	},
 	{
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
 		urlAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/authorization/github`,
-		linked: false
+		linked: false,
 	},
 	{
 		label: "Twitter",
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
-		urlAuth: `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${process.env.TWITTER_CLIENT_ID}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${generateRandomString()}&code_challenge=challenge&code_challenge_method=plain`,
-		linked: true
+		urlAuth: `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${
+			process.env.TWITTER_CLIENT_ID
+		}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${generateRandomString()}&code_challenge=challenge&code_challenge_method=plain`,
+		linked: true,
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
-		urlAuth: `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${process.env.DISCORD_CLIENT_ID}&scope=applications.commands%20applications.entitlements%20applications.store.update%20bot%20guilds%20guilds.join%20guilds.members.read%20identify%20messages.read%20webhook.incoming&state=${generateRandomString()}`,
-		linked: true
+		urlAuth: `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${
+			process.env.DISCORD_CLIENT_ID
+		}&scope=applications.commands%20applications.entitlements%20applications.store.update%20bot%20guilds%20guilds.join%20guilds.members.read%20identify%20messages.read%20webhook.incoming&state=${generateRandomString()}`,
+		linked: true,
 	},
 	{
 		label: "GMail",
 		uid: "gmail",
 		logo: AppServicesLogos["gmail"],
 		urlAuth: "",
-		linked: false
+		linked: false,
 	},
 ];
 
@@ -173,146 +185,134 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 };
 
 export const AppListActions: Array<AppAREAType> = [
-    {
-		isAction: true,
-        type: ActionTypeEnum.TwitterNewPost,
-        params: {
-            contents: {
-                "author": {
-                    value: "me",
-                    description: "author of the post",
-                    type: ParamTypeEnum.String
-                }
-            }
-        },
-        description: "Un nouveau tweet à été posté",
-		service: AppServices[3]
-    },
 	{
 		isAction: true,
-        type: ActionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une action",
-		service: AppServices[0]
-    },
+		type: ActionTypeEnum.TwitterNewPost,
+		params: {
+			contents: {
+				author: {
+					value: "me",
+					description: "author of the post",
+					type: ParamTypeEnum.String,
+				},
+			},
+		},
+		description: "Un nouveau tweet à été posté",
+		service: AppServices[3],
+	},
 	{
 		isAction: true,
-        type: ActionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une action",
-		service: AppServices[0]
-    }
-]
+		type: ActionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une action",
+		service: AppServices[0],
+	},
+	{
+		isAction: true,
+		type: ActionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une action",
+		service: AppServices[0],
+	},
+];
 
 export const AppListReactions: Array<AppAREAType> = [
-    {
-		isAction: false,
-        type: ReactionTypeEnum.TwitterTweet,
-        params: {
-            contents: {
-                "body": {
-                    value: "yatta",
-                    description: "The text to tweet",
-                    type: ParamTypeEnum.String
-                }
-            }
-        },
-        description: "Création d'un tweet",
-		service: AppServices[3]
-    },
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    },
+		type: ReactionTypeEnum.TwitterTweet,
+		params: {
+			contents: {
+				body: {
+					value: "yatta",
+					description: "The text to tweet",
+					type: ParamTypeEnum.String,
+				},
+			},
+		},
+		description: "Création d'un tweet",
+		service: AppServices[3],
+	},
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    },
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    },
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    },
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    },
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
 	{
 		isAction: false,
-        type: ReactionTypeEnum.None,
-        params: {
-            contents: {
-            }
-        },
-        description: "Ajouter une réaction",
-		service: AppServices[0]
-    }
-]
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
+	{
+		isAction: false,
+		type: ReactionTypeEnum.None,
+		params: {
+			contents: {},
+		},
+		description: "Ajouter une réaction",
+		service: AppServices[0],
+	},
+];
 
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 56,
 		name: "my pipe",
 		action: AppListActions[0],
-		reactions: [
-			AppListReactions[0]
-		],
+		reactions: [AppListReactions[0]],
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",
-			error: false
-		}
+			error: false,
+		},
 	},
 	{
 		id: 89,
 		name: "nouvelle pipeline",
 		action: AppListActions[1],
-		reactions: [
-			AppListReactions[1]
-		],
+		reactions: [AppListReactions[1]],
 		data: {
 			enabled: true,
 			status: "ninjago",
-			error: false
-		}
-	}
-]
+			error: false,
+		},
+	},
+];

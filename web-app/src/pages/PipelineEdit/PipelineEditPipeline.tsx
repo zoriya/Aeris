@@ -47,11 +47,11 @@ export default function PipelineEditPipeline({
 					gridTemplateColumns: "25vw 5vw 12vw 13vw",
 					gridTemplateRows: "2fr 1fr auto 3fr 1fr",
 					gridTemplateAreas: `
-							'pipelineTitle 	pipelineTitle	pipelineTitle		enabledStatus'
-							'actionTitle 	. 				reactionTitle		reactionTitle'
-							'actionData 	arrow 			reactionData		reactionData'
-							'. 				. 				buttonAddReaction	buttonAddReaction'
-							'buttonDelete	. 				buttonCancelSave	buttonCancelSave'
+							'pipelineTitle  pipelineTitle   pipelineTitle       enabledStatus'
+							'actionTitle    .               reactionTitle       reactionTitle'
+							'actionData     arrow           reactionData        reactionData'
+							'.              .               buttonAddReaction   buttonAddReaction'
+							'buttonDelete   .               buttonCancelSave    buttonCancelSave'
 						`,
 					justifyItems: "center",
 					alignItems: "center",
