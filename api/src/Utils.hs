@@ -37,7 +37,7 @@ instance Default (Pipeline Identity) where
     , pipelineParams = defaultPipelineParams
     , pipelineUserId = UserId 1
     , pipelineEnabled = True
-    , pipelineError = ""
+    , pipelineError = Nothing
     , pipelineTriggerCount = 0
     , pipelineLastTrigger = Nothing
     }

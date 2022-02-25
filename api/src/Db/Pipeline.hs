@@ -39,7 +39,7 @@ data Pipeline f = Pipeline
     , pipelineParams :: Column f PipelineParams
     , pipelineUserId :: Column f UserId
     , pipelineEnabled :: Column f Bool
-    , pipelineError :: Column f Text
+    , pipelineError :: Column f (Maybe Text)
     , pipelineTriggerCount :: Column f Int64
     , pipelineLastTrigger :: Column f (Maybe UTCTime)
     }
@@ -98,7 +98,7 @@ insertPipeline (Pipeline _ name type' params uid _ _ _ _) =
                     , pipelineParams = lit params
                     , pipelineUserId = lit uid
                     , pipelineEnabled = lit True
-                    , pipelineError = lit ""
+                    , pipelineError = lit Nothing
                     , pipelineTriggerCount = lit 0
                     , pipelineLastTrigger = lit Nothing
                     }

@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	params JSONB NOT NULL,
 	user_id INTEGER NOT NULL,
 	enabled BOOLEAN NOT NULL,
-	error TEXT NOT NULL,
+	error TEXT,
 	trigger_count INTEGER NOT NULL,
 	last_trigger TIMESTAMP,
 	CONSTRAINT fk_user
