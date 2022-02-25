@@ -10,13 +10,9 @@ export default function SpotifyAuth() {
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		async function sendSpotifyCode() {
-			if (authCode.trim()) {
-				await sendServiceAuthToken(authCode, "/auth/spotify");
-				navigate("/pipelines");
-			}
-		}
-		sendSpotifyCode();
+		sendServiceAuthToken(authCode, "/auth/spotify").then((ok) => {
+			navigate('/pipelines');
+		});
 	}, []);
 
 	return <div />;
