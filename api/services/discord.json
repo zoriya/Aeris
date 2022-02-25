@@ -170,7 +170,7 @@
 				{
 					"name": "other_id",
 					"type": "string",
-					"description": "The Discord ID of the sendee"
+					"description": "The Discord ID of the recipient"
 				},
 				{
 					"name": "content",
@@ -193,11 +193,11 @@
 				},
 				{
 					"name": "SENDEE_ID",
-					"description": "The Discord ID of the sendee"
+					"description": "The Discord ID of the recipient"
 				},
 				{
 					"name": "SENDEE_USERNAME",
-					"description": "The Discord name of the sendee"
+					"description": "The Discord name of the recipient"
 				}
 			]
 		},
