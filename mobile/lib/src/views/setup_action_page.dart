@@ -126,11 +126,15 @@ class _SetupActionPageState extends State<SetupActionPage> {
                     child: ActionForm(
                         description: "This is the action's very very very very long description", ///TODO Find actual description
                         name: availableAction.name,
-                        parametersNames:
-                            availableAction.parameters.map((e) =>e.name).toList(),
-                        initValues: widget.action.name == availableAction.name
-                                    && availableAction.service.name == widget.action.service.name
-                                    ? widget.action.parameters.asMap().map((_, e) => MapEntry<String, Object>(e.name, e.value ?? "")) : const {},
+                        parameters: availableAction.parameters.map((param) { 
+                          if (widget.action.service.name == serviceState!.name && widget.action.name == availableAction.name) {
+                            var previousParams = widget.action.parameters.where((element) => element.name == param.name);
+                            if (previousParams.isNotEmpty) {
+                              param.value = previousParams.first.value;
+                            }
+                          }
+                          return param;
+                        }).toList(),
                         onValidate: (parameters) {
                           widget.action.service = serviceState!;
                           widget.action.parameters = ActionParameter.fromJSON(parameters);

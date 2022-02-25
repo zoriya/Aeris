@@ -124,7 +124,7 @@ class AerisAPI {
             name: "action$i",
             parameters: [
               for (int j = 0; j < 3; j++) 
-                ActionParameter(name: "key$j", value: "value$j", description: "description$j")
+                ActionParameter(name: "key$j", description: "description$j")
             ])
     ];
   }
