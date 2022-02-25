@@ -9,12 +9,12 @@ import { AppServices } from "../utils/globals";
 import { AppServiceType } from "../utils/types";
 
 export interface ServiceSetupProps {
-	services: Array<AppServiceType>
+	services: Array<AppServiceType>;
 }
 
-export default function ServiceSetupModal({ services } : ServiceSetupProps) {
-	const linkedServices = services.filter(el => el.linked);
-	const unlinkedServices = services.filter(el => !el.linked);
+export default function ServiceSetupModal({ services }: ServiceSetupProps) {
+	const linkedServices = services.filter((el) => el.linked);
+	const unlinkedServices = services.filter((el) => !el.linked);
 
 	return (
 		<div>
@@ -66,7 +66,12 @@ export default function ServiceSetupModal({ services } : ServiceSetupProps) {
 								}}>
 								{unlinkedServices.map((elem, index) => (
 									<Grid item mb={4} key={index}>
-										<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Login />} onClickCallback={() => window.location.href = elem.urlAuth} />
+										<GenericButton
+											service={elem.logo}
+											title={elem.label}
+											trailingIcon={<Login />}
+											onClickCallback={() => (window.location.href = elem.urlAuth)}
+										/>
 									</Grid>
 								))}
 							</Box>

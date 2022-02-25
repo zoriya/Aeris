@@ -36,7 +36,6 @@ export default function PipelineEditPipeline({
 	setEditMode,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
-
 	return (
 		<div>
 			<div

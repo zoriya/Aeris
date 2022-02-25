@@ -1,19 +1,14 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
-import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
-import { GenericButtonProps } from "../components/GenericButton";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
-import type { ImageProps } from "../components/types";
 import AddIcon from "@mui/icons-material/Add";
-import AppBar from "@mui/material/AppBar";
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { API_ROUTE } from '../';
+import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 import { getCookie } from "../utils/utils";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
@@ -26,9 +21,7 @@ import {
 	AppListReactions,
 	AppListPipelines,
 } from "../utils/globals";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
+import AerisAppbar from "../components/AppBar";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -44,12 +37,12 @@ enum ModalSelection {
 
 const getUserName = async (): Promise<string> => {
 	const response = await fetch(API_ROUTE + "/auth/me", {
-		method: 'GET',
+		method: "GET",
 		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-			'Authorization': 'Bearer ' + getCookie('aeris_jwt')
-		}
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
 	});
 
 	if (response.ok) {
@@ -57,8 +50,8 @@ const getUserName = async (): Promise<string> => {
 		return json["userName"];
 	}
 	console.error("Can't get username");
-	return '';
-}
+	return "";
+};
 
 export default function HomePage() {
 	const classes = useStyles();
@@ -108,19 +101,12 @@ export default function HomePage() {
 
 	return (
 		<div className={classes.divHomePage}>
-			<React.Fragment>
-				<AppBar position='fixed'>
-					<Toolbar variant="dense">
-						<Box sx={{ flexGrow: 1 }}/>
-						<IconButton onClick={() => { setModalMode(ModalSelection.ServiceSetup) }}>
-							<ElectricalServicesIcon/>
-						</IconButton>
-						<Typography noWrap sx={{ margin: 1 }} variant='h5' align='right'>
-							{username}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-			</React.Fragment>
+			<AerisAppbar
+				username={username}
+				onClickOnServices={() => {
+					setModalMode(ModalSelection.ServiceSetup);
+				}}
+			/>
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal
@@ -139,7 +125,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={AppServices}/>
+				<ServiceSetupModal services={AppServices} />
 			</PipelineModal>
 
 			<Box

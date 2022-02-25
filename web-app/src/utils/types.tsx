@@ -55,7 +55,7 @@ export interface AppPipelineInfoType {
 }
 
 export interface AppPipelineType {
-	id: number,
+	id: number;
 	name: string;
 	action: AppAREAType;
 	reactions: Array<AppAREAType>;

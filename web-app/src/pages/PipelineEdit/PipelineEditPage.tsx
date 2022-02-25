@@ -27,7 +27,7 @@ interface PipelineEditProps {
 export enum PipelineEditMode {
 	Pipeline,
 	Action,
-	Reactions
+	Reactions,
 }
 
 export default function PipelineEditPage({
