@@ -22,7 +22,7 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncoded (JSONBEncoded), Name, OnConflict (DoNothing), Query, ReadShow (ReadShow), Rel8able, Result, Returning (Projection, NumberOfRowsAffected), TableSchema (TableSchema, columns, name, schema), each, into, lit, nextval, onConflict, returning, rows, unsafeCastExpr, values, where_, (==.), Update (Update, from, returning, set, target, updateWhere), target, from, Delete (Delete, deleteWhere, from, returning, using), target, from, using)
 
-import Core.Pipeline
+import Core.Pipeline ( PipelineParams, PipelineType )
 import Data.Functor.Identity (Identity)
 import Servant (FromHttpApiData)
 import Core.User (UserId(UserId))
@@ -41,7 +41,7 @@ data Pipeline f = Pipeline
     , pipelineEnabled :: Column f Bool
     , pipelineError :: Column f Text
     , pipelineTriggerCount :: Column f Int64
-    , pipelineLastTrigger :: Column f UTCTime
+    , pipelineLastTrigger :: Column f (Maybe UTCTime)
     }
     deriving stock (Generic)
     deriving anyclass (Rel8able)
@@ -100,7 +100,7 @@ insertPipeline (Pipeline _ name type' params uid _ _ _ _) =
                     , pipelineEnabled = lit True
                     , pipelineError = lit ""
                     , pipelineTriggerCount = lit 0
-                    , pipelineLastTrigger = lit $ UTCTime (fromGregorian 0 0 0) (secondsToDiffTime 0)
+                    , pipelineLastTrigger = lit Nothing
                     }
                 ]
         , onConflict = DoNothing

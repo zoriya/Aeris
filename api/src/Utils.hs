@@ -9,12 +9,13 @@ import qualified Servant.Auth as Servant.Auth.Server
 import Servant.Auth (JWT)
 import Db.User (User')
 import qualified Servant.Auth.Server
-import Core.User (User)
+import Core.User (User, UserId (UserId))
 import Data.Text (Text, unpack)
 import Data.HashMap.Strict (HashMap, lookup)
 import Data.Functor.Identity (Identity)
 import Db.Pipeline (Pipeline (Pipeline), PipelineId (PipelineId), pipelineLastTrigger, pipelineTriggerCount, pipelineError, pipelineEnabled, pipelineUserId, pipelineParams, pipelineType, pipelineName, pipelineId)
-import Core.Pipeline (PipelineType(TwitterNewPost), PipelineParams (TwitterNewPostP))
+import Core.Pipeline (PipelineType(TwitterNewPost), PipelineParams (TwitterNewPostP), TwitterNewPostData (TwitterNewPostData))
+import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 
 
 mapInd :: (a -> Int -> b) -> [a] -> [b]
@@ -38,7 +39,7 @@ defaultPipeline = Pipeline
     , pipelineEnabled = True
     , pipelineError = ""
     , pipelineTriggerCount = 0
-    , pipelineLastTrigger = UTCTime (fromGregorian 0 0 0) (secondsToDiffTime 0)
+    , pipelineLastTrigger = Nothing
     }
 
 type UserAuth = Servant.Auth.Server.Auth '[JWT] User

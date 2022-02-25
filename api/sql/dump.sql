@@ -15,10 +15,11 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	enabled BOOLEAN NOT NULL,
 	error TEXT NOT NULL,
 	trigger_count INTEGER NOT NULL,
-	last_trigger TIMESTAMP NOT NULL,
+	last_trigger TIMESTAMP,
 	CONSTRAINT fk_user
 		FOREIGN KEY (user_id)
 			REFERENCES users(id)
+				ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS reactions (
