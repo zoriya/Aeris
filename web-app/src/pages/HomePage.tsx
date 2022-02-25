@@ -1,16 +1,8 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
-<<<<<<< HEAD
-import ElectricalServicesIcon from "@mui/icons-material/ElectricalServices";
-=======
->>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
 import AddIcon from "@mui/icons-material/Add";
-<<<<<<< HEAD
-import AppBar from "@mui/material/AppBar";
-=======
->>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
@@ -58,11 +50,7 @@ const getUserName = async (): Promise<string> => {
 		let json = await response.json();
 		return json["userName"];
 	}
-<<<<<<< HEAD
-	console.warn("Can't get username");
-=======
 	console.error("Can't get username");
->>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 	return "";
 };
 
@@ -123,31 +111,12 @@ export default function HomePage() {
 
 	return (
 		<div className={classes.divHomePage}>
-<<<<<<< HEAD
-			<React.Fragment>
-				<AppBar position="fixed">
-					<Toolbar variant="dense">
-						<Box sx={{ flexGrow: 1 }} />
-						<IconButton
-							onClick={() => {
-								setModalMode(ModalSelection.ServiceSetup);
-							}}>
-							<ElectricalServicesIcon />
-						</IconButton>
-						<Typography noWrap sx={{ margin: 1 }} variant="h5" align="right">
-							{username}
-						</Typography>
-					</Toolbar>
-				</AppBar>
-			</React.Fragment>
-=======
 			<AerisAppbar
 				username={username}
 				onClickOnServices={() => {
 					setModalMode(ModalSelection.ServiceSetup);
 				}}
 			/>
->>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 			<PipelineBoxesLayout data={data} />
 
 			<PipelineModal

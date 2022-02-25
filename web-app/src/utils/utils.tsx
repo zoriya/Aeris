@@ -42,8 +42,6 @@ export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: Params
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));
 };
 
-<<<<<<< HEAD
-=======
 export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean) => {
 	const jwt = getCookie("aeris_jwt");
 
@@ -62,7 +60,6 @@ export const requestCreatePipeline = async (pipelineData: AppPipelineType, creat
 	return true;
 };
 
->>>>>>> c8e433aa3794c3e9bd6d7060131d2bb790fc6fd0
 export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 	return {
 		action: {
