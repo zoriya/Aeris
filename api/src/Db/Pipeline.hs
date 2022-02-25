@@ -20,7 +20,7 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Int (Int64)
 import Data.Text (Text)
 import GHC.Generics (Generic)
-import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncoded (JSONBEncoded), Name, OnConflict (DoNothing), Query, ReadShow (ReadShow), Rel8able, Result, Returning (Projection), TableSchema (TableSchema, columns, name, schema), each, into, lit, nextval, onConflict, returning, rows, unsafeCastExpr, values, where_, (==.))
+import Rel8 (Column, DBEq, DBType, Expr, Insert (Insert, returning), JSONBEncoded (JSONBEncoded), Name, OnConflict (DoNothing), Query, ReadShow (ReadShow), Rel8able, Result, Returning (Projection, NumberOfRowsAffected), TableSchema (TableSchema, columns, name, schema), each, into, lit, nextval, onConflict, returning, rows, unsafeCastExpr, values, where_, (==.), Update (Update, from, returning, set, target, updateWhere), target, from, Delete (Delete, deleteWhere, from, returning, using), target, from, using)
 
 import Core.Pipeline
 import Data.Functor.Identity (Identity)
@@ -93,3 +93,28 @@ insertPipeline (Pipeline _ name type' params uid) =
         , onConflict = DoNothing
         , returning = Projection pipelineId
         }
+
+deletePipeline :: PipelineId -> Delete Int64
+deletePipeline pId =
+    Delete
+        { from = pipelineSchema
+        , using = pure()
+        , deleteWhere = \_ row -> pipelineId row ==. lit pId
+        , returning = NumberOfRowsAffected
+        }
+
+updatePipeline :: PipelineId -> Pipeline Expr -> Update Int64
+updatePipeline pId (Pipeline _ newName newType newParams _) =
+    Update
+        { target = pipelineSchema
+        , from = pure ()
+        , updateWhere = \_ o -> pipelineId o ==. lit pId
+        , set = setter
+        , returning = NumberOfRowsAffected
+        }
+  where
+    setter = \from row -> row {
+      pipelineName = newName
+    , pipelineType = newType
+    , pipelineParams = newParams
+    }
