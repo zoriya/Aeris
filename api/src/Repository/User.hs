@@ -16,8 +16,13 @@ getUserByName' name = runQuery (select $ getUserByName name)
 createUser :: User' -> AppM [UserId]
 createUser user = runQuery (insert $ insertUser user)
 
+getTokensByUserId :: UserId -> AppM [ExternalToken] 
+getTokensByUserId uid = do
+    res <- runQuery (select $ getUserTokensById uid)
+    return $ head res
+
 updateTokens :: UserId -> ExternalToken -> AppM ()
 updateTokens uid new = do
-    a <- runQuery (select $ getUserTokensById uid)
-    runQuery (update $ updateUserTokens uid (head a) new)
+    tokens <- getTokensByUserId uid
+    runQuery (update $ updateUserTokens uid tokens new)
     return ()
