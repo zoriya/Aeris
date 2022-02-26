@@ -42,7 +42,7 @@ export default function PipelineEditAREA({
 				style={{
 					display: "grid",
 					gridTemplateColumns: "50vw 1fr",
-					gridTemplateRows: "2fr 50vh 1fr",
+					gridTemplateRows: "3fr 50vh 1fr",
 					gridTemplateAreas: `
 							'mainTitle  select'
 							'AREAData   AREAData'
@@ -74,9 +74,15 @@ export default function PipelineEditAREA({
 					<FormHelperText>{filteredElements.length} actions disponibles</FormHelperText>
 				</Box>
 
+				<div style={{
+					gridArea: "AREAData",
+					maxHeight: "50vh",
+					width: "60vw",
+					overflow: "auto",
+					padding: "10px"
+				}}>
 				<Grid
 					container
-					gridArea={"AREAData"}
 					alignSelf="start"
 					direction="row"
 					justifyContent="flex-start"
@@ -93,6 +99,7 @@ export default function PipelineEditAREA({
 						);
 					})}
 				</Grid>
+				</div>
 
 				<Button
 					sx={{ gridArea: "buttonBack" }}
