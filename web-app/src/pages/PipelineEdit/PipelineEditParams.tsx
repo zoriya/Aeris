@@ -2,7 +2,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
-import { AppPipelineType, AppAREAType } from "../../utils/types";
+import { AppPipelineType, AppAREAType, ParamsType } from "../../utils/types";
+import { useState } from "react";
 
 interface PipelineEditParamsProps {
 	pipelineData: AppPipelineType;
@@ -12,6 +13,8 @@ interface PipelineEditParamsProps {
 }
 
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
+	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
+
 	return (
 		<div>
 			<Typography variant="h5" align="left">
@@ -26,6 +29,15 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 							label={param[0]}
 							helperText={param[1].description}
 							defaultValue={param[1].value}
+							onChange={(e: any) => {
+								let paramToSave = formData;
+
+								paramToSave[param[0]] = {
+									...AREA.params.contents[param[0]],
+									value: e.target.value,
+								};
+								setFormData(paramToSave);
+							}}
 							variant="standard"
 						/>
 					);
@@ -41,6 +53,9 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 					onClick={() =>
 						setParams({
 							...AREA,
+							params: {
+								contents: formData,
+							},
 						})
 					}
 					variant="contained">

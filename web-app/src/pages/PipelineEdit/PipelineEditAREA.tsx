@@ -6,8 +6,6 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AppServiceType, AppAREAType, AppPipelineType } from "../../utils/types";
-import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
-import PipelineModal from "../../components/Pipelines/PipelineModal";
 import PipelineEditParams from "./PipelineEditParams";
 import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -72,7 +70,7 @@ export default function PipelineEditAREA({
 							</MenuItem>
 						))}
 					</Select>
-					<FormHelperText>{filteredElements.length} actions disponibles</FormHelperText>
+					<FormHelperText>{filteredElements.length} {isActions ? "actions" : "réactions"} disponibles</FormHelperText>
 				</Box>
 
 				<div
@@ -83,6 +81,8 @@ export default function PipelineEditAREA({
 						width: "59vw",
 						overflow: "auto",
 						padding: "10px",
+						borderStyle: "none solid none none",
+						borderWidth: "1px",
 					}}>
 					<Grid
 						container
@@ -106,27 +106,34 @@ export default function PipelineEditAREA({
 					</Grid>
 				</div>
 
-				<div
-					style={{
-						placeSelf: "start left",
-						height: "50vh",
-						overflow: "auto",
-						width: "290px",
-						padding: "10px",
-						gridArea: "AREAParams",
-						borderStyle: "none none none solid",
-						borderWidth: "1px",
-					}}>
-					<PipelineEditParams
-						pipelineData={pipelineData}
-						AREA={AREAData ?? filteredElements[0]}
-						handleQuit={() => {}}
-						setParams={(AREA: AppAREAType) => setAREA(AREA)}
-					/>
-				</div>
+				{AREAData === null ? (
+					<Typography
+						sx={{
+							gridArea: "AREAParams",
+						}}>
+						Sélectionnez une {isActions ? "Action" : "Réaction"}
+					</Typography>
+				) : (
+					<div
+						style={{
+							placeSelf: "start left",
+							height: "50vh",
+							overflow: "auto",
+							width: "290px",
+							padding: "10px",
+							gridArea: "AREAParams",
+						}}>
+						<PipelineEditParams
+							pipelineData={pipelineData}
+							AREA={AREAData ?? filteredElements[0]}
+							handleQuit={() => {}}
+							setParams={(AREA: AppAREAType) => setAREA(AREA)}
+						/>
+					</div>
+				)}
 
 				<Button
-					sx={{ gridArea: "buttonBack", placeSelf: "end right", }}
+					sx={{ gridArea: "buttonBack", placeSelf: "end right" }}
 					color="primary"
 					startIcon={<ArrowBackIcon />}
 					onClick={() => setEditMode(PipelineEditMode.Pipeline)}
