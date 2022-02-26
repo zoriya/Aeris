@@ -1,17 +1,4 @@
-import {
-	Card,
-	Chip,
-	CardActionArea,
-	CardMedia,
-	CardContent,
-	CardHeader,
-	Typography,
-	Stack,
-	Avatar,
-	Divider,
-	Box,
-	Grid,
-} from "@mui/material";
+import { Card, Chip, CardActionArea, CardContent, CardHeader, Typography, Avatar, Grid } from "@mui/material";
 
 import { AppAREAType } from "../utils/types";
 
@@ -25,7 +12,14 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 		<Card sx={{ width: "500px" }}>
 			<CardActionArea onClick={onClick}>
 				<CardHeader
-					avatar={<Avatar style={{ objectFit: 'cover', height: '100%',}} alt={AREA.service.logo.altText} src={AREA.service.logo.imageSrc} variant={"square"} />}
+					avatar={
+						<Avatar
+							style={{ objectFit: "cover", height: "100%" }}
+							alt={AREA.service.logo.altText}
+							src={AREA.service.logo.imageSrc}
+							variant={"square"}
+						/>
+					}
 					title={<Typography variant="h5">{AREA.type}</Typography>}
 					subheader={AREA.description}
 				/>

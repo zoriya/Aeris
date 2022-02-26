@@ -21,6 +21,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { getCookie, PipeLineHostToApi } from "../../utils/utils";
 import { API_ROUTE } from "../..";
+import { ReactionCard } from "../../components/ReactionCard";
 import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
@@ -107,6 +108,7 @@ export default function PipelineEditPipeline({
 					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.map((el, index) => (
 							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
+								<ReactionCard reaction={el} order={index + 1} onClick={() => {}} />
 								<GenericButton
 									service={el.service.logo}
 									title={index + 1 + " - " + el.type}
