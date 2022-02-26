@@ -6,8 +6,16 @@ import GenericButton from "../components/GenericButton";
 import { ImageProps } from "../components/types";
 import { Grid } from "@mui/material";
 import { AppServices } from "../utils/globals";
+import { AppServiceType } from "../utils/types";
 
-export default function ServiceSetupModal() {
+export interface ServiceSetupProps {
+	services: Array<AppServiceType>;
+}
+
+export default function ServiceSetupModal({ services }: ServiceSetupProps) {
+	const linkedServices = services.filter((el) => el.linked);
+	const unlinkedServices = services.filter((el) => !el.linked);
+
 	return (
 		<div>
 			<Box
@@ -26,7 +34,7 @@ export default function ServiceSetupModal() {
 				<Grid item xs container direction="column" spacing={2}>
 					<Grid item>
 						<Typography variant="h6" noWrap align="left">
-							Available
+							Linked
 						</Typography>
 						<Box
 							sx={{
@@ -35,9 +43,9 @@ export default function ServiceSetupModal() {
 								justifyContent: "space-between",
 								marginRight: "10px",
 							}}>
-							{AppServices.map((elem, index) => (
+							{linkedServices.map((elem, index) => (
 								<Grid item mb={4} key={index}>
-									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Login />} />
+									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
 								</Grid>
 							))}
 						</Box>
@@ -47,7 +55,7 @@ export default function ServiceSetupModal() {
 					<Grid item xs container direction="column" spacing={2}>
 						<Grid item xs>
 							<Typography variant="h6" noWrap align="right">
-								Linked
+								Available
 							</Typography>
 							<Box
 								sx={{
@@ -56,9 +64,14 @@ export default function ServiceSetupModal() {
 									justifyContent: "space-between",
 									marginRight: "10px",
 								}}>
-								{AppServices.map((elem, index) => (
+								{unlinkedServices.map((elem, index) => (
 									<Grid item mb={4} key={index}>
-										<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
+										<GenericButton
+											service={elem.logo}
+											title={elem.label}
+											trailingIcon={<Login />}
+											onClickCallback={() => (window.location.href = elem.urlAuth)}
+										/>
 									</Grid>
 								))}
 							</Box>
