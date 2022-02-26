@@ -22,7 +22,7 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = false;
+  bool _connected = true;
   bool get isConnected => _connected;
 
   late List<Pipeline> fakeAPI;
@@ -35,23 +35,23 @@ class AerisAPI {
   AerisAPI() {
     baseRoute = dotenv.env['HOSTNAME']!;
     var trigger1 = Trigger(
-        service: const Service.spotify(),
+        service: Service.spotify(),
         name: "Play song",
         last: DateTime.now());
     var trigger3 = Trigger(
-        service: const Service.discord(),
+        service: Service.discord(),
         name: "Send a message",
         last: DateTime.now());
     var trigger2 = Trigger(
-        service: const Service.spotify(),
+        service: Service.spotify(),
         name: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
-        service: const Service.twitter(), parameters: [], name: "Post a tweet");
+        service: Service.twitter(), parameters: [], name: "Post a tweet");
     var reaction2 = Reaction(
-        service: const Service.gmail(), parameters: [], name: "Do smth");
+        service: Service.gmail(), parameters: [], name: "Do smth");
     var reaction1 = Reaction(
-        service: const Service.youtube(), parameters: [], name: "Do smth youtube");
+        service: Service.youtube(), parameters: [], name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",

@@ -30,61 +30,69 @@ class _HomePageState extends State<HomePage> {
 
     Widget serviceActionButtons = IconButton(
         icon: const Icon(Icons.electrical_services),
-        onPressed: () => showAerisCardPage(context, (context) => const ServicePage())
-    );
+        onPressed: () =>
+            showAerisCardPage(context, (context) => ServicePage()));
     Widget logoutActionButton = IconButton(
       icon: const Icon(Icons.logout),
       onPressed: () => showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-          message: AppLocalizations.of(context).logoutWarningMessage,
-          onAccept: () {
-            GetIt.I<AerisAPI>().stopConnection();
-            Navigator.of(context).popAndPushNamed('/');
-          },
-          warnedAction: AppLocalizations.of(context).logout
-        )
-      ),
+          context: context,
+          builder: (BuildContext context) => WarningDialog(
+              message: AppLocalizations.of(context).logoutWarningMessage,
+              onAccept: () {
+                GetIt.I<AerisAPI>().stopConnection();
+                Navigator.of(context).popAndPushNamed('/');
+              },
+              warnedAction: AppLocalizations.of(context).logout)),
     );
     return Consumer<PipelineProvider>(
-      builder: (context, provider, _) => AerisPage(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => showAerisCardPage(context, (_) => const CreatePipelinePage()),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-            elevation: 10,
-            child: const Icon(Icons.add),
-          ),
-          actions: [
-            HomePageSortMenu(
-              collectionProvider: provider,
-            ),
-            serviceActionButtons,
-            logoutActionButton
-          ],
-          body: provider.initialized == false
-            ? ListView(physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
-              children: [SkeletonLoader(
-                builder: ClickableCard(onTap:(){}, body: const SizedBox(height: 80)),
-                items: 10,
-                highlightColor: Theme.of(context).colorScheme.secondary
-              )])
-            : LiquidPullToRefresh(
-            borderWidth: 2,
-            animSpeedFactor: 3,
-            color: Colors.transparent,
-            showChildOpacityTransition: false,
-            onRefresh: () => provider.fetchPipelines()
-                .then((_) => setState(() {})), // refresh callback
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.only(bottom: 20, top: 20, left: 10, right: 10),
-              controller: listController,
-              itemCount: provider.pipelineCount,
-              itemBuilder: (BuildContext context, int index) =>
-                PipelineCard(pipeline: provider.getPipelineAt(index),
-            ),
-          )),
-    ));
+        builder: (context, provider, _) => AerisPage(
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => showAerisCardPage(
+                    context, (_) => const CreatePipelinePage()),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                elevation: 10,
+                child: const Icon(Icons.add),
+              ),
+              actions: [
+                HomePageSortMenu(
+                  collectionProvider: provider,
+                ),
+                serviceActionButtons,
+                logoutActionButton
+              ],
+              body: provider.initialized == false
+                  ? ListView(
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.only(
+                          bottom: 20, top: 20, left: 10, right: 10),
+                      children: [
+                          SkeletonLoader(
+                              builder: ClickableCard(
+                                  onTap: () {},
+                                  body: const SizedBox(height: 80)),
+                              items: 10,
+                              highlightColor:
+                                  Theme.of(context).colorScheme.secondary)
+                        ])
+                  : LiquidPullToRefresh(
+                      borderWidth: 2,
+                      animSpeedFactor: 3,
+                      color: Colors.transparent,
+                      showChildOpacityTransition: false,
+                      onRefresh: () => provider
+                          .fetchPipelines()
+                          .then((_) => setState(() {})), // refresh callback
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.only(
+                            bottom: 20, top: 20, left: 10, right: 10),
+                        controller: listController,
+                        itemCount: provider.pipelineCount,
+                        itemBuilder: (BuildContext context, int index) =>
+                            PipelineCard(
+                          pipeline: provider.getPipelineAt(index),
+                        ),
+                      )),
+            ));
   }
 }
