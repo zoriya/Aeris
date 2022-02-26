@@ -55,10 +55,10 @@
 	    <key>CFBundleTypeRole</key>
 	    <string>Editor</string>
 	    <key>CFBundleURLName</key>
-	    <string>localhost:3000</string>
+	    <string>aeris.com</string>
 	    <key>CFBundleURLSchemes</key>
 	    <array>
-	    	<string>http</string>
+	    	<string>aeris</string>
 	    </array>
 	    </dict>
 	</array>
