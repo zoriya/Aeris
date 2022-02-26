@@ -17,23 +17,25 @@ export interface PipelineEditAREAProps {
 	services: Array<AppServiceType>;
 	AREAs: Array<AppAREAType>;
 	isActions: boolean;
+	selectedAREA?: AppAREAType;
 	setEditMode: (mode: PipelineEditMode) => any;
-	setAREA: any;
+	setAREA: (AREA: AppAREAType) => any;
 }
 
 export default function PipelineEditAREA({
 	pipelineData,
 	services,
 	AREAs,
+	selectedAREA,
 	isActions,
 	setEditMode,
 	setAREA,
 }: PipelineEditAREAProps) {
-	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
+	const [serviceToShow, setServiceToShow] = useState<string>(selectedAREA?.service.uid ?? services[0].uid);
 
 	let filteredElements = AREAs.filter((el) => el.service.uid === serviceToShow);
 
-	const [AREAData, setAREAData] = useState<AppAREAType | null>(null);
+	const [AREAData, setAREAData] = useState<AppAREAType | null>(selectedAREA ?? null);
 
 	return (
 		<div>
@@ -70,7 +72,9 @@ export default function PipelineEditAREA({
 							</MenuItem>
 						))}
 					</Select>
-					<FormHelperText>{filteredElements.length} {isActions ? "actions" : "réactions"} disponibles</FormHelperText>
+					<FormHelperText>
+						{filteredElements.length} {isActions ? "actions" : "réactions"} disponibles
+					</FormHelperText>
 				</Box>
 
 				<div
@@ -127,7 +131,7 @@ export default function PipelineEditAREA({
 							pipelineData={pipelineData}
 							AREA={AREAData ?? filteredElements[0]}
 							handleQuit={() => {}}
-							setParams={(AREA: AppAREAType) => setAREA(AREA)}
+							setParams={setAREA}
 						/>
 					</div>
 				)}

@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/material/styles";
 
 import { AppAREAType } from "../utils/types";
@@ -40,10 +40,12 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 export interface ReactionCardProps {
 	reaction: AppAREAType;
 	order: number;
+	handleEdit: () => any;
+	handleDelete: () => any;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const ReactionCard = ({ reaction, order, onClick }: ReactionCardProps) => {
+export const ReactionCard = ({ reaction, order, handleDelete, handleEdit, onClick }: ReactionCardProps) => {
 	const [expanded, setExpanded] = useState<boolean>(false);
 
 	return (
@@ -70,21 +72,21 @@ export const ReactionCard = ({ reaction, order, onClick }: ReactionCardProps) =>
 				subheader={"#" + order}
 			/>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
-				<CardActions sx={{ display: "flex", justifyContent:"flex-end" }}>
-					<IconButton aria-label="Delete" size="small" color="secondary" sx={{ float:"left" }}>
+				<CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
+					<IconButton onClick={handleDelete} aria-label="Delete" size="small" color="secondary" sx={{ float: "left" }}>
 						<DeleteIcon />
 					</IconButton>
-					<IconButton aria-label="Edit" size="small" color="secondary" sx={{ float:"left" }}>
+					<IconButton onClick={handleEdit} aria-label="Edit" size="small" color="secondary" sx={{ float: "left" }}>
 						<EditIcon />
 					</IconButton>
 				</CardActions>
 				<CardContent>
-					<Grid container spacing={1} >
+					<Grid container spacing={1}>
 						{Object.entries(reaction.params.contents).map((el, idx) => {
 							return (
 								<Grid item display={"flex"} justifyContent={"space-between"} width={"100%"} key={idx}>
 									<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
-									<code>Hello world</code>
+									<code>{el[1].value}</code>
 								</Grid>
 							);
 						})}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppPipelineType } from "../../utils/types";
+import { AppAREAType, AppPipelineType } from "../../utils/types";
 import {
 	Box,
 	Switch,
@@ -26,6 +26,8 @@ import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
+	handleEditAction: (action: AppAREAType) => any;
+	handleEditReaction: (reaction: AppAREAType) => any;
 	handleDelete: (pD: AppPipelineType) => any;
 	handleSave: (pD: AppPipelineType) => any;
 	setEditMode: (mode: PipelineEditMode) => any;
@@ -103,12 +105,21 @@ export default function PipelineEditPipeline({
 						overflow: "auto",
 						maxHeight: "30vh",
 						gridArea: "reactionData",
-						padding: "10px"
+						padding: "10px",
 					}}>
 					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.map((el, index) => (
 							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-								<ReactionCard reaction={el} order={index + 1} onClick={() => {}} />
+								<ReactionCard
+									handleEdit={() => {
+										setEditMode(PipelineEditMode.Reactions);
+										setEditReactionIndex(index);
+									}}
+									handleDelete={() => pipelineData.reactions.splice(index, 1)}
+									reaction={el}
+									order={index + 1}
+									onClick={() => {}}
+								/>
 								<GenericButton
 									service={el.service.logo}
 									title={index + 1 + " - " + el.type}
