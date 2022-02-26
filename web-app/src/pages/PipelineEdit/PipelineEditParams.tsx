@@ -1,6 +1,5 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import Typography from "@mui/material/Typography";
-import { Grid, TextField } from "@mui/material";
+import { Grid, TextField, Typography, Stack } from "@mui/material";
 import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { AppPipelineType, AppAREAType } from "../../utils/types";
@@ -15,19 +14,10 @@ interface PipelineEditParamsProps {
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	return (
 		<div>
-			<Box
-				sx={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "space-between",
-					marginBottom: "35px",
-				}}>
-				<Typography variant="h4" noWrap align="left" minWidth={300}>
-					'{AREA.type}' Parameters
-				</Typography>
-			</Box>
-			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+			<Typography variant="h5" align="left">
+				'{AREA.type}' Parameters
+			</Typography>
+			<Stack>
 				{Object.entries(AREA.params.contents).map((param, key) => {
 					return (
 						<TextField
@@ -40,7 +30,8 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 						/>
 					);
 				})}
-
+			</Stack>
+			<Grid container justifyContent="center">
 				<LoadingButton
 					sx={{ marginTop: "30px" }}
 					color="secondary"
@@ -55,7 +46,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 					variant="contained">
 					Save
 				</LoadingButton>
-			</Box>
+			</Grid>
 		</div>
 	);
 }

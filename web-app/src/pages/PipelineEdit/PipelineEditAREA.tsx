@@ -1,4 +1,4 @@
-import { InputLabel, FormHelperText, Button, SelectChangeEvent } from "@mui/material";
+import { InputLabel, FormHelperText, Button, SelectChangeEvent, Divider } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -32,28 +32,27 @@ export default function PipelineEditAREA({
 	setAREA,
 }: PipelineEditAREAProps) {
 	const [serviceToShow, setServiceToShow] = useState<string>(services[0].uid);
-	const [isOPenParamsModal, setIsOpenParamsModal] = useState<boolean>(false);
 
 	let filteredElements = AREAs.filter((el) => el.service.uid === serviceToShow);
 
-	const [AREAData, setAREAData] = useState<AppAREAType>();
+	const [AREAData, setAREAData] = useState<AppAREAType | null>(null);
 
 	return (
 		<div>
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "50vw 1fr",
-					gridTemplateRows: "3fr 50vh 1fr",
+					gridTemplateColumns: "60vw 300px",
+					gridTemplateRows: "100px auto 50px",
 					gridTemplateAreas: `
 							'mainTitle  select'
-							'AREAData   AREAData'
-							'.          buttonBack'
+							'AREAData   AREAParams'
+							'AREAData   buttonBack'
 					`,
 					placeItems: "center",
 				}}>
 				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
-					Setup { isActions ? "Action" : "Réaction"} :
+					Setup {isActions ? "Action" : "Réaction"} :
 				</Typography>
 
 				<Box sx={{ gridArea: "select" }}>
@@ -78,9 +77,10 @@ export default function PipelineEditAREA({
 
 				<div
 					style={{
+						placeSelf: "start right",
 						gridArea: "AREAData",
-						maxHeight: "50vh",
-						width: "60vw",
+						height: "calc(50vh + 50px)",
+						width: "59vw",
 						overflow: "auto",
 						padding: "10px",
 					}}>
@@ -98,7 +98,6 @@ export default function PipelineEditAREA({
 										AREA={el}
 										onClick={() => {
 											setAREAData(el);
-											setIsOpenParamsModal(true);
 										}}
 									/>
 								</Grid>
@@ -107,28 +106,34 @@ export default function PipelineEditAREA({
 					</Grid>
 				</div>
 
+				<div
+					style={{
+						placeSelf: "start left",
+						height: "50vh",
+						overflow: "auto",
+						width: "290px",
+						padding: "10px",
+						gridArea: "AREAParams",
+						borderStyle: "none none none solid",
+						borderWidth: "1px",
+					}}>
+					<PipelineEditParams
+						pipelineData={pipelineData}
+						AREA={AREAData ?? filteredElements[0]}
+						handleQuit={() => {}}
+						setParams={(AREA: AppAREAType) => setAREA(AREA)}
+					/>
+				</div>
+
 				<Button
-					sx={{ gridArea: "buttonBack" }}
-					color="secondary"
+					sx={{ gridArea: "buttonBack", placeSelf: "end right", }}
+					color="primary"
 					startIcon={<ArrowBackIcon />}
 					onClick={() => setEditMode(PipelineEditMode.Pipeline)}
 					variant="contained">
 					Retour
 				</Button>
 			</div>
-
-			{isOPenParamsModal ? (
-				<PipelineModal isOpen={isOPenParamsModal} handleClose={() => setIsOpenParamsModal(false)}>
-					<PipelineEditParams
-						pipelineData={pipelineData}
-						AREA={AREAData ?? filteredElements[0]}
-						handleQuit={() => setIsOpenParamsModal(false)}
-						setParams={(AREA: AppAREAType) => setAREA(AREA)}
-					/>
-				</PipelineModal>
-			) : (
-				<div></div>
-			)}
 		</div>
 	);
 }
