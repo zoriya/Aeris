@@ -12,6 +12,7 @@ import PipelineEditParams from "./PipelineEditParams";
 import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PipelineEditMode } from "./PipelineEditPage";
+import { AREACard } from "../../components/AREACard";
 
 export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
@@ -84,15 +85,10 @@ export default function PipelineEditAREA({
 					{filteredElements.map((el, elIndex) => {
 						return (
 							<Grid item key={elIndex}>
-								<GenericButton
-									title={el.type}
-									service={el.service.logo}
-									trailingIcon={<MoreVertIcon />}
-									onClickCallback={() => {
+								<AREACard AREA={el} onClick={() => {
 										setAREAData(el);
 										setIsOpenParamsModal(true);
-									}}
-								/>
+									}} />
 							</Grid>
 						);
 					})}
