@@ -4,6 +4,7 @@ export enum ServiceType {
 	Github,
 	Spotify,
 	Discord,
+	Anilist,
 };
 
 
@@ -63,7 +64,9 @@ export enum ReactionType {
 	PostDiscordDM,
 	LeaveDiscordServer,
 	PostDiscordMessage,
-	Pause
+	Pause,
+	// Anilist
+	ToggleFavourite,
 };
 
 export class Pipeline {
