@@ -82,11 +82,10 @@ const deSerializeAREAReturns = (dumpAREAReturns: Array<any>): { [key: string]: s
 	return returns;
 };
 
-export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppServiceType): AppAREAType => {
+export const deSerializeAREA = (dumpAREA: any, service: AppServiceType): AppAREAType => {
 	return {
 		type: dumpAREA.name,
 		description: dumpAREA.description,
-		isAction: isAction,
 		service: service,
 		params: {
 			contents: deSerializeAREAParams(dumpAREA.params),
@@ -98,8 +97,8 @@ export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppSe
 export const deSerializeService = (dumpService: any, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
 	let service: AppServiceType = services.filter((el) => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
 
-	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, true, service));
-	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, false, service));
+	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, service));
+	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, service));
 
 	return [actions, reactions];
 };

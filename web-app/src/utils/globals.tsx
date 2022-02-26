@@ -191,7 +191,6 @@ export const NoAREA: AppAREAType = {
 	},
 	returns: {},
 	description: "There's nothing",
-	isAction: true,
 	service: AppServices[0]
 }
 

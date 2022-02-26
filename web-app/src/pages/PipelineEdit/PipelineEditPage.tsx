@@ -63,6 +63,7 @@ export default function PipelineEditPage({
 				<PipelineEditAREA
 					pipelineData={editPipelineData}
 					setEditMode={setMode}
+					isActions={true}
 					setAREA={(AREA: AppAREAType) => {
 						setEditPipelineData({
 							...editPipelineData,
@@ -79,6 +80,7 @@ export default function PipelineEditPage({
 				<PipelineEditAREA
 					pipelineData={editPipelineData}
 					setEditMode={setMode}
+					isActions={false}
 					setAREA={(AREA: AppAREAType) => {
 						let reactionsTmp = editPipelineData.reactions;
 						reactionsTmp[editReactionIndex] = AREA;

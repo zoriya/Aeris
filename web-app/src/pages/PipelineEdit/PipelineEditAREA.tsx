@@ -18,6 +18,7 @@ export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
 	services: Array<AppServiceType>;
 	AREAs: Array<AppAREAType>;
+	isActions: boolean;
 	setEditMode: (mode: PipelineEditMode) => any;
 	setAREA: any;
 }
@@ -26,6 +27,7 @@ export default function PipelineEditAREA({
 	pipelineData,
 	services,
 	AREAs,
+	isActions,
 	setEditMode,
 	setAREA,
 }: PipelineEditAREAProps) {
@@ -51,7 +53,7 @@ export default function PipelineEditAREA({
 					placeItems: "center",
 				}}>
 				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
-					Setup {"Réaction"} :
+					Setup { isActions ? "Action" : "Réaction"} :
 				</Typography>
 
 				<Box sx={{ gridArea: "select" }}>
@@ -74,31 +76,35 @@ export default function PipelineEditAREA({
 					<FormHelperText>{filteredElements.length} actions disponibles</FormHelperText>
 				</Box>
 
-				<div style={{
-					gridArea: "AREAData",
-					maxHeight: "50vh",
-					width: "60vw",
-					overflow: "auto",
-					padding: "10px"
-				}}>
-				<Grid
-					container
-					alignSelf="start"
-					direction="row"
-					justifyContent="flex-start"
-					spacing={2}
-					alignItems="flex-start">
-					{filteredElements.map((el, elIndex) => {
-						return (
-							<Grid item key={elIndex}>
-								<AREACard AREA={el} onClick={() => {
-										setAREAData(el);
-										setIsOpenParamsModal(true);
-									}} />
-							</Grid>
-						);
-					})}
-				</Grid>
+				<div
+					style={{
+						gridArea: "AREAData",
+						maxHeight: "50vh",
+						width: "60vw",
+						overflow: "auto",
+						padding: "10px",
+					}}>
+					<Grid
+						container
+						alignSelf="start"
+						direction="row"
+						justifyContent="flex-start"
+						spacing={2}
+						alignItems="flex-start">
+						{filteredElements.map((el, elIndex) => {
+							return (
+								<Grid item key={elIndex}>
+									<AREACard
+										AREA={el}
+										onClick={() => {
+											setAREAData(el);
+											setIsOpenParamsModal(true);
+										}}
+									/>
+								</Grid>
+							);
+						})}
+					</Grid>
 				</div>
 
 				<Button
