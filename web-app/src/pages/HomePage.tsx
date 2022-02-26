@@ -10,7 +10,7 @@ import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie, deSerializeService } from "../utils/utils";
+import { getCookie, deSerializeServices } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
@@ -69,7 +69,7 @@ export default function HomePage() {
 		}
 	};
 
-	const AREAs = deSerializeService(serviceDump, AppServices);
+	const AREAs = deSerializeServices(serviceDump, AppServices);
 	console.log(AREAs);
 
 	const data: Array<PipelineBoxProps> = [

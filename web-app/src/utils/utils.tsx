@@ -91,15 +91,27 @@ export const deSerializeAREA = (dumpAREA: any, isAction: boolean, service: AppSe
 		params: {
 			contents: deSerializeAREAParams(dumpAREA.params),
 		},
-		returns: deSerializeAREAReturns(dumpAREA.returns)
+		returns: deSerializeAREAReturns(dumpAREA.returns),
 	};
 };
 
 export const deSerializeService = (dumpService: any, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
-	let service: AppServiceType = services.filter(el => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
+	let service: AppServiceType = services.filter((el) => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
 
 	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, true, service));
 	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, false, service));
 
+	return [actions, reactions];
+};
+
+export const deSerializeServices = (dumpServices: Array<any>, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
+	let actions: Array<AppAREAType> = [];
+	let reactions: Array<AppAREAType> = [];
+
+	dumpServices.forEach((serviceData) => {
+		let newAREAs = deSerializeService(serviceData, services);
+		actions = actions.concat(newAREAs[0]);
+		reactions = reactions.concat(newAREAs[1]);
+	})
 	return [actions, reactions];
 };

@@ -51,7 +51,7 @@ export default function PipelineEditAREA({
 					placeItems: "center",
 				}}>
 				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
-					Setup {AREAs[0].isAction ? "Action" : "Réaction"} :
+					Setup {"Réaction"} :
 				</Typography>
 
 				<Box sx={{ gridArea: "select" }}>
