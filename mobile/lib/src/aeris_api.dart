@@ -197,6 +197,13 @@ class AerisAPI {
     return res.ok;
   }
 
+  /// Connects the user from the service
+  Future<bool> connectService(Service service, String code) async {
+    var res = await _requestAPI('/auth/${service.name.toLowerCase()}?code=$code',
+        AerisAPIRequestType.get, null);
+    return res.ok;
+  }
+
   Future<List<ActionTemplate>> getActionsFor(
       Service service, Action action) async {
     await Future.delayed(const Duration(seconds: 3));

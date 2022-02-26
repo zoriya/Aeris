@@ -1,4 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/views/authorization_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:aeris/src/models/service.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -44,29 +46,30 @@ class Aeris extends StatelessWidget {
         ],
         supportedLocales: const [Locale('fr', ''), Locale('en', '')],
         theme: ThemeData(colorScheme: aerisScheme),
-        initialRoute: '/',
+        initialRoute: GetIt.I<AerisAPI>().isConnected ? '/home' : '/',
         onGenerateRoute: (settings) {
           Map routes = {
             '/': () => const StartupPage(),
             '/login': () => const LoginPage(),
             '/home': () => const HomePage(),
           };
+          
           return PageRouteBuilder(
               opaque: false,
               settings: settings,
-              pageBuilder: (_, __, ___) => routes[settings.name].call(),
+              pageBuilder: (_, __, ___) {
+                if (settings.name!.startsWith('/authorization')) {
+                  return const AuthorizationPage();
+                }
+                return routes[settings.name].call();
+              },
               transitionDuration: const Duration(milliseconds: 350),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-                SlideTransition(
-                  child: child,
-                  position: animation.drive(
-                      Tween(
-                        begin: const Offset(1.0, 0.0),
-                        end: Offset.zero
-                      )
-                  )
-                )
-            );
+              transitionsBuilder: (context, animation, secondaryAnimation,
+                      child) =>
+                  SlideTransition(
+                      child: child,
+                      position: animation.drive(Tween(
+                          begin: const Offset(1.0, 0.0), end: Offset.zero))));
         });
   }
 }

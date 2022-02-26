@@ -46,7 +46,7 @@ class Service {
         logoUrl =
             "https://www.presse-citron.net/app/uploads/2020/06/spotify-une-.jpg",
         authUrl =
-            "https://accounts.spotify.com/authorize?client_id=${dotenv.env['SPOTIFY_CLIENT_ID']}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify";
+            "https://accounts.spotify.com/authorize?client_id=${dotenv.env['SPOTIFY_CLIENT_ID']}&response_type=code&redirect_uri=aeris://aeris.com/authorization/spotify";
   Service.gmail()
       : name = "Gmail",
         url = "https://mail.google.com/",
@@ -68,23 +68,23 @@ class Service {
         logoUrl =
             "https://f.hellowork.com/blogdumoderateur/2019/11/twitter-logo-1200x1200.jpg",
         authUrl =
-            "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${dotenv.env['TWITTER_CLIENT_ID']}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${_generateRandomString()}&code_challenge=challenge&code_challenge_method=plain";
+            "https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${dotenv.env['TWITTER_CLIENT_ID']}&redirect_uri=aeris://aeris.com/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${_generateRandomString()}&code_challenge=challenge&code_challenge_method=plain";
   Service.github()
       : name = "GitHub",
         url = "https://github.com/",
         logoUrl = "https://avatars.githubusercontent.com/u/9919?s=280&v=4",
         authUrl =
-            "https://github.com/login/oauth/authorize?client_id=${dotenv.env['GITHUB_CLIENT_ID']}&response_type=code&redirect_uri=http://localhost:3000/authorization/github";
+            "https://github.com/login/oauth/authorize?client_id=${dotenv.env['GITHUB_CLIENT_ID']}&response_type=code&redirect_uri=aeris://aeris.com/authorization/github";
   Service.youtube()
       : name = "Youtube",
         url = "https://youtube.com",
         logoUrl =
             "https://play-lh.googleusercontent.com/lMoItBgdPPVDJsNOVtP26EKHePkwBg-PkuY9NOrc-fumRtTFP4XhpUNk_22syN4Datc",
         authUrl =
-            "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${dotenv.env['GOOGLE_CLIENT_ID']}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${_generateRandomString()}";
+            "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${dotenv.env['GOOGLE_CLIENT_ID']}&scope=openid%20email&redirect_uri=aeris://aeric.com/authorization/google&state=${_generateRandomString()}";
 
   /// Returns a list of all the available services
-  static all() => [
+  static List<Service> all() => [
         Service.discord(),
         Service.github(),
         Service.gmail(),

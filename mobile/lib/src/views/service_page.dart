@@ -88,8 +88,7 @@ class ServicePage extends StatelessWidget {
                 AppLocalizations.of(context).available,
                 const Icon(Icons.connect_without_contact, color: Colors.green),
                 (Service service) => {
-                      print("Connected") /* TODO open page to connect service*/,
-                      launch(Uri.parse(service.authUrl).toString())
+                      launch(Uri.parse(service.authUrl).toString(), forceSafariVC: false)
                     },
                 context),
           ],
