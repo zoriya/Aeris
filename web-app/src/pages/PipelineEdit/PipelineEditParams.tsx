@@ -27,6 +27,8 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 							key={key}
 							sx={{ marginTop: "20px" }}
 							label={param[0]}
+							required
+							fullWidth
 							helperText={param[1].description}
 							defaultValue={param[1].value}
 							onChange={(e: any) => {
