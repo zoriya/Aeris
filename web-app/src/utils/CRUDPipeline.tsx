@@ -7,7 +7,7 @@ export const requestCreatePipeline = async (pipelineData: AppPipelineType, creat
 
 	const request = API_ROUTE + "/workflow/" + (!creation ? pipelineData.id : "") 
 
-	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
+	const rawResponse = await fetch(request, {
 		method:  creation ? "POST" : "PUT",
 		headers: {
 			Accept: "application/json",
@@ -24,7 +24,7 @@ export const deletePipeline = async (pipelineData: AppPipelineType): Promise<boo
 
 	const request = API_ROUTE + "/workflow/" + pipelineData.id
 
-	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
+	const rawResponse = await fetch(request, {
 		method:  "DELETE",
 		headers: {
 			Accept: "application/json",
