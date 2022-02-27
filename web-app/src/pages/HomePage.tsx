@@ -62,6 +62,7 @@ export default function HomePage() {
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
 		() => (t: AppPipelineType) => {}
 	);
+	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
@@ -92,6 +93,7 @@ export default function HomePage() {
 				} as AppPipelineType);
 				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
 		{
@@ -104,6 +106,7 @@ export default function HomePage() {
 				setPipelineData(AppListPipelines[0]);
 				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
 	];
@@ -128,6 +131,7 @@ export default function HomePage() {
 				isOpen={modalMode === ModalSelection.PipelineEdit}
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
+					disableDeletion={!pipelineDeletion}
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
 					services={AppServices}
@@ -153,6 +157,7 @@ export default function HomePage() {
 				}}>
 				<Fab
 					onClick={() => {
+						setPipelineDeletion(false);
 						setPipelineData(AppListPipelines[1]);
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);

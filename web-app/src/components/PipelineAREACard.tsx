@@ -37,25 +37,35 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 	}),
 }));
 
-export interface ReactionCardProps {
-	reaction: AppAREAType;
+export interface PipelineAREACardProps {
+	AREA: AppAREAType;
 	order: number;
+	style?: any;
+	canBeRemoved: boolean;
 	handleEdit: () => any;
 	handleDelete: () => any;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export const ReactionCard = ({ reaction, order, handleDelete, handleEdit, onClick }: ReactionCardProps) => {
+export const PipelineAREACard = ({
+	AREA,
+	order,
+	handleDelete,
+	handleEdit,
+	style,
+	onClick,
+	canBeRemoved,
+}: PipelineAREACardProps) => {
 	const [expanded, setExpanded] = useState<boolean>(false);
 
 	return (
-		<Card>
+		<Card sx={style}>
 			<CardHeader
 				avatar={
 					<Avatar
 						style={{ objectFit: "cover", height: "100%" }}
-						alt={reaction.service.logo.altText}
-						src={reaction.service.logo.imageSrc}
+						alt={AREA.service.logo.altText}
+						src={AREA.service.logo.imageSrc}
 						variant={"square"}
 					/>
 				}
@@ -68,12 +78,18 @@ export const ReactionCard = ({ reaction, order, handleDelete, handleEdit, onClic
 						<ExpandMoreIcon />
 					</ExpandMore>
 				}
-				title={reaction.type}
+				title={AREA.type}
 				subheader={"#" + order}
 			/>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-					<IconButton onClick={handleDelete} aria-label="Delete" size="small" color="secondary" sx={{ float: "left" }}>
+					<IconButton
+						disabled={!canBeRemoved}
+						onClick={handleDelete}
+						aria-label="Delete"
+						size="small"
+						color="secondary"
+						sx={{ float: "left" }}>
 						<DeleteIcon />
 					</IconButton>
 					<IconButton onClick={handleEdit} aria-label="Edit" size="small" color="secondary" sx={{ float: "left" }}>
@@ -82,7 +98,7 @@ export const ReactionCard = ({ reaction, order, handleDelete, handleEdit, onClic
 				</CardActions>
 				<CardContent>
 					<Grid container spacing={1}>
-						{Object.entries(reaction.params.contents).map((el, idx) => {
+						{Object.entries(AREA.params.contents).map((el, idx) => {
 							return (
 								<Grid item display={"flex"} justifyContent={"space-between"} width={"100%"} key={idx}>
 									<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
@@ -93,7 +109,7 @@ export const ReactionCard = ({ reaction, order, handleDelete, handleEdit, onClic
 					</Grid>
 					<Divider light style={{ margin: "5px 0px" }} />
 					<Grid container spacing={0.5}>
-						{Object.entries(reaction.returns).map((el, idx) => {
+						{Object.entries(AREA.returns).map((el, idx) => {
 							return (
 								<Grid item key={idx}>
 									<Chip label={el[0]} title={el[1]} color="primary" variant="outlined" size="small" />

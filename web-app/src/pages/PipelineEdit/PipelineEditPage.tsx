@@ -20,8 +20,10 @@ interface PipelineEditProps {
 	handleSave: (pD: AppPipelineType) => any;
 	handleDelete: (pD: AppPipelineType) => any;
 	services: Array<AppServiceType>;
+	disableDeletion: boolean;
 	actions: Array<AppAREAType>;
 	reactions: Array<AppAREAType>;
+
 	handleQuit: () => void;
 }
 
@@ -40,6 +42,7 @@ export default function PipelineEditPage({
 	services,
 	actions,
 	reactions,
+	disableDeletion,
 	handleQuit,
 }: PipelineEditProps) {
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
@@ -53,6 +56,7 @@ export default function PipelineEditPage({
 		case PipelineEditMode.Pipeline:
 			return (
 				<PipelineEditPipeline
+					disableDeletion={disableDeletion}
 					pipelineData={editPipelineData}
 					handleEditAction={(action) => {
 						setEditActionData(action);
