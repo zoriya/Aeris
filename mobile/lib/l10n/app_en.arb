@@ -37,5 +37,5 @@
     "logoutWarningMessage": "You are about to logout, are you sure?",
     "warning": "Warning",
     "cancel": "Cancel",
-    "errorOnSignup": "An error occured while signing up you, please try again"
+    "errorOnSignup": "An error occured while signing you up, please try again"
 }

@@ -3,10 +3,16 @@ import Typography from "@mui/material/Typography";
 import { Grid, TextField } from "@mui/material";
 import { Save } from "@mui/icons-material";
 import Box from "@mui/material/Box";
+import { AppPipelineType, AppAREAType } from "../../utils/types";
 
-import { PipelineActionListProps } from "../PipelineActionList";
+interface PipelineEditParamsProps {
+	pipelineData: AppPipelineType;
+	AREA: AppAREAType;
+	setParams: any;
+	handleQuit: any;
+}
 
-export default function PipelineNameSetup({ title }: PipelineActionListProps) {
+export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	return (
 		<div>
 			<Box
@@ -17,26 +23,34 @@ export default function PipelineNameSetup({ title }: PipelineActionListProps) {
 					justifyContent: "space-between",
 					marginBottom: "35px",
 				}}>
-				//TODO Need to take a look to make Typography size dynamic in order to resize textWrap when modal is too tiny
 				<Typography variant="h4" noWrap align="left" minWidth={300}>
-					'{title}' Parameters
+					'{AREA.type}' Parameters
 				</Typography>
 			</Box>
-			//TODO Need to add dynamic number of parameter and a map to create TextFields dynamicly
 			<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-				<TextField label="Parameter 1 name" placeholder="Parameter 1 name" variant="standard" />
-				<TextField
-					sx={{ marginTop: "20px" }}
-					label="Parameter 2 name"
-					placeholder="Parameter 2 name"
-					variant="standard"
-				/>
+				{Object.entries(AREA.params.contents).map((param) => {
+					return (
+						<TextField
+							sx={{ marginTop: "20px" }}
+							label={param[0]}
+							helperText={param[1].description}
+							defaultValue={param[1].value}
+							variant="standard"
+						/>
+					);
+				})}
+
 				<LoadingButton
 					sx={{ marginTop: "30px" }}
 					color="secondary"
 					loading={false}
 					loadingPosition="start"
 					startIcon={<Save />}
+					onClick={() =>
+						setParams({
+							...AREA,
+						})
+					}
 					variant="contained">
 					Save
 				</LoadingButton>
