@@ -58,9 +58,18 @@ export default function PipelineEditPage({
 						setEditActionData(action);
 						setMode(PipelineEditMode.EditAction);
 					}}
-					handleEditReaction={(reaction) => {
+					handleEditReaction={(reaction, index) => {
+						setEditReactionIndex(index);
 						setEditReactionData(reaction);
 						setMode(PipelineEditMode.EditReaction);
+					}}
+					handleDeleteReaction={(reaction, index) => {
+						let reactionsTmp = editPipelineData.reactions;
+						reactionsTmp.splice(index, 1);
+						setEditPipelineData({
+							...editPipelineData,
+							reactions: reactionsTmp,
+						});
 					}}
 					setEditMode={setMode}
 					handleSave={handleSave}

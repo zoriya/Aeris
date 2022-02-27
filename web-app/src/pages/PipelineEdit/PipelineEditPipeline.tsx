@@ -27,7 +27,8 @@ import { Keyboard } from "@mui/icons-material";
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
 	handleEditAction: (action: AppAREAType) => any;
-	handleEditReaction: (reaction: AppAREAType) => any;
+	handleEditReaction: (reaction: AppAREAType, index: number) => any;
+	handleDeleteReaction: (reaction: AppAREAType, index: number) => any;
 	handleDelete: (pD: AppPipelineType) => any;
 	handleSave: (pD: AppPipelineType) => any;
 	setEditMode: (mode: PipelineEditMode) => any;
@@ -36,6 +37,9 @@ interface PipelineEditPipelineProps {
 
 export default function PipelineEditPipeline({
 	pipelineData,
+	handleEditReaction,
+	handleEditAction,
+	handleDeleteReaction,
 	handleDelete,
 	handleSave,
 	setEditMode,
@@ -112,22 +116,15 @@ export default function PipelineEditPipeline({
 							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
 								<ReactionCard
 									handleEdit={() => {
-										setEditMode(PipelineEditMode.Reactions);
-										setEditReactionIndex(index);
+										setEditMode(PipelineEditMode.EditReaction);
+										handleEditReaction(el, index);
 									}}
-									handleDelete={() => pipelineData.reactions.splice(index, 1)}
+									handleDelete={() => {
+										handleDeleteReaction(el, index);
+									}}
 									reaction={el}
 									order={index + 1}
 									onClick={() => {}}
-								/>
-								<GenericButton
-									service={el.service.logo}
-									title={index + 1 + " - " + el.type}
-									onClickCallback={() => {
-										setEditMode(PipelineEditMode.Reactions);
-										setEditReactionIndex(index);
-									}}
-									trailingIcon={<DeleteIcon />}
 								/>
 							</Grid>
 						))}
