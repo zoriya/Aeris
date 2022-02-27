@@ -11,7 +11,7 @@
 module Api.Pipeline where
 
 import App (AppM, State (State, dbPool))
-import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.Reader (ask)
 import Core.Pipeline (PipelineParams, PipelineType)
 import Core.Reaction (ReactionParams, ReactionType)
@@ -31,13 +31,13 @@ import Repository
       getPipelineById',
       getPipelineByUser,
       createReaction,
-      getReactionsByPipelineId', getWorkflow', getWorkflowsByUser', getWorkflows', createReactions, putWorkflow, delWorkflow )
+      getReactionsByPipelineId', getWorkflow', getWorkflowsByUser', getWorkflows', createReactions, putWorkflow, delWorkflow, getUserById' )
 import Servant (Capture, Get, JSON, err401, throwError, type (:>), NoContent (NoContent), err400, err403, err500)
 import Servant.API (Delete, Post, Put, ReqBody, QueryParam)
 import Servant.API.Generic ((:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (mapInd, UserAuth, AuthRes)
-import Core.User (UserId(UserId), User (User))
+import Core.User (UserId(UserId), User (User), ExternalToken)
 import Servant.Auth.Server (AuthResult(Authenticated))
 import Network.HTTP.Simple (setRequestBodyJSON, httpJSONEither, setRequestMethod, addRequestHeader, parseRequest, httpBS, setRequestPath)
 import Network.HTTP.Client.Conduit (Request(requestBody), httpNoBody)
@@ -45,6 +45,7 @@ import Data.ByteString (ByteString)
 import Data.Text.Encoding (encodeUtf8)
 import System.Environment.MrEnv (envAsString)
 import Data.Default (def)
+import Db.User (UserDB(..))
 
 data PipelineData = PipelineData
     { name :: Text
@@ -80,8 +81,8 @@ data PipelineAPI mode = PipelineAPI
         Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineData
     , del   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Delete '[JSON] Int64
-    , all   :: mode :- "workflows" :> UserAuth :>
-        QueryParam "API_KEY" String :>Get '[JSON] [GetPipelineResponse]
+    , all   :: mode :- "workflows" :> UserAuth
+        :> Get '[JSON] [GetPipelineResponse]
     }
     deriving stock (Generic)
 
@@ -106,7 +107,7 @@ informWorker method id = do
 
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
 getPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
-    (pipeline, reactions) <- getWorkflow' pipelineId
+    (pipeline, reactions, _) <- getWorkflow' pipelineId
     if pipelineUserId pipeline == uid then
         return $ formatGetPipelineResponse pipeline reactions
     else
@@ -135,8 +136,8 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
     oldPipeline <- getPipelineById' pipelineId
     if pipelineUserId oldPipeline == uid then do
         res <- putWorkflow pipelineId newPipeline r
-        if res > 0 then
-            liftIO $ informWorker "PUT" actionId
+        if res > 0 then do
+            liftIO $ informWorker "PUT" pipelineId
             return x
         else
             throwError err500
@@ -156,20 +157,16 @@ delPipelineHandler :: AuthRes -> PipelineId -> AppM Int64
 delPipelineHandler (Authenticated (User uid _ _)) pipelineId = do
     oldPipeline <- getPipelineById' pipelineId
     if pipelineUserId oldPipeline == uid then do
-        liftIO $ informWorker "DELETE" actionId
+        liftIO $ informWorker "DELETE" pipelineId
         delWorkflow pipelineId
     else throwError err403
 delPipelineHandler _ _ = throwError err401
 
-allPipelineHandler :: AuthRes -> Maybe String -> AppM [GetPipelineResponse]
-allPipelineHandler usr@(Authenticated (User uid _ _)) Nothing = do
+allPipelineHandler :: AuthRes -> AppM [GetPipelineResponse]
+allPipelineHandler usr@(Authenticated (User uid _ _)) = do
     workflows <- getWorkflowsByUser' uid
     return $ fmap (uncurry formatGetPipelineResponse) workflows
-allPipelineHandler _ (Just key) = do
-  k <- liftIO $ envAsString "WORKER_API_KEY" ""
-  if k == key then do fmap (uncurry formatGetPipelineResponse) <$> getWorkflows' 
-  else throwError err403 
-allPipelineHandler _ _ =  throwError err401
+allPipelineHandler _ = throwError err401
 
 pipelineHandler :: PipelineAPI (AsServerT AppM)
 pipelineHandler =

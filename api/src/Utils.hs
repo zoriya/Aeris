@@ -27,6 +27,9 @@ lookupObj obj key = case Data.HashMap.Strict.lookup key obj of
     Just (String x) -> Just . unpack $ x
     _ -> Nothing
 
+uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
+uncurry3 f (a, b, c) = f a b c
+
 defaultPipelineParams :: PipelineParams 
 defaultPipelineParams = TwitterNewPostP (TwitterNewPostData "")
 

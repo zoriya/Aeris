@@ -47,8 +47,9 @@ import Rel8
 
 import Core.Reaction
 import Data.Functor.Identity (Identity)
-import Db.Pipeline (PipelineId (PipelineId), pipelineSchema, Pipeline (pipelineId), getPipelineById, getPipelineByUserId)
-import Core.User (UserId)
+import Db.Pipeline (PipelineId (PipelineId), pipelineSchema, Pipeline (pipelineId, pipelineUserId), getPipelineById, getPipelineByUserId)
+import Core.User (UserId, User (User))
+import Db.User (getUserById, UserDB)
 
 newtype ReactionId = ReactionId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
@@ -114,17 +115,19 @@ reactionsForPipeline pipeline = do
   where_ $ reactionPipelineId reaction ==. pipelineId pipeline
   return reaction
 
-getWorkflows :: Query (Pipeline Expr, ListTable Expr (Reaction Expr))
+getWorkflows :: Query (Pipeline Expr, ListTable Expr (Reaction Expr), UserDB Expr)
 getWorkflows = do
     pipeline <- each pipelineSchema 
     reactions <- many $ reactionsForPipeline pipeline
-    return (pipeline, reactions)
+    user <- getUserById $ pipelineUserId pipeline
+    return (pipeline, reactions, user)
 
-getWorkflow :: PipelineId -> Query (Pipeline Expr, ListTable Expr (Reaction Expr))
+getWorkflow :: PipelineId -> Query (Pipeline Expr, ListTable Expr (Reaction Expr), UserDB Expr)
 getWorkflow pId = do
     pipeline <- getPipelineById pId
     reactions <- many $ reactionsForPipeline pipeline
-    return (pipeline, reactions)
+    user <- getUserById $ pipelineUserId pipeline
+    return (pipeline, reactions, user)
 
 getWorkflowsByUser :: UserId -> Query (Pipeline Expr, ListTable Expr (Reaction Expr))
 getWorkflowsByUser uid = do
