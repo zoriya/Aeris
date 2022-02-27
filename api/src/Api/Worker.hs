@@ -27,6 +27,7 @@ import Db.User (UserDB(userDBId, externalTokens))
 import Data.Functor.Identity (Identity)
 import Db.Reaction (Reaction)
 import GHC.Generics (Generic)
+import Data.Text (Text)
 
 
 data WorkerUserData = WorkerUserData
@@ -39,14 +40,21 @@ data GetPipelineWorkerResponse = GetPipelineWorkerResponse
     , res :: GetPipelineResponse
     }
 
+newtype ErrorBody = ErrorBody { error :: Text }
+
 $(deriveJSON defaultOptions ''WorkerUserData)
 $(deriveJSON defaultOptions ''GetPipelineWorkerResponse)
+$(deriveJSON defaultOptions ''ErrorBody)
 
 data WorkerAPI mode = WorkerAPI
-    { get :: mode :- "workflow" :>Capture "id" PipelineId :>
+    { get :: mode :- "workflow" :> Capture "id" PipelineId :>
         QueryParam "API_KEY" String :> Get '[JSON] GetPipelineWorkerResponse
     , all :: mode :- "workflows" :>
         QueryParam "API_KEY" String :> Get '[JSON] [GetPipelineWorkerResponse]
+    , trigger :: mode :- "trigger" :> Capture "id" PipelineId :>
+        QueryParam "API_KEY" String :> Get '[JSON] NoContent
+    , error :: mode :- "error" :> Capture "id" PipelineId :>
+        QueryParam "API_KEY" String :> ReqBody '[JSON] ErrorBody :>Get '[JSON] NoContent
     }
     deriving stock (Generic)
 
@@ -71,9 +79,20 @@ allPipelineHandlerWorker (Just key) = do
   else throwError err403 
 allPipelineHandlerWorker _ = throwError err401
 
+triggerHandler ::  PipelineId -> Maybe String -> AppM NoContent 
+triggerHandler pId (Just key) = return NoContent 
+triggerHandler _ _ = throwError err403
+
+
+errorHandler ::  PipelineId -> Maybe String -> ErrorBody -> AppM NoContent 
+errorHandler pId (Just key) (ErrorBody msg) = return NoContent 
+errorHandler _ _ _ = throwError err403
+
 workerHandler :: WorkerAPI (AsServerT AppM)
 workerHandler =
     WorkerAPI
         { get = getPipelineHandlerWorker
         , all = allPipelineHandlerWorker
+        , trigger = triggerHandler
+        , error = errorHandler
         }
