@@ -22,7 +22,7 @@ import Data.Aeson.TH (deriveJSON)
 import Core.User (UserId(UserId), ExternalToken (ExternalToken))
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import System.Environment.MrEnv (envAsString)
-import Repository (getUserById', getWorkflow', getWorkflows')
+import Repository (getUserById', getWorkflow', getWorkflows', triggerPipeline', errorPipeline')
 import Db.User (UserDB(userDBId, externalTokens))
 import Data.Functor.Identity (Identity)
 import Db.Reaction (Reaction)
@@ -80,12 +80,22 @@ allPipelineHandlerWorker (Just key) = do
 allPipelineHandlerWorker _ = throwError err401
 
 triggerHandler ::  PipelineId -> Maybe String -> AppM NoContent 
-triggerHandler pId (Just key) = return NoContent 
+triggerHandler pId (Just key) = do
+    k <- liftIO $ envAsString "WORKER_API_KEY" ""
+    if k == key then do
+        triggerPipeline' pId
+        return NoContent 
+    else throwError err403 
 triggerHandler _ _ = throwError err403
 
 
 errorHandler ::  PipelineId -> Maybe String -> ErrorBody -> AppM NoContent 
-errorHandler pId (Just key) (ErrorBody msg) = return NoContent 
+errorHandler pId (Just key) (ErrorBody msg) = do
+    k <- liftIO $ envAsString "WORKER_API_KEY" ""
+    if k == key then do
+      errorPipeline' pId msg
+      return NoContent 
+    else throwError err403  
 errorHandler _ _ _ = throwError err403
 
 workerHandler :: WorkerAPI (AsServerT AppM)
