@@ -63,10 +63,10 @@ userSchema =
 selectAllUser :: Query (UserDB Expr)
 selectAllUser = each userSchema
 
-getUserById :: UserId -> Query (UserDB Expr)
+getUserById :: Expr UserId -> Query (UserDB Expr)
 getUserById uid = do
     u <- selectAllUser
-    where_ $ userDBId u ==. lit uid
+    where_ $ userDBId u ==. uid
     return u
 
 getUserByName :: Text -> Query (UserDB Expr)
@@ -100,7 +100,7 @@ insertUser (UserDB id name password slug _) =
         }
 
 getUserTokensById :: UserId -> Query (Expr [ExternalToken])
-getUserTokensById uid = externalTokens <$> getUserById uid
+getUserTokensById uid = externalTokens <$> getUserById (lit uid)
 
 changeTokens :: [ExternalToken] -> ExternalToken -> [ExternalToken]
 changeTokens actual new = do

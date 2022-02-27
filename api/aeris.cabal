@@ -29,6 +29,7 @@ library
       Api.Auth
       Api.OIDC
       Api.Pipeline
+      Api.Worker
       App
       Config
       Core.OIDC

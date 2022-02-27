@@ -33,14 +33,14 @@ services:
       - GOOGLE_SECRET=${GOOGLE_SECRET}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
-  worker:
-    build: ./worker
-    ports:
-      - "3001:8999"
-    depends_on:
-      - "api"
-    environment:
-      - YOUTUBE_KEY=${YOUTUBE_KEY}
+        #  worker:
+        # build: ./worker
+        #ports:
+        #- "3001:8999"
+        #depends_on:
+        #- "api"
+        #environment:
+        #- YOUTUBE_KEY=${YOUTUBE_KEY}
 
 volumes:
   apk:
