@@ -60,6 +60,7 @@ library
   build-depends:
       aeson ==1.5.6.0
     , base >=4.7 && <5
+    , base64
     , bytestring
     , containers
     , cryptonite
@@ -99,6 +100,7 @@ executable aeris-exe
       aeris
     , aeson ==1.5.6.0
     , base
+    , base64
     , bytestring
     , containers
     , cryptonite
@@ -139,6 +141,7 @@ test-suite aeris-test
       aeris
     , aeson
     , base
+    , base64
     , bytestring
     , containers
     , cryptonite

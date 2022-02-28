@@ -6,13 +6,13 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken), Service (Github, Discord))
+import Core.User (ExternalToken (ExternalToken), Service (Github, Discord, Spotify, Google))
 import Data.Aeson.Types (Object, Value (String))
-import Data.Text (Text, pack)
+import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
 import Utils (lookupObjString)
-
+import Data.ByteString.Base64
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
     , oauthClientSecret :: String
@@ -96,7 +96,7 @@ getDiscordTokens code = do
             refresh <- lookupObjString obj "refresh_token"
             Just $ ExternalToken (pack access) (pack refresh) 0 Github
 
--- DISCORD
+-- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
 getGoogleConfig =
     OAuth2Conf
@@ -128,9 +128,45 @@ getGoogleTokens code = do
             refresh <- lookupObjString obj "refresh_token"
             Just $ ExternalToken (pack access) (pack refresh) 0 Github
 
+-- SPOTIFY
+getSpotifyConfig :: IO OAuth2Conf
+getSpotifyConfig =
+    OAuth2Conf
+        <$> envAsString "SPOTIFY_CLIENT_ID" ""
+        <*> envAsString "SPOTIFY_SECRET" ""
+        <*> pure "https://accounts.spotify.com/api/token"
+
+getSpotifyTokens :: String -> IO (Maybe ExternalToken)
+getSpotifyTokens code = do
+    cfg <- getSpotifyConfig
+
+    let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
+    let endpoint = tokenEndpoint code cfg
+    request' <- parseRequest endpoint
+    let request =
+            setRequestMethod "POST" $
+            addRequestHeader "Authorization" (B8.pack . unpack $ basicAuth) $
+            addRequestHeader "Accept" "application/json" $
+            setRequestBodyURLEncoded
+                [ ("code", B8.pack code)
+                , ("grant_type", "authorization_code")
+                , ("redirect_uri", "http://localhost:3000/authorization/google")
+                ]
+            request'
+    response <- httpJSONEither request
+    return $ case (getResponseBody response :: Either JSONException Object) of
+        Left _ -> Nothing
+        Right obj -> do
+            access <- lookupObjString obj "access_token"
+            refresh <- lookupObjString obj "refresh_token"
+            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+
+
 
 -- General
 getOauthTokens :: Service -> String -> IO (Maybe ExternalToken)
 getOauthTokens Github = getGithubTokens
 getOauthTokens Discord = getDiscordTokens
+getOauthTokens Spotify = getSpotifyTokens
+getOauthTokens Google = getGoogleTokens
 getOauthTokens _ = \s -> return Nothing

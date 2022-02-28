@@ -33,6 +33,7 @@ dependencies:
 - data-default
 - bytestring
 - network
+- base64
 - text
 - hasql
 - hasql-transaction
