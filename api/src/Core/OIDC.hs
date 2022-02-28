@@ -85,7 +85,39 @@ getDiscordTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/github")
+                , ("redirect_uri", "http://localhost:3000/authorization/discord")
+                ]
+            request'
+    response <- httpJSONEither request
+    return $ case (getResponseBody response :: Either JSONException Object) of
+        Left _ -> Nothing
+        Right obj -> do
+            access <- lookupObjString obj "access_token"
+            refresh <- lookupObjString obj "refresh_token"
+            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+
+-- DISCORD
+getGoogleConfig :: IO OAuth2Conf
+getGoogleConfig =
+    OAuth2Conf
+        <$> envAsString "GOOGLE_CLIENT_ID" ""
+        <*> envAsString "GOOGLE_SECRET" ""
+        <*> pure "https://oauth2.googleapis.com/token"
+
+getGoogleTokens :: String -> IO (Maybe ExternalToken)
+getGoogleTokens code = do
+    cfg <- getGoogleConfig
+    let endpoint = tokenEndpoint code cfg
+    request' <- parseRequest endpoint
+    let request =
+            setRequestMethod "POST" $
+            addRequestHeader "Accept" "application/json" $
+            setRequestBodyURLEncoded
+                [ ("client_id", B8.pack . oauthClientId $ cfg)
+                , ("client_secret", B8.pack . oauthClientSecret $ cfg)
+                , ("code", B8.pack code)
+                , ("grant_type", "authorization_code")
+                , ("redirect_uri", "http://localhost:3000/authorization/google")
                 ]
             request'
     response <- httpJSONEither request
