@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
 
 export interface DraggableItemProps {
 	index: number;
