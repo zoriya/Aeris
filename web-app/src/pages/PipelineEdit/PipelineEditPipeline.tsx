@@ -81,7 +81,7 @@ export default function PipelineEditPipeline({
 								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
 							/>
 						}
-						label="Activée"
+						label={t('activated') as string}
 					/>
 				</FormGroup>
 

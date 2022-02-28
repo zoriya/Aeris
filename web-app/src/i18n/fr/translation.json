@@ -12,14 +12,18 @@
   "reactionCaps": "Réactions",
   "action": "action",
   "reaction": "réaction(s)",
+  "availables": "disponibles",
   "setup": "Configurer une ",
   "selectAction": "Sélectionner une action",
   "selectReaction": "Sélectionner une réaction",
   "cancel": "Retour",
   "parameters": "Paramètres",
-  "save": "Sauvegarder",
   "addAction": "Ajouter une réaction",
   "deletePipeline": "Supprimer la pipeline",
   "refresh": "Rafraîchir",
-  "logout": "Se déconnecter"
+  "logout": "Se déconnecter",
+  "activated": "Activée",
+  "username": "Nom d'utilisateur",
+  "password": "Mot de passe",
+  "confirm_password": "Confirmation du mot de passe"
 }

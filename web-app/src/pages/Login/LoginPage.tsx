@@ -158,8 +158,8 @@ export default function AuthComponent() {
 								error={authData.isError}
 								required
 								type="username"
-								label="Username"
-								placeholder="Username"
+								label={t("username") as string}
+								placeholder={t("username") as string}
 								margin="normal"
 								variant="outlined"
 								size="small"
@@ -179,8 +179,8 @@ export default function AuthComponent() {
 								error={authData.isError}
 								required
 								type="password"
-								label="Password"
-								placeholder="Password"
+								label={t("password") as string}
+								placeholder={t("password") as string}
 								margin="normal"
 								variant="outlined"
 								size="small"
@@ -202,8 +202,8 @@ export default function AuthComponent() {
 									error={authData.isError}
 									required
 									type="password"
-									label="Confirm password"
-									placeholder="Password"
+									label={t('confirm_password') as string}
+									placeholder={t("password") as string}
 									margin="normal"
 									variant="outlined"
 									size="small"

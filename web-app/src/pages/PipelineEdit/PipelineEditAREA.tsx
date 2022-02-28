@@ -77,7 +77,7 @@ export default function PipelineEditAREA({
 						))}
 					</Select>
 					<FormHelperText>
-						{filteredElements.length} {isActions ? "actions" : "réactions"} disponibles
+						{filteredElements.length} {isActions ? t("action") : t("reactions")} {t('availables')}
 					</FormHelperText>
 				</Box>
 
