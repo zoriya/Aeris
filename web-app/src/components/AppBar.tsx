@@ -37,10 +37,10 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 							<ElectricalServicesIcon />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title='Services'>
+					<Tooltip title='Logout'>
 						<IconButton sx={{ color: "#ffffff" }} onClick={() => {
 							document.cookie = "aeris_jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-							navigate('/pipelines');
+							navigate('/auth');
 						}}>
 							<Logout />
 						</IconButton>
