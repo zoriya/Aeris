@@ -107,7 +107,7 @@ export const PipelineAREACard = ({
 							);
 						})}
 					</Grid>
-					<Divider light style={{ margin: "5px 0px" }} />
+					<Divider style={{ margin: "5px 0px" }} />
 					<Grid container spacing={0.5}>
 						{Object.entries(AREA.returns).map((el, idx) => {
 							return (
