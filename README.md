@@ -28,7 +28,7 @@ Make sure the following softwares are installed on your machine:
 
 To setup Aeris, you need to provide the building system some information:
 
-- Client ID and Client Secrets for EACH services (fill the `.env.example`provided at the root of the repository)
+- Client ID and Client Secrets for EACH services (fill the `.env.example`provided at the root of the repository and rename it `.env`)
 - A Host name, to let clients know how to call the API (usually localhost:8080)
 
 ## How to install it ?
