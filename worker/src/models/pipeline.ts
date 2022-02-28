@@ -35,6 +35,37 @@ export enum PipelineType {
 	OnDiscordMessageFrom
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export enum ReactionType {
 	Tweet,
 	// Youtube reactions
@@ -67,6 +98,11 @@ export enum ReactionType {
 	Pause,
 	// Anilist
 	ToggleFavourite,
+	followUser,
+	postTweet,
+	replyToTweet,
+	likeTweet,
+	retweet
 };
 
 export class Pipeline {
