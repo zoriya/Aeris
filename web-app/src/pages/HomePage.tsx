@@ -14,9 +14,8 @@ import { getCookie, deSerializeServices } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
+import { AppServices, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
-import MenuItem from "@mui/material/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -68,8 +67,8 @@ const fetchWorkflows = async (): Promise<any> => {
 
 export default function HomePage() {
 	const classes = useStyles();
-	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(

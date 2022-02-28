@@ -1,0 +1,23 @@
+{
+  "aerisDescription": "Votre gestionnaire personnel d'action-réactions professionnelles",
+  "goToApp": "Se connecter à Aeris",
+  "save": "Sauvegarder",
+  "usernameOrPasswordIncorrect": "Nom d'utilisateur ou mot de passe incorrect!",
+  "loginSuccess": "Connexion réussie!",
+  "connectToAeris": "Se connecter",
+  "signUp": "S'enregistrer",
+  "linked": "Liés",
+  "available": "Disponibles",
+  "action": "Action(s)",
+  "reaction": "Reaction(s)",
+  "setup": "Configurer",
+  "selectAction": "Sélectionner une action",
+  "selectReaction": "Sélectionner une réaction",
+  "cancel": "Retour",
+  "parameters": "Paramètres",
+  "save": "Sauvegarder",
+  "addAction": "Ajouter une réaction",
+  "deletePipeline": "Supprimer la pipeline",
+  "refresh": "Rafraîchir",
+  "logout": "Se déconnecter"
+}

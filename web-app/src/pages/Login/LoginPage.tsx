@@ -16,8 +16,10 @@ import Card from "@material-ui/core/Card";
 import Box from "@mui/material/Box";
 
 import aerisTheme from "../../Aeris.theme";
-import { resolve } from "node:path/win32";
 import { setCookie, getCookie } from "../../utils/utils";
+
+import { useTranslation } from "react-i18next";
+import '../../i18n/config';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -80,6 +82,7 @@ const requestLogin = async (username: string, password: string, signup: boolean)
 };
 
 export default function AuthComponent() {
+	const { t } = useTranslation();
 	const classes = useStyles();
 	const navigate = useNavigate();
 	const [authData, setAuthData] = useState<AuthCompProps>({
@@ -110,13 +113,12 @@ export default function AuthComponent() {
 	const handleLogin = async () => {
 		if (await requestLogin(authData.username, authData.password, authData.authMode === "auth")) {
 			setAuthData((prevState) => {
-				return { ...prevState, isError: false, helperText: "Login successful!" };
+				return { ...prevState, isError: false, helperText: t('loginSuccess') };
 			});
 			window.location.href = "/pipelines";
-			//navigate("/pipelines");
 		} else {
 			setAuthData((prevState) => {
-				return { ...prevState, isError: true, helperText: "Incorrect username or password!" };
+				return { ...prevState, isError: true, helperText: t('usernameOrPasswordIncorrect') };
 			});
 		}
 	};
@@ -226,7 +228,7 @@ export default function AuthComponent() {
 							className={classes.loginBtn}
 							onClick={handleLogin}
 							disabled={authData.isButtonDisabled}>
-							{authData.authMode === "login" ? "Connection" : "Signup"}
+							{authData.authMode === "login" ? t('connectToAeris') : t('signUp')}
 						</Button>
 						<Button
 							onClick={() => {
@@ -242,7 +244,7 @@ export default function AuthComponent() {
 							variant="text"
 							size="large"
 							className={classes.switchBtn}>
-							{authData.authMode === "login" ? "Signup" : "Connection"}
+							{authData.authMode === "login" ? t('signUp') : t('connectToAeris')}
 						</Button>
 					</CardActions>
 				</Card>

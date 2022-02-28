@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { AppAREAType, AppPipelineType } from "../../utils/types";
 import {
-	Box,
 	Switch,
-	FormControl,
 	Grid,
 	Typography,
 	FormGroup,
@@ -11,18 +8,13 @@ import {
 	Button,
 	ButtonGroup,
 } from "@mui/material";
-import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
-import { getCookie, PipeLineHostToApi } from "../../utils/utils";
-import { API_ROUTE } from "../..";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
-import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;

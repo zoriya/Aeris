@@ -1,9 +1,12 @@
 import { Typography, Box, Button } from "@mui/material";
-//import "./App.css";
+
+import { useTranslation } from 'react-i18next';
+import './i18n/config';
 
 import { useNavigate } from "react-router-dom";
 
 export default function App() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 
 	const pushToLogin = () => {
@@ -23,7 +26,7 @@ export default function App() {
 						<Box component="img" alt="Aeris Logo" src={require("./assets/logo-white.png")} />
 						<br />
 						<Typography variant="h4" style={{ textAlign: "center", maxWidth: "75%" }}>
-							Professional, personnal action-reaction manager
+							{t('aerisDescription')}
 						</Typography>
 						<br />
 						<Button
@@ -32,7 +35,7 @@ export default function App() {
 							color="secondary"
 							className="EndStartupBtn"
 							onClick={pushToLogin}>
-							Connect to Aeris
+							{t('goToApp')}
 						</Button>
 					</Box>
 				</div>
