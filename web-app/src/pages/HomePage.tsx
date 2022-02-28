@@ -11,18 +11,11 @@ import { API_ROUTE } from "../";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { getCookie, deSerializeServices } from "../utils/utils";
-import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
+import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
+import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import {
-	AppServices,
-	ServiceActions,
-	AppServicesLogos,
-	AppListPipelines,
-	NoAREA
-} from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
-import serviceDump from "../utils/discord.json";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -56,6 +49,7 @@ const getUserName = async (): Promise<string> => {
 
 export default function HomePage() {
 	const classes = useStyles();
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
@@ -69,8 +63,12 @@ export default function HomePage() {
 			return setModalMode(ModalSelection.None);
 		}
 	};
-
-	const AREAs = deSerializeServices(serviceDump, AppServices);
+	useEffect(() => {
+		getAboutJson().then((aboutInfoParam) => {
+			console.log(aboutInfoParam);
+			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+		});
+	}, []);
 	console.log(AREAs);
 
 	const data: Array<PipelineBoxProps> = [
