@@ -16,14 +16,14 @@ const app = express()
 const pipelineEvent = new EventEmitter();
 
 app.put("/workflow/:id", req => {
-	fetch(`${process.env["API_URL"]}/workflow/${req.params.id}?API_KEY=${process.env["API_KEY"]}`)
+	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
 		.then(res => {
 			pipelineEvent.emit("event", res.json());
 		});
 });
 
 app.post("/workflow/:id", req => {
-	fetch(`${process.env["API_URL"]}/workflow/${req.params.id}?API_KEY=${process.env["API_KEY"]}`)
+	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
 		.then(res => {
 			pipelineEvent.emit("event", res.json());
 		});
@@ -38,8 +38,11 @@ app.delete("/workflow/:id", req => {
 
 app.listen(5000);
 
+fetch(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
+	.then(async res => console.log("toto", await res.json()));
+
 const pipelines = merge(
-	fromFetch<Pipeline>(`${process.env["API_URL"]}/workflows?API_KEY=${process.env["API_KEY"]}`, {selector: x => x.json()}),
+	fromFetch<Pipeline>(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {selector: x => x.json()}),
 	fromEvent(pipelineEvent, "event"),
 ) as Observable<Pipeline>;
 
