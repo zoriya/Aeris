@@ -36,5 +36,6 @@
     "pipelineFormMisingAction": "You must select at least a trigger and a reaction",
     "logoutWarningMessage": "You are about to logout, are you sure?",
     "warning": "Warning",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "errorOnSignup": "An error occured while signing you up, please try again"
 }
