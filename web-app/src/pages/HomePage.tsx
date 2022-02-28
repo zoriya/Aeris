@@ -71,7 +71,6 @@ export default function HomePage() {
 			setAREAs([[], []]);
 		});
 	}, []);
-	console.log(AREAs);
 
 	const data: Array<PipelineBoxProps> = [
 		{
