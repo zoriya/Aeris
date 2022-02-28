@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     Widget serviceActionButtons = IconButton(
         icon: const Icon(Icons.electrical_services),
         onPressed: () =>
-            showAerisCardPage(context, (context) => ServicePage()));
+            showAerisCardPage(context, (context) => const ServicePage()));
     Widget logoutActionButton = IconButton(
       icon: const Icon(Icons.logout),
       onPressed: () => showDialog<String>(

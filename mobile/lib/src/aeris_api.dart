@@ -190,10 +190,11 @@ class AerisAPI {
 
   /// Fetch the services the user is authenticated to
   Future<List<Service>> getConnectedService() async {
-    var res = await _requestAPI('', ///TODO Get route to fetch connected services
-        AerisAPIRequestType.get, null);
+    var res =
+        await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
-    return Service.all(); ///TODO Return real services
+    return (jsonDecode(res.body) as List<String>)
+        .map((e) => Service.factory(e)).toList();
   }
 
   /// Disconnects the user from the service
