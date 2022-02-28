@@ -10,18 +10,19 @@ class ServiceProvider extends ChangeNotifier {
   List<Service> get connectedServices => _connectedServices;
 
   /// Get the services the user is not connected to
-  List<Service> get availableServices => Service
-    .all()
-    .where((element) => !_connectedServices.contains(element)).toList();
+  List<Service> get availableServices => Service.all()
+      .where((element) => !_connectedServices.contains(element))
+      .toList();
 
   ServiceProvider() {
     refreshServices();
   }
 
   /// Adds a service into the Provider
-  addService(Service service) {
+  addService(Service service, String code) async {
     _connectedServices.add(service);
     notifyListeners();
+    await GetIt.I<AerisAPI>().connectService(service, code);
   }
 
   /// Refresh services from API
@@ -33,9 +34,9 @@ class ServiceProvider extends ChangeNotifier {
   }
 
   /// Removes a service from the Provider, and calls API
-  removeService(Service service) {
-    GetIt.I<AerisAPI>().disconnectService(service);
+  removeService(Service service) async {
     _connectedServices.remove(service);
     notifyListeners();
+    await GetIt.I<AerisAPI>().disconnectService(service);
   }
 }

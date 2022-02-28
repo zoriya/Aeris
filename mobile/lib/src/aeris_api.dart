@@ -188,6 +188,14 @@ class AerisAPI {
     return fakeAPI;
   }
 
+  /// Fetch the services the user is authenticated to
+  Future<List<Service>> getConnectedService() async {
+    var res = await _requestAPI('', ///TODO Get route to fetch connected services
+        AerisAPIRequestType.get, null);
+    if (!res.ok) return [];
+    return Service.all(); ///TODO Return real services
+  }
+
   /// Disconnects the user from the service
   Future<bool> disconnectService(Service service) async {
     var res = await _requestAPI('/auth/${service.name.toLowerCase()}',
