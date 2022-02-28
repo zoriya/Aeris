@@ -15,12 +15,11 @@ import Data.Aeson.TH (deriveJSON)
 import Data.Time.Clock.POSIX (POSIXTime, getPOSIXTime)
 import GHC.Generics (Generic)
 import Network.Socket (SockAddr)
-import Servant (Handler, RemoteHost)
-import qualified Data.ByteString
-import qualified Data.ByteString  as S
-import qualified Data.ByteString.Lazy  as L
+import Servant (Handler, RemoteHost, throwError, err500)
+import qualified Data.ByteString as S
+import qualified Data.ByteString.Lazy as L
 
-import Data.FileEmbed (embedDir)
+import Data.FileEmbed (embedDir, makeRelativeToProject)
 
 data ClientAbout = ClientAbout
     { host :: String
@@ -58,13 +57,13 @@ $(deriveJSON defaultOptions ''ServicesAbout)
 $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
-servicesDir :: [(FilePath, Data.ByteString.ByteString)]
-servicesDir = $(embedDir "services")
+servicesDir :: [(FilePath, S.ByteString)]
+servicesDir = $(makeRelativeToProject "./services/" >>= embedDir)
 
 about :: SockAddr -> AppM About
 about host = do
     now <- liftIO getPOSIXTime
-    let d = (eitherDecode . L.toStrict . snd <$> servicesDir) :: [Either String [ServicesAbout]]
+    let d = traverse (eitherDecode . L.fromStrict . snd) servicesDir :: Either String [ServicesAbout]
     case d of
-        Left err -> return $ About (ClientAbout $ show host) (ServerAbout now [])
+        Left err -> throwError err500
         Right services -> return $ About (ClientAbout $ show host) (ServerAbout now services)
