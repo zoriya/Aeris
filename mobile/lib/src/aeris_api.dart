@@ -171,7 +171,7 @@ class AerisAPI {
   
   String getServiceAuthURL(Service service) {
     final serviceName = service.name.toLowerCase();
-    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com$serviceName";
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
