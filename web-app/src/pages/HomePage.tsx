@@ -65,8 +65,10 @@ export default function HomePage() {
 	};
 	useEffect(() => {
 		getAboutJson().then((aboutInfoParam) => {
-			console.log(aboutInfoParam);
 			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+		}).catch((error) => {
+			console.warn(error);
+			setAREAs([[], []]);
 		});
 	}, []);
 	console.log(AREAs);
@@ -98,7 +100,7 @@ export default function HomePage() {
 			title: "Lorem ipsum behm uit's long",
 			statusText:
 				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: AppServicesLogos["gmail"],
+			service1: AppServicesLogos["anilist"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
