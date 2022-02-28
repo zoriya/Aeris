@@ -29,10 +29,10 @@ export enum PipelineType {
 	OnSpotifySaveToLibrary,
 
 	OnDiscordMessage,
+	OnDiscordMessageFrom,
 	OnDiscordMention,
 	OnNewDiscordGuildMember,
 	OnDiscordGuildLeave,
-	OnDiscordMessageFrom
 };
 
 
