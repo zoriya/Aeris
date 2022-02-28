@@ -11,6 +11,7 @@ import { API_ROUTE } from "../";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { getCookie } from "../utils/utils";
+import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
 import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import {
@@ -58,6 +59,13 @@ export default function HomePage() {
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
+	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
+
+	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
+		if (await requestCreatePipeline(pD, creation)) {
+			return setModalMode(ModalSelection.None);
+		}
+	};
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -76,6 +84,7 @@ export default function HomePage() {
 						status: "mdr",
 					},
 				} as AppPipelineType);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
@@ -87,16 +96,16 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
 	];
 
 	useEffect(() => {
-		async function fetchUsername() {
-			setUsername(await getUserName());
-		}
-		fetchUsername();
+		getUserName().then((username) => {
+			setUsername(username);
+		});
 	}, []);
 
 	return (
@@ -114,10 +123,11 @@ export default function HomePage() {
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
 					pipelineData={pipelineData}
-					handleSave={setPipelineData}
+					handleSave={handleSavePipeline}
 					services={AppServices}
 					actions={AppListActions}
 					reactions={AppListReactions}
+					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
 			</PipelineModal>
@@ -138,6 +148,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineData(AppListPipelines[1]);
+						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
