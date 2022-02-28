@@ -12,11 +12,15 @@ import Control.Monad.IO.Class (liftIO)
 import Data.Aeson (defaultOptions, eitherDecode)
 import qualified Data.Aeson.Parser
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Lazy as B
 import Data.Time.Clock.POSIX (POSIXTime, getPOSIXTime)
 import GHC.Generics (Generic)
 import Network.Socket (SockAddr)
 import Servant (Handler, RemoteHost)
+import qualified Data.ByteString
+import qualified Data.ByteString  as S
+import qualified Data.ByteString.Lazy  as L
+
+import Data.FileEmbed (embedDir)
 
 data ClientAbout = ClientAbout
     { host :: String
@@ -54,11 +58,13 @@ $(deriveJSON defaultOptions ''ServicesAbout)
 $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
+servicesDir :: [(FilePath, Data.ByteString.ByteString)]
+servicesDir = $(embedDir "services")
+
 about :: SockAddr -> AppM About
 about host = do
     now <- liftIO getPOSIXTime
-    s <- liftIO (readFile "services.json")
-    d <- liftIO ((eitherDecode <$> B.readFile "services.json") :: IO (Either String [ServicesAbout]))
+    let d = (eitherDecode . L.toStrict . snd <$> servicesDir) :: [Either String [ServicesAbout]]
     case d of
         Left err -> return $ About (ClientAbout $ show host) (ServerAbout now [])
         Right services -> return $ About (ClientAbout $ show host) (ServerAbout now services)

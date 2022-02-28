@@ -62,6 +62,7 @@ library
     , bytestring
     , containers
     , cryptonite
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -100,6 +101,7 @@ executable aeris-exe
     , bytestring
     , containers
     , cryptonite
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -139,6 +141,7 @@ test-suite aeris-test
     , bytestring
     , containers
     , cryptonite
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool

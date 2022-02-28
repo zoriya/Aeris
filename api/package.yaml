@@ -33,6 +33,7 @@ dependencies:
 - bytestring
 - network
 - text
+- file-embed
 - hasql
 - hasql-transaction
 - hasql-migration
