@@ -11,18 +11,11 @@ import { API_ROUTE } from "../";
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import { getCookie, deSerializeServices } from "../utils/utils";
-import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
+import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
+import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import {
-	AppServices,
-	ServiceActions,
-	AppServicesLogos,
-	AppListPipelines,
-	NoAREA
-} from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
-import serviceDump from "../utils/discord.json";
 import MenuItem from "@mui/material/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +68,7 @@ const fetchWorkflows = async (): Promise<any> => {
 
 export default function HomePage() {
 	const classes = useStyles();
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
@@ -109,7 +103,7 @@ export default function HomePage() {
 			title: "Lorem ipsum behm uit's long",
 			statusText:
 				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: AppServicesLogos["gmail"],
+			service1: AppServicesLogos["anilist"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
@@ -120,14 +114,19 @@ export default function HomePage() {
 		},
 	]);
 
-	const AREAs = deSerializeServices(serviceDump, AppServices);
-	console.log(AREAs);
-
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
 			return setModalMode(ModalSelection.None);
 		}
 	};
+	useEffect(() => {
+		getAboutJson().then((aboutInfoParam) => {
+			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+		}).catch((error) => {
+			console.warn(error);
+			setAREAs([[], []]);
+		});
+	}, []);
 
 	const jsonToPipelineData = (data: any): PipelineBoxProps => {
 		let reactionList:AppAREAType[] = [];

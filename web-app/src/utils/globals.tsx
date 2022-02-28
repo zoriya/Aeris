@@ -32,9 +32,9 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 		imageSrc: "https://upload.wikimedia.org/wikipedia/fr/4/4f/Discord_Logo_sans_texte.svg",
 		altText: "Discord logo",
 	},
-	gmail: {
-		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg",
-		altText: "GMail logo",
+	anilist: {
+		imageSrc: "https://anilist.co/img/icons/safari-pinned-tab.svg",
+		altText: "AniList logo",
 	},
 };
 
@@ -91,9 +91,9 @@ export const AppServices: Array<AppServiceType> = [
 		linked: true,
 	},
 	{
-		label: "GMail",
-		uid: "gmail",
-		logo: AppServicesLogos["gmail"],
+		label: "AniList",
+		uid: "anilist",
+		logo: AppServicesLogos["anilist"],
 		urlAuth: "",
 		linked: false,
 	},
@@ -178,7 +178,7 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 	gmail: [
 		{
 			title: "Réception d'un mail",
-			service: AppServicesLogos["gmail"],
+			service: AppServicesLogos["anilist"],
 			trailingIcon: <MoreVert />,
 		},
 	],
