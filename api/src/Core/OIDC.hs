@@ -161,6 +161,40 @@ getSpotifyTokens code = do
             refresh <- lookupObjString obj "refresh_token"
             Just $ ExternalToken (pack access) (pack refresh) 0 Github
 
+-- TWITTER
+getTwitterConfig :: IO OAuth2Conf
+getTwitterConfig =
+    OAuth2Conf
+        <$> envAsString "TWITTER_CLIENT_ID" ""
+        <*> envAsString "TWITTER_SECRET" ""
+        <*> pure "https://api.twitter.com/2/oauth2/token"
+
+getTwitterTokens :: String -> IO (Maybe ExternalToken)
+getTwitterTokens code = do
+    cfg <- getTwitterConfig
+    let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
+    let endpoint = tokenEndpoint code cfg
+    request' <- parseRequest endpoint
+    let request =
+            setRequestMethod "POST" $
+            addRequestHeader "Authorization" (B8.pack . unpack $ basicAuth) $
+            addRequestHeader "Accept" "application/json" $
+            setRequestBodyURLEncoded
+                [ ("code", B8.pack code)
+                , ("grant_type", "authorization_code")
+                , ("redirect_uri", "http://localhost:3000/authorization/twitter")
+                , ("code_verifier", "challenge")
+                ]
+            request'
+    response <- httpJSONEither request
+    return $ case (getResponseBody response :: Either JSONException Object) of
+        Left _ -> Nothing
+        Right obj -> do
+            access <- lookupObjString obj "access_token"
+            refresh <- lookupObjString obj "refresh_token"
+            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+
+
 
 
 -- General
