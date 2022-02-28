@@ -54,7 +54,7 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "youtube",
 		logo: AppServicesLogos["youtube"],
 		urlAuth: `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${
-			process.env.GOOGLE_CLIENT_ID
+			process.env.REACT_APP_GOOGLE_CLIENT_ID
 		}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${generateRandomString()}`,
 		linked: false,
 	},
@@ -62,14 +62,14 @@ export const AppServices: Array<AppServiceType> = [
 		label: "Spotify",
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
-		urlAuth: `https://accounts.spotify.com/authorize?client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify`,
+		urlAuth: `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify`,
 		linked: false,
 	},
 	{
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
-		urlAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/authorization/github`,
+		urlAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/authorization/github`,
 		linked: false,
 	},
 	{
@@ -77,7 +77,7 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
 		urlAuth: `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${
-			process.env.TWITTER_CLIENT_ID
+			process.env.REACT_APP_TWITTER_CLIENT_ID
 		}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${generateRandomString()}&code_challenge=challenge&code_challenge_method=plain`,
 		linked: true,
 	},
@@ -86,7 +86,7 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${
-			process.env.DISCORD_CLIENT_ID
+			process.env.REACT_APP_DISCORD_CLIENT_ID
 		}&scope=applications.commands%20applications.entitlements%20applications.store.update%20bot%20guilds%20guilds.join%20guilds.members.read%20identify%20messages.read%20webhook.incoming&state=${generateRandomString()}`,
 		linked: true,
 	},
@@ -187,12 +187,12 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 export const NoAREA: AppAREAType = {
 	type: "Nothing",
 	params: {
-		contents: {}
+		contents: {},
 	},
 	returns: {},
 	description: "There's nothing",
-	service: AppServices[0]
-}
+	service: AppServices[0],
+};
 
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
