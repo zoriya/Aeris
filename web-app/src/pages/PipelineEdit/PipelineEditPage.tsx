@@ -18,6 +18,7 @@ import PipelineEditAREA from "./PipelineEditAREA";
 interface PipelineEditProps {
 	pipelineData: AppPipelineType;
 	handleSave: any;
+	handleDelete: any;
 	services: Array<AppServiceType>;
 	actions: Array<AppAREAType>;
 	reactions: Array<AppAREAType>;
@@ -33,6 +34,7 @@ export enum PipelineEditMode {
 export default function PipelineEditPage({
 	pipelineData,
 	handleSave,
+	handleDelete,
 	services,
 	actions,
 	reactions,
@@ -51,7 +53,8 @@ export default function PipelineEditPage({
 				<PipelineEditPipeline
 					pipelineData={editPipelineData}
 					setEditMode={setMode}
-					setPipelineData={handleSave}
+					handleSave={handleSave}
+					handleDelete={handleDelete}
 					setEditReactionIndex={setEditReactionIndex}
 				/>
 			);

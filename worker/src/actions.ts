@@ -22,10 +22,14 @@ export class Manager {
 						catchError(err => this.handlePipelineError(x, err)),
 					)
 				),
-				tap(([x, env]: [Pipeline, PipelineEnv]) => {
+				tap(async ([x, env]: [Pipeline, PipelineEnv]) => {
 					console.log(`Running pipeline ${x.name}`)
-					console.table(env)
-					new Runner(x).run(env)
+					try {
+						await new Runner(x).run(env);
+						fetch(`${process.env["API_URL"]}/trigger/${x.id}?API_KEY=${process.env["API_KEY"]}`);
+					} catch (err) {
+						this.handlePipelineError(x, err);
+					}
 				}),
 			));
 	}
@@ -44,7 +48,7 @@ export class Manager {
 
 	handlePipelineError(pipeline: Pipeline, error: Error): Observable<never> {
 		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type.toString()}).`, error)
-		// TODO call the api to inform of the issue
+		fetch(`${process.env["API_URL"]}/error/${pipeline.id}?API_KEY=${process.env["API_KEY"]}`);
 		return NEVER;
 	}
 }

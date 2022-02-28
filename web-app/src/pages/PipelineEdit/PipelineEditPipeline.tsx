@@ -19,20 +19,22 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
-import { getCookie, PipeLineHostToApi, requestCreatePipeline } from "../../utils/utils";
+import { getCookie, PipeLineHostToApi } from "../../utils/utils";
 import { API_ROUTE } from "../..";
 import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
-	setPipelineData: any;
+	handleDelete: any;
+	handleSave: any;
 	setEditMode: any;
 	setEditReactionIndex: any;
 }
 
 export default function PipelineEditPipeline({
 	pipelineData,
-	setPipelineData,
+	handleDelete,
+	handleSave,
 	setEditMode,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
@@ -42,13 +44,13 @@ export default function PipelineEditPipeline({
 				style={{
 					display: "grid",
 					gridTemplateColumns: "25vw 5vw 12vw 13vw",
-					gridTemplateRows: "2fr 1fr 40vh 3fr 1fr",
+					gridTemplateRows: "2fr 1fr auto 3fr 1fr",
 					gridTemplateAreas: `
-							'pipelineTitle 	pipelineTitle	pipelineTitle		enabledStatus'
-							'actionTitle 	. 				reactionTitle		reactionTitle'
-							'actionData 	arrow 			reactionData		reactionData'
-							'. 				. 				buttonAddReaction	buttonAddReaction'
-							'buttonDelete	. 				buttonCancelSave	buttonCancelSave'
+							'pipelineTitle  pipelineTitle   pipelineTitle       enabledStatus'
+							'actionTitle    .               reactionTitle       reactionTitle'
+							'actionData     arrow           reactionData        reactionData'
+							'.              .               buttonAddReaction   buttonAddReaction'
+							'buttonDelete   .               buttonCancelSave    buttonCancelSave'
 						`,
 					justifyItems: "center",
 					alignItems: "center",
@@ -98,7 +100,9 @@ export default function PipelineEditPipeline({
 						width: "100%",
 						height: "100%",
 						overflow: "auto",
+						maxHeight: "30vh",
 						gridArea: "reactionData",
+						padding: "10px"
 					}}>
 					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.map((el, index) => (
@@ -133,6 +137,7 @@ export default function PipelineEditPipeline({
 					color="error"
 					startIcon={<DeleteIcon />}
 					loadingPosition="start"
+					onClick={() => handleDelete(pipelineData)}
 					loading={false}>
 					Supprimer la pipeline
 				</LoadingButton>
@@ -141,7 +146,7 @@ export default function PipelineEditPipeline({
 					<Button
 						color="primary"
 						startIcon={<SaveIcon />}
-						onClick={async () => setPipelineData(pipelineData)}
+						onClick={async () => handleSave(pipelineData)}
 						variant="contained">
 						Sauvegarder
 					</Button>
