@@ -18,12 +18,13 @@ import Db.Pipeline (Pipeline (Pipeline), PipelineId (PipelineId), pipelineLastTr
 import Core.Pipeline (PipelineType(TwitterNewPost), PipelineParams (TwitterNewPostP), TwitterNewPostData (TwitterNewPostData))
 import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 import Data.Default (Default)
+import Data.Aeson (Value(Number), decode)
 
 mapInd :: (a -> Int -> b) -> [a] -> [b]
 mapInd f l = zipWith f l [0 ..]
 
-lookupObj :: Object -> Text -> Maybe String
-lookupObj obj key = case Data.HashMap.Strict.lookup key obj of
+lookupObjString :: Object -> Text -> Maybe String
+lookupObjString obj key = case Data.HashMap.Strict.lookup key obj of
     Just (String x) -> Just . unpack $ x
     _ -> Nothing
 

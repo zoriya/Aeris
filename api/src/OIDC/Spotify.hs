@@ -12,7 +12,7 @@ import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
-import Utils (lookupObj)
+import Utils (lookupObjString)
 
 data GithubOAuth2 = GithubOAuth2
     { oauthClientId :: String
@@ -78,6 +78,6 @@ getGithubTokens code = do
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
-            access <- lookupObj obj "access_token"
-            refresh <- lookupObj obj "refresh_token"
+            access <- lookupObjString obj "access_token"
+            refresh <- lookupObjString obj "refresh_token"
             Just $ ExternalToken (pack access) (pack refresh) 0 Github
