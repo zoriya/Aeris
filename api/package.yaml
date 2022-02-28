@@ -30,6 +30,7 @@ dependencies:
 - containers
 - warp
 - time
+- data-default
 - bytestring
 - network
 - text

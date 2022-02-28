@@ -3,6 +3,7 @@
 {-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE TypeOperators #-}
+{-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
 
 module Api.Auth where
 
@@ -27,10 +28,10 @@ import Data.Aeson (FromJSON, ToJSON)
 import Db.User (User', UserDB (UserDB), password, toUser)
 import GHC.Generics (Generic)
 import Servant.API.Generic (ToServantApi, (:-))
-import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin, AuthResult (Authenticated))
+import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin, AuthResult (Authenticated), makeJWT)
 import qualified Servant.Auth.Server
 import Servant.Server.Generic (AsServerT)
-
+import Data.ByteString.Lazy.Char8 ( unpack )
 import Api.OIDC (OauthAPI, oauth)
 import App (AppM)
 import Core.User (User, UserId (UserId))
@@ -51,11 +52,19 @@ data SignupUser = SignupUser
     }
     deriving (Eq, Show, Read, Generic)
 
+newtype LoginResponse = LoginResponse
+    { jwt :: String
+    }
+    deriving (Eq, Show, Read, Generic)
+
 instance ToJSON LoginUser
 instance FromJSON LoginUser
 
 instance ToJSON SignupUser
 instance FromJSON SignupUser
+
+instance ToJSON LoginResponse
+instance FromJSON LoginResponse
 
 type Protected =
     "me" :> Get '[JSON] User
@@ -67,7 +76,7 @@ protected _ = throwAll err401
 type Unprotected =
         "login"
         :> ReqBody '[JSON] LoginUser
-        :> Post '[JSON] (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
+        :> Post '[JSON] LoginResponse
     :<|> "signup"
         :> ReqBody '[JSON] SignupUser
         :> Post '[JSON] NoContent
@@ -76,17 +85,21 @@ loginHandler ::
     CookieSettings ->
     JWTSettings ->
     LoginUser ->
-    AppM (Headers '[Header "Set-Cookie" SetCookie, Header "Set-Cookie" SetCookie] NoContent)
+    AppM LoginResponse
 loginHandler cs jwts (LoginUser username p) = do
     users' <- getUserByName' $ pack username
     let usr = head users'
     if validatePassword' (toPassword $ pack p) (Db.User.password usr)
         then do
-            mApplyCookies <- liftIO $ acceptLogin cs jwts (toUser usr)
+            etoken <- liftIO $ makeJWT (toUser usr) jwts Nothing
+            case etoken of
+                Left e -> throwError err401
+                Right v -> return $ LoginResponse $ unpack v
+            {--mApplyCookies <- liftIO $ acceptLogin cs jwts (toUser usr)
             case mApplyCookies of
                 Nothing -> throwError err401
                 Just applyCookies -> return $ applyCookies NoContent
-        else throwError err401
+        --}else throwError err401
 
 signupHandler ::
     SignupUser ->

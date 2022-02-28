@@ -12,9 +12,14 @@ CREATE TABLE IF NOT EXISTS pipelines (
 	type VARCHAR(255) NOT NULL,
 	params JSONB NOT NULL,
 	user_id INTEGER NOT NULL,
+	enabled BOOLEAN NOT NULL,
+	error TEXT,
+	trigger_count INTEGER NOT NULL,
+	last_trigger TIMESTAMP,
 	CONSTRAINT fk_user
 		FOREIGN KEY (user_id)
 			REFERENCES users(id)
+				ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS reactions (
@@ -26,4 +31,5 @@ CREATE TABLE IF NOT EXISTS reactions (
 	CONSTRAINT fk_pipeline
 		FOREIGN KEY (pipeline_id)
 			REFERENCES pipelines(id)
+				ON DELETE CASCADE
 );

@@ -62,7 +62,12 @@ library
     , bytestring
     , containers
     , cryptonite
+<<<<<<< HEAD
     , file-embed
+||||||| 0848395
+=======
+    , data-default
+>>>>>>> 976bf5b0c0e25b710bb8aa58f1c094dc1be17dfb
     , hasql
     , hasql-migration
     , hasql-pool
@@ -101,7 +106,12 @@ executable aeris-exe
     , bytestring
     , containers
     , cryptonite
+<<<<<<< HEAD
     , file-embed
+||||||| 0848395
+=======
+    , data-default
+>>>>>>> 976bf5b0c0e25b710bb8aa58f1c094dc1be17dfb
     , hasql
     , hasql-migration
     , hasql-pool
@@ -142,6 +152,7 @@ test-suite aeris-test
     , containers
     , cryptonite
     , file-embed
+    , data-default
     , hasql
     , hasql-migration
     , hasql-pool

@@ -4,7 +4,7 @@ module Repository.Pipeline where
 
 import App (AppM)
 import Data.Functor.Identity (Identity)
-import Db.Pipeline (Pipeline (Pipeline), PipelineId, getPipelineById, insertPipeline, getPipelineByUserId)
+import Db.Pipeline (Pipeline (Pipeline), PipelineId, getPipelineById, insertPipeline, getPipelineByUserId, selectAllPipelines)
 import Rel8 (insert, limit, select)
 import Repository.Utils (runQuery)
 import Core.User (UserId(UserId))

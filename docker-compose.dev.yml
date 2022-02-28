@@ -10,20 +10,10 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - "./api/sql/dump.sql:/docker-entrypoint-initdb.d/dump.sql"
-  mobile:
-    build: ./mobile
-    volumes:
-      - apk:/dist
-  front:
-    build: ./web-app
-    ports:
-      - "8081:80"
-    depends_on:
-      - "mobile"
   api:
     build: ./api
     ports:
-      - "8080:8080"
+      - "81:8080"
     depends_on:
       - "db"
     environment:
@@ -43,14 +33,14 @@ services:
       - GOOGLE_SECRET=${GOOGLE_SECRET}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
-  worker:
-    build: ./worker
-    ports:
-      - "3001:8999"
-    depends_on:
-      - "api"
-    environment:
-      - YOUTUBE_KEY=${YOUTUBE_KEY}
+         worker:
+           build: ./worker
+           ports:
+             - "3001:8999"
+           depends_on:
+             - "api"
+           environment:
+             - YOUTUBE_KEY=${YOUTUBE_KEY}
 
 volumes:
   apk:
