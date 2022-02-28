@@ -128,40 +128,46 @@ export default function HomePage() {
 		}
 	};
 
+	const jsonToPipelineData = (data: any): PipelineBoxProps => {
+		let pipelineData = {
+			title: data['action']['name'],
+			statusText: 'Refresh API Test Workflow',
+			service1: AppServicesLogos[data['action']['pType'].replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLowerCase().split(' ')[0]],
+			service2: AppServicesLogos['twitter'], //TODO => Fetch service name in reaction[...][rType] for reactions
+			onClickCallback: () => {
+				setPipelineData({
+					id: data['action']['id'],
+					name: data['action']['name'],
+					action: {
+						type: data['action']['pType'],
+						params: {
+							contents: data['action']['pParams']['contents']
+						},
+						returns: {},
+						description: 'Something must have been done.',
+						service: AppServices[3]
+					},
+					reactions: [], //TODO => Add reactions from request
+					data: {
+						enabled: true,
+						error: false,
+						status: "mdr", //TODO => Change status from request
+					}
+				} as AppPipelineType);
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
+			}
+		} as PipelineBoxProps;
+
+		return pipelineData;
+	}
+
 	const refreshWorkflows = () => {
 		let workflowArray = fetchWorkflows().then((res) => {
 			if (res !== null) {
 				for (const workflow of res) {
-					let newWorkflow = {
-						title: workflow['action']['name'],
-						statusText: 'Last trigger: 2 days',
-						service1: AppServicesLogos[workflow['action']['pType'].replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLowerCase().split(' ')[0]],
-						service2: AppServicesLogos['twitter'], //TODO => Fetch service name in reaction[...][rType] for reactions
-						onClickCallback: () => {
-							setPipelineData({
-								id: 12,
-								name: 'test api refresh',
-								action: {
-									type: workflow['action']['pType'],
-									params: {
-										contents: workflow['action']['pParams']['contents']
-									},
-									returns: {},
-									description: 'Something must have been done.',
-									service: AppServices[3]
-								},
-								reactions: [],
-								data: {
-									enabled: true,
-									error: false,
-									status: "mdr",
-								}
-							} as AppPipelineType);
-							setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-							setModalMode(ModalSelection.PipelineEdit);
-							setPipelineDeletion(true);
-						}
-					};
+					let newWorkflow = jsonToPipelineData(workflow);
 					setWorkflowsDatas((oldArray) => [...oldArray, newWorkflow]);
 				}
 			}}
