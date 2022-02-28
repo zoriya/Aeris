@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import { Button } from "@mui/material";
 import React from "react";
 import {makeStyles, Theme} from "@material-ui/core/styles";
 import {Tooltip} from "@mui/material";
@@ -24,6 +25,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 			<AppBar position="fixed">
 				<Toolbar variant="dense">
 					<Box sx={{ flexGrow: 1 }} />
+					<Button variant="contained" color="secondary" size="small" href="/client.apk" download >Obtenir l'app</Button>
 					<Tooltip title='Refresh'>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickRefresh}>
 							<RefreshIcon />

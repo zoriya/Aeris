@@ -27,3 +27,4 @@ RUN npm run build
 FROM nginx:1.21
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /webapp/build/ /usr/share/nginx/html
+RUN mv /dist/aeris_android.apk /usr/share/nginx/html/client.apk
