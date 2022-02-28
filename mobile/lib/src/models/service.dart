@@ -93,6 +93,7 @@ class Service {
         Service.spotify()
       ];
 
+  /// Construct a service based on a lowercase string, the name of the service
   static Service factory(String name) {
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;

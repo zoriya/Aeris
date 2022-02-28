@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
-import 'package:aeris/src/providers/user_services_provider.dart';
+import 'package:aeris/src/providers/services_provider.dart';
 import 'package:aeris/src/views/startup_page.dart';
 import 'package:aeris/src/views/login_page.dart';
 import 'package:aeris/src/views/home_page.dart';
@@ -21,7 +21,7 @@ void main() async {
   await interface.restoreConnection();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PipelineProvider()),
-    ChangeNotifierProvider(create: (_) => UserServiceProvider())
+    ChangeNotifierProvider(create: (_) => ServiceProvider())
   ], child: const Aeris()));
 }
 
