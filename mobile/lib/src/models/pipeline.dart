@@ -54,7 +54,7 @@ class Pipeline {
       "pType": aeris_action.Action.getType(trigger.service, trigger.name),
       "pParams": trigger.parameters,
       "enabled": enabled,
-      "lastTrigger": trigger.last?.toIso8601String() ?? "0000-00-00",
+      "lastTrigger": trigger.last?.toIso8601String(),
       "triggerCount": triggerCount
     }, 
     'reactions': reactions.map((e) => e.toJSON()).toList()
