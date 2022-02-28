@@ -16,6 +16,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
 
+import {useTranslation} from "react-i18next";
+import '../../i18n/config';
+
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
 	handleEditPipelineMetaData: (name: string, enblaed: boolean) => any;
@@ -41,6 +44,8 @@ export default function PipelineEditPipeline({
 	disableDeletion,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
+	const { t } = useTranslation();
+
 	return (
 		<div>
 			<div
@@ -81,11 +86,11 @@ export default function PipelineEditPipeline({
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					Action
+					{t('actionCaps')}
 				</Typography>
 
 				<Typography style={{ gridArea: "reactionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					Réactions
+					{t('reactionCaps')}
 				</Typography>
 
 				<Grid
@@ -154,7 +159,7 @@ export default function PipelineEditPipeline({
 					}}
 					startIcon={<AddBoxIcon />}
 					variant="contained">
-					Ajouter une réaction
+					{t('addAction')}
 				</LoadingButton>
 
 				<LoadingButton
@@ -166,7 +171,7 @@ export default function PipelineEditPipeline({
 					onClick={() => handleDelete(pipelineData)}
 					disabled={disableDeletion}
 					loading={false}>
-					Supprimer la pipeline
+					{t('deletePipeline')}
 				</LoadingButton>
 
 				<ButtonGroup sx={{ gridArea: "buttonCancelSave", justifySelf: "right" }}>
@@ -175,7 +180,7 @@ export default function PipelineEditPipeline({
 						startIcon={<SaveIcon />}
 						onClick={async () => handleSave(pipelineData)}
 						variant="contained">
-						Sauvegarder
+						{t('save')}
 					</Button>
 				</ButtonGroup>
 			</div>
