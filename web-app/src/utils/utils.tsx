@@ -44,6 +44,7 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 		action: {
 			id: 69,
 			name: pipelineData.name,
+			enabled: pipelineData.data.enabled,
 			pType: pipelineData.action.type,
 			pParams: {
 				contents: PipelineParamsToApiParam(pipelineData.action.params.contents),

@@ -16,6 +16,8 @@ services:
       - apk:/dist
   front:
     build: ./web-app
+    environment:
+      - REACT_APP_API_ROUTE=/api
     ports:
       - "80:80"
     depends_on:

@@ -26,6 +26,7 @@ import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
+	handleEditPipelineMetaData: (name: string, enblaed: boolean) => any;
 	handleEditAction: (action: AppAREAType) => any;
 	handleEditReaction: (reaction: AppAREAType, index: number) => any;
 	handleDeleteReaction: (reaction: AppAREAType, index: number) => any;
@@ -39,6 +40,7 @@ interface PipelineEditPipelineProps {
 export default function PipelineEditPipeline({
 	pipelineData,
 	handleEditReaction,
+	handleEditPipelineMetaData,
 	handleEditAction,
 	handleDeleteReaction,
 	handleDelete,
@@ -74,7 +76,16 @@ export default function PipelineEditPipeline({
 				</Typography>
 
 				<FormGroup style={{ gridArea: "enabledStatus" }}>
-					<FormControlLabel control={<Switch defaultChecked color="secondary" />} label="Activée" />
+					<FormControlLabel
+						control={
+							<Switch
+								defaultChecked
+								color="secondary"
+								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
+							/>
+						}
+						label="Activée"
+					/>
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
