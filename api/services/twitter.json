@@ -1,0 +1,128 @@
+{
+	"name": "Twitter",
+	"actions": [],
+	"reactions": [
+		{
+			"name": "followUser",
+			"description": "Follow a Twitter user",
+			"params": [
+				{
+					"name": "user_name",
+					"type": "string",
+					"description": "Twitter username of the user to follow"
+				}
+			],
+			"returns": [
+				{
+					"name": "FOLLOWED_ID",
+					"description": "Twitter ID of the followed user"
+				},
+				{
+					"name": "FOLLOWED_NAME",
+					"description": "Twitter Username of the followed user"
+				},
+				{
+					"name": "FOLLOWED_BIO",
+					"description": "Twitter Bio of the followed user"
+				},
+				{
+					"name": "FOLLOWED_URL",
+					"description": "Twitter URL of the followed user"
+				}
+			]
+		},
+		{
+			"name": "postTweet",
+			"description": "Post a tweet",
+			"params": [
+				{
+					"name": "tweet_content",
+					"type": "string",
+					"description": "Body of the tweet"
+				}
+			],
+			"returns": [
+				{
+					"name": "TWEET_ID",
+					"description": "Twitter ID of the tweet"
+				},
+				{
+					"name": "TWEET_CONTENT",
+					"description": "Body of the tweet"
+				}
+			]
+		},
+		{
+			"name": "replyToTweet",
+			"description": "Reply to a tweet",
+			"params": [
+				{
+					"name": "tweet_id",
+					"type": "string",
+					"description": "Twitter ID of the tweet"
+				},
+				{
+					"name": "reply_body",
+					"type": "string",
+					"description": "Body of the reply"
+				}
+			],
+			"returns": [
+				{
+					"name": "TWEET_ID",
+					"description": "Twitter ID of the replied tweet "
+				},
+				{
+					"name": "REPLY_ID",
+					"description": "Twitter ID of the reply"
+				},
+				{
+					"name": "REPLY_CONTENT",
+					"description": "Body of the reply"
+				}
+			]
+		},
+		{
+			"name": "likeTweet",
+			"description": "Post a tweet",
+			"params": [
+				{
+					"name": "tweet_id",
+					"type": "string",
+					"description": "Twitter ID of the tweet"
+				}
+			],
+			"returns": [
+				{
+					"name": "TWEET_ID",
+					"description": "Twitter ID of the tweet"
+				},
+				{
+					"name": "TWEET_CONTENT",
+					"description": "Body of the tweet"
+				},
+				{
+					"name": "TWEET_AUTHOR_ID",
+					"description": "Author of the tweet"
+				}
+			]
+		},
+		{
+			"name": "retweet",
+			"description": "Post a tweet",
+			"params": [
+				{
+					"name": "tweet_id",
+					"type": "string",
+					"description": "Twitter ID of the tweet"
+				}
+			],
+			"returns": [
+				{
+					"name": "TWEET_ID",
+					"description": "Twitter ID of the tweet"
+				}
+			]
+		}
+	]
+}
