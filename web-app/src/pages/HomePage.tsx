@@ -1,21 +1,28 @@
 import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
-import { GenericButtonProps } from "../components/GenericButton";
-import type { ImageProps } from "../components/types";
-import PipelineEditPage from "./PipelineEditPage";
+import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
+import AddIcon from "@mui/icons-material/Add";
+import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { MoreVert } from "@mui/icons-material";
 import { useState } from "react";
-import { PipelineEditPageProps } from "./PipelineEditPage";
-import PipelineSetupModal from "./PipelineSetup";
-import PipelineNameSetup from "../components/Pipelines/PipelineNameSetup";
+import { getCookie } from "../utils/utils";
+import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
+import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, ServiceActions, AppServicesLogos } from "../utils/globals";
+import {
+	AppServices,
+	ServiceActions,
+	AppServicesLogos,
+	AppListActions,
+	AppListReactions,
+	AppListPipelines,
+} from "../utils/globals";
+import AerisAppbar from "../components/AppBar";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -23,30 +30,42 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+enum ModalSelection {
+	None,
+	PipelineEdit,
+	ServiceSetup,
+}
+
+const getUserName = async (): Promise<string> => {
+	const response = await fetch(API_ROUTE + "/auth/me", {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
+	});
+
+	if (response.ok) {
+		let json = await response.json();
+		return json["userName"];
+	}
+	console.error("Can't get username");
+	return "";
+};
+
 export default function HomePage() {
 	const classes = useStyles();
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [modalData, setModalData] = useState<PipelineEditPageProps>({
-		title: "",
-		trigger: {
-			title: "",
-			service: {
-				imageSrc: "",
-				altText: "",
-			},
-			trailingIcon: <MoreVert />,
-		},
-		actions: [
-			{
-				title: "",
-				service: {
-					imageSrc: "",
-					altText: "",
-				},
-				trailingIcon: <MoreVert />,
-			},
-		],
-	} as PipelineEditPageProps);
+	const [username, setUsername] = useState<string>("");
+	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
+	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
+	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
+
+	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
+		if (await requestCreatePipeline(pD, creation)) {
+			return setModalMode(ModalSelection.None);
+		}
+	};
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -55,13 +74,18 @@ export default function HomePage() {
 			service1: AppServicesLogos["twitter"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
-				setModalData({
-					title: "louis",
-					trigger: ServiceActions["youtube"][0],
-					trailingIcon: <MoreVert />,
-					actions: [ServiceActions["twitter"][0], ServiceActions["spotify"][1]],
-				} as PipelineEditPageProps);
-				setIsModalOpen(!isModalOpen);
+				setPipelineData({
+					name: "louis",
+					action: AppListActions[0],
+					reactions: AppListReactions,
+					data: {
+						enabled: true,
+						error: false,
+						status: "mdr",
+					},
+				} as AppPipelineType);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setModalMode(ModalSelection.PipelineEdit);
 			},
 		},
 		{
@@ -71,79 +95,47 @@ export default function HomePage() {
 			service1: AppServicesLogos["gmail"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
-				setModalData({
-					title: "clickable",
-					trigger: {
-						title: "Eh oui j'ai été set autrement",
-						service: AppServicesLogos["github"],
-						trailingIcon: <MoreVert />,
-					},
-					actions: [
-						{
-							title: "j'aime l'eau",
-							service: AppServicesLogos["twitter"],
-							trailingIcon: <AddIcon />,
-						},
-					],
-				} as PipelineEditPageProps);
-				setIsModalOpen(!isModalOpen);
+				setPipelineData(AppListPipelines[0]);
+				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setModalMode(ModalSelection.PipelineEdit);
 			},
-		},
-		{
-			title: "Vous êtes débiles bande de trou du cul",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText: "Vive la france !",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-		},
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
 		},
 	];
 
+	useEffect(() => {
+		getUserName().then((username) => {
+			setUsername(username);
+		});
+	}, []);
+
 	return (
 		<div className={classes.divHomePage}>
+			<AerisAppbar
+				username={username}
+				onClickOnServices={() => {
+					setModalMode(ModalSelection.ServiceSetup);
+				}}
+			/>
 			<PipelineBoxesLayout data={data} />
-			<PipelineModal isOpen={isModalOpen} handleClose={() => setIsModalOpen(false)}>
-				<PipelineEditPage {...modalData} />
+
+			<PipelineModal
+				isOpen={modalMode === ModalSelection.PipelineEdit}
+				handleClose={() => setModalMode(ModalSelection.None)}>
+				<PipelineEditPage
+					pipelineData={pipelineData}
+					handleSave={handleSavePipeline}
+					services={AppServices}
+					actions={AppListActions}
+					reactions={AppListReactions}
+					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
+					handleQuit={() => setModalMode(ModalSelection.None)}
+				/>
 			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}}>
-				<PipelineSetupModal name="oui oui" services={AppServices} elements={ServiceActions} />
-			</PipelineModal>
-			<PipelineModal isOpen={false} handleClose={() => {}}>
-				<ServiceSetupModal />
+
+			<PipelineModal
+				isOpen={modalMode === ModalSelection.ServiceSetup}
+				handleClose={() => setModalMode(ModalSelection.None)}>
+				<ServiceSetupModal services={AppServices} />
 			</PipelineModal>
 
 			<Box
@@ -155,19 +147,9 @@ export default function HomePage() {
 				}}>
 				<Fab
 					onClick={() => {
-						setModalData({
-							title: "Nouvelle pipeline",
-							trigger: {
-								title: "Ajouter une action",
-								service: {
-									imageSrc: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
-									altText: "Action inconnue",
-								},
-								trailingIcon: <AddIcon />,
-							},
-							actions: [],
-						} as PipelineEditPageProps);
-						setIsModalOpen(!isModalOpen);
+						setPipelineData(AppListPipelines[1]);
+						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
+						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
 					color="secondary"

@@ -47,7 +47,7 @@ class Trigger extends aeris_action.Action {
 
   /// Template trigger, used as an 'empty' trigger
   Trigger.template({Key? key, this.last})
-      : super(service: const Service.twitter(), name: '', parameters: []);
+      : super(service:  Service.twitter(), name: '', parameters: []);
 
   @override
   // ignore: avoid_renaming_method_parameters

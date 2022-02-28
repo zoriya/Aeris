@@ -1,7 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
-import 'package:aeris/src/models/pipeline.dart';
-import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/providers/user_services_provider.dart';
@@ -11,11 +9,13 @@ import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 ///Page listing connected & available services
 class ServicePage extends StatelessWidget {
-  const ServicePage({Key? key}) : super(key: key);
+  ServicePage({Key? key}) : super(key: key);
 
+  ///TODO from an api call, determine what services are plugged
   List<Widget> getServiceGroup(String groupName, Icon trailingIcon,
       void Function(Service) onTap, BuildContext context) {
     UserServiceProvider uServicesProvider =
@@ -43,7 +43,7 @@ class ServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Service> services = const [
+    List<Service> services = [
       Service.discord(),
       Service.gmail(),
       Service.github(),
@@ -61,51 +61,39 @@ class ServicePage extends StatelessWidget {
     return Consumer<PipelineProvider>(
       builder: (context, provider, _) => AerisCardPage(
         body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...[
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(AppLocalizations.of(context).services, style: const TextStyle(fontSize: 25)),
-                ),
-                const SizedBox(height: 60)
-              ],
-              ...getServiceGroup(
-                  AppLocalizations.of(context).connected,
-                  const Icon(Icons.delete, color: Colors.red),
-                  (Service service) => showDialog(
-                      context: context,
-                      builder: (BuildContext context) => WarningDialog(
-                          message: AppLocalizations.of(context)
-                              .disconnectServiceWarningMessage,
-                          onAccept: () => {
-                                provider.removePipelinesWhere((Pipeline pipeline) {
-                                  if (pipeline.trigger.service == service) {
-                                    return true;
-                                  }
-                                  if (pipeline.reactions
-                                      .where((Reaction react) =>
-                                          react.service == service)
-                                      .isNotEmpty) {
-                                    return true;
-                                  }
-                                  return false;
-                                }),
-                                GetIt.I<AerisAPI>().disconnectService(service)
-                              },
-                          warnedAction:
-                              AppLocalizations.of(context).disconnect)),
-                  context),
-              ...getServiceGroup(
-                  AppLocalizations.of(context).available,
-                  const Icon(Icons.connect_without_contact,
-                      color: Colors.green),
-                  (Service service) =>
-                      print("Connected") /* TODO open page to connect service*/,
-                  context),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...[
+              Align(
+                alignment: Alignment.center,
+                child: Text(AppLocalizations.of(context).services,
+                    style: const TextStyle(fontSize: 25)),
+              ),
+              const SizedBox(height: 60)
             ],
-          ),
+            ...getServiceGroup(
+                AppLocalizations.of(context).connected,
+                const Icon(Icons.delete, color: Colors.red),
+                (Service service) => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => WarningDialog(
+                        message: AppLocalizations.of(context)
+                            .disconnectServiceWarningMessage,
+                        onAccept: () => GetIt.I<AerisAPI>()
+                            .disconnectService(service)
+                            .then((_) => provider.fetchPipelines()),
+                        warnedAction: AppLocalizations.of(context).disconnect)),
+                context),
+            ...getServiceGroup(
+                AppLocalizations.of(context).available,
+                const Icon(Icons.connect_without_contact, color: Colors.green),
+                (Service service) => {
+                      launch(Uri.parse(service.authUrl).toString(), forceSafariVC: false)
+                    },
+                context),
+          ],
         ),
-      );
+      ),
+    );
   }
 }

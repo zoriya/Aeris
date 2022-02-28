@@ -21,14 +21,20 @@ class Reaction extends aeris_action.Action {
 
   static Reaction fromJSON(Object reaction) {
     var reactionJSON = reaction as Map<String, Object>;
-    Tuple2<Service, String> service =
-        aeris_action.Action.parseServiceAndName(reactionJSON['rType'] as String);
+    Tuple2<Service, String> service = aeris_action.Action.parseServiceAndName(
+        reactionJSON['rType'] as String);
     return Reaction(
         service: service.item1,
         name: service.item2,
         parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, Object>)['contents']
             as Map<String, Object>));
   }
+
+  /// Serialize Reaction to JSON
+  Object toJSON() => {
+    "rType": aeris_action.Action.getType(service, name),
+    "rParams": {"contents": parameters}
+  };
 
   @override
   bool operator ==(Object other) {
