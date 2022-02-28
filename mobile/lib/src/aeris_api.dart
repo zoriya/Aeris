@@ -22,7 +22,7 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = true;
+  bool _connected = true; //TODO Will be false later
   bool get isConnected => _connected;
 
   late List<Pipeline> fakeAPI;
@@ -35,9 +35,7 @@ class AerisAPI {
   AerisAPI() {
     baseRoute = dotenv.env['HOSTNAME']!;
     var trigger1 = Trigger(
-        service: Service.spotify(),
-        name: "Play song",
-        last: DateTime.now());
+        service: Service.spotify(), name: "Play song", last: DateTime.now());
     var trigger3 = Trigger(
         service: Service.discord(),
         name: "Send a message",
@@ -48,8 +46,8 @@ class AerisAPI {
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
         service: Service.twitter(), parameters: [], name: "Post a tweet");
-    var reaction2 = Reaction(
-        service: Service.gmail(), parameters: [], name: "Do smth");
+    var reaction2 =
+        Reaction(service: Service.gmail(), parameters: [], name: "Do smth");
     var reaction1 = Reaction(
         service: Service.youtube(), parameters: [], name: "Do smth youtube");
     var pipeline1 = Pipeline(
@@ -183,9 +181,9 @@ class AerisAPI {
   /// Fetches the Pipelines from the API
   Future<List<Pipeline>> getPipelines() async {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
+    if (res.ok == false) return [];
     List<Object> body = jsonDecode(res.body);
 
-    ///TODO error handling
     ///TODO return body.map((e) => Pipeline.fromJSON(e as Map<String, Object>)).toList();
     return fakeAPI;
   }
@@ -199,8 +197,10 @@ class AerisAPI {
 
   /// Connects the user from the service
   Future<bool> connectService(Service service, String code) async {
-    var res = await _requestAPI('/auth/${service.name.toLowerCase()}?code=$code',
-        AerisAPIRequestType.get, null);
+    var res = await _requestAPI(
+        '/auth/${service.name.toLowerCase()}?code=$code',
+        AerisAPIRequestType.get,
+        null);
     return res.ok;
   }
 
@@ -214,13 +214,10 @@ class AerisAPI {
     }
     return [
       for (int i = 0; i <= 10; i++)
-        ActionTemplate(
-            service: service,
-            name: "action$i",
-            parameters: [
-              for (int j = 0; j < 3; j++) 
-                ActionParameter(name: "key$j", description: "description$j")
-            ])
+        ActionTemplate(service: service, name: "action$i", parameters: [
+          for (int j = 0; j < 3; j++)
+            ActionParameter(name: "key$j", description: "description$j")
+        ])
     ];
   }
 
