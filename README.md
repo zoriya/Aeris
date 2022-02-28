@@ -16,9 +16,8 @@ Aeris supports a variety of service, on which Pipelines are perfomed upon:
 - Spotify
 - Youtube
 - Discord
-- Gmail
+- Anilist
 - Twitter
-- Even more services in the future :smile:
 
 ## What do I need to use Aeris?
 
