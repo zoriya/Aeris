@@ -23,6 +23,7 @@ import {
 } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import serviceDump from "../utils/discord.json";
+import MenuItem from "@mui/material/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -129,6 +130,21 @@ export default function HomePage() {
 	};
 
 	const jsonToPipelineData = (data: any): PipelineBoxProps => {
+		let reactionList:AppAREAType[] = [];
+
+		for (const reaction of data.reactions) {
+			let newReaction:AppAREAType = {
+				type: reaction.rType,
+				params: {
+					contents: reaction.rParams.contents
+				},
+				returns: {},
+				description: '',
+				service: AppServices[0] //TODO => Get App Service Logo from request
+			};
+			reactionList.push(newReaction);
+		}
+
 		let pipelineData = {
 			title: data['action']['name'],
 			statusText: 'Refresh API Test Workflow',
@@ -145,9 +161,9 @@ export default function HomePage() {
 						},
 						returns: {},
 						description: 'Something must have been done.',
-						service: AppServices[3]
+						service: AppServices[3] //TODO => Make service enum
 					},
-					reactions: [], //TODO => Add reactions from request
+					reactions: reactionList,
 					data: {
 						enabled: true,
 						error: false,
