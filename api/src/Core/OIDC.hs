@@ -6,7 +6,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken), Service (Github, Discord, Spotify, Google))
+import Core.User (ExternalToken (ExternalToken), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
@@ -194,6 +194,38 @@ getTwitterTokens code = do
             refresh <- lookupObjString obj "refresh_token"
             Just $ ExternalToken (pack access) (pack refresh) 0 Github
 
+-- ANILIST
+getAnilistConfig :: IO OAuth2Conf
+getAnilistConfig =
+    OAuth2Conf
+        <$> envAsString "ANILIST_CLIENT_ID" ""
+        <*> envAsString "ANILIST_SECRET" ""
+        <*> pure "https://anilist.co/api/v2/oauth/token"
+
+getAnilistTokens :: String -> IO (Maybe ExternalToken)
+getAnilistTokens code = do
+    cfg <- getAnilistConfig
+    let endpoint = tokenEndpoint code cfg
+    request' <- parseRequest endpoint
+    let request =
+            setRequestMethod "POST" $
+            addRequestHeader "Accept" "application/json" $
+            setRequestBodyURLEncoded
+                [ ("client_id", B8.pack . oauthClientId $ cfg)
+                , ("client_secret", B8.pack . oauthClientSecret $ cfg)
+                , ("code", B8.pack code)
+                , ("grant_type", "authorization_code")
+                , ("redirect_uri", "http://localhost:3000/authorization/anilist")
+                ]
+            request'
+    response <- httpJSONEither request
+    return $ case (getResponseBody response :: Either JSONException Object) of
+        Left _ -> Nothing
+        Right obj -> do
+            access <- lookupObjString obj "access_token"
+            refresh <- lookupObjString obj "refresh_token"
+            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+
 
 
 
@@ -203,4 +235,5 @@ getOauthTokens Github = getGithubTokens
 getOauthTokens Discord = getDiscordTokens
 getOauthTokens Spotify = getSpotifyTokens
 getOauthTokens Google = getGoogleTokens
-getOauthTokens _ = \s -> return Nothing
+getOauthTokens Twitter = getTwitterTokens
+getOauthTokens Anilist = getAnilistTokens
