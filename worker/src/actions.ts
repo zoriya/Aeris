@@ -1,6 +1,6 @@
-import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
+import { catchError, filter, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
 import { BaseService } from "./models/base-service";
-import { Pipeline, PipelineEnv } from "./models/pipeline";
+import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
 import { Runner } from "./runner";
 
 
@@ -14,6 +14,7 @@ export class Manager {
 	async run(): Promise<void> {
 		await lastValueFrom(this._pipelines
 			.pipe(
+				filter(x => x.enabled),
 				groupBy((x: Pipeline) => x.id),
 				switchAll(),
 				mergeMap((x: Pipeline) =>
@@ -22,15 +23,22 @@ export class Manager {
 						catchError(err => this.handlePipelineError(x, err)),
 					)
 				),
-				tap(([x, env]: [Pipeline, PipelineEnv]) => {
+				tap(async ([x, env]: [Pipeline, PipelineEnv]) => {
 					console.log(`Running pipeline ${x.name}`)
-					console.table(env)
-					new Runner(x).run(env)
+					try {
+						await new Runner(x).run(env);
+						fetch(`${process.env["API_URL"]}/trigger/${x.id}?API_KEY=${process.env["API_KEY"]}`);
+					} catch (err) {
+						this.handlePipelineError(x, err);
+					}
 				}),
 			));
 	}
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
+		if (pipeline.type === PipelineType.Never)
+			return NEVER;
+
 		try {
 			const service = BaseService.createService(pipeline.service, pipeline);
 			return service.getAction(pipeline.type)(pipeline.params)
@@ -41,7 +49,10 @@ export class Manager {
 
 	handlePipelineError(pipeline: Pipeline, error: Error): Observable<never> {
 		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type.toString()}).`, error)
-		// TODO call the api to inform of the issue
+		fetch(`${process.env["API_URL"]}/error/${pipeline.id}?API_KEY=${process.env["API_KEY"]}`, {
+			method: "POST",
+			body: JSON.stringify({error}),
+		});
 		return NEVER;
 	}
 }

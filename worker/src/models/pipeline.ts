@@ -8,6 +8,8 @@ export enum ServiceType {
 
 
 export enum PipelineType {
+	// Special value that will never emit an action. It is used for deleted pipelines.
+	Never,
 	OnTweet,
 
 	OnYtUpload,
@@ -28,10 +30,10 @@ export enum PipelineType {
 	OnSpotifySaveToLibrary,
 
 	OnDiscordMessage,
+	OnDiscordMessageFrom,
 	OnDiscordMention,
 	OnNewDiscordGuildMember,
 	OnDiscordGuildLeave,
-	OnDiscordMessageFrom
 };
 
 export enum ReactionType {
