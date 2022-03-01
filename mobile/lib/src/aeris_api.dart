@@ -182,6 +182,11 @@ class AerisAPI {
     return res.ok;
   }
 
+  String getServiceAuthURL(Service service) {
+    final serviceName = service.name.toLowerCase();
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+  }
+
   /// Send PUT request to update Pipeline, returns false if failed
   Future<bool> editPipeline(Pipeline updatedPipeline) async {
     var res = await _requestAPI('/workflow/${updatedPipeline.id}',
