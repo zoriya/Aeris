@@ -26,7 +26,7 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = true; //TODO Will be false later
+  bool _connected = false; //TODO Will be false later
   bool get isConnected => _connected;
 
   late List<Pipeline> fakeAPI;
@@ -34,7 +34,7 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String baseRoute = "localhost:8081"; ///TODO make it modifiable
+  final String baseRoute = "http://10.0.2.2:8080"; ///TODO make it modifiable
 
   AerisAPI() {
     var trigger1 = Trigger(
