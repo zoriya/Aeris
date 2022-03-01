@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
@@ -22,10 +23,12 @@ data ReactionType = TwitterTweet | TwitterFollower
     deriving (FromJSON, ToJSON)
 --}
 
-newtype ReactionType = ReactionType { toText :: Text }
-    deriving stock (Generic, Read, Show)
-    deriving (DBType) via ReadShow PipelineType
-    deriving (FromJSON, ToJSON)
+-- newtype ReactionType = ReactionType { toText :: Text }
+--     deriving stock (Generic, Read, Show)
+--     deriving (DBType) via ReadShow PipelineType
+--     deriving (FromJSON, ToJSON)
+
+type ReactionType = Text
 
 data TwitterTweetData = TwitterTweetData
     { body :: Text

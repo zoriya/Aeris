@@ -24,10 +24,12 @@ data PipelineType = TwitterNewPost | TwitterNewFollower
     deriving (FromJSON, ToJSON)
 --}
 
-newtype PipelineType = PipelineType { toText :: Text }
-    deriving stock (Generic, Read, Show)
-    deriving (DBType) via ReadShow PipelineType
-    deriving (FromJSON, ToJSON)
+-- newtype PipelineType = PipelineType { toText :: Text }
+--     deriving stock (Generic, Read, Show)
+--     deriving (DBType) via ReadShow PipelineType
+--     deriving (FromJSON, ToJSON)
+
+type PipelineType = Text
 
 data TwitterNewPostData = TwitterNewPostData
     { author :: Text
