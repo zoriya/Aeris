@@ -1,6 +1,7 @@
 import { Typography, Box, Button, ButtonGroup } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { getCookie } from "./utils/utils";
 
 export default function App() {
 	const navigate = useNavigate();
@@ -8,6 +9,9 @@ export default function App() {
 	const pushToLogin = () => {
 		navigate("/auth");
 	};
+
+	if (getCookie("aeris_jwt"))
+		return <Navigate to="/pipelines" replace />;
 
 	return (
 		<div className="App">
