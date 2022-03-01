@@ -32,7 +32,9 @@ class ActionCatalogueProvider extends ChangeNotifier {
               parameters: (action['params'] as List).map(
                 (e) => ActionParameter(name: e['name'], description: e['description'])
               ).toList(),
-              ///TODO manage returned values
+              returnedValues: (action['returns'] as List).map(
+                (e) => ActionParameter(name: e['name'], description: e['description'])
+              ).toList(),
             )
           );
         }
@@ -45,7 +47,9 @@ class ActionCatalogueProvider extends ChangeNotifier {
               parameters: (reaction['params'] as List).map(
                 (e) => ActionParameter(name: e['name'], description: e['description'])
               ).toList(),
-              ///TODO manage returned values
+              returnedValues: (reaction['returns'] as List).map(
+                (e) => ActionParameter(name: e['name'], description: e['description'])
+              ).toList(),
             )
           );
         }
