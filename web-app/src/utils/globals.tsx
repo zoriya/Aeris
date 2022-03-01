@@ -186,9 +186,7 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 
 export const NoAREA: AppAREAType = {
 	type: "WebFrontEndNoAREA",
-	params: {
-		contents: {},
-	},
+	params: {},
 	returns: {},
 	description: "There's nothing",
 	service: AppServices[0],
@@ -196,9 +194,7 @@ export const NoAREA: AppAREAType = {
 
 export const FakeAREA: AppAREAType = {
 	type: "Twiitersmth",
-	params: {
-		contents: {},
-	},
+	params: {},
 	returns: {},
 	description: "There's nothing",
 	service: AppServices[0],

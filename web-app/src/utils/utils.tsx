@@ -46,7 +46,7 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 			enabled: pipelineData.data.enabled,
 			pType: pipelineData.action.type,
 			pParams: {
-				contents: PipelineParamsToApiParam(pipelineData.action.params.contents),
+				contents: PipelineParamsToApiParam(pipelineData.action.params),
 				tag: pipelineData.action.type + "P",
 			},
 		},
@@ -54,7 +54,7 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 			return {
 				rType: reac.type,
 				rParams: {
-					contents: PipelineParamsToApiParam(reac.params.contents),
+					contents: PipelineParamsToApiParam(reac.params),
 					tag: reac.type + "P",
 				},
 			};
@@ -87,9 +87,7 @@ export const deSerializeAREA = (dumpAREA: any, service: AppServiceType): AppAREA
 		type: dumpAREA.name,
 		description: dumpAREA.description,
 		service: service,
-		params: {
-			contents: deSerializeAREAParams(dumpAREA.params),
-		},
+		params: deSerializeAREAParams(dumpAREA.params),
 		returns: deSerializeAREAReturns(dumpAREA.returns),
 	};
 };
@@ -124,7 +122,7 @@ export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREATy
 	return {
 		...refAction[0],
 		params: data.pParams.contents,
-	} as AppAREAType;
+	};
 };
 
 export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
@@ -133,7 +131,7 @@ export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAR
 	return {
 		...refReaction[0],
 		params: data.rParams.contents,
-	} as AppAREAType;
+	};
 };
 
 export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {

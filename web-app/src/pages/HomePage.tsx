@@ -81,7 +81,7 @@ export default function HomePage() {
 			.then((workflows) => {
 				let pipelineBoxes: Array<PipelineBoxProps> = [];
 				for (const workflow of workflows) {
-					let newWorkflow = deSerialisePipeline(workflow, AREAs);
+					const newWorkflow = deSerialisePipeline(workflow, AREAs);
 
 					pipelineBoxes.push({
 						title: newWorkflow.name,
@@ -96,8 +96,10 @@ export default function HomePage() {
 						},
 					} as PipelineBoxProps);
 					setWorkflowsDatas((oldArray) => [...oldArray, ...pipelineBoxes]);
+					console.log("newworkflow", newWorkflow);
 				}
 				console.log(workflows);
+				console.log("processed", pipelineBoxes);
 			})
 			.catch((error) => {
 				console.warn(error);
