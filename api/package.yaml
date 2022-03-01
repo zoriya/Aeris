@@ -36,6 +36,7 @@ dependencies:
 - network
 - base64
 - text
+- file-embed
 - hasql
 - hasql-transaction
 - hasql-migration
