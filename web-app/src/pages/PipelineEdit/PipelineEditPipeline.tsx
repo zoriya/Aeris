@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppPipelineType } from "../../utils/types";
+import { AppAREAType, AppPipelineType } from "../../utils/types";
 import {
 	Box,
 	Switch,
@@ -21,21 +21,32 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { getCookie, PipeLineHostToApi } from "../../utils/utils";
 import { API_ROUTE } from "../..";
+import { PipelineAREACard } from "../../components/PipelineAREACard";
 import { Keyboard } from "@mui/icons-material";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
-	handleDelete: any;
-	handleSave: any;
-	setEditMode: any;
+	handleEditPipelineMetaData: (name: string, enblaed: boolean) => any;
+	handleEditAction: (action: AppAREAType) => any;
+	handleEditReaction: (reaction: AppAREAType, index: number) => any;
+	handleDeleteReaction: (reaction: AppAREAType, index: number) => any;
+	handleDelete: (pD: AppPipelineType) => any;
+	handleSave: (pD: AppPipelineType) => any;
+	setEditMode: (mode: PipelineEditMode) => any;
 	setEditReactionIndex: any;
+	disableDeletion: boolean;
 }
 
 export default function PipelineEditPipeline({
 	pipelineData,
+	handleEditReaction,
+	handleEditPipelineMetaData,
+	handleEditAction,
+	handleDeleteReaction,
 	handleDelete,
 	handleSave,
 	setEditMode,
+	disableDeletion,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
 	return (
@@ -65,7 +76,16 @@ export default function PipelineEditPipeline({
 				</Typography>
 
 				<FormGroup style={{ gridArea: "enabledStatus" }}>
-					<FormControlLabel control={<Switch defaultChecked />} color="secondary" label="Activée" />
+					<FormControlLabel
+						control={
+							<Switch
+								defaultChecked
+								color="secondary"
+								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
+							/>
+						}
+						label="Activée"
+					/>
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
@@ -84,11 +104,16 @@ export default function PipelineEditPipeline({
 					justifyContent="flex-start"
 					alignItems="flex-start">
 					<Grid item sm={10} md={10} lg={5} xl={4}>
-						<GenericButton
-							service={pipelineData.action.service.logo}
-							title={pipelineData.action.type}
-							onClickCallback={() => setEditMode(PipelineEditMode.Action)}
-							trailingIcon={<AddBoxIcon />}
+						<PipelineAREACard
+							canBeRemoved={false}
+							handleEdit={() => {
+								setEditMode(PipelineEditMode.Action);
+							}}
+							handleDelete={() => {}}
+							AREA={pipelineData.action}
+							style={{ width: "25vw" }}
+							order={0}
+							onClick={() => {}}
 						/>
 					</Grid>
 				</Grid>
@@ -100,21 +125,26 @@ export default function PipelineEditPipeline({
 						width: "100%",
 						height: "100%",
 						overflow: "auto",
-						maxHeight: "30vh",
+						maxHeight: "50vh",
 						gridArea: "reactionData",
-						padding: "10px"
+						padding: "10px",
 					}}>
 					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
-						{pipelineData.reactions.map((el, index) => (
+						{pipelineData.reactions.map((el, index, arr) => (
 							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-								<GenericButton
-									service={el.service.logo}
-									title={index + 1 + " - " + el.type}
-									onClickCallback={() => {
-										setEditMode(PipelineEditMode.Reactions);
-										setEditReactionIndex(index);
+								<PipelineAREACard
+									style={{ width: "24.5vw" }}
+									canBeRemoved={arr.length > 1}
+									handleEdit={() => {
+										setEditMode(PipelineEditMode.EditReaction);
+										handleEditReaction(el, index);
 									}}
-									trailingIcon={<DeleteIcon />}
+									handleDelete={() => {
+										handleDeleteReaction(el, index);
+									}}
+									AREA={el}
+									order={index + 1}
+									onClick={() => {}}
 								/>
 							</Grid>
 						))}
@@ -126,6 +156,10 @@ export default function PipelineEditPipeline({
 					color="secondary"
 					loading={false}
 					loadingPosition="start"
+					onClick={() => {
+						setEditMode(PipelineEditMode.Reactions);
+						setEditReactionIndex(pipelineData.reactions.length);
+					}}
 					startIcon={<AddBoxIcon />}
 					variant="contained">
 					Ajouter une réaction
@@ -138,6 +172,7 @@ export default function PipelineEditPipeline({
 					startIcon={<DeleteIcon />}
 					loadingPosition="start"
 					onClick={() => handleDelete(pipelineData)}
+					disabled={disableDeletion}
 					loading={false}>
 					Supprimer la pipeline
 				</LoadingButton>

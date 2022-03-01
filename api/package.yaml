@@ -30,11 +30,13 @@ dependencies:
 - containers
 - warp
 - time
+- servant-errors
 - data-default
 - bytestring
 - network
 - base64
 - text
+- file-embed
 - hasql
 - hasql-transaction
 - hasql-migration

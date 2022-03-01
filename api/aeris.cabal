@@ -59,6 +59,7 @@ library
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -73,6 +74,7 @@ library
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -99,6 +101,7 @@ executable aeris-exe
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -113,6 +116,7 @@ executable aeris-exe
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -140,6 +144,7 @@ test-suite aeris-test
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -157,6 +162,7 @@ test-suite aeris-test
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time

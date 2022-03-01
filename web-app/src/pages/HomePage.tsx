@@ -10,18 +10,11 @@ import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie } from "../utils/utils";
-import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
+import { getCookie, deSerializeServices } from "../utils/utils";
+import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
+import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import {
-	AppServices,
-	ServiceActions,
-	AppServicesLogos,
-	AppListActions,
-	AppListReactions,
-	AppListPipelines,
-} from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,16 +49,28 @@ const getUserName = async (): Promise<string> => {
 
 export default function HomePage() {
 	const classes = useStyles();
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
+	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
+		() => (t: AppPipelineType) => {}
+	);
+	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
 			return setModalMode(ModalSelection.None);
 		}
 	};
+	useEffect(() => {
+		getAboutJson().then((aboutInfoParam) => {
+			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+		}).catch((error) => {
+			console.warn(error);
+			setAREAs([[], []]);
+		});
+	}, []);
 
 	const data: Array<PipelineBoxProps> = [
 		{
@@ -75,29 +80,32 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData({
+					id: 2,
 					name: "louis",
-					action: AppListActions[0],
-					reactions: AppListReactions,
+					action: NoAREA,
+					reactions: [],
 					data: {
 						enabled: true,
 						error: false,
 						status: "mdr",
 					},
 				} as AppPipelineType);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText:
 				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: AppServicesLogos["gmail"],
+			service1: AppServicesLogos["anilist"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
 	];
@@ -122,11 +130,12 @@ export default function HomePage() {
 				isOpen={modalMode === ModalSelection.PipelineEdit}
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
+					disableDeletion={!pipelineDeletion}
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
 					services={AppServices}
-					actions={AppListActions}
-					reactions={AppListReactions}
+					actions={AREAs[0]}
+					reactions={AREAs[1]}
 					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
@@ -147,8 +156,9 @@ export default function HomePage() {
 				}}>
 				<Fab
 					onClick={() => {
+						setPipelineDeletion(false);
 						setPipelineData(AppListPipelines[1]);
-						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"
