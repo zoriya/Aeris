@@ -55,6 +55,7 @@ export default function PipelineEditPipeline({
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
+	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
 	return (
 		<div>
 			<div
@@ -81,7 +82,13 @@ export default function PipelineEditPipeline({
 							autoFocus
 							inputProps={{ style: { fontSize: "3.75rem" } }}
 							fullWidth
-							onChange={(e) => handleEditPipelineTitle(e.target.value)}
+							onChange={(e) => setTitlePipelineEditValue(e.target.value)}
+							onKeyPress={(e) => {
+								if (e.key === "Enter") {
+									handleEditPipelineTitle(titlePipelineEditValue);
+									setTitleEditMode(false);
+								}
+							}}
 							variant="standard"
 							defaultValue={pipelineData.name}
 						/>
