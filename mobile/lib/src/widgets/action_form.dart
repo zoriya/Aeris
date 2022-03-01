@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recase/recase.dart';
 
 /// Form for an action
 class ActionForm extends StatefulWidget {
@@ -42,7 +43,7 @@ class _ActionFormState extends State<ActionForm> {
             initialValue: param.value?.toString(),
             name: param.name,
             decoration: InputDecoration(
-              labelText: param.name,
+              labelText: ReCase(param.name).titleCase,
               helperText: param.description
             ),
             validator: FormBuilderValidators.compose([

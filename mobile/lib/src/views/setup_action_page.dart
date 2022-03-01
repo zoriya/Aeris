@@ -10,6 +10,7 @@ import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:recase/recase.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
@@ -119,7 +120,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   header: Padding(
                       padding:
                           const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                      child: Text(availableAction.name,
+                      child: Text(ReCase(availableAction.name).titleCase,
                           style: const TextStyle(fontSize: 15))),
                   collapsed: Container(),
                   expanded: Padding(
