@@ -23,6 +23,7 @@ import { getCookie, PipeLineHostToApi } from "../../utils/utils";
 import { API_ROUTE } from "../..";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
 import { Keyboard } from "@mui/icons-material";
+import { NoAREA } from "../../utils/globals";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -104,17 +105,28 @@ export default function PipelineEditPipeline({
 					justifyContent="flex-start"
 					alignItems="flex-start">
 					<Grid item sm={10} md={10} lg={5} xl={4}>
-						<PipelineAREACard
-							canBeRemoved={false}
-							handleEdit={() => {
-								setEditMode(PipelineEditMode.Action);
-							}}
-							handleDelete={() => {}}
-							AREA={pipelineData.action}
-							style={{ width: "25vw" }}
-							order={0}
-							onClick={() => {}}
-						/>
+						{pipelineData.action.type === NoAREA.type ? (
+							<Grid item sm={10} md={10} lg={5} xl={4}>
+								<Button
+									sx={{ width: "25vw" }}
+									variant={"contained"}
+									onClick={() => setEditMode(PipelineEditMode.Action)}>
+									Ajouter une action
+								</Button>
+							</Grid>
+						) : (
+							<PipelineAREACard
+								canBeRemoved={false}
+								handleEdit={() => {
+									setEditMode(PipelineEditMode.Action);
+								}}
+								handleDelete={() => {}}
+								AREA={pipelineData.action}
+								style={{ width: "25vw" }}
+								order={0}
+								onClick={() => {}}
+							/>
+						)}
 					</Grid>
 				</Grid>
 
@@ -123,13 +135,25 @@ export default function PipelineEditPipeline({
 				<div
 					style={{
 						width: "100%",
-						height: "100%",
 						overflow: "auto",
 						maxHeight: "50vh",
 						gridArea: "reactionData",
 						padding: "10px",
 					}}>
 					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
+						{pipelineData.reactions.length === 0 && (
+							<Grid item sm={10} md={10} lg={5} xl={4}>
+								<Button
+									sx={{ width: "24.5vw" }}
+									variant={"contained"}
+									onClick={() => {
+										setEditMode(PipelineEditMode.Reactions);
+										setEditReactionIndex(pipelineData.reactions.length);
+									}}>
+									Ajouter une réaction
+								</Button>
+							</Grid>
+						)}
 						{pipelineData.reactions.map((el, index, arr) => (
 							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
 								<PipelineAREACard
@@ -151,19 +175,21 @@ export default function PipelineEditPipeline({
 					</Grid>
 				</div>
 
-				<LoadingButton
-					sx={{ gridArea: "buttonAddReaction" }}
-					color="secondary"
-					loading={false}
-					loadingPosition="start"
-					onClick={() => {
-						setEditMode(PipelineEditMode.Reactions);
-						setEditReactionIndex(pipelineData.reactions.length);
-					}}
-					startIcon={<AddBoxIcon />}
-					variant="contained">
-					Ajouter une réaction
-				</LoadingButton>
+				{pipelineData.reactions.length !== 0 && (
+					<LoadingButton
+						sx={{ gridArea: "buttonAddReaction" }}
+						color="secondary"
+						loading={false}
+						loadingPosition="start"
+						onClick={() => {
+							setEditMode(PipelineEditMode.Reactions);
+							setEditReactionIndex(pipelineData.reactions.length);
+						}}
+						startIcon={<AddBoxIcon />}
+						variant="contained">
+						Ajouter une réaction
+					</LoadingButton>
+				)}
 
 				<LoadingButton
 					sx={{ gridArea: "buttonDelete", justifySelf: "left" }}

@@ -185,7 +185,7 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 };
 
 export const NoAREA: AppAREAType = {
-	type: "Nothing",
+	type: "WebFrontEndNoAREA",
 	params: {
 		contents: {},
 	},
