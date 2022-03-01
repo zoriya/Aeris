@@ -17,6 +17,10 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+    services/discord.json
+    services/github.json
+    services/spotify.json
+    services/youtube.json
 
 source-repository head
   type: git
@@ -29,6 +33,7 @@ library
       Api.Auth
       Api.OIDC
       Api.Pipeline
+      Api.Worker
       App
       Config
       Core.OIDC
@@ -39,12 +44,6 @@ library
       Db.Reaction
       Db.User
       Lib
-      OIDC
-      OIDC.Discord
-      OIDC.Github
-      OIDC.Google
-      OIDC.Spotify
-      OIDC.Twitter
       Password
       Repository
       Repository.Pipeline
@@ -59,10 +58,12 @@ library
   build-depends:
       aeson ==1.5.6.0
     , base >=4.7 && <5
+    , base64
     , bytestring
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -77,6 +78,7 @@ library
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -98,10 +100,12 @@ executable aeris-exe
       aeris
     , aeson ==1.5.6.0
     , base
+    , base64
     , bytestring
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -116,6 +120,7 @@ executable aeris-exe
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -138,10 +143,12 @@ test-suite aeris-test
       aeris
     , aeson
     , base
+    , base64
     , bytestring
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -159,6 +166,7 @@ test-suite aeris-test
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time

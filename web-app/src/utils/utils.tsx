@@ -1,6 +1,7 @@
 import { pipeline } from "stream";
 import { API_ROUTE } from "..";
-import { AppPipelineType, ParamsType } from "./types";
+import { AppServices } from "./globals";
+import { AppAREAType, AppPipelineType, AppServiceType, ParamsType } from "./types";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
 	const d = new Date();
@@ -14,8 +15,7 @@ export function getCookie(cname: string): string {
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
-		let c = ca[i];
-		c.trim();
+		let c = ca[i].trim();
 		if (c.indexOf(name) == 0) {
 			return c.substring(name.length, c.length);
 		}
@@ -38,28 +38,12 @@ export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: Params
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));
 };
 
-export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean) => {
-	const jwt = getCookie("aeris_jwt");
-
-	const request = API_ROUTE + "/workflow/" + (!creation ? pipelineData.id : "");
-
-	const rawResponse = await fetch(API_ROUTE + "/workflow/", {
-		method: creation ? "POST" : "PUT",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-			Authorization: "Bearer " + jwt,
-		},
-		body: JSON.stringify(PipeLineHostToApi(pipelineData)),
-	});
-	return rawResponse.ok;
-};
-
 export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 	return {
 		action: {
 			id: 69,
 			name: pipelineData.name,
+			enabled: pipelineData.data.enabled,
 			pType: pipelineData.action.type,
 			pParams: {
 				contents: PipelineParamsToApiParam(pipelineData.action.params.contents),
@@ -76,4 +60,57 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 			};
 		}),
 	};
+};
+
+const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: ParamsType } => {
+	let params: { [key: string]: ParamsType } = {};
+	dumpAREAParam.forEach((el) => {
+		params[el.name] = {
+			value: "",
+			type: el.type,
+			description: el.description,
+		};
+	});
+	return params;
+};
+
+const deSerializeAREAReturns = (dumpAREAReturns: Array<any>): { [key: string]: string } => {
+	let returns: { [key: string]: string } = {};
+	dumpAREAReturns.forEach((el) => {
+		returns[el.name] = el.description;
+	});
+	return returns;
+};
+
+export const deSerializeAREA = (dumpAREA: any, service: AppServiceType): AppAREAType => {
+	return {
+		type: dumpAREA.name,
+		description: dumpAREA.description,
+		service: service,
+		params: {
+			contents: deSerializeAREAParams(dumpAREA.params),
+		},
+		returns: deSerializeAREAReturns(dumpAREA.returns),
+	};
+};
+
+export const deSerializeService = (dumpService: any, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
+	let service: AppServiceType = services.filter((el) => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
+
+	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, service));
+	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, service));
+
+	return [actions, reactions];
+};
+
+export const deSerializeServices = (dumpServices: Array<any>, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
+	let actions: Array<AppAREAType> = [];
+	let reactions: Array<AppAREAType> = [];
+
+	dumpServices.forEach((serviceData) => {
+		let newAREAs = deSerializeService(serviceData, services);
+		actions = actions.concat(newAREAs[0]);
+		reactions = reactions.concat(newAREAs[1]);
+	})
+	return [actions, reactions];
 };
