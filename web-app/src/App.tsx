@@ -38,7 +38,7 @@ export default function App() {
 							{t('goToApp')}
 						</Button>
 						<Button variant="text" href="/client.apk" download color="secondary">
-							Get the App
+							{t('get_mobile_app')}
 						</Button>
 					</Box>
 				</div>
