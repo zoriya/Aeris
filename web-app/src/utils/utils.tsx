@@ -15,8 +15,7 @@ export function getCookie(cname: string): string {
 	let decodedCookie = decodeURIComponent(document.cookie);
 	let ca = decodedCookie.split(";");
 	for (let i = 0; i < ca.length; i++) {
-		let c = ca[i];
-		c.trim();
+		let c = ca[i].trim();
 		if (c.indexOf(name) == 0) {
 			return c.substring(name.length, c.length);
 		}

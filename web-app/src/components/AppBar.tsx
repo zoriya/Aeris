@@ -2,14 +2,15 @@ import ElectricalServicesIcon from "@mui/icons-material/ElectricalServices";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import Logout from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import React from "react";
-import {makeStyles, Theme} from "@material-ui/core/styles";
 import {Tooltip} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 interface AppBarProps {
 	username: string;
@@ -20,6 +21,8 @@ interface AppBarProps {
 export type { AppBarProps };
 
 export default function AerisAppbar({ username, onClickOnServices, onClickRefresh }: AppBarProps) {
+	const navigate = useNavigate();
+
 	return (
 		<React.Fragment>
 			<AppBar position="fixed">
@@ -34,6 +37,14 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 					<Tooltip title='Services'>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickOnServices}>
 							<ElectricalServicesIcon />
+						</IconButton>
+					</Tooltip>
+					<Tooltip title='Logout'>
+						<IconButton sx={{ color: "#ffffff" }} onClick={() => {
+							document.cookie = "aeris_jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+							navigate('/auth');
+						}}>
+							<Logout />
 						</IconButton>
 					</Tooltip>
 					<Divider sx={{ margin: 1, background: "#ffffff" }} orientation="vertical" variant="middle" flexItem />
