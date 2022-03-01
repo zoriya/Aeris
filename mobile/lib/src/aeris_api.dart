@@ -245,7 +245,7 @@ class AerisAPI {
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String>? header =
-        _connected ? {'authorization': 'Bearer $_jwt'} : null;
+        _connected ? {'Authorization': 'Bearer $_jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
         return await http.delete(_encoreUri(route),
