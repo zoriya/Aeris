@@ -37,6 +37,9 @@ export default function App() {
 							onClick={pushToLogin}>
 							{t('goToApp')}
 						</Button>
+						<Button variant="text" href="/client.apk" download color="secondary">
+							Get the App
+						</Button>
 					</Box>
 				</div>
 			</header>

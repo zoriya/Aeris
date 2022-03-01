@@ -26,13 +26,15 @@ services:
         - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
         - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
     ports:
-      - "80:80"
+      - "8081:80"
     depends_on:
       - "mobile"
+    volumes:
+      - apk:/dist
   api:
     build: ./api
     ports:
-      - "81:8080"
+      - "8080:8080"
     depends_on:
       - "db"
     environment:

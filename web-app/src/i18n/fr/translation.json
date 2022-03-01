@@ -26,5 +26,6 @@
   "username": "Nom d'utilisateur",
   "password": "Mot de passe",
   "confirm_password": "Confirmation du mot de passe",
-  "switch_language": "Langue changée pour Français"
+  "switch_language": "Langue changée pour Français",
+  "get_mobile_app": "Obtenir l'app mobile"
 }

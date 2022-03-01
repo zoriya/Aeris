@@ -26,5 +26,6 @@
   "username": "Username",
   "password": "Password",
   "confirm_password": "Confirm password",
-  "switch_language": "Language changed for English"
+  "switch_language": "Language changed for English",
+  "get_mobile_app": "Get the app"
 }

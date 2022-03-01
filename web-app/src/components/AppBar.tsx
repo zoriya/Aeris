@@ -6,6 +6,7 @@ import Logout from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
+import { Button } from "@mui/material";
 import React, {useState} from "react";
 import Box from "@mui/material/Box";
 
@@ -34,6 +35,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 				<Toolbar variant="dense">
 					<LanguageSelector />
 					<Box sx={{ flexGrow: 1 }} />
+					<Button variant="contained" color="secondary" size="small" href="/client.apk" download>  {t("get_mobile_app")} </Button>
 					<Tooltip title={t('refresh') as string}>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickRefresh}>
 							<RefreshIcon />
