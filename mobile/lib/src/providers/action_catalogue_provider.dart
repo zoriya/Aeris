@@ -9,17 +9,18 @@ import 'package:get_it/get_it.dart';
 class ActionCatalogueProvider extends ChangeNotifier {
 
   /// Tells if the provers has loaded data at least once
-  late Map<Service, List<ActionTemplate>> _triggerTemplates;
-  late Map<Service, List<ActionTemplate>> _reactionTemplates;
+  final Map<Service, List<ActionTemplate>> _triggerTemplates = {};
+  final Map<Service, List<ActionTemplate>> _reactionTemplates = {};
   Map<Service, List<ActionTemplate>> get triggerTemplates => _triggerTemplates;
   Map<Service, List<ActionTemplate>> get reactionTemplates => _reactionTemplates;
 
   ActionCatalogueProvider() {
+    Service.all().forEach((element) {
+      _triggerTemplates.putIfAbsent(element, () => []);
+      _reactionTemplates.putIfAbsent(element, () => []);
+    });
+    notifyListeners();
     GetIt.I<AerisAPI>().getAbout().then((Map<String, dynamic> about) {
-      Service.all().forEach((element) {
-        _triggerTemplates.putIfAbsent(element, () => []);
-        _reactionTemplates.putIfAbsent(element, () => []);
-      });
       final services = (about['server'] as Map<String, dynamic>)['services'] as List<dynamic>;
       for (var serviceContent in services) {
         Service service = Service.factory(serviceContent['name']);
