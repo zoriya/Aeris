@@ -103,7 +103,7 @@ export class Discord extends BaseService {
 			USERNAME: message.author.username,
 			SENDEE_ID: message.member.user.id,
 			SENDEE_USERNAME: message.member.user.username,
-			MESSAGE: message.content,
+			MESSAGE_CONTENT: message.content,
 		};
 	}
 

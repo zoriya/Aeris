@@ -10,19 +10,13 @@ import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie } from "../utils/utils";
-import { requestCreatePipeline, deletePipeline } from "../utils/CRUDPipeline";
-import { AppPipelineType, ActionTypeEnum, ReactionTypeEnum, AppAREAType } from "../utils/types";
+import { getCookie, deSerializeServices } from "../utils/utils";
+import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
+import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import {
-	AppServices,
-	ServiceActions,
-	AppServicesLogos,
-	AppListActions,
-	AppListReactions,
-	AppListPipelines,
-} from "../utils/globals";
+import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
+import MenuItem from "@mui/material/MenuItem";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -54,20 +48,35 @@ const getUserName = async (): Promise<string> => {
 	return "";
 };
 
+const fetchWorkflows = async (): Promise<any> => {
+	const response = await fetch(API_ROUTE + 'workflows', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json',
+			"Content-Type": 'application/json',
+			Authorization: 'Bearer ' + getCookie('aeris_jwt')
+		}
+	});
+
+	if (response.ok) {
+		let json = await response.json();
+		return json;
+	}
+	console.error("Can't fetch newer workflows");
+	return null;
+}
+
 export default function HomePage() {
 	const classes = useStyles();
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
-	const [handleSavePipeline, setHandleSavePipeline] = useState<any>(() => {});
-
-	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
-		if (await requestCreatePipeline(pD, creation)) {
-			return setModalMode(ModalSelection.None);
-		}
-	};
-
-	const data: Array<PipelineBoxProps> = [
+	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
+		() => (t: AppPipelineType) => {}
+	);
+	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
+	const [data, setWorkflowsDatas] = useState<Array<PipelineBoxProps>>(() => [
 		{
 			title: "My super action",
 			statusText: "Last: 2d ago",
@@ -75,32 +84,110 @@ export default function HomePage() {
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData({
+					id: 2,
 					name: "louis",
-					action: AppListActions[0],
-					reactions: AppListReactions,
+					action: NoAREA,
+					reactions: [],
 					data: {
 						enabled: true,
 						error: false,
 						status: "mdr",
 					},
 				} as AppPipelineType);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
 		{
 			title: "Lorem ipsum behm uit's long",
 			statusText:
 				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: AppServicesLogos["gmail"],
+			service1: AppServicesLogos["anilist"],
 			service2: AppServicesLogos["twitter"],
 			onClickCallback: () => {
 				setPipelineData(AppListPipelines[0]);
-				setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
 			},
 		},
-	];
+	]);
+
+	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
+		if (await requestCreatePipeline(pD, creation)) {
+			return setModalMode(ModalSelection.None);
+		}
+	};
+	useEffect(() => {
+		getAboutJson().then((aboutInfoParam) => {
+			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+		}).catch((error) => {
+			console.warn(error);
+			setAREAs([[], []]);
+		});
+	}, []);
+
+	const jsonToPipelineData = (data: any): PipelineBoxProps => {
+		let reactionList:AppAREAType[] = [];
+
+		for (const reaction of data.reactions) {
+			let newReaction:AppAREAType = {
+				type: reaction.rType,
+				params: {
+					contents: reaction.rParams.contents
+				},
+				returns: {},
+				description: '',
+				service: AppServices[0] //TODO => Get App Service Logo from request
+			};
+			reactionList.push(newReaction);
+		}
+
+		let pipelineData = {
+			title: data['action']['name'],
+			statusText: 'Refresh API Test Workflow',
+			service1: AppServicesLogos[data['action']['pType'].replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLowerCase().split(' ')[0]],
+			service2: AppServicesLogos['twitter'], //TODO => Fetch service name in reaction[...][rType] for reactions
+			onClickCallback: () => {
+				setPipelineData({
+					id: data['action']['id'],
+					name: data['action']['name'],
+					action: {
+						type: data['action']['pType'],
+						params: {
+							contents: data['action']['pParams']['contents']
+						},
+						returns: {},
+						description: 'Something must have been done.',
+						service: AppServices[3] //TODO => Make service enum
+					},
+					reactions: reactionList,
+					data: {
+						enabled: true,
+						error: false,
+						status: "mdr", //TODO => Change status from request
+					}
+				} as AppPipelineType);
+				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+				setModalMode(ModalSelection.PipelineEdit);
+				setPipelineDeletion(true);
+			}
+		} as PipelineBoxProps;
+
+		return pipelineData;
+	}
+
+	const refreshWorkflows = () => {
+		let workflowArray = fetchWorkflows().then((res) => {
+			if (res !== null) {
+				for (const workflow of res) {
+					let newWorkflow = jsonToPipelineData(workflow);
+					setWorkflowsDatas((oldArray) => [...oldArray, newWorkflow]);
+				}
+			}}
+		);
+	};
 
 	useEffect(() => {
 		getUserName().then((username) => {
@@ -115,6 +202,7 @@ export default function HomePage() {
 				onClickOnServices={() => {
 					setModalMode(ModalSelection.ServiceSetup);
 				}}
+				onClickRefresh={refreshWorkflows}
 			/>
 			<PipelineBoxesLayout data={data} />
 
@@ -122,11 +210,12 @@ export default function HomePage() {
 				isOpen={modalMode === ModalSelection.PipelineEdit}
 				handleClose={() => setModalMode(ModalSelection.None)}>
 				<PipelineEditPage
+					disableDeletion={!pipelineDeletion}
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
 					services={AppServices}
-					actions={AppListActions}
-					reactions={AppListReactions}
+					actions={AREAs[0]}
+					reactions={AREAs[1]}
 					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
@@ -147,8 +236,9 @@ export default function HomePage() {
 				}}>
 				<Fab
 					onClick={() => {
+						setPipelineDeletion(false);
 						setPipelineData(AppListPipelines[1]);
-						setHandleSavePipeline((pD: AppPipelineType) => homePagePipeLineSave(pD, true));
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
 					size="medium"

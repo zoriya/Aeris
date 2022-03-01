@@ -26,7 +26,9 @@ import Core.Pipeline ( PipelineParams, PipelineType )
 import Data.Functor.Identity (Identity)
 import Servant (FromHttpApiData)
 import Core.User (UserId(UserId))
-import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
+import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime, getCurrentTime)
+import Rel8.Expr.Time (now)
+import Control.Monad.IO.Class (MonadIO(liftIO))
 
 newtype PipelineId = PipelineId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
@@ -130,4 +132,34 @@ updatePipeline pId (Pipeline _ newName newType newParams _ newEnabled _ _ _) =
       pipelineName = newName
     , pipelineType = newType
     , pipelineParams = newParams
+    }
+
+triggerPipeline :: PipelineId -> UTCTime -> Update Int64 
+triggerPipeline pId currTime =
+    Update
+        { target = pipelineSchema
+        , from = pure ()
+        , updateWhere = \_ o -> pipelineId o ==. lit pId
+        , set = setter
+        , returning = NumberOfRowsAffected
+        }
+  where
+    setter = \from row -> row {
+      pipelineTriggerCount = pipelineTriggerCount row + 1
+    , pipelineLastTrigger = lit $ Just currTime
+    , pipelineError = lit Nothing
+    }
+
+errorPipeline :: PipelineId -> Text -> Update Int64
+errorPipeline pId msg =
+    Update
+        { target = pipelineSchema
+        , from = pure ()
+        , updateWhere = \_ o -> pipelineId o ==. lit pId
+        , set = setter
+        , returning = NumberOfRowsAffected
+        }
+  where
+    setter = \from row -> row {
+        pipelineError = lit $ Just msg
     }

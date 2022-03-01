@@ -17,18 +17,22 @@ import PipelineEditAREA from "./PipelineEditAREA";
 
 interface PipelineEditProps {
 	pipelineData: AppPipelineType;
-	handleSave: any;
-	handleDelete: any;
+	handleSave: (pD: AppPipelineType) => any;
+	handleDelete: (pD: AppPipelineType) => any;
 	services: Array<AppServiceType>;
+	disableDeletion: boolean;
 	actions: Array<AppAREAType>;
 	reactions: Array<AppAREAType>;
-	handleQuit: any;
+
+	handleQuit: () => void;
 }
 
 export enum PipelineEditMode {
 	Pipeline,
 	Action,
 	Reactions,
+	EditAction,
+	EditReaction,
 }
 
 export default function PipelineEditPage({
@@ -38,12 +42,13 @@ export default function PipelineEditPage({
 	services,
 	actions,
 	reactions,
+	disableDeletion,
 	handleQuit,
 }: PipelineEditProps) {
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
 	const [editPipelineData, setEditPipelineData] = useState<AppPipelineType>(pipelineData);
 	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);
-	const [editReactionsData, setEditReactionsData] = useState<Array<AppAREAType>>(pipelineData.reactions);
+	const [editReactionData, setEditReactionData] = useState<AppAREAType | undefined>();
 	const [editReactionIndex, setEditReactionIndex] = useState<number>(0);
 
 	switch (mode) {
@@ -51,7 +56,40 @@ export default function PipelineEditPage({
 		case PipelineEditMode.Pipeline:
 			return (
 				<PipelineEditPipeline
+					disableDeletion={disableDeletion}
 					pipelineData={editPipelineData}
+					handleEditPipelineTitle={(newTtitle) => setEditPipelineData({
+						...editPipelineData,
+						name: newTtitle
+					})}
+					handleEditPipelineMetaData={(name, enabled) => {
+						setEditPipelineData({
+							...editPipelineData,
+							name: name,
+							data: {
+								...editPipelineData.data,
+								enabled: enabled
+							}
+						})
+					}
+					}
+					handleEditAction={(action) => {
+						setEditActionData(action);
+						setMode(PipelineEditMode.EditAction);
+					}}
+					handleEditReaction={(reaction, index) => {
+						setEditReactionIndex(index);
+						setEditReactionData(reaction);
+						setMode(PipelineEditMode.EditReaction);
+					}}
+					handleDeleteReaction={(reaction, index) => {
+						let reactionsTmp = editPipelineData.reactions;
+						reactionsTmp.splice(index, 1);
+						setEditPipelineData({
+							...editPipelineData,
+							reactions: reactionsTmp,
+						});
+					}}
 					setEditMode={setMode}
 					handleSave={handleSave}
 					handleDelete={handleDelete}
@@ -63,6 +101,7 @@ export default function PipelineEditPage({
 				<PipelineEditAREA
 					pipelineData={editPipelineData}
 					setEditMode={setMode}
+					isActions={true}
 					setAREA={(AREA: AppAREAType) => {
 						setEditPipelineData({
 							...editPipelineData,
@@ -79,6 +118,7 @@ export default function PipelineEditPage({
 				<PipelineEditAREA
 					pipelineData={editPipelineData}
 					setEditMode={setMode}
+					isActions={false}
 					setAREA={(AREA: AppAREAType) => {
 						let reactionsTmp = editPipelineData.reactions;
 						reactionsTmp[editReactionIndex] = AREA;
@@ -88,6 +128,44 @@ export default function PipelineEditPage({
 						});
 						setMode(PipelineEditMode.Pipeline);
 					}}
+					services={services}
+					AREAs={reactions}
+				/>
+			);
+		case PipelineEditMode.EditAction:
+			return (
+				<PipelineEditAREA
+					pipelineData={editPipelineData}
+					setEditMode={setMode}
+					isActions={true}
+					setAREA={(AREA: AppAREAType) => {
+						setEditPipelineData({
+							...editPipelineData,
+							action: AREA,
+						});
+						setMode(PipelineEditMode.Pipeline);
+					}}
+					selectedAREA={editActionData}
+					services={services}
+					AREAs={actions}
+				/>
+			);
+		case PipelineEditMode.EditReaction:
+			return (
+				<PipelineEditAREA
+					pipelineData={editPipelineData}
+					setEditMode={setMode}
+					isActions={false}
+					setAREA={(AREA: AppAREAType) => {
+						let reactionsTmp = editPipelineData.reactions;
+						reactionsTmp[editReactionIndex] = AREA;
+						setEditPipelineData({
+							...editPipelineData,
+							reactions: reactionsTmp,
+						});
+						setMode(PipelineEditMode.Pipeline);
+					}}
+					selectedAREA={editReactionData}
 					services={services}
 					AREAs={reactions}
 				/>
