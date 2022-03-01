@@ -31,31 +31,31 @@ class Service {
   /// Get full url for OAuth2
   String get authUrl => GetIt.I<AerisAPI>().getServiceAuthURL(this);
 
-  Service.spotify()
+  const Service.spotify()
       : name = "Spotify",
         url = "https://www.spotify.com",
         logoUrl =
             "https://www.presse-citron.net/app/uploads/2020/06/spotify-une-.jpg";
-  Service.anilist()
+  const Service.anilist()
       : name = "AniList",
         url = "https://anilist.co",
         logoUrl =
             "https://anilist.co/img/icons/android-chrome-512x512.png";
-  Service.discord()
+  const Service.discord()
       : name = "Discord",
         url = "https://discord.com/app",
         logoUrl =
             "https://play-lh.googleusercontent.com/fbrWR4LbtB_1Ulgz3_rw8bY3tx_zPU7A9ZOB5WYG_QmqOUUjA6JEzE_20GA4YBDWMx4";
-  Service.twitter()
+  const Service.twitter()
       : name = "Twitter",
         url = "https://twitter.com",
         logoUrl =
             "https://f.hellowork.com/blogdumoderateur/2019/11/twitter-logo-1200x1200.jpg";
-  Service.github()
+  const Service.github()
       : name = "GitHub",
         url = "https://github.com/",
         logoUrl = "https://avatars.githubusercontent.com/u/9919?s=280&v=4";
-  Service.youtube()
+  const Service.youtube()
       : name = "Youtube",
         url = "https://youtube.com",
         logoUrl =
