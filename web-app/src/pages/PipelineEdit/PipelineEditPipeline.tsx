@@ -110,6 +110,7 @@ export default function PipelineEditPipeline({
 								<Button
 									sx={{ width: "25vw" }}
 									variant={"contained"}
+									color={"secondary"}
 									onClick={() => setEditMode(PipelineEditMode.Action)}>
 									Ajouter une action
 								</Button>
@@ -146,6 +147,7 @@ export default function PipelineEditPipeline({
 								<Button
 									sx={{ width: "24.5vw" }}
 									variant={"contained"}
+									color={"secondary"}
 									onClick={() => {
 										setEditMode(PipelineEditMode.Reactions);
 										setEditReactionIndex(pipelineData.reactions.length);
@@ -207,6 +209,7 @@ export default function PipelineEditPipeline({
 					<Button
 						color="primary"
 						startIcon={<SaveIcon />}
+						disabled={pipelineData.action.type === NoAREA.type || pipelineData.reactions.length === 0}
 						onClick={async () => handleSave(pipelineData)}
 						variant="contained">
 						Sauvegarder
