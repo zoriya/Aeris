@@ -21,7 +21,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 				'{AREA.type}' Parameters
 			</Typography>
 			<Stack>
-				{Object.entries(AREA.params.contents).map((param, key) => {
+				{Object.entries(AREA.params).map((param, key) => {
 					return (
 						<TextField
 							key={key}

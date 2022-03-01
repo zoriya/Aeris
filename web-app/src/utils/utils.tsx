@@ -119,18 +119,28 @@ export const deSerializeServices = (
 export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREAType>): AppAREAType => {
 	const refAction = actions.filter((el) => el.type === data.pType);
 
+	let params: { [key: string]: ParamsType } = refAction[0].params;
+	Object.entries(data.pParams.contents as { [key: string]: string }).forEach((paramData) => {
+		params[paramData[0]].value = paramData[1];
+	});
+
 	return {
 		...refAction[0],
-		params: data.pParams.contents,
+		params: params,
 	};
 };
 
 export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
 	const refReaction = reactions.filter((el) => el.type === data.rType);
 
+	let params: { [key: string]: ParamsType } = refReaction[0].params;
+	Object.entries(data.rParams.contents as { [key: string]: string }).forEach((paramData) => {
+		params[paramData[0]].value = paramData[1];
+	});
+
 	return {
 		...refReaction[0],
-		params: data.rParams.contents,
+		params: params,
 	};
 };
 
@@ -155,13 +165,13 @@ export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 };
 
 export const fetchWorkflows = async (): Promise<any> => {
-	const response = await fetch(API_ROUTE + '/workflows', {
-		method: 'GET',
+	const response = await fetch(API_ROUTE + "/workflows", {
+		method: "GET",
 		headers: {
-			Accept: 'application/json',
-			"Content-Type": 'application/json',
-			Authorization: 'Bearer ' + getCookie('aeris_jwt')
-		}
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
 	});
 
 	if (response.ok) {
@@ -170,7 +180,7 @@ export const fetchWorkflows = async (): Promise<any> => {
 	}
 	console.error("Can't fetch newer workflows");
 	return null;
-}
+};
 
 export const generateRandomString = (): string => {
 	let randomString = "";

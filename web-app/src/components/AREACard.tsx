@@ -23,13 +23,14 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 					title={<Typography variant="h5">{AREA.type}</Typography>}
 					subheader={AREA.description}
 				/>
-				{Object.keys(AREA.params.contents).length > 0 || Object.keys(AREA.returns).length > 0 ? (
+				{Object.keys(AREA.params).length > 0 || Object.keys(AREA.returns).length > 0 ? (
 					<CardContent>
 						<Grid container spacing={1} marginBottom={"5px"}>
-							{Object.entries(AREA.params.contents).map((el, idx) => {
+							{Object.entries(AREA.params).map((el, idx) => {
 								return (
 									<Grid item key={idx}>
 										<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
+										<code>{el[1].value}</code>
 									</Grid>
 								);
 							})}
