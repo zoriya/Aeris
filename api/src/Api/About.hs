@@ -9,7 +9,7 @@ module Api.About where
 
 import App (AppM)
 import Control.Monad.IO.Class (liftIO)
-import Data.Aeson (defaultOptions, eitherDecode)
+import Data.Aeson (defaultOptions, eitherDecode, Object)
 import qualified Data.Aeson.Parser
 import Data.Aeson.TH (deriveJSON)
 import Data.Time.Clock.POSIX (POSIXTime, getPOSIXTime)
@@ -29,6 +29,8 @@ data ClientAbout = ClientAbout
 data ActionAbout = ActionAbout
     { name :: String
     , description :: String
+    , params :: [Object]
+    , returns :: [Object]
     }
     deriving (Eq, Show)
 
@@ -58,7 +60,7 @@ $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
 servicesDir :: [(FilePath, S.ByteString)]
-servicesDir = $(makeRelativeToProject "./services/" >>= embedDir)
+servicesDir = $(embedDir "./services/")
 
 about :: SockAddr -> AppM About
 about host = do
