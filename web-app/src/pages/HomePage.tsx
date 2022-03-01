@@ -10,7 +10,7 @@ import { API_ROUTE } from "../";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie, deSerializeServices } from "../utils/utils";
+import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
@@ -48,24 +48,6 @@ const getUserName = async (): Promise<string> => {
 	return "";
 };
 
-const fetchWorkflows = async (): Promise<any> => {
-	const response = await fetch(API_ROUTE + '/workflows', {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-			"Content-Type": 'application/json',
-			Authorization: 'Bearer ' + getCookie('aeris_jwt')
-		}
-	});
-
-	if (response.ok) {
-		let json = await response.json();
-		return json;
-	}
-	console.error("Can't fetch newer workflows");
-	return null;
-}
-
 export default function HomePage() {
 	const classes = useStyles();
 	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
@@ -76,43 +58,7 @@ export default function HomePage() {
 		() => (t: AppPipelineType) => {}
 	);
 	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
-	const [data, setWorkflowsDatas] = useState<Array<PipelineBoxProps>>(() => [
-		{
-			title: "My super action",
-			statusText: "Last: 2d ago",
-			service1: AppServicesLogos["twitter"],
-			service2: AppServicesLogos["twitter"],
-			onClickCallback: () => {
-				setPipelineData({
-					id: 2,
-					name: "louis",
-					action: NoAREA,
-					reactions: [],
-					data: {
-						enabled: true,
-						error: false,
-						status: "mdr",
-					},
-				} as AppPipelineType);
-				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-				setModalMode(ModalSelection.PipelineEdit);
-				setPipelineDeletion(true);
-			},
-		},
-		{
-			title: "Lorem ipsum behm uit's long",
-			statusText:
-				"Lego Star Wars: The Skywalker Saga is an upcoming Lego-themed action-adventure game developed by Traveller's Tales and published by Warner Bros.",
-			service1: AppServicesLogos["anilist"],
-			service2: AppServicesLogos["twitter"],
-			onClickCallback: () => {
-				setPipelineData(AppListPipelines[0]);
-				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-				setModalMode(ModalSelection.PipelineEdit);
-				setPipelineDeletion(true);
-			},
-		},
-	]);
+	const [data, setWorkflowsDatas] = useState<Array<PipelineBoxProps>>([]);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
@@ -120,73 +66,70 @@ export default function HomePage() {
 		}
 	};
 	useEffect(() => {
-		getAboutJson().then((aboutInfoParam) => {
-			setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
-		}).catch((error) => {
-			console.warn(error);
-			setAREAs([[], []]);
-		});
+		getAboutJson()
+			.then((aboutInfoParam) => {
+				setAREAs(deSerializeServices(aboutInfoParam?.server?.services ?? [], AppServices));
+			})
+			.catch((error) => {
+				console.warn(error);
+				setAREAs([[], []]);
+			});
 	}, []);
 
-	const jsonToPipelineData = (data: any): PipelineBoxProps => {
-		let reactionList:AppAREAType[] = [];
+	useEffect(() => {
+		fetchWorkflows()
+			.then((workflows) => {
+				let pipelineBoxes: Array<PipelineBoxProps> = [];
+				for (const workflow of workflows) {
+					let newWorkflow = deSerialisePipeline(workflow, AREAs);
 
-		for (const reaction of data.reactions) {
-			let newReaction:AppAREAType = {
-				type: reaction.rType,
-				params: {
-					contents: reaction.rParams.contents
-				},
-				returns: {},
-				description: '',
-				service: AppServices[0] //TODO => Get App Service Logo from request
-			};
-			reactionList.push(newReaction);
-		}
-
-		let pipelineData = {
-			title: data['action']['name'],
-			statusText: 'Refresh API Test Workflow',
-			service1: AppServicesLogos["spotify"],
-			service2: AppServicesLogos['twitter'], //TODO => Fetch service name in reaction[...][rType] for reactions
-			onClickCallback: () => {
-				setPipelineData({
-					id: data['action']['id'],
-					name: data['action']['name'],
-					action: {
-						type: data['action']['pType'],
-						params: {
-							contents: data['action']['pParams']['contents']
+					pipelineBoxes.push({
+						title: newWorkflow.name,
+						statusText: "Refresh API Test Workflow",
+						service1: newWorkflow.action.service.logo,
+						service2: newWorkflow.reactions[0].service.logo,
+						onClickCallback: () => {
+							setPipelineData(newWorkflow);
+							setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+							setModalMode(ModalSelection.PipelineEdit);
+							setPipelineDeletion(true);
 						},
-						returns: {},
-						description: 'Something must have been done.',
-						service: AppServices[3] //TODO => Make service enum
-					},
-					reactions: reactionList,
-					data: {
-						enabled: true,
-						error: false,
-						status: "mdr", //TODO => Change status from request
-					}
-				} as AppPipelineType);
+					} as PipelineBoxProps);
+					setWorkflowsDatas((oldArray) => [...oldArray, ...pipelineBoxes]);
+				}
+				console.log(workflows);
+			})
+			.catch((error) => {
+				console.warn(error);
+			});
+	}, [AREAs]);
+
+	/*const jsonToPipelineData = (data: any): PipelineBoxProps => {
+		let pipelineData = {
+			title: data["action"]["name"],
+			statusText: "Refresh API Test Workflow",
+			service1: services["spotify"],
+			service2: services["twitter"], //TODO => Fetch service name in reaction[...][rType] for reactions
+			onClickCallback: () => {
+				//setPipelineData();
 				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 				setModalMode(ModalSelection.PipelineEdit);
 				setPipelineDeletion(true);
-			}
+			},
 		} as PipelineBoxProps;
 
 		return pipelineData;
-	}
-
+	};
+*/
 	const refreshWorkflows = () => {
-		let workflowArray = fetchWorkflows().then((res) => {
+		/*	let workflowArray = fetchWorkflows().then((res) => {
 			if (res !== null) {
 				for (const workflow of res) {
 					let newWorkflow = jsonToPipelineData(workflow);
 					setWorkflowsDatas((oldArray) => [...oldArray, newWorkflow]);
 				}
-			}}
-		);
+			}
+		});*/
 	};
 
 	useEffect(() => {
