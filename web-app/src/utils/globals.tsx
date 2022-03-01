@@ -185,7 +185,7 @@ export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
 };
 
 export const NoAREA: AppAREAType = {
-	type: "Nothing",
+	type: "WebFrontEndNoAREA",
 	params: {
 		contents: {},
 	},
@@ -194,12 +194,23 @@ export const NoAREA: AppAREAType = {
 	service: AppServices[0],
 };
 
+export const FakeAREA: AppAREAType = {
+	type: "Twiitersmth",
+	params: {
+		contents: {},
+	},
+	returns: {},
+	description: "There's nothing",
+	service: AppServices[0],
+};
+
+
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 56,
 		name: "my pipe",
-		action: NoAREA,
-		reactions: [],
+		action: FakeAREA,
+		reactions: [FakeAREA],
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",
@@ -209,7 +220,7 @@ export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 89,
 		name: "nouvelle pipeline",
-		action: NoAREA,
+		action: FakeAREA,
 		reactions: [],
 		data: {
 			enabled: true,

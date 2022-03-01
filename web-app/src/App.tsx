@@ -1,5 +1,4 @@
-import { Typography, Box, Button } from "@mui/material";
-//import "./App.css";
+import { Typography, Box, Button, ButtonGroup } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 
@@ -26,13 +25,11 @@ export default function App() {
 							Professional, personnal action-reaction manager
 						</Typography>
 						<br />
-						<Button
-							id="toConnect"
-							variant="contained"
-							color="secondary"
-							className="EndStartupBtn"
-							onClick={pushToLogin}>
+						<Button variant="contained" color="secondary" onClick={pushToLogin}>
 							Connect to Aeris
+						</Button>
+						<Button variant="text" href="/client.apk" download color="secondary">
+							Get the App
 						</Button>
 					</Box>
 				</div>

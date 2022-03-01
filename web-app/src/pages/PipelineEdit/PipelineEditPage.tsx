@@ -58,6 +58,10 @@ export default function PipelineEditPage({
 				<PipelineEditPipeline
 					disableDeletion={disableDeletion}
 					pipelineData={editPipelineData}
+					handleEditPipelineTitle={(newTtitle) => setEditPipelineData({
+						...editPipelineData,
+						name: newTtitle
+					})}
 					handleEditPipelineMetaData={(name, enabled) => {
 						setEditPipelineData({
 							...editPipelineData,
