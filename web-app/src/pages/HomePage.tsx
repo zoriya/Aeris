@@ -14,7 +14,7 @@ import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows } f
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, ServiceActions, AppServicesLogos, AppListPipelines, NoAREA } from "../utils/globals";
+import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -53,7 +53,7 @@ export default function HomePage() {
 	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
-	const [pipelineData, setPipelineData] = useState<AppPipelineType>(AppListPipelines[0]);
+	const [pipelineData, setPipelineData] = useState<AppPipelineType>(NewEmptyPipeline);
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
 		() => (t: AppPipelineType) => {}
 	);
@@ -182,7 +182,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineDeletion(false);
-						setPipelineData(AppListPipelines[1]);
+						setPipelineData(NewEmptyPipeline);
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
