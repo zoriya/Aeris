@@ -102,7 +102,7 @@ informWorker method id =
         response <- httpBS
             $ setRequestMethod method
             $ addRequestHeader "Accept" "application/json"
-            $ setRequestPath (encodeUtf8 (pack $ "/worker" <> show id))
+            $ setRequestPath (encodeUtf8 (pack $ "/worker/" <> show id))
             $ request
         return ()
     <|> return ()
