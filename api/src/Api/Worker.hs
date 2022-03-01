@@ -54,7 +54,7 @@ data WorkerAPI mode = WorkerAPI
     , trigger :: mode :- "trigger" :> Capture "id" PipelineId :>
         QueryParam "WORKER_API_KEY" String :> Get '[JSON] NoContent
     , error :: mode :- "error" :> Capture "id" PipelineId :>
-        QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] ErrorBody :>Get '[JSON] NoContent
+        QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] ErrorBody :> Post '[JSON] NoContent
     }
     deriving stock (Generic)
 

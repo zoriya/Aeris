@@ -17,6 +17,10 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+    services/discord.json
+    services/github.json
+    services/spotify.json
+    services/youtube.json
 
 source-repository head
   type: git

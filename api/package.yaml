@@ -8,6 +8,7 @@ copyright:           "2022 Author name here"
 
 extra-source-files:
 - README.md
+- services/*.json
 
 # Metadata used when publishing your package
 # synopsis:            Short description of your package
