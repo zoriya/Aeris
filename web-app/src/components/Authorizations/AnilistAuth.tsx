@@ -1,16 +1,15 @@
 import { getCookie, sendServiceAuthToken } from "../../utils/utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { API_ROUTE } from "../..";
 
-export default function GoogleAuth() {
+export default function Anilist() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
-
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		sendServiceAuthToken(authCode, "/auth/google").then((ok) => {
+		sendServiceAuthToken(authCode, "/auth/anilist").then((ok) => {
 			navigate('/pipelines');
 		});
 	}, []);
