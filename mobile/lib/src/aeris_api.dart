@@ -14,7 +14,6 @@ import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 
 extension IsOk on http.Response {
@@ -35,10 +34,9 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  late final String baseRoute;
+  final String baseRoute = "localhost:8081"; ///TODO make it modifiable
 
   AerisAPI() {
-    baseRoute = dotenv.env['HOSTNAME']!;
     var trigger1 = Trigger(
         service: const Service.spotify(), name: "Play song", last: DateTime.now());
     var trigger3 = Trigger(
