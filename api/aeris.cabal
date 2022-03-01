@@ -73,6 +73,7 @@ library
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -113,6 +114,7 @@ executable aeris-exe
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
@@ -157,6 +159,7 @@ test-suite aeris-test
     , servant
     , servant-auth
     , servant-auth-server
+    , servant-errors
     , servant-server
     , text
     , time
