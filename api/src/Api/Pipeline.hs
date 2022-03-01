@@ -46,6 +46,7 @@ import Data.Text.Encoding (encodeUtf8)
 import System.Environment.MrEnv (envAsString)
 import Data.Default (def)
 import Db.User (UserDB(..))
+import Control.Applicative (Alternative((<|>)))
 
 data PipelineData = PipelineData
     { name :: Text
@@ -94,15 +95,17 @@ formatGetPipelineResponse pipeline reactions =
         reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
     
 informWorker :: ByteString -> PipelineId -> IO ()
-informWorker method id = do
-    url <- envAsString "WORKER_URL" "worker/"
-    request <- parseRequest url
-    response <- httpBS
-        $ setRequestMethod method
-        $ addRequestHeader "Accept" "application/json"
-        $ setRequestPath (encodeUtf8 (pack $ "/worker" <> show id))
-        $ request
-    return ()
+informWorker method id =
+    do
+        url <- envAsString "WORKER_URL" "worker/"
+        request <- parseRequest url
+        response <- httpBS
+            $ setRequestMethod method
+            $ addRequestHeader "Accept" "application/json"
+            $ setRequestPath (encodeUtf8 (pack $ "/worker" <> show id))
+            $ request
+        return ()
+    <|> return ()
 
 
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse

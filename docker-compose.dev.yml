@@ -23,6 +23,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_PORT=${POSTGRES_PORT}
       - WORKER_API_KEY=${WORKER_API_KEY}
+      - WORKER_URL=${WORKER_URL}
       - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
       - DISCORD_SECRET=${DISCORD_SECRET}
       - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
@@ -41,6 +42,9 @@ services:
       - "api"
     environment:
       - YOUTUBE_KEY=${YOUTUBE_KEY}
+      - WORKER_API_URL=${WORKER_API_URL}
+      - WORKER_API_KEY=${WORKER_API_KEY}
+
 
 volumes:
   apk:

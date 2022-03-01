@@ -38,8 +38,10 @@ app.delete("/workflow/:id", req => {
 
 app.listen(5000);
 
+console.log(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
+
 fetch(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
-	.then(async res => console.log("toto", await res.json()));
+	.then(async res => console.log("toto", await res.json()))
 
 const pipelines = merge(
 	fromFetch<Pipeline>(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {selector: x => x.json()}),

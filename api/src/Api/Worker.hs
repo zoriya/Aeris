@@ -48,13 +48,13 @@ $(deriveJSON defaultOptions ''ErrorBody)
 
 data WorkerAPI mode = WorkerAPI
     { get :: mode :- "workflow" :> Capture "id" PipelineId :>
-        QueryParam "API_KEY" String :> Get '[JSON] GetPipelineWorkerResponse
+        QueryParam "WORKER_API_KEY" String :> Get '[JSON] GetPipelineWorkerResponse
     , all :: mode :- "workflows" :>
-        QueryParam "API_KEY" String :> Get '[JSON] [GetPipelineWorkerResponse]
+        QueryParam "WORKER_API_KEY" String :> Get '[JSON] [GetPipelineWorkerResponse]
     , trigger :: mode :- "trigger" :> Capture "id" PipelineId :>
-        QueryParam "API_KEY" String :> Get '[JSON] NoContent
+        QueryParam "WORKER_API_KEY" String :> Get '[JSON] NoContent
     , error :: mode :- "error" :> Capture "id" PipelineId :>
-        QueryParam "API_KEY" String :> ReqBody '[JSON] ErrorBody :>Get '[JSON] NoContent
+        QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] ErrorBody :>Get '[JSON] NoContent
     }
     deriving stock (Generic)
 
