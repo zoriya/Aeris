@@ -13,7 +13,7 @@ export const resources = {
 } as const;
 
 i18n.use(initReactI18next).init({
-    lng: 'fr',
+    lng: 'en',
     interpolation: {
         escapeValue: false, // not needed for react as it escapes by default
     },
