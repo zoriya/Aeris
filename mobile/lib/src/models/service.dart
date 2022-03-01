@@ -1,6 +1,4 @@
 // Class for a service (Youtube, Gmail, ...)
-import 'dart:math';
-
 import 'package:aeris/src/aeris_api.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

@@ -33,21 +33,21 @@ class AerisAPI {
 
   AerisAPI() {
     var trigger1 = Trigger(
-        service: Service.spotify(), name: "Play song", last: DateTime.now());
+        service: const Service.spotify(), name: "Play song", last: DateTime.now());
     var trigger3 = Trigger(
-        service: Service.discord(),
+        service: const Service.discord(),
         name: "Send a message",
         last: DateTime.now());
     var trigger2 = Trigger(
-        service: Service.spotify(),
+        service: const Service.spotify(),
         name: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
-        service: Service.twitter(), parameters: [], name: "Post a tweet");
+        service: const Service.twitter(), parameters: [], name: "Post a tweet");
     var reaction2 =
-        Reaction(service: Service.anilist(), parameters: [], name: "Do smth");
+        Reaction(service: const Service.anilist(), parameters: [], name: "Do smth");
     var reaction1 = Reaction(
-        service: Service.youtube(), parameters: [], name: "Do smth youtube");
+        service: const Service.youtube(), parameters: [], name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
