@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
@@ -8,9 +9,11 @@ import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 extension IsOk on http.Response {
   bool get ok => (statusCode ~/ 100) == 2;
@@ -221,19 +224,11 @@ class AerisAPI {
 
   Future<List<ActionTemplate>> getActionsFor(
       Service service, Action action) async {
-    await Future.delayed(const Duration(seconds: 3));
+    final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
-      ///TODO get triggers
-    } else if (action is Reaction) {
-      ///TODO get reactions
+      return catalogue!.triggerTemplates[service]!;
     }
-    return [
-      for (int i = 0; i <= 10; i++)
-        ActionTemplate(service: service, name: "action$i", description: "descr$i", parameters: [
-          for (int j = 0; j < 3; j++)
-            ActionParameter(name: "key$j", description: "description$j")
-        ])
-    ];
+    return catalogue!.reactionTemplates[service]!;
   }
 
   /// Encodes Uri for request
