@@ -14,6 +14,7 @@ import Rel8 (asc, insert, orderBy, select, limit, update, Expr, delete)
 import Repository.Utils (runQuery)
 import Core.User (UserId(UserId))
 import Data.Int (Int64)
+import Db.User (UserDB)
 
 createReaction :: Reaction Identity -> AppM ReactionId
 createReaction reaction = do
@@ -23,12 +24,12 @@ createReaction reaction = do
 getReactionsByPipelineId' :: PipelineId -> AppM [Reaction Identity]
 getReactionsByPipelineId' pId = runQuery (select $ orderBy (reactionOrder >$< asc) $ getReactionsByPipelineId pId)
 
-getWorkflow' :: PipelineId -> AppM (Pipeline Identity, [Reaction Identity])
+getWorkflow' :: PipelineId -> AppM (Pipeline Identity, [Reaction Identity], UserDB Identity)
 getWorkflow' pId = do
   res <- runQuery $ select $ limit 1 $ getWorkflow pId
   return $ head res
 
-getWorkflows' :: AppM [(Pipeline Identity, [Reaction Identity])]
+getWorkflows' :: AppM [(Pipeline Identity, [Reaction Identity], UserDB Identity)]
 getWorkflows' = runQuery $ select getWorkflows
 
 getWorkflowsByUser' :: UserId -> AppM [(Pipeline Identity, [Reaction Identity])]

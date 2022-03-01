@@ -10,7 +10,7 @@ import Hasql.Transaction (Transaction, condemn, sql, statement)
 import Rel8 (each, insert, select)
 import Servant
 import Servant.Auth.Server (CookieSettings, JWTSettings, defaultCookieSettings, defaultJWTSettings, generateKey)
-
+import Network.Wai.Middleware.Servant.Errors
 import App
 import Config (dbConfigToConnSettings, getPostgresConfig)
 import qualified Hasql.Session as Session
@@ -27,4 +27,4 @@ main = do
     appPort <- envAsInt "AERIS_BACK_PORT" 8080
     let jwtCfg = defaultJWTSettings key
     pool <- acquire (3, 1, dbConfigToConnSettings dbConf)
-    run appPort $ app jwtCfg $ State pool
+    run appPort $ errorMwDefJson $ app jwtCfg $ State pool
