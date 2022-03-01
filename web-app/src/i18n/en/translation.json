@@ -25,5 +25,6 @@
   "activated": "Activated",
   "username": "Username",
   "password": "Password",
-  "confirm_password": "Confirm password"
+  "confirm_password": "Confirm password",
+  "switch_language": "Language changed for English"
 }

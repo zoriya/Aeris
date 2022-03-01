@@ -6,12 +6,13 @@ import Logout from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
+import React, {useState} from "react";
 import Box from "@mui/material/Box";
-import React from "react";
 
 import {useNavigate} from "react-router-dom";
 import {Tooltip} from "@mui/material";
 
+import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "react-i18next";
 import '../i18n/config';
 
@@ -31,6 +32,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 		<React.Fragment>
 			<AppBar position="fixed">
 				<Toolbar variant="dense">
+					<LanguageSelector />
 					<Box sx={{ flexGrow: 1 }} />
 					<Tooltip title={t('refresh') as string}>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickRefresh}>
