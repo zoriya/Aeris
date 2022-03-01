@@ -17,6 +17,7 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+    services/*.json
 
 source-repository head
   type: git
@@ -63,6 +64,7 @@ library
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -102,6 +104,7 @@ executable aeris-exe
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
@@ -142,6 +145,7 @@ test-suite aeris-test
     , containers
     , cryptonite
     , data-default
+    , file-embed
     , hasql
     , hasql-migration
     , hasql-pool
