@@ -19,11 +19,13 @@ import Api.Pipeline
 import qualified Api.Pipeline as Api
 import App
 import Control.Monad.Trans.Reader (ReaderT (runReaderT))
+import Api.Worker (WorkerAPI, workerHandler)
 
 data API mode = API
     { about :: mode :- "about.json" :> RemoteHost :> Get '[JSON] About
     , auth :: mode :- "auth" :> NamedRoutes AuthAPI
     , pipelines :: mode :- NamedRoutes PipelineAPI
+    , worker :: mode :- "worker" :> NamedRoutes WorkerAPI
     }
     deriving stock (Generic)
 
@@ -35,6 +37,7 @@ server cs jwts =
         { Api.about = Api.About.about
         , Api.auth = Api.Auth.authHandler cs jwts
         , Api.pipelines = Api.Pipeline.pipelineHandler
+        , Api.worker = Api.Worker.workerHandler 
         }
 
 nt :: State -> AppM a -> Handler a

@@ -5,14 +5,15 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 {-# HLINT ignore "Use newtype instead of data" #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module Core.Reaction where
 
-import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode)
+import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode, Object)
 import Data.Aeson.TH (deriveJSON)
 import Data.Text (Text)
 import GHC.Generics (Generic)
-import Rel8 (DBType, JSONBEncoded (JSONBEncoded), ReadShow (ReadShow))
+import Rel8 (DBType, JSONBEncoded (JSONBEncoded), ReadShow (ReadShow), DBEq)
 
 {--
 data ReactionType = TwitterTweet | TwitterFollower
@@ -40,9 +41,8 @@ data TwitterFollowData = TwitterFollowData
 
 $(deriveJSON defaultOptions ''TwitterFollowData)
 
-data ReactionParams
-    = TwitterTweetP TwitterTweetData
-    | TwitterFollowP TwitterFollowData
-    deriving stock (Generic, Show)
-    deriving anyclass (ToJSON, FromJSON)
+newtype ReactionParams
+    = ReactionParams { toObject :: Object }
+    deriving stock (Generic)
+    deriving newtype (DBEq, Eq, Show, FromJSON, ToJSON)
     deriving (DBType) via JSONBEncoded ReactionParams
