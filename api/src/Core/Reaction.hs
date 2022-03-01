@@ -14,10 +14,18 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 import Rel8 (DBType, JSONBEncoded (JSONBEncoded), ReadShow (ReadShow))
 
+{--
 data ReactionType = TwitterTweet | TwitterFollower
     deriving stock (Generic, Read, Show)
     deriving (DBType) via ReadShow ReactionType
     deriving (FromJSON, ToJSON)
+--}
+
+newtype ReactionType = ReactionType { toText :: Text }
+    deriving stock (Generic, Read, Show)
+    deriving (DBType) via ReadShow PipelineType
+    deriving (FromJSON, ToJSON)
+
 data TwitterTweetData = TwitterTweetData
     { body :: Text
     }
