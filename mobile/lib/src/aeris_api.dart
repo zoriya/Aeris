@@ -10,7 +10,6 @@ import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 extension IsOk on http.Response {
   bool get ok => (statusCode ~/ 100) == 2;
@@ -30,26 +29,25 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  late final String baseRoute;
+  final String baseRoute = "localhost:8081"; ///TODO make it modifiable
 
   AerisAPI() {
-    baseRoute = dotenv.env['HOSTNAME']!;
     var trigger1 = Trigger(
-        service: Service.spotify(), name: "Play song", last: DateTime.now());
+        service: const Service.spotify(), name: "Play song", last: DateTime.now());
     var trigger3 = Trigger(
-        service: Service.discord(),
+        service: const Service.discord(),
         name: "Send a message",
         last: DateTime.now());
     var trigger2 = Trigger(
-        service: Service.spotify(),
+        service: const Service.spotify(),
         name: "Play song",
         last: DateTime.parse("2022-01-01"));
     var reaction = Reaction(
-        service: Service.twitter(), parameters: [], name: "Post a tweet");
+        service: const Service.twitter(), parameters: [], name: "Post a tweet");
     var reaction2 =
-        Reaction(service: Service.gmail(), parameters: [], name: "Do smth");
+        Reaction(service: const Service.anilist(), parameters: [], name: "Do smth");
     var reaction1 = Reaction(
-        service: Service.youtube(), parameters: [], name: "Do smth youtube");
+        service: const Service.youtube(), parameters: [], name: "Do smth youtube");
     var pipeline1 = Pipeline(
         id: 10,
         name: "My Action",
@@ -170,6 +168,11 @@ class AerisAPI {
         '/workflow/${pipeline.id}', AerisAPIRequestType.delete, null);
     return res.ok;
   }
+  
+  String getServiceAuthURL(Service service) {
+    final serviceName = service.name.toLowerCase();
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+  }
 
   /// Send PUT request to update Pipeline, returns false if failed
   Future<bool> editPipeline(Pipeline updatedPipeline) async {
@@ -194,7 +197,8 @@ class AerisAPI {
         await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
     return (jsonDecode(res.body) as List<String>)
-        .map((e) => Service.factory(e)).toList();
+        .map((e) => Service.factory(e))
+        .toList();
   }
 
   /// Disconnects the user from the service
