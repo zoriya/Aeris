@@ -1,4 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:aeris/src/views/authorization_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:form_builder_validators/localization/l10n.dart';
@@ -19,7 +20,8 @@ void main() async {
   await interface.restoreConnection();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PipelineProvider()),
-    ChangeNotifierProvider(create: (_) => ServiceProvider())
+    ChangeNotifierProvider(create: (_) => ServiceProvider()),
+    ChangeNotifierProvider(create: (_) => ActionCatalogueProvider())
   ], child: const Aeris()));
 }
 

@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:aeris/src/main.dart';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
@@ -8,8 +11,10 @@ import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 extension IsOk on http.Response {
   bool get ok => (statusCode ~/ 100) == 2;
@@ -21,7 +26,7 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = true; //TODO Will be false later
+  bool _connected = false; //TODO Will be false later
   bool get isConnected => _connected;
 
   late List<Pipeline> fakeAPI;
@@ -29,7 +34,7 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String baseRoute = "localhost:8081"; ///TODO make it modifiable
+  final String baseRoute = "http://10.0.2.2:8080"; ///TODO make it modifiable
 
   AerisAPI() {
     var trigger1 = Trigger(
@@ -153,6 +158,12 @@ class AerisAPI {
     _connected = false;
   }
 
+  ///Get /about.json
+  Future<Map<String, dynamic>> getAbout() async {
+    var res = await _requestAPI('/about.json', AerisAPIRequestType.get, null);
+    return jsonDecode(res.body);
+  }
+
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
     fakeAPI.add(newPipeline);
@@ -168,7 +179,7 @@ class AerisAPI {
         '/workflow/${pipeline.id}', AerisAPIRequestType.delete, null);
     return res.ok;
   }
-  
+
   String getServiceAuthURL(Service service) {
     final serviceName = service.name.toLowerCase();
     return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
@@ -197,8 +208,7 @@ class AerisAPI {
         await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
     return (jsonDecode(res.body) as List<String>)
-        .map((e) => Service.factory(e))
-        .toList();
+        .map((e) => Service.factory(e)).toList();
   }
 
   /// Disconnects the user from the service
@@ -219,19 +229,11 @@ class AerisAPI {
 
   Future<List<ActionTemplate>> getActionsFor(
       Service service, Action action) async {
-    await Future.delayed(const Duration(seconds: 3));
+    final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
-      ///TODO get triggers
-    } else if (action is Reaction) {
-      ///TODO get reactions
+      return catalogue!.triggerTemplates[service]!;
     }
-    return [
-      for (int i = 0; i <= 10; i++)
-        ActionTemplate(service: service, name: "action$i", parameters: [
-          for (int j = 0; j < 3; j++)
-            ActionParameter(name: "key$j", description: "description$j")
-        ])
-    ];
+    return catalogue!.reactionTemplates[service]!;
   }
 
   /// Encodes Uri for request
@@ -243,7 +245,7 @@ class AerisAPI {
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String>? header =
-        _connected ? {'authorization': 'Bearer $_jwt'} : null;
+        _connected ? {'Authorization': 'Bearer $_jwt'} : null;
     switch (requestType) {
       case AerisAPIRequestType.delete:
         return await http.delete(_encoreUri(route),

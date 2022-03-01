@@ -27,12 +27,14 @@ class PipelineProvider extends ChangeNotifier {
       _initialized = true;
       _pipelineCollection.pipelines = pipelines;
       sortPipelines();
+      notifyListeners();
     });
   }
 
   /// Adds a pipeline in the Provider
   addPipeline(Pipeline newPipeline) async {
     await GetIt.I<AerisAPI>().createPipeline(newPipeline);
+
     ///TODO Check newPipeline got the ID
     _pipelineCollection.pipelines.add(newPipeline);
     sortPipelines();

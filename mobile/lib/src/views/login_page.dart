@@ -49,6 +49,11 @@ class LoginPage extends StatelessWidget {
                 primaryColor: Theme.of(context).colorScheme.primary),
             onLogin: _authUser,
             onSignup: _signupUser,
+            userType: LoginUserType.name,
+            userValidator: (input) {
+              if (input == null || input.trim().length < 4) return "Must be at least 4 chars long";
+              return null;
+            },
             onSubmitAnimationCompleted: () {
               Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
             }));

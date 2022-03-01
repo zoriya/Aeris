@@ -14,10 +14,15 @@ abstract class Action {
 
   ///Action's parameters
   List<ActionParameter> parameters;
+
+  /// Description of the action (used in catalogue)
+  String? description;
+
   Action(
       {Key? key,
       required this.service,
       required this.name,
+      this.description,
       this.parameters = const []});
 
   static Tuple2<Service, String> parseServiceAndName(String rType) {

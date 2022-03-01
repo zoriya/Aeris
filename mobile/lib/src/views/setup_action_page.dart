@@ -44,13 +44,13 @@ class _SetupActionPageState extends State<SetupActionPage> {
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
+        setState(() {
+          serviceState = service;
+          availableActions = null;
+        });
         GetIt.I<AerisAPI>().getActionsFor(service!, widget.action).then((actions) => setState(() {
             availableActions = actions;
         }));
-        setState(() {
-          serviceState = service;
-          availableActions = [];
-        });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
         return DropdownMenuItem<Service>(
@@ -110,7 +110,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                 highlightColor: Theme.of(context).colorScheme.secondary
             )
           else 
-            ...[for (aeris.Action availableAction in availableActions!)
+            ...[for (ActionTemplate availableAction in availableActions!)
             Card(
               elevation: 5,
                 shape: cardShape,
@@ -125,7 +125,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   expanded: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ActionForm(
-                        description: "This is the action's very very very very long description", ///TODO Find actual description
+                        description: availableAction.description!,
                         name: availableAction.name,
                         parameters: availableAction.parameters.map((param) { 
                           if (widget.action.service.name == serviceState!.name && widget.action.name == availableAction.name) {

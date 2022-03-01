@@ -15,6 +15,7 @@ class ServicePage extends StatelessWidget {
 
   List<Widget> getServiceGroup(List<Service> services, String groupName, Icon trailingIcon,
       void Function(Service) onTap, BuildContext context) {
+    if (services.isEmpty) return [];
     return [
       Text(
         "$groupName:",
