@@ -31,8 +31,8 @@ class Trigger extends aeris_action.Action {
         service: service.item1,
         name: service.item2,
         last: last.year == 0 ? null : last,
-        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, Object>)['contents']
-            as Map<String, Object>));
+        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, Object>))
+    );
   }
 
   String lastToString() {

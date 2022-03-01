@@ -26,14 +26,13 @@ class Reaction extends aeris_action.Action {
     return Reaction(
         service: service.item1,
         name: service.item2,
-        parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, Object>)['contents']
-            as Map<String, Object>));
+        parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, Object>)));
   }
 
   /// Serialize Reaction to JSON
   Object toJSON() => {
     "rType": aeris_action.Action.getType(service, name),
-    "rParams": {"contents": parameters}
+    "rParams": parameters
   };
 
   @override
