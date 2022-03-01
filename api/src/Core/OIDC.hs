@@ -94,7 +94,7 @@ getDiscordTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            Just $ ExternalToken (pack access) (pack refresh) 0 Discord
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -126,7 +126,7 @@ getGoogleTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            Just $ ExternalToken (pack access) (pack refresh) 0 Google
 
 -- SPOTIFY
 getSpotifyConfig :: IO OAuth2Conf
@@ -140,17 +140,17 @@ getSpotifyTokens :: String -> IO (Maybe ExternalToken)
 getSpotifyTokens code = do
     cfg <- getSpotifyConfig
 
-    let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
+    let basicAuth = encodeBase64 $ B8.pack $ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
             setRequestMethod "POST" $
-            addRequestHeader "Authorization" (B8.pack . unpack $ basicAuth) $
+            addRequestHeader "Authorization" (B8.pack $ "Basic " ++ (unpack $ basicAuth)) $
             addRequestHeader "Accept" "application/json" $
             setRequestBodyURLEncoded
                 [ ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/google")
+                , ("redirect_uri", "http://localhost:3000/authorization/spotify")
                 ]
             request'
     response <- httpJSONEither request
@@ -159,7 +159,7 @@ getSpotifyTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            Just $ ExternalToken (pack access) (pack refresh) 0 Spotify
 
 -- TWITTER
 getTwitterConfig :: IO OAuth2Conf
@@ -192,7 +192,7 @@ getTwitterTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            Just $ ExternalToken (pack access) (pack refresh) 0 Twitter
 
 -- ANILIST
 getAnilistConfig :: IO OAuth2Conf
@@ -224,7 +224,7 @@ getAnilistTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            Just $ ExternalToken (pack access) (pack refresh) 0 Anilist
 
 
 
