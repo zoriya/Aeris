@@ -9,21 +9,23 @@ import {
 	FormGroup,
 	FormControlLabel,
 	Button,
+	Tooltip,
 	ButtonGroup,
+	IconButton,
+	TextField,
 } from "@mui/material";
-import GenericButton, { GenericButtonProps } from "../../components/GenericButton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
-import { getCookie, PipeLineHostToApi } from "../../utils/utils";
-import { API_ROUTE } from "../..";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
-import { Keyboard } from "@mui/icons-material";
 import { NoAREA } from "../../utils/globals";
+import { title } from "process";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -33,6 +35,7 @@ interface PipelineEditPipelineProps {
 	handleDeleteReaction: (reaction: AppAREAType, index: number) => any;
 	handleDelete: (pD: AppPipelineType) => any;
 	handleSave: (pD: AppPipelineType) => any;
+	handleEditPipelineTitle: (newTtitle: string) => any;
 	setEditMode: (mode: PipelineEditMode) => any;
 	setEditReactionIndex: any;
 	disableDeletion: boolean;
@@ -44,19 +47,21 @@ export default function PipelineEditPipeline({
 	handleEditPipelineMetaData,
 	handleEditAction,
 	handleDeleteReaction,
+	handleEditPipelineTitle,
 	handleDelete,
 	handleSave,
 	setEditMode,
 	disableDeletion,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
+	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
 	return (
 		<div>
 			<div
 				style={{
 					display: "grid",
 					gridTemplateColumns: "25vw 5vw 12vw 13vw",
-					gridTemplateRows: "2fr 1fr auto 3fr 1fr",
+					gridTemplateRows: "100px 1fr auto 3fr 1fr",
 					gridTemplateAreas: `
 							'pipelineTitle  pipelineTitle   pipelineTitle       enabledStatus'
 							'actionTitle    .               reactionTitle       reactionTitle'
@@ -67,14 +72,25 @@ export default function PipelineEditPipeline({
 					justifyItems: "center",
 					alignItems: "center",
 				}}>
-				<Typography
-					style={{ gridArea: "pipelineTitle", justifySelf: "left" }}
-					width="100%"
-					variant="h2"
-					noWrap
-					align="left">
-					{pipelineData.name}
-				</Typography>
+				<div style={{ width: "100%", gridArea: "pipelineTitle", justifySelf: "left", display: "flex" }}>
+					<IconButton color="secondary" aria-label="Edit title" onClick={() => setTitleEditMode(!titleEditMode)}>
+						{titleEditMode ? <CloseIcon /> : <EditIcon />}
+					</IconButton>
+					{titleEditMode ? (
+						<TextField
+							autoFocus
+							inputProps={{ style: { fontSize: "3.75rem" } }}
+							fullWidth
+							onChange={(e) => handleEditPipelineTitle(e.target.value)}
+							variant="standard"
+							defaultValue={pipelineData.name}
+						/>
+					) : (
+						<Typography width="calc(100% - 50px)" variant="h2" noWrap align="left">
+							{pipelineData.name}
+						</Typography>
+					)}
+				</div>
 
 				<FormGroup style={{ gridArea: "enabledStatus" }}>
 					<FormControlLabel
