@@ -49,7 +49,7 @@ const getUserName = async (): Promise<string> => {
 };
 
 const fetchWorkflows = async (): Promise<any> => {
-	const response = await fetch(API_ROUTE + 'workflows', {
+	const response = await fetch(API_ROUTE + '/workflows', {
 		method: 'GET',
 		headers: {
 			Accept: 'application/json',
