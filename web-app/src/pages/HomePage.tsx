@@ -77,6 +77,10 @@ export default function HomePage() {
 	}, []);
 
 	useEffect(() => {
+		refreshWorkflows();
+	}, [AREAs]);
+
+	const refreshWorkflows = () => {
 		fetchWorkflows()
 			.then((workflows) => {
 				let pipelineBoxes: Array<PipelineBoxProps> = [];
@@ -95,43 +99,12 @@ export default function HomePage() {
 							setPipelineDeletion(true);
 						},
 					} as PipelineBoxProps);
-					setWorkflowsDatas((oldArray) => [...oldArray, ...pipelineBoxes]);
-					console.log("newworkflow", newWorkflow);
 				}
-				console.log(workflows);
-				console.log("processed", pipelineBoxes);
+				setWorkflowsDatas((oldArray) => pipelineBoxes);
 			})
 			.catch((error) => {
 				console.warn(error);
 			});
-	}, [AREAs]);
-
-	/*const jsonToPipelineData = (data: any): PipelineBoxProps => {
-		let pipelineData = {
-			title: data["action"]["name"],
-			statusText: "Refresh API Test Workflow",
-			service1: services["spotify"],
-			service2: services["twitter"], //TODO => Fetch service name in reaction[...][rType] for reactions
-			onClickCallback: () => {
-				//setPipelineData();
-				setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-				setModalMode(ModalSelection.PipelineEdit);
-				setPipelineDeletion(true);
-			},
-		} as PipelineBoxProps;
-
-		return pipelineData;
-	};
-*/
-	const refreshWorkflows = () => {
-		/*	let workflowArray = fetchWorkflows().then((res) => {
-			if (res !== null) {
-				for (const workflow of res) {
-					let newWorkflow = jsonToPipelineData(workflow);
-					setWorkflowsDatas((oldArray) => [...oldArray, newWorkflow]);
-				}
-			}
-		});*/
 	};
 
 	useEffect(() => {

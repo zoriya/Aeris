@@ -30,7 +30,6 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 								return (
 									<Grid item key={idx}>
 										<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
-										<code>{el[1].value}</code>
 									</Grid>
 								);
 							})}
