@@ -89,7 +89,7 @@ export default function HomePage() {
 
 					pipelineBoxes.push({
 						title: newWorkflow.name,
-						statusText: "Refresh API Test Workflow",
+						statusText: newWorkflow.reactions.length + " reaction(s)",
 						service1: newWorkflow.action.service.logo,
 						service2: newWorkflow.reactions[0].service.logo,
 						onClickCallback: () => {
@@ -100,7 +100,7 @@ export default function HomePage() {
 						},
 					} as PipelineBoxProps);
 				}
-				setWorkflowsDatas((oldArray) => pipelineBoxes);
+				setWorkflowsDatas(pipelineBoxes);
 			})
 			.catch((error) => {
 				console.warn(error);
