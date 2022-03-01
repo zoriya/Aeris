@@ -27,5 +27,7 @@
   "password": "Password",
   "confirm_password": "Confirm password",
   "switch_language": "Language changed for English",
-  "get_mobile_app": "Get the app"
+  "get_mobile_app": "Get the app",
+  "switch_to_french": "French",
+  "switch_to_english": "English"
 }

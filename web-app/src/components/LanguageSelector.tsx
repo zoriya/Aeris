@@ -5,6 +5,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Button from "@material-ui/core/Button";
 import React, {useState} from "react";
 import '../i18n/config';
+import {Tooltip} from "@mui/material";
 
 export default function LanguageSelector() {
     const { t, i18n } = useTranslation();
@@ -35,18 +36,22 @@ export default function LanguageSelector() {
 
     return (
         <div>
-            <Button onClick={() => {
-                changeLanguage('fr');
-            }}>
-                <img loading="lazy" width="20"
-                 src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg"/>
-            </Button>
-            <Button onClick={() => {
-                changeLanguage('en');
-            }}>
-                <img loading="lazy" width="20"
-                     src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Flag_of_the_United_Kingdom.svg"/>
-            </Button>
+            <Tooltip title={t('switch_to_french') as string}>
+                <Button onClick={() => {
+                    changeLanguage('fr');
+                }}>
+                    <img loading="lazy" width="20"
+                     src="https://flagicons.lipis.dev/flags/4x3/fr.svg"/>
+                </Button>
+            </Tooltip>
+            <Tooltip title={t('switch_to_english') as string}>
+                <Button onClick={() => {
+                    changeLanguage('en');
+                }}>
+                    <img loading="lazy" width="20"
+                         src="https://flagicons.lipis.dev/flags/4x3/gb.svg"/>
+                </Button>
+            </Tooltip>
             <Snackbar
                 open={open}
                 autoHideDuration={1000}

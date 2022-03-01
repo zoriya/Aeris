@@ -27,5 +27,7 @@
   "password": "Mot de passe",
   "confirm_password": "Confirmation du mot de passe",
   "switch_language": "Langue changée pour Français",
-  "get_mobile_app": "Obtenir l'app mobile"
+  "get_mobile_app": "Obtenir l'app mobile",
+  "switch_to_french": "Français",
+  "switch_to_english": "Anglais"
 }
