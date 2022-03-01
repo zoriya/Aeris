@@ -112,7 +112,8 @@ export default function AuthComponent() {
 			setAuthData((prevState) => {
 				return { ...prevState, isError: false, helperText: "Login successful!" };
 			});
-			navigate("/pipelines");
+			window.location.href = "/pipelines";
+			//navigate("/pipelines");
 		} else {
 			setAuthData((prevState) => {
 				return { ...prevState, isError: true, helperText: "Incorrect username or password!" };
