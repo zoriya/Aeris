@@ -155,6 +155,12 @@ class AerisAPI {
     _connected = false;
   }
 
+  ///Get /about.json
+  Future<Map<String, dynamic>> getAbout() async {
+    var res = await _requestAPI('/about.json', AerisAPIRequestType.get, null);
+    return jsonDecode(res.body);
+  }
+
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
     fakeAPI.add(newPipeline);
@@ -223,7 +229,7 @@ class AerisAPI {
     }
     return [
       for (int i = 0; i <= 10; i++)
-        ActionTemplate(service: service, name: "action$i", parameters: [
+        ActionTemplate(service: service, name: "action$i", description: "descr$i", parameters: [
           for (int j = 0; j < 3; j++)
             ActionParameter(name: "key$j", description: "description$j")
         ])

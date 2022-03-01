@@ -9,6 +9,7 @@ class ActionTemplate extends Action {
       {Key? key,
       required Service service,
       required String name,
+      required String description,
       List<ActionParameter> parameters = const []})
-      : super(service: service, name: name, parameters: parameters);
+      : super(service: service, name: name, parameters: parameters, description: description);
 }
