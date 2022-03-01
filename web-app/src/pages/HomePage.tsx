@@ -147,7 +147,7 @@ export default function HomePage() {
 		let pipelineData = {
 			title: data['action']['name'],
 			statusText: 'Refresh API Test Workflow',
-			service1: AppServicesLogos[data['action']['pType'].replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLowerCase().split(' ')[0]],
+			service1: AppServicesLogos["spotify"],
 			service2: AppServicesLogos['twitter'], //TODO => Fetch service name in reaction[...][rType] for reactions
 			onClickCallback: () => {
 				setPipelineData({
