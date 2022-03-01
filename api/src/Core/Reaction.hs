@@ -1,3 +1,4 @@
+{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
@@ -15,10 +16,20 @@ import Data.Text (Text)
 import GHC.Generics (Generic)
 import Rel8 (DBType, JSONBEncoded (JSONBEncoded), ReadShow (ReadShow), DBEq)
 
+{--
 data ReactionType = TwitterTweet | TwitterFollower
     deriving stock (Generic, Read, Show)
     deriving (DBType) via ReadShow ReactionType
     deriving (FromJSON, ToJSON)
+--}
+
+-- newtype ReactionType = ReactionType { toText :: Text }
+--     deriving stock (Generic, Read, Show)
+--     deriving (DBType) via ReadShow PipelineType
+--     deriving (FromJSON, ToJSON)
+
+type ReactionType = Text
+
 data TwitterTweetData = TwitterTweetData
     { body :: Text
     }
