@@ -9,14 +9,17 @@ module Api.About where
 
 import App (AppM)
 import Control.Monad.IO.Class (liftIO)
-import Data.Aeson (defaultOptions, eitherDecode)
+import Data.Aeson (defaultOptions, eitherDecode, Object)
 import qualified Data.Aeson.Parser
 import Data.Aeson.TH (deriveJSON)
-import qualified Data.ByteString.Lazy as B
 import Data.Time.Clock.POSIX (POSIXTime, getPOSIXTime)
 import GHC.Generics (Generic)
 import Network.Socket (SockAddr)
-import Servant (Handler, RemoteHost)
+import Servant (Handler, RemoteHost, throwError, err500)
+import qualified Data.ByteString as S
+import qualified Data.ByteString.Lazy as L
+
+import Data.FileEmbed (embedDir, makeRelativeToProject)
 
 data ClientAbout = ClientAbout
     { host :: String
@@ -26,6 +29,8 @@ data ClientAbout = ClientAbout
 data ActionAbout = ActionAbout
     { name :: String
     , description :: String
+    , params :: [Object]
+    , returns :: [Object]
     }
     deriving (Eq, Show)
 
@@ -54,11 +59,13 @@ $(deriveJSON defaultOptions ''ServicesAbout)
 $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
+servicesDir :: [(FilePath, S.ByteString)]
+servicesDir = $(embedDir "./services/")
+
 about :: SockAddr -> AppM About
 about host = do
     now <- liftIO getPOSIXTime
-    s <- liftIO (readFile "services.json")
-    d <- liftIO ((eitherDecode <$> B.readFile "services.json") :: IO (Either String [ServicesAbout]))
+    let d = traverse (eitherDecode . L.fromStrict . snd) servicesDir :: Either String [ServicesAbout]
     case d of
-        Left err -> return $ About (ClientAbout $ show host) (ServerAbout now [])
+        Left err -> throwError err500
         Right services -> return $ About (ClientAbout $ show host) (ServerAbout now services)
