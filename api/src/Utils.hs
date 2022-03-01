@@ -15,7 +15,7 @@ import Data.Text (Text, unpack)
 import Data.HashMap.Strict (HashMap, lookup, empty)
 import Data.Functor.Identity (Identity)
 import Db.Pipeline (Pipeline (Pipeline), PipelineId (PipelineId), pipelineLastTrigger, pipelineTriggerCount, pipelineError, pipelineEnabled, pipelineUserId, pipelineParams, pipelineType, pipelineName, pipelineId)
-import Core.Pipeline (PipelineType(TwitterNewPost), PipelineParams (PipelineParams))
+import Core.Pipeline (PipelineParams (PipelineParams))
 import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 import Data.Default (Default, def)
 import Data.Aeson (Value(Number, Object), decode)
@@ -37,7 +37,7 @@ instance Default PipelineParams where
 instance Default (Pipeline Identity) where
     def = Pipeline { pipelineId = PipelineId 1
     , pipelineName = ""
-    , pipelineType = TwitterNewPost
+    , pipelineType = ""
     , pipelineParams = def
     , pipelineUserId = UserId 1
     , pipelineEnabled = True
