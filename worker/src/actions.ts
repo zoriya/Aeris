@@ -1,4 +1,4 @@
-import { catchError, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
+import { catchError, filter, groupBy, lastValueFrom, map, mergeMap, NEVER, Observable, switchAll, tap } from "rxjs";
 import { BaseService } from "./models/base-service";
 import { Pipeline, PipelineEnv, PipelineType } from "./models/pipeline";
 import { Runner } from "./runner";
@@ -14,6 +14,7 @@ export class Manager {
 	async run(): Promise<void> {
 		await lastValueFrom(this._pipelines
 			.pipe(
+				filter(x => x.enabled),
 				groupBy((x: Pipeline) => x.id),
 				switchAll(),
 				mergeMap((x: Pipeline) =>
