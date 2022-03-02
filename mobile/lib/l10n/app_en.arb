@@ -37,5 +37,10 @@
     "logoutWarningMessage": "You are about to logout, are you sure?",
     "warning": "Warning",
     "cancel": "Cancel",
-    "errorOnSignup": "An error occured while signing you up, please try again"
+    "errorOnSignup": "An error occured while signing you up, please try again",
+    "loading": "Loading...",
+    "invalidUrl": "Invalid URL",
+    "tryToConnect": "Try to connect",
+    "routeToApi": "Route to API",
+    "setupAPIRoute": "Setup API Route"
 }

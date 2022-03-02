@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// Floating Action button to access the setup API route modal
 class SetupAPIRouteButton extends StatefulWidget {
@@ -59,7 +60,7 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text("Setup API Route"),
+        title: Text(AppLocalizations.of(context).setupAPIRoute),
 
         ///TODO translate
         content: FormBuilder(
@@ -69,17 +70,13 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
               name: "route",
               validator: FormBuilderValidators.required(context),
               decoration: InputDecoration(
-                  labelText: "Route to API",
-
-                  ///TODO transalte
+                  labelText: AppLocalizations.of(context).routeToApi,
                   helperText: "Ex: http://host:port")),
         ),
         actionsAlignment: MainAxisAlignment.spaceEvenly,
         actions: [
           ElevatedButton(
-            child: Text("Try to connect"),
-
-            ///TODO translate
+            child: Text(AppLocalizations.of(context).tryToConnect),
             onPressed: () {
               _formKey.currentState!.save();
               if (_formKey.currentState!.validate()) {
@@ -103,10 +100,10 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
           ),
           ElevatedButton(
             child: Text(connected == null
-                ? "Loading..."
+                ? AppLocalizations.of(context).loading
                 : connected == true
-                    ? "Save"
-                    : "Invalid URL"),
+                    ? AppLocalizations.of(context).save
+                    : AppLocalizations.of(context).invalidUrl),
 
             ///TODO translate
             onPressed: connected == true
