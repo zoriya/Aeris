@@ -20,7 +20,6 @@ services:
       dockerfile: Dockerfile
       args:
         - API_ROUTE=/api
-        - FRONT_URL=http://localhost:8081
         - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
         - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
         - TWITTER_API_KEY=${TWITTER_API_KEY}
