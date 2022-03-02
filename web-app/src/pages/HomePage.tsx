@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { Grid } from "@mui/material"
+import { Grid } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
@@ -132,30 +132,21 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
-			<Grid container spacing={2}>
-			{pipelinesData.map((el) => (
-				<Grid item>
-				<PipelineSquare pipelineData={el} />
-				</Grid>
-			))}
-			</Grid>
-			<PipelineBoxesLayout
-				data={pipelinesData.map(
-					(pipelineData) =>
-						({
-							title: pipelineData.name,
-							statusText: pipelineData.reactions.length + " reaction(s)",
-							service1: pipelineData.action.service.logo,
-							service2: pipelineData.reactions[0].service.logo,
-							onClickCallback: () => {
-								setPipelineData(pipelineData);
+			<Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start">
+				{pipelinesData.map((el) => (
+					<Grid item>
+						<PipelineSquare
+							pipelineData={el}
+							onClick={() => {
+								setPipelineData(el);
 								setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
 								setModalMode(ModalSelection.PipelineEdit);
 								setPipelineDeletion(true);
-							},
-						} as PipelineBoxProps)
-				)}
-			/>
+							}}
+						/>
+					</Grid>
+				))}
+			</Grid>
 
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.PipelineEdit}

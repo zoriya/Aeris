@@ -152,10 +152,10 @@ export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
-			error: false,
+			error: data.action.error !== null,
 			lastTrigger: new Date(),
 			triggerCount: 69,
-			errorText: "",
+			errorText: data.action.error !== null ? data.action.error : "",
 			status: "reaction(s): " + reactionList.length,
 		},
 	} as AppPipelineType;

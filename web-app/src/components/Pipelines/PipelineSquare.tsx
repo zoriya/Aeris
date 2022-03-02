@@ -71,7 +71,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					</div>
 					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
 						<Typography align="left" variant="body1">
-							{pipelineData.data.status}
+							{pipelineData.data.error ? "Error: " + pipelineData.data.errorText : pipelineData.data.status}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
