@@ -1,6 +1,7 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/main.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
+import 'package:aeris/src/widgets/setup_api_route.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,6 +38,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AerisPage(
+        floatingActionButton: const SetupAPIRouteButton(),
         displayAppbar: false,
         body: FlutterLogin(
             disableCustomPageTransformer: true,

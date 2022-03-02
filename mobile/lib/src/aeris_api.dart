@@ -34,7 +34,9 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String baseRoute = "http://10.0.2.2:8080"; ///TODO make it modifiable
+  String _baseRoute = "http://10.0.2.2:8080"; ///TODO make it modifiable
+  String get baseRoute => _baseRoute;
+  set baseRoute(value) => _baseRoute = value;
 
   AerisAPI() {
     var trigger1 = Trigger(
@@ -182,7 +184,7 @@ class AerisAPI {
 
   String getServiceAuthURL(Service service) {
     final serviceName = service.name.toLowerCase();
-    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+    return "$_baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
@@ -238,7 +240,7 @@ class AerisAPI {
 
   /// Encodes Uri for request
   Uri _encoreUri(String route) {
-    return Uri.parse('$baseRoute$route');
+    return Uri.parse('$_baseRoute$route');
   }
 
   /// Calls API using a HTTP request type, a route and body
@@ -251,7 +253,10 @@ class AerisAPI {
         return await http.delete(_encoreUri(route),
             body: body, headers: header);
       case AerisAPIRequestType.get:
-        return await http.get(_encoreUri(route), headers: header);
+        return await http.get(_encoreUri(route), headers: header).timeout(const Duration(seconds: 2),
+          onTimeout: () {
+            return http.Response('Error', 408); // Request Timeout response status code
+          },);
       case AerisAPIRequestType.post:
         return await http.post(_encoreUri(route), body: body, headers: header);
       case AerisAPIRequestType.put:

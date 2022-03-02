@@ -1,4 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/widgets/setup_api_route.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -20,6 +21,7 @@ class _StartupPageState extends State<StartupPage> {
     bool isConnected = GetIt.I<AerisAPI>().isConnected;
     return AerisPage(
       displayAppbar: false,
+      floatingActionButton: const SetupAPIRouteButton(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
