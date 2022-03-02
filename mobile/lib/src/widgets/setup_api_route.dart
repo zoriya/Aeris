@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Floating Action button to access the setup API route modal
 class SetupAPIRouteButton extends StatefulWidget {
   ///Can the app access the api with the current baseRoute?
   bool connected;
   void Function() onSetup;
-  SetupAPIRouteButton({Key? key, required this.connected, required this.onSetup}) : super(key: key);
+  SetupAPIRouteButton(
+      {Key? key, required this.connected, required this.onSetup})
+      : super(key: key);
 
   @override
   State<SetupAPIRouteButton> createState() => _SetupAPIRouteButtonState();
@@ -106,8 +109,13 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
                     : "Invalid URL"),
 
             ///TODO translate
-            onPressed:
-                connected == true ? () => Navigator.of(context).pop() : null,
+            onPressed: connected == true
+                ? () {
+                    GetIt.I<SharedPreferences>()
+                      .setString('api', GetIt.I<AerisAPI>().baseRoute);
+                    Navigator.of(context).pop();
+                  }
+                : null,
           )
         ]);
   }
