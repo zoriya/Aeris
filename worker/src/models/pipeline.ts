@@ -100,6 +100,8 @@ export enum ReactionType {
 	Pause,
 	// Anilist
 	ToggleFavourite,
+	UpdateAbout,
+	// Twitter
 	followUser,
 	postTweet,
 	replyToTweet,
