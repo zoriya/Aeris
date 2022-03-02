@@ -83,11 +83,7 @@ export default function HomePage() {
 	const refreshWorkflows = () => {
 		fetchWorkflows()
 			.then((workflows) => {
-				let pipelines: Array<AppPipelineType> = [];
-				for (const workflow of workflows) {
-					pipelines.push(deSerialisePipeline(workflow, AREAs));
-				}
-				setPipelinesData(pipelines);
+				setPipelinesData(workflows.map((workflow: any) => deSerialisePipeline(workflow, AREAs)));
 			})
 			.catch((error) => {
 				console.warn(error);
