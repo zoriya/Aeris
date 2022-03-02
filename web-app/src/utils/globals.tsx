@@ -40,7 +40,8 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
-const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`
+const getServiceUrl = (service: string) =>
+	`${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`;
 
 export const AppServices: Array<AppServiceType> = [
 	{
@@ -111,6 +112,9 @@ export const NewEmptyPipeline: AppPipelineType = {
 	data: {
 		enabled: true,
 		status: "",
+		errorText: "",
 		error: false,
+		triggerCount: 0,
+		lastTrigger: new Date(),
 	},
 };
