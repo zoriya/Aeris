@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
       args:
         - API_ROUTE=/api
+        - FRONT_URL=http://localhost:8081
         - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
         - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID}
         - TWITTER_API_KEY=${TWITTER_API_KEY}
@@ -55,6 +56,8 @@ services:
       - GOOGLE_SECRET=${GOOGLE_SECRET}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
+      - ANILIST_CLIENT_ID=${ANILIST_CLIENT_ID}
+      - ANILIST_SECRET=${ANILIST_SECRET}
   worker:
     build: ./worker
     ports:
