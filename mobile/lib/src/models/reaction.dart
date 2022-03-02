@@ -32,7 +32,7 @@ class Reaction extends aeris_action.Action {
   /// Serialize Reaction to JSON
   Object toJSON() => {
     "rType": aeris_action.Action.getType(service, name),
-    "rParams": parameters
+    "rParams": { for (var e in parameters) e.name : e.value }
   };
 
   @override
