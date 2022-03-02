@@ -6,44 +6,27 @@ import 'package:get_it/get_it.dart';
 
 /// Floating Action button to access the setup API route modal
 class SetupAPIRouteButton extends StatefulWidget {
-  const SetupAPIRouteButton({Key? key}) : super(key: key);
+  ///Can the app access the api with the current baseRoute?
+  bool connected;
+  void Function() onSetup;
+  SetupAPIRouteButton({Key? key, required this.connected, required this.onSetup}) : super(key: key);
 
   @override
   State<SetupAPIRouteButton> createState() => _SetupAPIRouteButtonState();
 }
 
 class _SetupAPIRouteButtonState extends State<SetupAPIRouteButton> {
-  bool? connected;
-
-  @override
-  void initState() {
-    super.initState();
-    GetIt.I<AerisAPI>().getAbout().then((value) {
-      setState(() {
-        connected = value.isNotEmpty;
-      });
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () => showDialog(
-          context: context, 
-          builder: (_) => const SetupAPIRouteModal()
-      ).then((_) => setState(() {
-        GetIt.I<AerisAPI>().getAbout().then((value) {
-          setState(() {
-            connected = value.isNotEmpty;
-          });
-        });
-      })),
+              context: context, builder: (_) => const SetupAPIRouteModal())
+          .then((_) => widget.onSetup()),
       backgroundColor: Theme.of(context).colorScheme.secondary,
       elevation: 10,
-      child: Icon(
-        connected == true
+      child: Icon(widget.connected == true
           ? Icons.wifi
-          : Icons.signal_cellular_connected_no_internet_0_bar_sharp
-      ),
+          : Icons.signal_cellular_connected_no_internet_0_bar_sharp),
     );
   }
 }
@@ -73,22 +56,27 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        title: Text("Setup API Route"),///TODO translate
+        title: Text("Setup API Route"),
+
+        ///TODO translate
         content: FormBuilder(
           key: _formKey,
           child: FormBuilderTextField(
-            initialValue: GetIt.I<AerisAPI>().baseRoute,
-            name: "route",
-            validator: FormBuilderValidators.required(context),
-            decoration: InputDecoration(
-              labelText: "Route to API", ///TODO transalte
-              helperText: "Ex: http://host:port"
-            )),
+              initialValue: GetIt.I<AerisAPI>().baseRoute,
+              name: "route",
+              validator: FormBuilderValidators.required(context),
+              decoration: InputDecoration(
+                  labelText: "Route to API",
+
+                  ///TODO transalte
+                  helperText: "Ex: http://host:port")),
         ),
         actionsAlignment: MainAxisAlignment.spaceEvenly,
         actions: [
           ElevatedButton(
-            child: Text("Try to connect"),///TODO translate
+            child: Text("Try to connect"),
+
+            ///TODO translate
             onPressed: () {
               _formKey.currentState!.save();
               if (_formKey.currentState!.validate()) {
@@ -111,13 +99,13 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
             },
           ),
           ElevatedButton(
-            child: Text(
-              connected == null
-              ? "Loading..."
-              : connected == true
-                ? "Save"
-                : "Invalid URL"
-            ), ///TODO translate
+            child: Text(connected == null
+                ? "Loading..."
+                : connected == true
+                    ? "Save"
+                    : "Invalid URL"),
+
+            ///TODO translate
             onPressed:
                 connected == true ? () => Navigator.of(context).pop() : null,
           )
