@@ -148,7 +148,7 @@ export default function PipelineEditPipeline({
 									variant={"contained"}
 									color={"secondary"}
 									onClick={() => setEditMode(PipelineEditMode.Action)}>
-									Ajouter une action
+									{t('addAction')}
 								</Button>
 							</Grid>
 						) : (
@@ -188,7 +188,7 @@ export default function PipelineEditPipeline({
 										setEditMode(PipelineEditMode.Reactions);
 										setEditReactionIndex(pipelineData.reactions.length);
 									}}>
-									Ajouter une réaction
+									{t('addReaction')}
 								</Button>
 							</Grid>
 						)}
@@ -239,7 +239,7 @@ export default function PipelineEditPipeline({
 						}}
 						startIcon={<AddBoxIcon />}
 						variant="contained">
-						{t('addAction')}
+						{t('addReaction')}
 					</LoadingButton>
 				)}
 
