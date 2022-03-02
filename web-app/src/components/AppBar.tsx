@@ -9,7 +9,7 @@ import AppBar from "@mui/material/AppBar";
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import DownloadIcon from '@mui/icons-material/Download';
+import DownloadIcon from "@mui/icons-material/Download";
 
 import { useNavigate } from "react-router-dom";
 import { Tooltip } from "@mui/material";
@@ -38,11 +38,18 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 					<Typography noWrap sx={{ margin: 1 }} variant="h5" align="right">
 						Aeris
 					</Typography>
-					<LanguageSelector />
 					<Box sx={{ flexGrow: 1 }} />
-					<Button variant="contained" startIcon={<DownloadIcon />} color="secondary" size="small" href="/client.apk" download>
+					<Button
+						sx={{ marginRight: "10px" }}
+						variant="contained"
+						startIcon={<DownloadIcon />}
+						color="secondary"
+						size="small"
+						href="/client.apk"
+						download>
 						{t("get_mobile_app")}
 					</Button>
+					<LanguageSelector />
 					<Tooltip title={t("refresh") as string}>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickRefresh}>
 							<RefreshIcon />
