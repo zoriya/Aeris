@@ -17,10 +17,19 @@ import GHC.Generics (Generic)
 import Rel8 (DBType, JSONBEncoded (JSONBEncoded), ReadShow (ReadShow), DBEq)
 import Servant (FromHttpApiData)
 
+{--
 data PipelineType = TwitterNewPost | TwitterNewFollower
     deriving stock (Generic, Read, Show)
     deriving (DBType) via ReadShow PipelineType
     deriving (FromJSON, ToJSON)
+--}
+
+-- newtype PipelineType = PipelineType { toText :: Text }
+--     deriving stock (Generic, Read, Show)
+--     deriving (DBType) via ReadShow PipelineType
+--     deriving (FromJSON, ToJSON)
+
+type PipelineType = Text
 
 data TwitterNewPostData = TwitterNewPostData
     { author :: Text
