@@ -1,9 +1,6 @@
-import { useState } from "react";
 import { AppAREAType, AppPipelineType } from "../../utils/types";
 import {
-	Box,
 	Switch,
-	FormControl,
 	Grid,
 	Typography,
 	FormGroup,
@@ -21,11 +18,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
+
+import {useTranslation} from "react-i18next";
+import '../../i18n/config';
 import { NoAREA } from "../../utils/globals";
 import { title } from "process";
+import { useState } from "react";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -54,6 +54,7 @@ export default function PipelineEditPipeline({
 	disableDeletion,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
+	const { t } = useTranslation();
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
 	return (
@@ -108,16 +109,16 @@ export default function PipelineEditPipeline({
 								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
 							/>
 						}
-						label="Activée"
+						label={t('activated') as string}
 					/>
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					Action
+					{t('actionCaps')}
 				</Typography>
 
 				<Typography style={{ gridArea: "reactionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					Réactions
+					{t('reactionCaps')}
 				</Typography>
 
 				<Grid
@@ -212,7 +213,7 @@ export default function PipelineEditPipeline({
 						}}
 						startIcon={<AddBoxIcon />}
 						variant="contained">
-						Ajouter une réaction
+						{t('addAction')}
 					</LoadingButton>
 				)}
 
@@ -225,7 +226,7 @@ export default function PipelineEditPipeline({
 					onClick={() => handleDelete(pipelineData)}
 					disabled={disableDeletion}
 					loading={false}>
-					Supprimer la pipeline
+					{t('deletePipeline')}
 				</LoadingButton>
 
 				<ButtonGroup sx={{ gridArea: "buttonCancelSave", justifySelf: "right" }}>
@@ -235,7 +236,7 @@ export default function PipelineEditPipeline({
 						disabled={pipelineData.action.type === NoAREA.type || pipelineData.reactions.length === 0}
 						onClick={async () => handleSave(pipelineData)}
 						variant="contained">
-						Sauvegarder
+						{t('save')}
 					</Button>
 				</ButtonGroup>
 			</div>

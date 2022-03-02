@@ -4,13 +4,16 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import { AppServiceType, AppAREAType, AppPipelineType } from "../../utils/types";
-import PipelineEditParams from "./PipelineEditParams";
-import { useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import PipelineEditParams from "./PipelineEditParams";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { AREACard } from "../../components/AREACard";
+import { useState } from "react";
+
+import { useTranslation } from 'react-i18next';
+import '../../i18n/config';
 
 export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
@@ -31,6 +34,7 @@ export default function PipelineEditAREA({
 	setEditMode,
 	setAREA,
 }: PipelineEditAREAProps) {
+	const { t } = useTranslation();
 	const [serviceToShow, setServiceToShow] = useState<string>(selectedAREA?.service.uid ?? services[0].uid);
 
 	let filteredElements = AREAs.filter((el) => el.service.uid === serviceToShow);
@@ -52,7 +56,7 @@ export default function PipelineEditAREA({
 					placeItems: "center",
 				}}>
 				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
-					Setup {isActions ? "Action" : "Réaction"} :
+					{t('setup')} {isActions ? t('action') : t('reaction')} :
 				</Typography>
 
 				<Box sx={{ gridArea: "select" }}>
@@ -73,7 +77,7 @@ export default function PipelineEditAREA({
 						))}
 					</Select>
 					<FormHelperText>
-						{filteredElements.length} {isActions ? "actions" : "réactions"} disponibles
+						{filteredElements.length} {isActions ? t("action") : t("reactions")} {t('availables')}
 					</FormHelperText>
 				</Box>
 
@@ -115,7 +119,7 @@ export default function PipelineEditAREA({
 						sx={{
 							gridArea: "AREAParams",
 						}}>
-						Sélectionnez une {isActions ? "Action" : "Réaction"}
+						{isActions ? t('selectAction') : t('selectReaction')}
 					</Typography>
 				) : (
 					<div
@@ -142,7 +146,7 @@ export default function PipelineEditAREA({
 					startIcon={<ArrowBackIcon />}
 					onClick={() => setEditMode(PipelineEditMode.Pipeline)}
 					variant="contained">
-					Retour
+					{t('cancel')}
 				</Button>
 			</div>
 		</div>

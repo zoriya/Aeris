@@ -1,6 +1,6 @@
 import { AppPipelineType } from "./types";
 import { getCookie, PipeLineHostToApi } from "./utils";
-import { API_ROUTE } from "..";
+import { API_ROUTE } from "./globals";
 
 export const requestCreatePipeline = async (pipelineData: AppPipelineType, creation: boolean): Promise<boolean> => {
 	const jwt = getCookie("aeris_jwt");

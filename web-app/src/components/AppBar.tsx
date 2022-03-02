@@ -6,11 +6,16 @@ import Logout from "@mui/icons-material/Logout";
 import Divider from "@mui/material/Divider";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
-import React from "react";
-import {Tooltip} from "@mui/material";
+import React, {useState} from "react";
+import Box from "@mui/material/Box";
+
 import {useNavigate} from "react-router-dom";
+import {Tooltip} from "@mui/material";
+
+import LanguageSelector from "./LanguageSelector";
+import { useTranslation } from "react-i18next";
+import '../i18n/config';
 
 interface AppBarProps {
 	username: string;
@@ -21,15 +26,17 @@ interface AppBarProps {
 export type { AppBarProps };
 
 export default function AerisAppbar({ username, onClickOnServices, onClickRefresh }: AppBarProps) {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 
 	return (
 		<React.Fragment>
 			<AppBar position="fixed">
 				<Toolbar variant="dense">
+					<LanguageSelector />
 					<Box sx={{ flexGrow: 1 }} />
-					<Button variant="contained" color="secondary" size="small" href="/client.apk" download >Obtenir l'app</Button>
-					<Tooltip title='Refresh'>
+					<Button variant="contained" color="secondary" size="small" href="/client.apk" download>  {t("get_mobile_app")} </Button>
+					<Tooltip title={t('refresh') as string}>
 						<IconButton sx={{ color: "#ffffff" }} onClick={onClickRefresh}>
 							<RefreshIcon />
 						</IconButton>
@@ -39,7 +46,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 							<ElectricalServicesIcon />
 						</IconButton>
 					</Tooltip>
-					<Tooltip title='Logout'>
+					<Tooltip title={t('logout') as string}>
 						<IconButton sx={{ color: "#ffffff" }} onClick={() => {
 							document.cookie = "aeris_jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 							navigate('/auth');
