@@ -1,5 +1,6 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get_it/get_it.dart';
 
 /// Floating Action button to access the setup API route modal
@@ -28,7 +29,13 @@ class _SetupAPIRouteButtonState extends State<SetupAPIRouteButton> {
       onPressed: () => showDialog(
           context: context, 
           builder: (_) => const SetupAPIRouteModal()
-      ),
+      ).then((_) => setState(() {
+        GetIt.I<AerisAPI>().getAbout().then((value) {
+          setState(() {
+            connected = value.isNotEmpty;
+          });
+        });
+      })),
       backgroundColor: Theme.of(context).colorScheme.secondary,
       elevation: 10,
       child: Icon(
@@ -50,6 +57,7 @@ class SetupAPIRouteModal extends StatefulWidget {
 
 class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
   bool? connected;
+  final _formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
@@ -65,7 +73,32 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text("Setup API Route"),///TODO translate
-        content: Text("CONTENT"),///TODO form
+        content: FormBuilder(
+          key: _formKey,
+          child: FormBuilderTextField(
+            initialValue: GetIt.I<AerisAPI>().baseRoute ,
+            name: "route",
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (host) {
+              if (host == GetIt.I<AerisAPI>().baseRoute && connected == true) {
+                return;
+              }
+              if (Uri.tryParse(host ?? "") == null) {
+                setState(() => connected = false);
+              } else {
+                GetIt.I<AerisAPI>().baseRoute = host;
+                GetIt.I<AerisAPI>().getAbout().then((value) {
+                  setState(() {
+                    connected = value.isNotEmpty;
+                  });
+                });
+              }
+            },
+            decoration: InputDecoration(
+              labelText: "Route to API", ///TODO transalte
+              helperText: "Ex: http://host:port"
+            )),
+        ),
         actions: [
           ElevatedButton(
             child: Text(connected == true ? "Save" : "Can't save"),

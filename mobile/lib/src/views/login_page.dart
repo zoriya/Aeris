@@ -38,7 +38,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AerisPage(
-        floatingActionButton: const SetupAPIRouteButton(),
         displayAppbar: false,
         body: FlutterLogin(
             disableCustomPageTransformer: true,
