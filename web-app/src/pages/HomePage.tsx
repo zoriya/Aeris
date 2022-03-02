@@ -17,6 +17,7 @@ import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import MenuItem from "@mui/material/MenuItem";
+import { Navigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -49,6 +50,10 @@ const getUserName = async (): Promise<string> => {
 };
 
 export default function HomePage() {
+	if (!getCookie("aeris_jwt"))
+		return <Navigate to="/auth" replace />;
+
+
 	const classes = useStyles();
 	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
