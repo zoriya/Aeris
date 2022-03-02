@@ -85,6 +85,8 @@ data GetPipelineResponse = GetPipelineResponse
     , reactions :: [ReactionData]
     }
 
+type PostPipelineResponse = GetPipelineResponse
+
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''GetPipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
@@ -95,7 +97,7 @@ data PipelineAPI mode = PipelineAPI
     { get   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Get '[JSON] GetPipelineResponse
     , post  :: mode :- "workflow" :> UserAuth :>
-        ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
+        ReqBody '[JSON] PostPipelineData :> Post '[JSON] PostPipelineResponse
     , put   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineData
     , del   :: mode :- "workflow" :> UserAuth :>
@@ -155,7 +157,7 @@ getPipelineHandler _ _ = throwError err401
 reactionDatasToReactions :: [ReactionData] -> PipelineId -> [Reaction Identity]
 reactionDatasToReactions datas pId = fmap (\(s, i) -> Reaction (ReactionId 1) (rType s) (rParams s) pId (fromIntegral i)) (zip datas [0 ..])
 
-postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
+postPipelineHandler :: AuthRes -> PostPipelineData -> AppM PostPipelineResponse
 postPipelineHandler (Authenticated (User uid _ _)) x = do
     let newPipeline = def {
           pipelineName = name (p :: PipelineData)
@@ -165,7 +167,9 @@ postPipelineHandler (Authenticated (User uid _ _)) x = do
         , pipelineEnabled = enabled (p :: PipelineData)}
     actionId <- createPipeline newPipeline
     liftIO $ informWorker "POST" actionId
-    createReactions $ reactionDatasToReactions (reactions (x :: PostPipelineData)) actionId
+    let newReactions = reactionDatasToReactions (reactions (x :: PostPipelineData)) actionId
+    createReactions newReactions
+    return $ formatGetPipelineResponse newPipeline newReactions
   where
     p = action (x :: PostPipelineData)
 postPipelineHandler _ _ = throwError err401
