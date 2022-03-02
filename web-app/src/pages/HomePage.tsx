@@ -6,7 +6,6 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { API_ROUTE } from "../utils/globals";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
@@ -14,7 +13,7 @@ import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows } f
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline } from "../utils/globals";
+import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import MenuItem from "@mui/material/MenuItem";
 import { Navigate } from "react-router-dom";
@@ -55,8 +54,8 @@ export default function HomePage() {
 
 
 	const classes = useStyles();
-	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [username, setUsername] = useState<string>("");
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(NewEmptyPipeline);
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(

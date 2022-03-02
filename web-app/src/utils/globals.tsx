@@ -40,16 +40,6 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
-const generateRandomString = (): string => {
-	let randomString = "";
-	const randomNumber = Math.floor(Math.random() * 10);
-
-	for (let i = 0; i < 20 + randomNumber; i++) {
-		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94));
-	}
-	return randomString;
-};
-
 const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`
 
 export const AppServices: Array<AppServiceType> = [

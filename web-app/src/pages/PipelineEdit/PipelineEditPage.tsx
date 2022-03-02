@@ -1,16 +1,5 @@
-import { Box, Typography, FormGroup, FormControlLabel, Switch, Grid } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import PipelineActionList from "../../components/PipelineActionList";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import DeleteIcon from "@mui/icons-material/Delete";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { styled } from "@mui/material/styles";
-import GenericButton from "../../components/GenericButton";
-import { useState } from "react";
-
 import { AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types";
-
-import { GenericButtonProps } from "../../components/GenericButton";
+import { useState } from "react";
 
 import PipelineEditPipeline from "./PipelineEditPipeline";
 import PipelineEditAREA from "./PipelineEditAREA";

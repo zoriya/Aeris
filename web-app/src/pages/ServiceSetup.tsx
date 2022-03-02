@@ -3,16 +3,18 @@ import { Login, Logout } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 
 import GenericButton from "../components/GenericButton";
-import { ImageProps } from "../components/types";
-import { Grid } from "@mui/material";
-import { AppServices } from "../utils/globals";
 import { AppServiceType } from "../utils/types";
+import { Grid } from "@mui/material";
+
+import { useTranslation } from "react-i18next";
+import '../i18n/config';
 
 export interface ServiceSetupProps {
 	services: Array<AppServiceType>;
 }
 
 export default function ServiceSetupModal({ services }: ServiceSetupProps) {
+	const { t } = useTranslation();
 	const unlinkedServices = services;
 	const linkedServices: AppServiceType[] = [];
 	return (
@@ -33,7 +35,7 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 				<Grid item xs container direction="column" spacing={2}>
 					<Grid item>
 						<Typography variant="h6" noWrap align="left">
-							Linked
+							{t('linked')}
 						</Typography>
 						<Box
 							sx={{
@@ -54,7 +56,7 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 					<Grid item xs container direction="column" spacing={2}>
 						<Grid item xs>
 							<Typography variant="h6" noWrap align="right">
-								Available
+								{t('available')}
 							</Typography>
 							<Box
 								sx={{
