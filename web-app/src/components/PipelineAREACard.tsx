@@ -1,14 +1,11 @@
 import {
-	CardMedia,
 	Card,
 	CardHeader,
-	CardActionArea,
 	CardContent,
 	Avatar,
 	CardActions,
 	IconButton,
 	Chip,
-	TextField,
 	Grid,
 	Divider,
 	Collapse,
@@ -98,7 +95,7 @@ export const PipelineAREACard = ({
 				</CardActions>
 				<CardContent>
 					<Grid container spacing={1}>
-						{Object.entries(AREA.params.contents).map((el, idx) => {
+						{Object.entries(AREA.params).map((el, idx) => {
 							return (
 								<Grid item display={"flex"} justifyContent={"space-between"} width={"100%"} key={idx}>
 									<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />

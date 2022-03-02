@@ -55,6 +55,8 @@ services:
       - GOOGLE_SECRET=${GOOGLE_SECRET}
       - SPOTIFY_CLIENT_ID=${SPOTIFY_CLIENT_ID}
       - SPOTIFY_SECRET=${SPOTIFY_SECRET}
+      - ANILIST_CLIENT_ID=${ANILIST_CLIENT_ID}
+      - ANILIST_SECRET=${ANILIST_SECRET}
   worker:
     build: ./worker
     ports:

@@ -1,16 +1,15 @@
 import { getCookie, sendServiceAuthToken } from "../../utils/utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { API_ROUTE } from "../../utils/globals";
 
-export default function SpotifyAuth() {
+export default function Anilist() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
-
 	const authCode = searchParams.get("code") as string;
 
 	useEffect(() => {
-		sendServiceAuthToken(authCode, "/auth/spotify", `${window.location.origin}/authorization/spotify`).then((ok) => {
+		sendServiceAuthToken(authCode, "/auth/anilist", `${window.location.origin}/authorization/anilist`).then((ok) => {
 			navigate('/pipelines');
 		});
 	}, []);

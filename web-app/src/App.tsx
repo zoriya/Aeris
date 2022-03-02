@@ -1,13 +1,21 @@
-import { Typography, Box, Button, ButtonGroup } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+import './i18n/config';
+
+import { Navigate, useNavigate } from "react-router-dom";
+import { getCookie } from "./utils/utils";
 
 export default function App() {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 
 	const pushToLogin = () => {
 		navigate("/auth");
 	};
+
+	if (getCookie("aeris_jwt"))
+		return <Navigate to="/pipelines" replace />;
 
 	return (
 		<div className="App">
@@ -22,14 +30,19 @@ export default function App() {
 						<Box component="img" alt="Aeris Logo" src={require("./assets/logo-white.png")} />
 						<br />
 						<Typography variant="h4" style={{ textAlign: "center", maxWidth: "75%" }}>
-							Professional, personnal action-reaction manager
+							{t('aerisDescription')}
 						</Typography>
 						<br />
-						<Button variant="contained" color="secondary" onClick={pushToLogin}>
-							Connect to Aeris
+						<Button
+							id="toConnect"
+							variant="contained"
+							color="secondary"
+							className="EndStartupBtn"
+							onClick={pushToLogin}>
+							{t('goToApp')}
 						</Button>
 						<Button variant="text" href="/client.apk" download color="secondary">
-							Get the App
+							{t('get_mobile_app')}
 						</Button>
 					</Box>
 				</div>
