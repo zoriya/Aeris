@@ -1,5 +1,5 @@
 import { pipeline } from "stream";
-import { API_ROUTE } from "..";
+import { API_ROUTE } from "./globals";
 import { AppServices } from "./globals";
 import { AppAREAType, AppPipelineType, AppServiceType, ParamsType } from "./types";
 
@@ -23,8 +23,8 @@ export function getCookie(cname: string): string {
 	return "";
 }
 
-export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string): Promise<boolean> => {
-	const response = await fetch(API_ROUTE + serviceEndpoint + "?code=" + authToken, {
+export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string, redirectUri: string): Promise<boolean> => {
+	const response = await fetch(`${API_ROUTE}${serviceEndpoint}?code=${authToken}&redirect_uri=${redirectUri}`, {
 		method: "GET",
 		headers: {
 			Authorization: "Bearer " + getCookie("aeris_jwt"),

@@ -16,8 +16,6 @@ import { ThemeProvider } from "@mui/material";
 
 import theme from "./Aeris.theme";
 
-export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
-
 /**
  * Creates the routing tree.
  */
