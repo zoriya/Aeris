@@ -1,6 +1,7 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
 
 /// Floating Action button to access the setup API route modal
@@ -76,32 +77,47 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
         content: FormBuilder(
           key: _formKey,
           child: FormBuilderTextField(
-            initialValue: GetIt.I<AerisAPI>().baseRoute ,
+            initialValue: GetIt.I<AerisAPI>().baseRoute,
             name: "route",
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (host) {
-              if (host == GetIt.I<AerisAPI>().baseRoute && connected == true) {
-                return;
-              }
-              if (Uri.tryParse(host ?? "") == null) {
-                setState(() => connected = false);
-              } else {
-                GetIt.I<AerisAPI>().baseRoute = host;
-                GetIt.I<AerisAPI>().getAbout().then((value) {
-                  setState(() {
-                    connected = value.isNotEmpty;
-                  });
-                });
-              }
-            },
+            validator: FormBuilderValidators.required(context),
             decoration: InputDecoration(
               labelText: "Route to API", ///TODO transalte
               helperText: "Ex: http://host:port"
             )),
         ),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
         actions: [
           ElevatedButton(
-            child: Text(connected == true ? "Save" : "Can't save"),
+            child: Text("Try to connect"),///TODO translate
+            onPressed: () {
+              _formKey.currentState!.save();
+              if (_formKey.currentState!.validate()) {
+                var route = _formKey.currentState!.value['route'];
+                if (Uri.tryParse(route) == null) {
+                  setState(() => connected = false);
+                } else {
+                  final oldRoute = GetIt.I<AerisAPI>().baseRoute;
+                  GetIt.I<AerisAPI>().baseRoute = route;
+                  setState(() {
+                    connected = null;
+                  });
+                  GetIt.I<AerisAPI>().getAbout().then((value) {
+                    setState(() {
+                      connected = value.isNotEmpty;
+                    });
+                  }, onError: (_) => GetIt.I<AerisAPI>().baseRoute = oldRoute);
+                }
+              }
+            },
+          ),
+          ElevatedButton(
+            child: Text(
+              connected == null
+              ? "Loading..."
+              : connected == true
+                ? "Save"
+                : "Invalid URL"
+            ), ///TODO translate
             onPressed:
                 connected == true ? () => Navigator.of(context).pop() : null,
           )
