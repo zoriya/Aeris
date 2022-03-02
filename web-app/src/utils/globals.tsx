@@ -210,7 +210,7 @@ export const AppListPipelines: Array<AppPipelineType> = [
 		id: 56,
 		name: "my pipe",
 		action: FakeAREA,
-		reactions: [FakeAREA],
+		reactions: [FakeAREA, FakeAREA, FakeAREA],
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",

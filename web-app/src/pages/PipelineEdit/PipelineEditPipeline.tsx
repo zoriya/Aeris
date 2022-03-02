@@ -1,15 +1,14 @@
-import { AppAREAType, AppPipelineType } from "../../utils/types";
+import {AppAREAType, AppPipelineType} from "../../utils/types";
 import {
-	Switch,
-	Grid,
-	Typography,
-	FormGroup,
-	FormControlLabel,
 	Button,
-	Tooltip,
 	ButtonGroup,
+	FormControlLabel,
+	FormGroup,
+	Grid,
 	IconButton,
+	Switch,
 	TextField,
+	Typography,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -18,14 +17,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { PipelineEditMode } from "./PipelineEditPage";
-import { PipelineAREACard } from "../../components/PipelineAREACard";
+import {PipelineEditMode} from "./PipelineEditPage";
+import {PipelineAREACard} from "../../components/PipelineAREACard";
 
 import {useTranslation} from "react-i18next";
 import '../../i18n/config';
-import { NoAREA } from "../../utils/globals";
-import { title } from "process";
-import { useState } from "react";
+import {NoAREA} from "../../utils/globals";
+import {useState} from "react";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -57,6 +56,19 @@ export default function PipelineEditPipeline({
 	const { t } = useTranslation();
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
+
+	const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
+		padding: 10,
+		margin: `0 50px 15px 50px`,
+		background: isDragging ? "#4a2975" : "white",
+		color: isDragging ? "white" : "black",
+		border: `1px solid black`,
+		fontSize: `20px`,
+		borderRadius: `5px`,
+
+		...draggableStyle
+	})
+
 	return (
 		<div>
 			<div
@@ -165,7 +177,7 @@ export default function PipelineEditPipeline({
 						gridArea: "reactionData",
 						padding: "10px",
 					}}>
-					<Grid container direction="column" spacing={2} justifyContent="center" alignItems="flex-start">
+					<Grid container direction="column" spacing={1} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.length === 0 && (
 							<Grid item sm={10} md={10} lg={5} xl={4}>
 								<Button
@@ -180,24 +192,38 @@ export default function PipelineEditPipeline({
 								</Button>
 							</Grid>
 						)}
-						{pipelineData.reactions.map((el, index, arr) => (
-							<Grid item sm={10} md={10} lg={5} xl={4} key={index}>
-								<PipelineAREACard
-									style={{ width: "24.5vw" }}
-									canBeRemoved={arr.length > 1}
-									handleEdit={() => {
-										setEditMode(PipelineEditMode.EditReaction);
-										handleEditReaction(el, index);
-									}}
-									handleDelete={() => {
-										handleDeleteReaction(el, index);
-									}}
-									AREA={el}
-									order={index + 1}
-									onClick={() => {}}
-								/>
-							</Grid>
-						))}
+						<DragDropContext onDragEnd={() => {}}>
+							<Droppable droppableId="reactions">
+								{(provided) => (
+									<div className="reactions" {...provided.droppableProps} ref={provided.innerRef}>
+										{pipelineData.reactions.map((el, index, arr) => {
+											return (
+												<Draggable key={index.toString()} draggableId={index.toString()} index={index}>
+													{(provided, snapshot) => (
+														<Grid item sm={10} marginBottom={1} md={10} lg={5} xl={4} key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+															<PipelineAREACard
+																AREA={el}
+																order={index + 1}
+																canBeRemoved={arr.length > 1}
+																handleEdit={() => {
+																	setEditMode(PipelineEditMode.EditReaction);
+																	handleEditReaction(el, index);
+																}}
+																handleDelete={() => {
+																	handleDeleteReaction(el, index);
+																}}
+																onClick={() => {}}
+																style={{ width: "24.5vw" }}
+															/>
+														</Grid>
+													)}
+												</Draggable>
+											);
+										})}
+									</div>
+								)}
+							</Droppable>
+						</DragDropContext>
 					</Grid>
 				</div>
 
