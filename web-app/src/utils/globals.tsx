@@ -9,10 +9,9 @@ import {
 	AppServiceType,
 } from "./types";
 import MoreVert from "@mui/icons-material/MoreVert";
-
+import { generateRandomString } from "./utils";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
-
 
 export const AppServicesLogos: { [key: string]: ImageProps } = {
 	youtube: {
@@ -98,96 +97,9 @@ export const AppServices: Array<AppServiceType> = [
 	},
 ];
 
-export const ServiceActions: { [key: string]: Array<GenericButtonProps> } = {
-	youtube: [
-		{
-			title: "Une vidéo à été publiée",
-			service: AppServicesLogos["youtube"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Une vidéo à été likée",
-			service: AppServicesLogos["youtube"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "La playlist est mise à jour",
-			service: AppServicesLogos["youtube"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-	spotify: [
-		{
-			title: "Nouvelle musique d'un artiste",
-			service: AppServicesLogos["spotify"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Playlist modifiée",
-			service: AppServicesLogos["spotify"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-	github: [
-		{
-			title: "Un repository a reçu une étoile",
-			service: AppServicesLogos["github"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Une Pull Request à été ouverte",
-			service: AppServicesLogos["github"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Push sur un repository",
-			service: AppServicesLogos["github"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-	twitter: [
-		{
-			title: "Vous êtes harcelé",
-			service: AppServicesLogos["twitter"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Un compte vient de twitter",
-			service: AppServicesLogos["twitter"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-	discord: [
-		{
-			title: "Réception de demande d'ami",
-			service: AppServicesLogos["discord"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Réception d'un message privé",
-			service: AppServicesLogos["discord"],
-			trailingIcon: <MoreVert />,
-		},
-		{
-			title: "Vous avez été ping",
-			service: AppServicesLogos["discord"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-	gmail: [
-		{
-			title: "Réception d'un mail",
-			service: AppServicesLogos["anilist"],
-			trailingIcon: <MoreVert />,
-		},
-	],
-};
-
 export const NoAREA: AppAREAType = {
 	type: "WebFrontEndNoAREA",
-	params: {
-		contents: {},
-	},
+	params: {},
 	returns: {},
 	description: "There's nothing",
 	service: AppServices[0],
@@ -195,36 +107,20 @@ export const NoAREA: AppAREAType = {
 
 export const FakeAREA: AppAREAType = {
 	type: "Twiitersmth",
-	params: {
-		contents: {},
-	},
+	params: {},
 	returns: {},
 	description: "There's nothing",
 	service: AppServices[0],
 };
 
-
-export const AppListPipelines: Array<AppPipelineType> = [
-	{
-		id: 56,
-		name: "my pipe",
-		action: FakeAREA,
-		reactions: [FakeAREA],
-		data: {
-			enabled: true,
-			status: "il fait beau aujourd'hui",
-			error: false,
-		},
+export const NewEmptyPipeline: AppPipelineType = {
+	id: 89,
+	name: "nouvelle pipeline",
+	action: NoAREA,
+	reactions: [],
+	data: {
+		enabled: true,
+		status: "",
+		error: false,
 	},
-	{
-		id: 89,
-		name: "nouvelle pipeline",
-		action: FakeAREA,
-		reactions: [],
-		data: {
-			enabled: true,
-			status: "ninjago",
-			error: false,
-		},
-	},
-];
+};
