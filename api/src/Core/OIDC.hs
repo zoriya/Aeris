@@ -11,7 +11,7 @@ import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
-import Utils (lookupObjString)
+import Utils (lookupObjString, lookupObjInt)
 import Data.ByteString.Base64
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
@@ -60,7 +60,8 @@ getGithubTokens code _ = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Github
 
 -- DISCORD
 getDiscordConfig :: IO OAuth2Conf
@@ -92,7 +93,8 @@ getDiscordTokens code redirect = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Discord
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Discord
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -124,7 +126,8 @@ getGoogleTokens code redirect = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Google
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Google
 
 -- SPOTIFY
 getSpotifyConfig :: IO OAuth2Conf
@@ -157,7 +160,8 @@ getSpotifyTokens code redirect = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Spotify
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Spotify
 
 -- TWITTER
 getTwitterConfig :: IO OAuth2Conf
@@ -190,7 +194,8 @@ getTwitterTokens code redirect = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Twitter
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Twitter
 
 -- ANILIST
 getAnilistConfig :: IO OAuth2Conf
@@ -222,7 +227,8 @@ getAnilistTokens code redirect = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Anilist
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Anilist
 
 
 
