@@ -103,6 +103,8 @@ class AerisAPI {
       username: username,
       password: password,
     });
+        print(response.body);
+    print(response.statusCode);
     if (!response.ok) {
       return false;
     }
@@ -239,20 +241,31 @@ class AerisAPI {
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String>? header =
         _connected ? {'Authorization': 'Bearer $_jwt'} : null;
+    const duration = Duration(seconds: 3);
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
           return await http.delete(_encoreUri(route),
-              body: body, headers: header);
+              body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408); // Request Timeout response status code
+            },);
         case AerisAPIRequestType.get:
-          return await http.get(_encoreUri(route), headers: header).timeout(const Duration(seconds: 2),
+          return await http.get(_encoreUri(route), headers: header).timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408); // Request Timeout response status code
             },);
         case AerisAPIRequestType.post:
-          return await http.post(_encoreUri(route), body: body, headers: header);
+          return await http.post(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408); // Request Timeout response status code
+            },);
         case AerisAPIRequestType.put:
-          return await http.put(_encoreUri(route), body: body, headers: header);
+          return await http.put(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408); // Request Timeout response status code
+            },);
       }
     } catch (e) {
       return http.Response('{}', 400);
