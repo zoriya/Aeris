@@ -103,8 +103,6 @@ class AerisAPI {
       username: username,
       password: password,
     });
-        print(response.body);
-    print(response.statusCode);
     if (!response.ok) {
       return false;
     }
@@ -248,23 +246,23 @@ class AerisAPI {
           return await http.delete(_encoreUri(route),
               body: body, headers: header).timeout(duration,
             onTimeout: () {
-              return http.Response('Error', 408); // Request Timeout response status code
+              return http.Response('Error', 408);
             },);
         case AerisAPIRequestType.get:
           return await http.get(_encoreUri(route), headers: header).timeout(
             duration,
             onTimeout: () {
-              return http.Response('Error', 408); // Request Timeout response status code
+              return http.Response('Error', 408);
             },);
         case AerisAPIRequestType.post:
           return await http.post(_encoreUri(route), body: body, headers: header).timeout(duration,
             onTimeout: () {
-              return http.Response('Error', 408); // Request Timeout response status code
+              return http.Response('Error', 408);
             },);
         case AerisAPIRequestType.put:
           return await http.put(_encoreUri(route), body: body, headers: header).timeout(duration,
             onTimeout: () {
-              return http.Response('Error', 408); // Request Timeout response status code
+              return http.Response('Error', 408);
             },);
       }
     } catch (e) {
