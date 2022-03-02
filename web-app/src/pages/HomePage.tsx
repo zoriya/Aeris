@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
-import { API_ROUTE } from "../";
+import { API_ROUTE } from "../utils/globals";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";

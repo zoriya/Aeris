@@ -8,8 +8,10 @@ import {
 	ImageProps,
 	AppServiceType,
 } from "./types";
+import MoreVert from "@mui/icons-material/MoreVert";
 import { generateRandomString } from "./utils";
-import { API_ROUTE } from "..";
+
+export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
 
 export const AppServicesLogos: { [key: string]: ImageProps } = {
 	youtube: {
@@ -38,53 +40,59 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
+const generateRandomString = (): string => {
+	let randomString = "";
+	const randomNumber = Math.floor(Math.random() * 10);
+
+	for (let i = 0; i < 20 + randomNumber; i++) {
+		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94));
+	}
+	return randomString;
+};
+
+const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`
+
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
 		uid: "youtube",
 		logo: AppServicesLogos["youtube"],
-		urlAuth: `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${
-			process.env.REACT_APP_GOOGLE_CLIENT_ID
-		}&scope=openid%20email&redirect_uri=http://localhost:3000/authorization/google&state=${generateRandomString()}`,
+		urlAuth: getServiceUrl("google"),
 		linked: false,
 	},
 	{
 		label: "Spotify",
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
-		urlAuth: `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=https://localhost:3000/authorization/spotify`,
+		urlAuth: getServiceUrl("spotify"),
 		linked: false,
 	},
 	{
 		label: "GitHub",
 		uid: "github",
 		logo: AppServicesLogos["github"],
-		urlAuth: `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}&response_type=code&redirect_uri=http://localhost:3000/authorization/github`,
+		urlAuth: getServiceUrl("github"),
 		linked: false,
 	},
 	{
 		label: "Twitter",
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
-		urlAuth: `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${
-			process.env.REACT_APP_TWITTER_CLIENT_ID
-		}&redirect_uri=https://localhost:3000/authorization/twitter&scope=tweet.read%20users.read%20offline.access&state=${generateRandomString()}&code_challenge=challenge&code_challenge_method=plain`,
+		urlAuth: getServiceUrl("twitter"),
 		linked: true,
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
-		urlAuth: `https://discord.com/api/oauth2/authorize?response_type=code&client_id=${
-			process.env.REACT_APP_DISCORD_CLIENT_ID
-		}&scope=applications.commands%20applications.entitlements%20applications.store.update%20bot%20guilds%20guilds.join%20guilds.members.read%20identify%20messages.read%20webhook.incoming&state=${generateRandomString()}`,
+		urlAuth: getServiceUrl("discord"),
 		linked: true,
 	},
 	{
 		label: "AniList",
 		uid: "anilist",
 		logo: AppServicesLogos["anilist"],
-		urlAuth: "",
+		urlAuth: getServiceUrl("anilist"),
 		linked: false,
 	},
 ];
