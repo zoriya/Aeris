@@ -20,7 +20,7 @@ import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 import Data.Default (Default, def)
 import Data.Aeson (Value(Number, Object), decode)
 import Data.Int (Int64)
-import Data.Scientific
+import Data.Scientific ( toBoundedInteger )
 
 mapInd :: (a -> Int -> b) -> [a] -> [b]
 mapInd f l = zipWith f l [0 ..]
