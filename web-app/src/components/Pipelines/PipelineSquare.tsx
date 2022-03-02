@@ -21,8 +21,17 @@ export interface PipelineSquareProps {
 }
 
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
+	const backgroundColor = pipelineData.data.enabled ? (pipelineData.data.error ? "#ffdddd" : null) : "#464646";
+	const textColor = pipelineData.data.enabled ? (pipelineData.data.error ? "red" : null) : "#adadad";
 	return (
-		<Card sx={{ width: "300px", height: "300px", borderRadius: "15px" }}>
+		<Card
+			sx={{
+				width: "300px",
+				height: "300px",
+				borderRadius: "15px",
+				backgroundColor: backgroundColor,
+				color: textColor,
+			}}>
 			<CardActionArea onClick={onClick} sx={{ padding: "10px", width: "100%", height: "100%" }}>
 				<div
 					style={{
@@ -45,7 +54,9 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 						image={pipelineData.action.service.logo.imageSrc}
 						alt={pipelineData.action.service.logo.altText}
 					/>
-					<ArrowForwardIcon sx={{ gridArea: "Arrow", height: 58, width: 58 }} />
+					<ArrowForwardIcon
+						sx={{ gridArea: "Arrow", height: 58, width: 58, color: pipelineData.data.error ? "black" : null }}
+					/>
 
 					<CardMedia
 						component="img"
