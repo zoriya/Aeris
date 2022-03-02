@@ -6,7 +6,7 @@ import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { AccountCircle, Cookie, Lock } from "@mui/icons-material";
 import { InputAdornment } from "@mui/material";
 
-import { API_ROUTE } from "../..";
+import { API_ROUTE } from "../../utils/globals";
 
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";

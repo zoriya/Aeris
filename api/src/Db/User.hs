@@ -121,3 +121,24 @@ updateUserTokens uid userTokens newToken =
         }
   where
     setter = \from row -> row{externalTokens = lit $ changeTokens userTokens newToken}
+
+
+removeTokens :: [ExternalToken] -> Service -> [ExternalToken]
+removeTokens actual toDel = do
+    case findIndex (\t -> service t == toDel) actual of
+        Nothing -> actual
+        Just idx ->
+            let (x, _ : ys) = splitAt idx actual
+             in x ++ ys
+
+updateDelTokens :: UserId -> [ExternalToken] -> Service -> Update Int64
+updateDelTokens uid userTokens service =
+    Update
+        { target = userSchema
+        , from = pure ()
+        , updateWhere = \_ o -> userDBId o ==. lit uid
+        , set = setter
+        , returning = NumberOfRowsAffected
+        }
+  where
+    setter = \from row -> row{externalTokens = lit $ removeTokens userTokens service}

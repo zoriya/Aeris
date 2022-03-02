@@ -4,6 +4,7 @@ export enum ServiceType {
 	Github,
 	Spotify,
 	Discord,
+	Anilist,
 };
 
 
@@ -36,6 +37,37 @@ export enum PipelineType {
 	OnDiscordGuildLeave,
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export enum ReactionType {
 	Tweet,
 	// Youtube reactions
@@ -65,7 +97,14 @@ export enum ReactionType {
 	PostDiscordDM,
 	LeaveDiscordServer,
 	PostDiscordMessage,
-	Pause
+	Pause,
+	// Anilist
+	ToggleFavourite,
+	followUser,
+	postTweet,
+	replyToTweet,
+	likeTweet,
+	retweet
 };
 
 export class Pipeline {
