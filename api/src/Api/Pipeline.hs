@@ -13,9 +13,9 @@ module Api.Pipeline where
 import App (AppM, State (State, dbPool))
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.Reader (ask)
-import Core.Pipeline (PipelineParams, PipelineType)
+import Core.Pipeline (PipelineParams (PipelineParams), PipelineType)
 import Core.Reaction (ReactionParams, ReactionType)
-import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode)
+import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode, Value (Bool))
 import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
@@ -47,12 +47,13 @@ import System.Environment.MrEnv (envAsString)
 import Data.Default (def)
 import Db.User (UserDB(..))
 import Control.Applicative (Alternative((<|>)))
+import GHC.TypeLits (ErrorMessage(Text))
+import Data.Time (UTCTime)
 
 data PipelineData = PipelineData
     { name :: Text
     , pType :: PipelineType
     , pParams :: PipelineParams
-    , id :: PipelineId
     , enabled :: Bool
     }
 
@@ -66,11 +67,27 @@ data PostPipelineData = PostPipelineData
     , reactions :: [ReactionData]
     }
 
-type GetPipelineResponse = PostPipelineData
 type PutPipelineData = PostPipelineData
+
+data GetPipelineData = GetPipelineData
+    { name :: Text 
+    , pType :: PipelineType 
+    , pParams :: PipelineParams
+    , enabled :: Bool 
+    , error :: Text
+    , lastTrigger :: UTCTime 
+    , triggerCount :: Int64
+    , id :: PipelineId
+    }
+
+data GetPipelineResponse = GetPipelineResponse
+    { action :: GetPipelineData
+    , reactions :: [ReactionData]
+    }
 
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
+$(deriveJSON defaultOptions ''GetPipelineResponse)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
@@ -89,11 +106,23 @@ data PipelineAPI mode = PipelineAPI
 
 formatGetPipelineResponse :: Pipeline Identity -> [Reaction Identity] -> GetPipelineResponse
 formatGetPipelineResponse pipeline reactions =
+    GetPipelineResponse actionResult reactionsResult
+    where
+        actionResult = GetPipelineData {
+
+          }
+        (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineEnabled pipeline)(pipelineId pipeline) 
+        reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
+
+formatPostPipelineData :: Pipeline Identity -> [Reaction Identity] -> PostPipelineData
+formatPostPipelineData pipeline reactions =
     PostPipelineData actionResult reactionsResult
     where
         actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline) (pipelineEnabled pipeline)
         reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
-    
+
+
+
 informWorker :: ByteString -> PipelineId -> IO ()
 informWorker method id =
     do
@@ -152,7 +181,8 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
           pipelineName = name p
         , pipelineType = pType p
         , pipelineParams = pParams p
-        , pipelineUserId = uid }
+        , pipelineUserId = uid
+        , pipelineEnabled = enabled p}
         r = reactionDatasToReactions (reactions x) pipelineId
 putPipelineHandler _ _ _ = throwError err401
 
