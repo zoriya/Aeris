@@ -10,8 +10,8 @@ import Control.Monad.IO.Class (liftIO)
 import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spotify, Twitter, Google, Anilist, Discord), UserId (UserId), User (User))
 import Data.Text (pack)
 import Core.OIDC ( getOauthTokens )
-import Repository.User (updateTokens, getTokensByUserId)
-import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302)
+import Repository.User (updateTokens, getTokensByUserId, delTokens)
+import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302, Delete)
 import Servant.API.Generic (type (:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (UserAuth, AuthRes)
@@ -30,6 +30,12 @@ oauthHandler (Authenticated (User uid _ _)) service (Just code) (Just redirect) 
             updateTokens uid t
             return NoContent
 oauthHandler _ service (Just code) (Just redirect) = throwError err401
+
+oauthDelHandler :: AuthRes -> Service -> AppM NoContent 
+oauthDelHandler (Authenticated (User uid _ _)) service = do
+    delTokens uid service
+    return NoContent 
+oauthDelHandler _ _ = throwError err401
 
 urlHandler :: Service -> Maybe String -> AppM NoContent
 urlHandler _ Nothing = throwError err400
@@ -65,10 +71,12 @@ servicesHandler (Authenticated (User uid name slug)) = do
 servicesHandler _ = throwError err401
 
 type OauthAPI = UserAuth :> Capture "service" Service :> QueryParam "code" String :> QueryParam "redirect_uri" String :> Get '[JSON] NoContent
+            :<|> UserAuth :> Capture "service" Service :> Delete '[JSON] NoContent 
             :<|> Capture "service" Service :> "url" :> QueryParam "redirect_uri" String :> Get '[JSON] NoContent
             :<|> UserAuth :> "services" :> Get '[JSON] [String]
 
 oauth :: ServerT OauthAPI AppM
 oauth = oauthHandler
+    :<|> oauthDelHandler
     :<|> urlHandler
     :<|> servicesHandler
