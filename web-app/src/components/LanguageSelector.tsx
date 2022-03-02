@@ -41,10 +41,10 @@ export default function LanguageSelector() {
 					setSelectedLanguage(e.target.value);
 				}}>
 				<MenuItem value={"en"}>
-					<img loading="lazy" title="en" width="20" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" />
+					<img loading="lazy" width="20" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" />
 				</MenuItem>
 				<MenuItem value={"fr"}>
-					<img loading="lazy" title="fr" width="20" src="https://flagicons.lipis.dev/flags/4x3/fr.svg" />
+					<img loading="lazy" width="20" src="https://flagicons.lipis.dev/flags/4x3/fr.svg" />
 				</MenuItem>
 			</Select>
 			<Snackbar open={open} autoHideDuration={1000} onClose={handleClose} message={t("switch_language")} />
