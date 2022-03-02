@@ -34,6 +34,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 		<React.Fragment>
 			<AppBar position="fixed">
 				<Toolbar variant="dense">
+					<img src={require("../assets/Icon-App-76x76@2x.png")} width="40" height="40" />
 					<Typography noWrap sx={{ margin: 1 }} variant="h5" align="right">
 						Aeris
 					</Typography>
