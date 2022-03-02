@@ -58,7 +58,7 @@ export default function HomePage() {
 		() => (t: AppPipelineType) => {}
 	);
 	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
-	const [data, setWorkflowsDatas] = useState<Array<PipelineBoxProps>>([]);
+	const [pipelinesData, setPipelinesData] = useState<Array<AppPipelineType>>([]);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
@@ -83,24 +83,11 @@ export default function HomePage() {
 	const refreshWorkflows = () => {
 		fetchWorkflows()
 			.then((workflows) => {
-				let pipelineBoxes: Array<PipelineBoxProps> = [];
+				let pipelines: Array<AppPipelineType> = [];
 				for (const workflow of workflows) {
-					const newWorkflow = deSerialisePipeline(workflow, AREAs);
-
-					pipelineBoxes.push({
-						title: newWorkflow.name,
-						statusText: newWorkflow.reactions.length + " reaction(s)",
-						service1: newWorkflow.action.service.logo,
-						service2: newWorkflow.reactions[0].service.logo,
-						onClickCallback: () => {
-							setPipelineData(newWorkflow);
-							setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-							setModalMode(ModalSelection.PipelineEdit);
-							setPipelineDeletion(true);
-						},
-					} as PipelineBoxProps);
+					pipelines.push(deSerialisePipeline(workflow, AREAs));
 				}
-				setWorkflowsDatas(pipelineBoxes);
+				setPipelinesData(pipelines);
 			})
 			.catch((error) => {
 				console.warn(error);
@@ -122,7 +109,23 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
-			<PipelineBoxesLayout data={data} />
+			<PipelineBoxesLayout
+				data={pipelinesData.map(
+					(pipelineData) =>
+						({
+							title: pipelineData.name,
+							statusText: pipelineData.reactions.length + " reaction(s)",
+							service1: pipelineData.action.service.logo,
+							service2: pipelineData.reactions[0].service.logo,
+							onClickCallback: () => {
+								setPipelineData(pipelineData);
+								setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+								setModalMode(ModalSelection.PipelineEdit);
+								setPipelineDeletion(true);
+							},
+						} as PipelineBoxProps)
+				)}
+			/>
 
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.PipelineEdit}
