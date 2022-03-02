@@ -113,7 +113,7 @@ class AerisAPI {
 
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
-    return true;
+    print(newPipeline.toJSON());
     var res = await _requestAPI(
         '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
     print(jsonDecode(res.body)); ///TODO could not be fetched back

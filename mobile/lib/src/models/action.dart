@@ -33,7 +33,7 @@ abstract class Action {
 
   static String getType(Service service, String aName) {
     String serviceName = ReCase(service.name).pascalCase;
-    String actionName = ReCase(aName).paramCase;
+    String actionName = ReCase(aName).pascalCase;
     return "$serviceName$actionName";
   }
 }
