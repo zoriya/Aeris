@@ -158,7 +158,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineDeletion(false);
-						setPipelineData(NewEmptyPipeline);
+						setPipelineData(JSON.parse(JSON.stringify(NewEmptyPipeline)));
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
