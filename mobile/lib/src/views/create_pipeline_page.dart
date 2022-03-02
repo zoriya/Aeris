@@ -14,6 +14,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:recase/recase.dart';
 
 /// Page to create a new pipeline
 class CreatePipelinePage extends StatefulWidget {
@@ -85,7 +86,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: trigger.name,
+                                title: ReCase(trigger.name).titleCase,
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
                                     action: trigger,
@@ -104,7 +105,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               itemBuilder: (reaction) => ActionCard(
                               key: ValueKey(reactions.indexOf(reaction)),
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: reaction.name,
+                              title: ReCase(reaction.name).titleCase,
                               trailing: ActionCardPopupMenu(
                                   deletable: reactions.length > 1,
                                   action: reaction,

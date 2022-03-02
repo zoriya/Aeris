@@ -37,6 +37,7 @@ class _ActionFormState extends State<ActionForm> {
     return FormBuilder(
       key: _formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(widget.description, textAlign: TextAlign.left, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           ...widget.parameters.map((param) => FormBuilderTextField(

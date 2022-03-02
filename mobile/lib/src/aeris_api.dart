@@ -113,8 +113,10 @@ class AerisAPI {
 
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
+    return true;
     var res = await _requestAPI(
         '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
+    print(jsonDecode(res.body)); ///TODO could not be fetched back
     newPipeline = Pipeline.fromJSON(jsonDecode(res.body));
     return res.ok;
   }
@@ -143,8 +145,9 @@ class AerisAPI {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
     final List body = jsonDecode(res.body);
+    print(body);
 
-    return body.map((e) => Pipeline.fromJSON(e)).toList();
+    return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
   }
 
   /// Fetch the services the user is authenticated to
@@ -172,8 +175,8 @@ class AerisAPI {
     return res.ok;
   }
 
-  Future<List<ActionTemplate>> getActionsFor(
-      Service service, Action action) async {
+  List<ActionTemplate> getActionsFor(
+      Service service, Action action) {
     final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
       return catalogue!.triggerTemplates[service]!;
