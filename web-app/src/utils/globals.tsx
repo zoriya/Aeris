@@ -45,7 +45,7 @@ const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?red
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
-		uid: "youtube",
+		uid: "google",
 		logo: AppServicesLogos["youtube"],
 		urlAuth: getServiceUrl("google"),
 		linked: false,
@@ -69,14 +69,14 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
 		urlAuth: getServiceUrl("twitter"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: getServiceUrl("discord"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "AniList",

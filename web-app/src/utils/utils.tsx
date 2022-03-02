@@ -176,6 +176,25 @@ export const fetchWorkflows = async (): Promise<any> => {
 	return null;
 };
 
+export const fetchLinkedServices = async (): Promise<Array<string>> => {
+	const response = await fetch(API_ROUTE + "/auth/services", {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
+	});
+
+	if (response.ok) {
+		let json = await response.json();
+		return json;
+	}
+	console.error("Can't fetch linked services");
+	return [];
+};
+
+
 export const generateRandomString = (): string => {
 	let randomString = "";
 	const randomNumber = Math.floor(Math.random() * 10);

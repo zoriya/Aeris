@@ -9,9 +9,9 @@ import Fab from "@mui/material/Fab";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows } from "../utils/utils";
+import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows, fetchLinkedServices } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
-import { AppAREAType, AppPipelineType } from "../utils/types";
+import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
@@ -61,6 +61,7 @@ export default function HomePage() {
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
 		() => (t: AppPipelineType) => {}
 	);
+	const [servicesData, setServicesData] = useState<Array<AppServiceType>>(AppServices);
 	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
 	const [pipelinesData, setPipelinesData] = useState<Array<AppPipelineType>>([]);
 
@@ -77,6 +78,20 @@ export default function HomePage() {
 			.catch((error) => {
 				console.warn(error);
 				setAREAs([[], []]);
+			});
+	}, []);
+
+	useEffect(() => {
+		fetchLinkedServices()
+			.then((services) => {
+				services = services.map(el => el.toLowerCase());
+				setServicesData(servicesData.map((servData) => ({
+					...servData,
+					linked: services.includes(servData.uid)
+				})))
+			})
+			.catch((error) => {
+				console.warn(error);
 			});
 	}, []);
 
@@ -145,7 +160,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={AppServices} />
+				<ServiceSetupModal services={servicesData} />
 			</PipelineModal>
 
 			<Box
