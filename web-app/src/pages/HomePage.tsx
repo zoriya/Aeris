@@ -6,10 +6,17 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
+import { Grid } from "@mui/material"
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows, fetchLinkedServices } from "../utils/utils";
+import {
+	getCookie,
+	deSerializeServices,
+	deSerialisePipeline,
+	fetchWorkflows,
+	fetchLinkedServices,
+} from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
@@ -17,6 +24,7 @@ import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } fr
 import AerisAppbar from "../components/AppBar";
 import MenuItem from "@mui/material/MenuItem";
 import { Navigate } from "react-router-dom";
+import { PipelineSquare } from "../components/Pipelines/PipelineSquare";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -49,9 +57,7 @@ const getUserName = async (): Promise<string> => {
 };
 
 export default function HomePage() {
-	if (!getCookie("aeris_jwt"))
-		return <Navigate to="/auth" replace />;
-
+	if (!getCookie("aeris_jwt")) return <Navigate to="/auth" replace />;
 
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
@@ -84,11 +90,13 @@ export default function HomePage() {
 	useEffect(() => {
 		fetchLinkedServices()
 			.then((services) => {
-				services = services.map(el => el.toLowerCase());
-				setServicesData(servicesData.map((servData) => ({
-					...servData,
-					linked: services.includes(servData.uid)
-				})))
+				services = services.map((el) => el.toLowerCase());
+				setServicesData(
+					servicesData.map((servData) => ({
+						...servData,
+						linked: services.includes(servData.uid),
+					}))
+				);
 			})
 			.catch((error) => {
 				console.warn(error);
@@ -124,6 +132,13 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
+			<Grid container spacing={2}>
+			{pipelinesData.map((el) => (
+				<Grid item>
+				<PipelineSquare pipelineData={el} />
+				</Grid>
+			))}
+			</Grid>
 			<PipelineBoxesLayout
 				data={pipelinesData.map(
 					(pipelineData) =>
