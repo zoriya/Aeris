@@ -127,7 +127,7 @@ class AerisAPI {
   }
 
   String getServiceAuthURL(Service service) {
-    final serviceName = service.name.toLowerCase();
+    final serviceName = service == const Service.youtube() ? "google" : service.name.toLowerCase();
     return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
   }
 
@@ -135,6 +135,8 @@ class AerisAPI {
   Future<bool> editPipeline(Pipeline updatedPipeline) async {
     var res = await _requestAPI('/workflow/${updatedPipeline.id}',
         AerisAPIRequestType.put, updatedPipeline.toJSON());
+    print(res.body);
+    print(res.statusCode);
     return res.ok;
   }
 
@@ -142,6 +144,7 @@ class AerisAPI {
   Future<List<Pipeline>> getPipelines() async {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
+    print(res.body);
     final List body = jsonDecode(res.body);
 
     return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
@@ -152,8 +155,8 @@ class AerisAPI {
     var res =
         await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
-    return (jsonDecode(res.body) as List<String>)
-        .map((e) => Service.factory(e)).toList();
+    return (jsonDecode(res.body) as List)
+        .map((e) => Service.factory(e.toString())).toList();
   }
 
   /// Disconnects the user from the service
@@ -166,7 +169,7 @@ class AerisAPI {
   /// Connects the user from the service
   Future<bool> connectService(Service service, String code) async {
     var res = await _requestAPI(
-        '/auth/${service.name.toLowerCase()}?code=$code',
+        '/auth/${service.name.toLowerCase()}?code=$code&redirect_uri=aeris://aeris.com/authorization/${service.name.toLowerCase()}',
         AerisAPIRequestType.get,
         null);
     return res.ok;
@@ -199,13 +202,13 @@ class AerisAPI {
     switch (requestType) {
       case AerisAPIRequestType.delete:
         return await http.delete(_encoreUri(route),
-            body: body, headers: header);
+            body: jsonEncode(body), headers: header);
       case AerisAPIRequestType.get:
         return await http.get(_encoreUri(route), headers: header);
       case AerisAPIRequestType.post:
         return await http.post(_encoreUri(route), body: jsonEncode(body), headers: header);
       case AerisAPIRequestType.put:
-        return await http.put(_encoreUri(route), body: body, headers: header);
+        return await http.put(_encoreUri(route), body: jsonEncode(body), headers: header);
     }
   }
 }
