@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:aeris/src/main.dart';
+import 'package:aeris/main.dart';
 import 'package:aeris/src/models/action.dart';
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
