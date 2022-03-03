@@ -12,7 +12,7 @@ import {
 import { AppPipelineType } from "../../utils/types";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
-import NumbersIcon from "@mui/icons-material/Numbers";
+import LoopIcon from '@mui/icons-material/Loop';
 import CableIcon from "@mui/icons-material/Cable";
 import {useTranslation} from "react-i18next";
 import '../../i18n/config';
@@ -123,7 +123,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 								</Typography>
 							</Box>
 							<Box sx={{ display: "flex", flexFlow: "row", alignItems: "center" }}>
-								<NumbersIcon color="secondary" />
+								<LoopIcon color="secondary" />
 								<Typography align="left" variant="subtitle2">
 									{pipelineData.data.triggerCount}
 								</Typography>
