@@ -12,9 +12,11 @@ import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 extension IsOk on http.Response {
   bool get ok => (statusCode ~/ 100) == 2;
@@ -34,7 +36,10 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String baseRoute = "http://10.0.2.2:8080"; ///TODO make it modifiable
+  String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
+    ?? "http://10.0.2.2:8080";
+  String get baseRoute => _baseRoute;
+  set baseRoute(value) => _baseRoute = value;
 
   AerisAPI() {
     var trigger1 = Trigger(
@@ -90,13 +95,6 @@ class AerisAPI {
   /// Name of the file that contains the JWT used for Aeris' API requestd
   static const String jwtFile = 'aeris_jwt.txt';
 
-  /// Retrieves the file containing the JWT
-  Future<File> getJWTFile() async {
-    final directory = await getApplicationDocumentsDirectory();
-    final path = directory.path;
-    return File('$path/$jwtFile.txt');
-  }
-
   ///ROUTES
   /// Registers new user in the database and connects it. Returns false if register failed
   Future<bool> signUpUser(String username, String password) async {
@@ -123,8 +121,7 @@ class AerisAPI {
     }
     try {
       final String jwt = jsonDecode(response.body)['jwt'];
-      final File jwtFile = await getJWTFile();
-      jwtFile.writeAsString(jwt);
+      await GetIt.I<SharedPreferences>().setString('jwt', jwt);
       _connected = true;
       _jwt = jwt;
     } catch (e) {
@@ -136,9 +133,8 @@ class AerisAPI {
   /// Create an API connection using previously created credentials
   Future<void> restoreConnection() async {
     try {
-      final file = await getJWTFile();
-      final cred = await file.readAsString();
-      if (cred == "") {
+      final cred = GetIt.I<SharedPreferences>().getString('jwt');
+      if (cred == "" || cred == null) {
         throw Exception("Empty creds");
       }
       _jwt = cred;
@@ -150,17 +146,14 @@ class AerisAPI {
 
   /// Delete JWT file and disconnect from API
   Future<void> stopConnection() async {
-    File credentials = await getJWTFile();
-
-    if (credentials.existsSync()) {
-      await credentials.delete();
-    }
+    await GetIt.I<SharedPreferences>().remove('jwt');
     _connected = false;
   }
 
   ///Get /about.json
   Future<Map<String, dynamic>> getAbout() async {
     var res = await _requestAPI('/about.json', AerisAPIRequestType.get, null);
+    if (!res.ok) return {};
     return jsonDecode(res.body);
   }
 
@@ -182,7 +175,7 @@ class AerisAPI {
 
   String getServiceAuthURL(Service service) {
     final serviceName = service.name.toLowerCase();
-    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+    return "$_baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
@@ -238,7 +231,7 @@ class AerisAPI {
 
   /// Encodes Uri for request
   Uri _encoreUri(String route) {
-    return Uri.parse('$baseRoute$route');
+    return Uri.parse('$_baseRoute$route');
   }
 
   /// Calls API using a HTTP request type, a route and body
@@ -246,16 +239,34 @@ class AerisAPI {
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String>? header =
         _connected ? {'Authorization': 'Bearer $_jwt'} : null;
-    switch (requestType) {
-      case AerisAPIRequestType.delete:
-        return await http.delete(_encoreUri(route),
-            body: body, headers: header);
-      case AerisAPIRequestType.get:
-        return await http.get(_encoreUri(route), headers: header);
-      case AerisAPIRequestType.post:
-        return await http.post(_encoreUri(route), body: body, headers: header);
-      case AerisAPIRequestType.put:
-        return await http.put(_encoreUri(route), body: body, headers: header);
+    const duration = Duration(seconds: 3);
+    try {
+      switch (requestType) {
+        case AerisAPIRequestType.delete:
+          return await http.delete(_encoreUri(route),
+              body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+        case AerisAPIRequestType.get:
+          return await http.get(_encoreUri(route), headers: header).timeout(
+            duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+        case AerisAPIRequestType.post:
+          return await http.post(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+        case AerisAPIRequestType.put:
+          return await http.put(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+      }
+    } catch (e) {
+      return http.Response('{}', 400);
     }
   }
 }

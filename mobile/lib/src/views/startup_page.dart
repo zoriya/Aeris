@@ -1,4 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/widgets/setup_api_route.dart';
 import 'package:flutter_fadein/flutter_fadein.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -15,11 +16,30 @@ class StartupPage extends StatefulWidget {
 }
 
 class _StartupPageState extends State<StartupPage> {
+  bool connected = false;
+  @override
+  void initState() {
+    super.initState();
+    GetIt.I<AerisAPI>().getAbout().then((value) {
+      setState(() {
+        connected = value.isNotEmpty;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isConnected = GetIt.I<AerisAPI>().isConnected;
     return AerisPage(
       displayAppbar: false,
+      floatingActionButton: SetupAPIRouteButton(
+        connected: connected,
+        onSetup: () => GetIt.I<AerisAPI>().getAbout().then((value) {
+          setState(() {
+            connected = value.isNotEmpty;
+          });
+        })
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -48,13 +68,13 @@ class _StartupPageState extends State<StartupPage> {
                 textStyle: const TextStyle(fontSize: 20),
                 primary: Theme.of(context).colorScheme.secondary,
               ),
-              onPressed: () {
+              onPressed: connected ? () {
                 if (isConnected) {
                   Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
                 } else {
                   Navigator.of(context).pushNamed('/login');
                 }
-              },
+              } : null,
               child: Tooltip(
                 message: 'Connexion',
                 child: Text(AppLocalizations.of(context).connect)
