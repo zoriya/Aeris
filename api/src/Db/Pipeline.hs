@@ -132,6 +132,7 @@ updatePipeline pId (Pipeline _ newName newType newParams _ newEnabled _ _ _) =
       pipelineName = newName
     , pipelineType = newType
     , pipelineParams = newParams
+    , pipelineEnabled = newEnabled
     }
 
 triggerPipeline :: PipelineId -> UTCTime -> Update Int64 
