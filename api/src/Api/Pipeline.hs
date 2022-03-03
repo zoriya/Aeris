@@ -136,12 +136,10 @@ informWorker method id =
     do
         url <- envAsString "WORKER_URL" "worker/"
         request <- parseRequest url
-        print request
         response <- httpBS
             $ setRequestMethod method
             $ setRequestPath (encodeUtf8 (pack $ "/workflow/" <> show id))
             request
-        print response
         return ()
 
 
