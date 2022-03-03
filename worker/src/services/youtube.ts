@@ -4,15 +4,29 @@ import { youtube_v3 } from '@googleapis/youtube';
 import { BaseService, reaction, service } from "../models/base-service";
 import { action } from "../models/base-service";
 import { Utils } from "../utils";
+import { OAuth2Client } from "google-auth-library";
 
 @service(ServiceType.Youtube)
 export class Youtube extends BaseService {
 	private _youtube: youtube_v3.Youtube;
 
-	constructor(_: Pipeline) {
+	constructor(pipeline: Pipeline) {
 		super();
+		if (!("Google" in pipeline.userData))
+			throw new Error("User not authenticated via google");
+		const client = new OAuth2Client({
+			clientId: process.env["GOOGLE_CLIENT_ID"],
+			clientSecret: process.env["GOOGLE_SECRET"],
+		});
+		client.setCredentials({
+			refresh_token: pipeline.userData["Google"].refreshToken,
+			access_token: pipeline.userData["Google"].accessToken,
+		});
+		// client.on("tokens", x => {
+		// 	
+		// });
 		this._youtube = new youtube_v3.Youtube({
-			auth: process.env["YOUTUBE_KEY"]
+			auth: client,
 		});
 	}
 
@@ -84,6 +98,7 @@ export class Youtube extends BaseService {
 
 	@reaction(ReactionType.YtComment, ["videoId", "body"])
 	async reactComment(params: any): Promise<PipelineEnv> {
+		try {
 		let infos = await this._youtube.commentThreads.insert({
 			part: ["snippet"],
 			requestBody: {
@@ -99,6 +114,10 @@ export class Youtube extends BaseService {
 		});
 		return {
 			ID: infos.data.id,
+		}
+		} catch(e) {
+			console.log(`youtube react comment error: ${e}`);
+			throw new Error("Impossible to comment on this video. Comments may be disabled.");
 		}
 	}
 
