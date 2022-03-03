@@ -153,7 +153,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.name,
+                      title: ReCase(reaction.name).titleCase,
                       trailing: ActionCardPopupMenu(
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,
