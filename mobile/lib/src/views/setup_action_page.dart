@@ -10,7 +10,6 @@ import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recase/recase.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
