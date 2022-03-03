@@ -1,5 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
-import 'package:aeris/src/main.dart';
+import 'package:aeris/main.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
