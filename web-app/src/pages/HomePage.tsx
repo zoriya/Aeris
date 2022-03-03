@@ -166,7 +166,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={servicesData} />
+				<ServiceSetupModal services={servicesData} setServices={setServicesData} />
 			</PipelineModal>
 
 			<Box

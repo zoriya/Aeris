@@ -7,16 +7,17 @@ import { AppServiceType } from "../utils/types";
 import { Grid } from "@mui/material";
 import { unLinkService } from "../utils/utils";
 import { useTranslation } from "react-i18next";
-import '../i18n/config';
+import "../i18n/config";
 
 export interface ServiceSetupProps {
 	services: Array<AppServiceType>;
+	setServices: (srvcs: Array<AppServiceType>) => any;
 }
 
-export default function ServiceSetupModal({ services }: ServiceSetupProps) {
+export default function ServiceSetupModal({ services, setServices }: ServiceSetupProps) {
 	const { t } = useTranslation();
-	const unlinkedServices = services.filter(el => !el.linked);
-	const linkedServices = services.filter(el => el.linked);
+	const unlinkedServices = services.filter((el) => !el.linked);
+	const linkedServices = services.filter((el) => el.linked);
 	return (
 		<div>
 			<Box
@@ -35,7 +36,7 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 				<Grid item xs container direction="column" spacing={2}>
 					<Grid item>
 						<Typography variant="h6" noWrap align="left">
-							{t('linked')}
+							{t("linked")}
 						</Typography>
 						<Box
 							sx={{
@@ -46,9 +47,24 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 							}}>
 							{linkedServices.map((elem, index) => (
 								<Grid item mb={4} key={index}>
-									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} onClickCallback={() => {
-										unLinkService(elem);
-									}} />
+									<GenericButton
+										service={elem.logo}
+										title={elem.label}
+										trailingIcon={<Logout />}
+										onClickCallback={async () => {
+											if (await unLinkService(elem)) {
+												setServices(
+													services.map((svc) => {
+														if (svc.uid !== elem.uid) return svc;
+														return {
+															...svc,
+															linked: false,
+														};
+													})
+												);
+											}
+										}}
+									/>
 								</Grid>
 							))}
 						</Box>
@@ -58,7 +74,7 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 					<Grid item xs container direction="column" spacing={2}>
 						<Grid item xs>
 							<Typography variant="h6" noWrap align="right">
-								{t('available')}
+								{t("available")}
 							</Typography>
 							<Box
 								sx={{

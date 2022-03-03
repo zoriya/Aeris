@@ -211,11 +211,11 @@ export const generateRandomString = (): string => {
 	return randomString;
 };
 
-export const unLinkService = async (service: AppServiceType) => {
+export const unLinkService = async (service: AppServiceType): Promise<boolean> => {
 	let route = service.urlAuth.slice(0, service.urlAuth.indexOf("?"));
 	route = route.slice(0, route.lastIndexOf("/"));
 
-	const response = await fetch(API_ROUTE + route, {
+	const response = await fetch(route, {
 		method: "DELETE",
 		headers: {
 			Accept: "application/json",
@@ -223,4 +223,6 @@ export const unLinkService = async (service: AppServiceType) => {
 			Authorization: "Bearer " + getCookie("aeris_jwt"),
 		},
 	});
+
+	return response.ok;
 };
