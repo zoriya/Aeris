@@ -40,12 +40,13 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
-const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`
+const getServiceUrl = (service: string) =>
+	`${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`;
 
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
-		uid: "youtube",
+		uid: "google",
 		logo: AppServicesLogos["youtube"],
 		urlAuth: getServiceUrl("google"),
 		linked: false,
@@ -69,14 +70,14 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
 		urlAuth: getServiceUrl("twitter"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: getServiceUrl("discord"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "AniList",
@@ -111,6 +112,9 @@ export const NewEmptyPipeline: AppPipelineType = {
 	data: {
 		enabled: true,
 		status: "",
+		errorText: "",
 		error: false,
+		triggerCount: 0,
+		lastTrigger: new Date(),
 	},
 };

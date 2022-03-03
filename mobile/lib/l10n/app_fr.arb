@@ -37,5 +37,10 @@
     "logoutWarningMessage": "Êtes-vous sûr(e) de voulour vous déconnecter d'Aeris?",
     "warning": "Attention",
     "cancel": "Annuler",
-    "errorOnSignup": "Une erreur est survenue, veuillez réessayer"
+    "errorOnSignup": "Une erreur est survenue, veuillez réessayer",
+    "loading": "Chargement...",
+    "invalidUrl": "URL invalide",
+    "tryToConnect": "Tester la connection",
+    "routeToApi": "Route de l'API",
+    "setupAPIRoute": "Choisir la route de l'API"
 }

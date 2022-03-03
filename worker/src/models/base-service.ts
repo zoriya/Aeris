@@ -46,17 +46,24 @@ export class BaseService {
 
 	getAction(action: PipelineType): (params: any) => Observable<PipelineEnv> {
 		const metadata: ActionMetadata = BaseService._actions[this.constructor.name][PipelineType[action]];
+		if (!metadata)
+			throw new TypeError(`Invalid action: ${action}`);
 		return this._runWithParamsCheck(metadata);
 	}
 
 	getReaction(reaction: ReactionType): (params: any) => Promise<PipelineEnv> {
-		const metadata: ActionMetadata = BaseService._reactions[this.constructor.name][PipelineType[reaction]];
+		const metadata: ActionMetadata = BaseService._reactions[this.constructor.name][ReactionType[reaction]];
+		if (!metadata)
+			throw new TypeError(`Invalid reaction: ${action}`);
 		return this._runWithParamsCheck(metadata);
 	}
 
 	static createService(service: ServiceType, pipeline: Pipeline): BaseService {
+		const ctr = BaseService._serviceFactory[service];
+		if (!ctr)
+			throw new TypeError(`Service not found ${service}`);	
 		// @ts-ignore
-		return new BaseService._serviceFactory[service](pipeline);
+		return new ctr(pipeline);
 	}
 };
 

@@ -13,8 +13,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  GetIt.I.registerSingleton<SharedPreferences>(prefs);
   AerisAPI interface = AerisAPI();
   GetIt.I.registerSingleton<AerisAPI>(interface);
   await interface.restoreConnection();

@@ -29,5 +29,6 @@
   "switch_language": "Langue changée pour Français",
   "get_mobile_app": "Obtenir l'app mobile",
   "switch_to_french": "Français",
-  "switch_to_english": "Anglais"
+  "switch_to_english": "Anglais",
+  "pipeline_error_prefix": "Erreur: "
 }

@@ -19,6 +19,8 @@ import Core.Pipeline (PipelineParams (PipelineParams))
 import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 import Data.Default (Default, def)
 import Data.Aeson (Value(Number, Object), decode)
+import Data.Int (Int64)
+import Data.Scientific ( toBoundedInteger )
 
 mapInd :: (a -> Int -> b) -> [a] -> [b]
 mapInd f l = zipWith f l [0 ..]
@@ -26,6 +28,12 @@ mapInd f l = zipWith f l [0 ..]
 lookupObjString :: Object -> Text -> Maybe String
 lookupObjString obj key = case Data.HashMap.Strict.lookup key obj of
     Just (String x) -> Just . unpack $ x
+    _ -> Nothing
+
+
+lookupObjInt :: Object -> Text -> Maybe Int64
+lookupObjInt obj key = case Data.HashMap.Strict.lookup key obj of
+    Just (Number x) -> toBoundedInteger $ x
     _ -> Nothing
 
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
