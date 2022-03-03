@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import GenericButton from "../components/GenericButton";
 import { AppServiceType } from "../utils/types";
 import { Grid } from "@mui/material";
-
+import { unLinkService } from "../utils/utils";
 import { useTranslation } from "react-i18next";
 import '../i18n/config';
 
@@ -46,7 +46,9 @@ export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 							}}>
 							{linkedServices.map((elem, index) => (
 								<Grid item mb={4} key={index}>
-									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} />
+									<GenericButton service={elem.logo} title={elem.label} trailingIcon={<Logout />} onClickCallback={() => {
+										unLinkService(elem);
+									}} />
 								</Grid>
 							))}
 						</Box>

@@ -23,7 +23,11 @@ export function getCookie(cname: string): string {
 	return "";
 }
 
-export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string, redirectUri: string): Promise<boolean> => {
+export const sendServiceAuthToken = async (
+	authToken: string,
+	serviceEndpoint: string,
+	redirectUri: string
+): Promise<boolean> => {
 	const response = await fetch(`${API_ROUTE}${serviceEndpoint}?code=${authToken}&redirect_uri=${redirectUri}`, {
 		method: "GET",
 		headers: {
@@ -197,7 +201,6 @@ export const fetchLinkedServices = async (): Promise<Array<string>> => {
 	return [];
 };
 
-
 export const generateRandomString = (): string => {
 	let randomString = "";
 	const randomNumber = Math.floor(Math.random() * 10);
@@ -206,4 +209,18 @@ export const generateRandomString = (): string => {
 		randomString += String.fromCharCode(33 + Math.floor(Math.random() * 94));
 	}
 	return randomString;
+};
+
+export const unLinkService = async (service: AppServiceType) => {
+	let route = service.urlAuth.slice(0, service.urlAuth.indexOf("?"));
+	route = route.slice(0, route.lastIndexOf("/"));
+
+	const response = await fetch(API_ROUTE + route, {
+		method: "DELETE",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
+	});
 };
