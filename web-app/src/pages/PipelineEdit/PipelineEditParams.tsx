@@ -1,9 +1,11 @@
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Grid, TextField, Typography, Stack } from "@mui/material";
-import { Save } from "@mui/icons-material";
-import Box from "@mui/material/Box";
 import { AppPipelineType, AppAREAType, ParamsType } from "../../utils/types";
+import { Grid, TextField, Typography, Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { Save } from "@mui/icons-material";
 import { useState } from "react";
+
+import { useTranslation } from "react-i18next";
+import '../../i18n/config';
 
 interface PipelineEditParamsProps {
 	pipelineData: AppPipelineType;
@@ -14,14 +16,15 @@ interface PipelineEditParamsProps {
 
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
+	const { t } = useTranslation();
 
 	return (
 		<div>
 			<Typography variant="h5" align="left">
-				'{AREA.type}' Parameters
+				'{AREA.type}' {t('parameters')}
 			</Typography>
 			<Stack>
-				{Object.entries(AREA.params.contents).map((param, key) => {
+				{Object.entries(AREA.params).map((param, key) => {
 					return (
 						<TextField
 							key={key}
@@ -35,7 +38,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 								let paramToSave = formData;
 
 								paramToSave[param[0]] = {
-									...AREA.params.contents[param[0]],
+									...AREA.params[param[0]],
 									value: e.target.value,
 								};
 								setFormData(paramToSave);
@@ -55,13 +58,11 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 					onClick={() =>
 						setParams({
 							...AREA,
-							params: {
-								contents: formData,
-							},
+							params: formData,
 						})
 					}
 					variant="contained">
-					Save
+					{t('save')}
 				</LoadingButton>
 			</Grid>
 		</div>

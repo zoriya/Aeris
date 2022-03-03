@@ -13,9 +13,9 @@ module Api.Pipeline where
 import App (AppM, State (State, dbPool))
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Control.Monad.Trans.Reader (ask)
-import Core.Pipeline (PipelineParams, PipelineType)
+import Core.Pipeline (PipelineParams (PipelineParams), PipelineType)
 import Core.Reaction (ReactionParams, ReactionType)
-import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode)
+import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode, Value (Bool))
 import Data.Aeson.TH (deriveJSON)
 import Data.Functor.Identity (Identity)
 import Data.Int (Int64)
@@ -47,12 +47,13 @@ import System.Environment.MrEnv (envAsString)
 import Data.Default (def)
 import Db.User (UserDB(..))
 import Control.Applicative (Alternative((<|>)))
+import GHC.TypeLits (ErrorMessage(Text))
+import Data.Time (UTCTime)
 
 data PipelineData = PipelineData
     { name :: Text
     , pType :: PipelineType
     , pParams :: PipelineParams
-    , id :: PipelineId
     , enabled :: Bool
     }
 
@@ -66,18 +67,37 @@ data PostPipelineData = PostPipelineData
     , reactions :: [ReactionData]
     }
 
-type GetPipelineResponse = PostPipelineData
 type PutPipelineData = PostPipelineData
 
+data GetPipelineData = GetPipelineData
+    { name :: Text 
+    , pType :: PipelineType 
+    , pParams :: PipelineParams
+    , enabled :: Bool 
+    , error :: Maybe Text
+    , lastTrigger :: Maybe UTCTime 
+    , triggerCount :: Int64
+    , id :: PipelineId
+    }
+
+data GetPipelineResponse = GetPipelineResponse
+    { action :: GetPipelineData
+    , reactions :: [ReactionData]
+    }
+
+type PostPipelineResponse = GetPipelineResponse
+
 $(deriveJSON defaultOptions ''PipelineData)
+$(deriveJSON defaultOptions ''GetPipelineData)
 $(deriveJSON defaultOptions ''ReactionData)
+$(deriveJSON defaultOptions ''GetPipelineResponse)
 $(deriveJSON defaultOptions ''PostPipelineData)
 
 data PipelineAPI mode = PipelineAPI
     { get   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Get '[JSON] GetPipelineResponse
     , post  :: mode :- "workflow" :> UserAuth :>
-        ReqBody '[JSON] PostPipelineData :> Post '[JSON] [ReactionId]
+        ReqBody '[JSON] PostPipelineData :> Post '[JSON] PostPipelineResponse
     , put   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineData
     , del   :: mode :- "workflow" :> UserAuth :>
@@ -88,12 +108,29 @@ data PipelineAPI mode = PipelineAPI
     deriving stock (Generic)
 
 formatGetPipelineResponse :: Pipeline Identity -> [Reaction Identity] -> GetPipelineResponse
-formatGetPipelineResponse pipeline reactions =
+formatGetPipelineResponse (Pipeline pId pName pType pParams _ pEnabled pError pTriggerCount pLastTrigger) reactions =
+    GetPipelineResponse actionResult reactionsResult
+    where
+        actionResult = GetPipelineData
+            { name = pName
+            , pType = pType
+            , pParams = pParams
+            , enabled = pEnabled
+            , error = pError
+            , lastTrigger = pLastTrigger
+            , triggerCount = pTriggerCount
+            , id = pId
+            } 
+        reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
+
+formatPostPipelineData :: Pipeline Identity -> [Reaction Identity] -> PostPipelineData
+formatPostPipelineData pipeline reactions =
     PostPipelineData actionResult reactionsResult
     where
-        actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineId pipeline) (pipelineEnabled pipeline)
+        actionResult = PipelineData (pipelineName pipeline) (pipelineType pipeline) (pipelineParams pipeline) (pipelineEnabled pipeline)
         reactionsResult = fmap (\x -> ReactionData (reactionType x) (reactionParams x)) reactions
-    
+
+
 informWorker :: ByteString -> PipelineId -> IO ()
 informWorker method id =
     do
@@ -103,7 +140,7 @@ informWorker method id =
             $ setRequestMethod method
             $ addRequestHeader "Accept" "application/json"
             $ setRequestPath (encodeUtf8 (pack $ "/worker/" <> show id))
-            $ request
+            request
         return ()
     <|> return ()
 
@@ -120,18 +157,21 @@ getPipelineHandler _ _ = throwError err401
 reactionDatasToReactions :: [ReactionData] -> PipelineId -> [Reaction Identity]
 reactionDatasToReactions datas pId = fmap (\(s, i) -> Reaction (ReactionId 1) (rType s) (rParams s) pId (fromIntegral i)) (zip datas [0 ..])
 
-postPipelineHandler :: AuthRes -> PostPipelineData -> AppM [ReactionId]
+postPipelineHandler :: AuthRes -> PostPipelineData -> AppM PostPipelineResponse
 postPipelineHandler (Authenticated (User uid _ _)) x = do
     let newPipeline = def {
-          pipelineName = name p
-        , pipelineType = pType p
-        , pipelineParams = pParams p
-        , pipelineUserId = uid }
+          pipelineName = name (p :: PipelineData)
+        , pipelineType = pType (p :: PipelineData)
+        , pipelineParams = pParams (p :: PipelineData)
+        , pipelineUserId = uid
+        , pipelineEnabled = enabled (p :: PipelineData)}
     actionId <- createPipeline newPipeline
     liftIO $ informWorker "POST" actionId
-    createReactions $ reactionDatasToReactions (reactions x) actionId
+    let newReactions = reactionDatasToReactions (reactions (x :: PostPipelineData)) actionId
+    createReactions newReactions
+    return $ formatGetPipelineResponse newPipeline newReactions
   where
-    p = action x
+    p = action (x :: PostPipelineData)
 postPipelineHandler _ _ = throwError err401
 
 putPipelineHandler :: AuthRes -> PipelineId -> PutPipelineData -> AppM PutPipelineData
@@ -147,13 +187,14 @@ putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
     else
         throwError err403
     where
-        p = action x
+        p = action (x :: PutPipelineData)
         newPipeline = lit $ def {
-          pipelineName = name p
-        , pipelineType = pType p
-        , pipelineParams = pParams p
-        , pipelineUserId = uid }
-        r = reactionDatasToReactions (reactions x) pipelineId
+          pipelineName = name (p :: PipelineData)
+        , pipelineType = pType (p :: PipelineData)
+        , pipelineParams = pParams (p :: PipelineData)
+        , pipelineUserId = uid
+        , pipelineEnabled = enabled (p :: PipelineData)}
+        r = reactionDatasToReactions (reactions (x :: PutPipelineData)) pipelineId
 putPipelineHandler _ _ _ = throwError err401
 
 delPipelineHandler :: AuthRes -> PipelineId -> AppM Int64 
