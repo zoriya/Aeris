@@ -23,7 +23,7 @@ export default function ServiceSetupModal({ services, setServices }: ServiceSetu
 			style={{
 				display: "grid",
 				gridTemplateColumns: "30vw 5vw 30vw",
-				gridTemplateRows: "2fr 1fr 18fr",
+				gridTemplateRows: "2fr 1fr auto",
 				gridTemplateAreas: `
 					'WindowTitle  WindowTitle WindowTitle'
 					'LinkedTitle  .           UnlinkedTitle'
@@ -44,7 +44,7 @@ export default function ServiceSetupModal({ services, setServices }: ServiceSetu
 				{t("linked")}
 			</Typography>
 
-			<Grid gridArea={"LinkedTitle"} item container direction="column" spacing={2}>
+			<Grid gridArea={"LinkedList"} alignSelf="start" container direction="column" spacing={2}>
 				{linkedServices.map((elem, index) => (
 					<Grid item mb={4} key={index}>
 						<GenericButton
@@ -75,6 +75,7 @@ export default function ServiceSetupModal({ services, setServices }: ServiceSetu
 			<Grid
 				sx={{
 					gridArea: "UnlinkedList",
+					alignSelf: "start",
 				}}
 				container
 				direction="column"
