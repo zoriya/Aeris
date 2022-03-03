@@ -11,7 +11,7 @@ import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
-import Utils (lookupObjString)
+import Utils (lookupObjString, lookupObjInt)
 import Data.ByteString.Base64
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
@@ -40,10 +40,9 @@ getGithubConfig =
         <*> envAsString "GITHUB_SECRET" ""
         <*> pure "https://github.com/login/oauth/access_token"
 
-getGithubTokens :: String -> IO (Maybe ExternalToken)
-getGithubTokens code = do
+getGithubTokens :: String -> String -> IO (Maybe ExternalToken)
+getGithubTokens code _ = do
     gh <- getGithubConfig
-    print gh
     let endpoint = tokenEndpoint code gh
     request' <- parseRequest endpoint
     let request =
@@ -56,13 +55,13 @@ getGithubTokens code = do
                 ]
             request'
     response <- httpJSONEither request
-    print response
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Github
 
 -- DISCORD
 getDiscordConfig :: IO OAuth2Conf
@@ -72,8 +71,8 @@ getDiscordConfig =
         <*> envAsString "DISCORD_SECRET" ""
         <*> pure "https://discord.com/api/oauth2/token"
 
-getDiscordTokens :: String -> IO (Maybe ExternalToken)
-getDiscordTokens code = do
+getDiscordTokens :: String -> String -> IO (Maybe ExternalToken)
+getDiscordTokens code redirect = do
     cfg <- getDiscordConfig
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
@@ -85,7 +84,7 @@ getDiscordTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/discord")
+                , ("redirect_uri", B8.pack redirect)
                 ]
             request'
     response <- httpJSONEither request
@@ -94,7 +93,8 @@ getDiscordTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Discord
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -104,8 +104,8 @@ getGoogleConfig =
         <*> envAsString "GOOGLE_SECRET" ""
         <*> pure "https://oauth2.googleapis.com/token"
 
-getGoogleTokens :: String -> IO (Maybe ExternalToken)
-getGoogleTokens code = do
+getGoogleTokens :: String -> String -> IO (Maybe ExternalToken)
+getGoogleTokens code redirect = do
     cfg <- getGoogleConfig
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
@@ -117,7 +117,7 @@ getGoogleTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/google")
+                , ("redirect_uri", B8.pack redirect)
                 ]
             request'
     response <- httpJSONEither request
@@ -126,7 +126,8 @@ getGoogleTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Google
 
 -- SPOTIFY
 getSpotifyConfig :: IO OAuth2Conf
@@ -136,21 +137,21 @@ getSpotifyConfig =
         <*> envAsString "SPOTIFY_SECRET" ""
         <*> pure "https://accounts.spotify.com/api/token"
 
-getSpotifyTokens :: String -> IO (Maybe ExternalToken)
-getSpotifyTokens code = do
+getSpotifyTokens :: String -> String -> IO (Maybe ExternalToken)
+getSpotifyTokens code redirect = do
     cfg <- getSpotifyConfig
 
-    let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
+    let basicAuth = encodeBase64 $ B8.pack $ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
             setRequestMethod "POST" $
-            addRequestHeader "Authorization" (B8.pack . unpack $ basicAuth) $
+            addRequestHeader "Authorization" (B8.pack $ "Basic " ++ unpack basicAuth) $
             addRequestHeader "Accept" "application/json" $
             setRequestBodyURLEncoded
                 [ ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/google")
+                , ("redirect_uri", B8.pack redirect)
                 ]
             request'
     response <- httpJSONEither request
@@ -159,7 +160,8 @@ getSpotifyTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Spotify
 
 -- TWITTER
 getTwitterConfig :: IO OAuth2Conf
@@ -169,8 +171,8 @@ getTwitterConfig =
         <*> envAsString "TWITTER_SECRET" ""
         <*> pure "https://api.twitter.com/2/oauth2/token"
 
-getTwitterTokens :: String -> IO (Maybe ExternalToken)
-getTwitterTokens code = do
+getTwitterTokens :: String -> String -> IO (Maybe ExternalToken)
+getTwitterTokens code redirect = do
     cfg <- getTwitterConfig
     let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
@@ -182,7 +184,7 @@ getTwitterTokens code = do
             setRequestBodyURLEncoded
                 [ ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/twitter")
+                , ("redirect_uri", B8.pack redirect)
                 , ("code_verifier", "challenge")
                 ]
             request'
@@ -192,7 +194,8 @@ getTwitterTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Twitter
 
 -- ANILIST
 getAnilistConfig :: IO OAuth2Conf
@@ -202,8 +205,8 @@ getAnilistConfig =
         <*> envAsString "ANILIST_SECRET" ""
         <*> pure "https://anilist.co/api/v2/oauth/token"
 
-getAnilistTokens :: String -> IO (Maybe ExternalToken)
-getAnilistTokens code = do
+getAnilistTokens :: String -> String -> IO (Maybe ExternalToken)
+getAnilistTokens code redirect = do
     cfg <- getAnilistConfig
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
@@ -215,7 +218,7 @@ getAnilistTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:3000/authorization/anilist")
+                , ("redirect_uri", B8.pack redirect)
                 ]
             request'
     response <- httpJSONEither request
@@ -224,13 +227,14 @@ getAnilistTokens code = do
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Github
+            expires_in <- lookupObjInt obj "expires_in"
+            Just $ ExternalToken (pack access) (pack refresh) expires_in Anilist
 
 
 
 
 -- General
-getOauthTokens :: Service -> String -> IO (Maybe ExternalToken)
+getOauthTokens :: Service -> String -> String -> IO (Maybe ExternalToken)
 getOauthTokens Github = getGithubTokens
 getOauthTokens Discord = getDiscordTokens
 getOauthTokens Spotify = getSpotifyTokens

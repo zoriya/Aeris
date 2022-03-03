@@ -2,7 +2,7 @@
 	"name": "Spotify",
 	"actions": [
 		{
-			"name": "OnSpotifyAddToPlaylist",
+			"name": "Spotify_OnSpotifyAddToPlaylist",
 			"description": "Event triggered when a song is added to a Spotify playlist",
 			"params": [
 				{
@@ -23,7 +23,7 @@
 			]
 		},
 		{
-			"name": "OnSpotifySaveToLibrary",
+			"name": "Spotify_OnSpotifySaveToLibrary",
 			"description": "Event triggered when a song is added to a Spotify library",
 			"params": [],
 			"returns": [
@@ -70,7 +70,7 @@
 			]
 		},
 		{
-			"name": "Pause",
+			"name": "Spotify_Pause",
 			"description": "Pause play",
 			"params": [],
 			"returns": []
@@ -106,7 +106,7 @@
 			]
 		},
 		{
-			"name": "AddToPlaylist",
+			"name": "Spotify_AddToPlaylist",
 			"description": "Add a track to a playlist",
 			"params": [
 				{

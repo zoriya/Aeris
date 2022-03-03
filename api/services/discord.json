@@ -2,7 +2,7 @@
 	"name": "Discord",
 	"actions": [
 		{
-			"name": "OnDiscordMessage",
+			"name": "Discord_OnDiscordMessage",
 			"description": "An event triggered by the reception of a direct message",
 			"params": [],
 			"returns": [
@@ -21,7 +21,7 @@
 			]
 		},
 		{
-			"name": "OnDiscordMessageFrom",
+			"name": "Discord_OnDiscordMessageFrom",
 			"description": "An event triggered by the reception of a direct message from a specified user",
 			"params": [
 				{
@@ -46,7 +46,7 @@
 			]
 		},
 		{
-			"name": "OnDiscordMention",
+			"name": "Discord_OnDiscordMention",
 			"description": "An event triggered when the authenticated user is mentioned",
 			"params": [],
 			"returns": [
@@ -65,7 +65,7 @@
 			]
 		},
 		{
-			"name": "OnNewDiscordGuildMember",
+			"name": "Discord_OnNewDiscordGuildMember",
 			"description": "An event triggered when a new member joins a guild",
 			"params": [],
 			"returns": [
@@ -88,7 +88,7 @@
 			]
 		},
 		{
-			"name": "OnDiscordGuildLeave",
+			"name": "Discord_OnDiscordGuildLeave",
 			"description": "An event triggered when a member leaves a guild",
 			"params": [],
 			"returns": [
@@ -113,7 +113,7 @@
 	],
 	"reactions": [
 		{
-			"name": "PostDiscordMessage",
+			"name": "Discord_PostDiscordMessage",
 			"description": "Posts a message on a given server (in a given channel)",
 			"params": [
 				{
@@ -164,7 +164,7 @@
 			]
 		},
 		{
-			"name": "PostDiscordDM",
+			"name": "Discord_PostDiscordDM",
 			"description": "Sends a message to a given user",
 			"params": [
 				{
@@ -202,7 +202,7 @@
 			]
 		},
 		{
-			"name": "LeaveDiscordServer",
+			"name": "Discord_LeaveDiscordServer",
 			"description": "Leave given Discord server",
 			"params": [
 				{
@@ -231,7 +231,7 @@
 			]
 		},
 		{
-			"name": "SetDiscordStatus",
+			"name": "Discord_SetDiscordStatus",
 			"description": "Leave given Discord server",
 			"params": [
 				{

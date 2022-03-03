@@ -24,7 +24,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 				'{AREA.type}' {t('parameters')}
 			</Typography>
 			<Stack>
-				{Object.entries(AREA.params.contents).map((param, key) => {
+				{Object.entries(AREA.params).map((param, key) => {
 					return (
 						<TextField
 							key={key}
@@ -38,7 +38,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 								let paramToSave = formData;
 
 								paramToSave[param[0]] = {
-									...AREA.params.contents[param[0]],
+									...AREA.params[param[0]],
 									value: e.target.value,
 								};
 								setFormData(paramToSave);
@@ -58,9 +58,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 					onClick={() =>
 						setParams({
 							...AREA,
-							params: {
-								contents: formData,
-							},
+							params: formData,
 						})
 					}
 					variant="contained">

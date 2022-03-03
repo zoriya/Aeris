@@ -1,0 +1,30 @@
+{
+	"name": "Anilist",
+	"actions": [],
+	"reactions": [
+		{
+			"name": "UpdateAbout",
+			"description": "Update the about you section.",
+			"params": [
+				{
+					"name": "about",
+					"type": "string",
+					"description": "The description on your profile."
+				}
+			],
+			"returns": []
+		},
+		{
+			"name": "ToggleFavourite",
+			"description": "Add or remove an anime fro your favorite.",
+			"params": [
+				{
+					"name": "animeID",
+					"type": "string",
+					"description": "The ID of the anime"
+				}
+			],
+			"returns": []
+		}
+	]
+}

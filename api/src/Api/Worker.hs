@@ -19,14 +19,16 @@ import Utils (UserAuth, uncurry3)
 import Api.Pipeline (GetPipelineResponse, formatGetPipelineResponse, allPipelineHandler)
 import Data.Aeson (FromJSON, ToJSON, defaultOptions, eitherDecode)
 import Data.Aeson.TH (deriveJSON)
-import Core.User (UserId(UserId), ExternalToken (ExternalToken))
+import Core.User (UserId(UserId), ExternalToken (ExternalToken), Service)
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import System.Environment.MrEnv (envAsString)
 import Repository (getUserById', getWorkflow', getWorkflows', triggerPipeline', errorPipeline')
 import Db.User (UserDB(userDBId, externalTokens))
 import Data.Functor.Identity (Identity)
 import Db.Reaction (Reaction)
+import Repository.User (updateTokens, getTokensByUserId, delTokens)
 import GHC.Generics (Generic)
+import Data.Int (Int64)
 import Data.Text (Text)
 
 
@@ -42,9 +44,16 @@ data GetPipelineWorkerResponse = GetPipelineWorkerResponse
 
 newtype ErrorBody = ErrorBody { error :: Text }
 
+data RefreshBody = RefreshBody
+    { accessToken :: Text
+    , refreshToken :: Text
+    , expiresIn :: Int64
+    }
+
 $(deriveJSON defaultOptions ''WorkerUserData)
 $(deriveJSON defaultOptions ''GetPipelineWorkerResponse)
 $(deriveJSON defaultOptions ''ErrorBody)
+$(deriveJSON defaultOptions ''RefreshBody)
 
 data WorkerAPI mode = WorkerAPI
     { get :: mode :- "workflow" :> Capture "id" PipelineId :>
@@ -55,6 +64,8 @@ data WorkerAPI mode = WorkerAPI
         QueryParam "WORKER_API_KEY" String :> Get '[JSON] NoContent
     , error :: mode :- "error" :> Capture "id" PipelineId :>
         QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] ErrorBody :> Post '[JSON] NoContent
+    , refresh :: mode :- "auth" :> Capture "service" Service :> "refresh" :> Capture "id" UserId :>
+        QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] RefreshBody :> Post '[JSON] NoContent  
     }
     deriving stock (Generic)
 
@@ -98,6 +109,16 @@ errorHandler pId (Just key) (ErrorBody msg) = do
     else throwError err403  
 errorHandler _ _ _ = throwError err403
 
+refreshHandler :: Service -> UserId -> Maybe String -> RefreshBody -> AppM NoContent 
+refreshHandler service uid (Just key) (RefreshBody at rt ex) = do
+    k <- liftIO $ envAsString "WORKER_API_KEY" ""
+    if k == key then do
+        updateTokens uid $ ExternalToken at rt ex service
+        return NoContent 
+    else throwError err403  
+refreshHandler _ _ _ _ = throwError err403
+
+
 workerHandler :: WorkerAPI (AsServerT AppM)
 workerHandler =
     WorkerAPI
@@ -105,4 +126,5 @@ workerHandler =
         , all = allPipelineHandlerWorker
         , trigger = triggerHandler
         , error = errorHandler
+        , refresh = refreshHandler
         }

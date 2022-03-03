@@ -39,9 +39,7 @@ export interface ParamsType {
 
 export interface AppAREAType {
 	type: ActionTypeEnum | ReactionTypeEnum | string;
-	params: {
-		contents: { [key: string]: ParamsType };
-	};
+	params: { [key: string]: ParamsType };
 	returns: { [key: string]: string };
 	description?: string;
 	service: AppServiceType;
@@ -51,6 +49,9 @@ export interface AppPipelineInfoType {
 	enabled: boolean;
 	status: string;
 	error: boolean;
+	errorText: string;
+	triggerCount: number;
+	lastTrigger: Date;
 }
 
 export interface AppPipelineType {
