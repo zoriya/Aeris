@@ -22,16 +22,19 @@ class Trigger extends aeris_action.Action {
 
   /// Unserialize
   static Trigger fromJSON(Object action) {
-    var triggerJSON = action as Map<String, Object>;
+    var triggerJSON = action as Map<String, dynamic>;
     Tuple2<Service, String> service =
         aeris_action.Action.parseServiceAndName(triggerJSON['pType'] as String);
-    DateTime last = DateTime.parse(action['lastTrigger'] as String);
+    var lastTriggerField = action['lastTrigger'];
+    DateTime? last = lastTriggerField == null
+      ? null
+      : DateTime.parse(lastTriggerField as String);
 
     return Trigger(
         service: service.item1,
         name: service.item2,
-        last: last.year == 0 ? null : last,
-        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, Object>))
+        last: last,
+        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, dynamic>))
     );
   }
 
@@ -56,6 +59,7 @@ class Trigger extends aeris_action.Action {
     return service.name == other.service.name &&
         name == other.name &&
         last == other.last &&
-        parameters.map((e) => e.name).toString() == other.parameters.map((e) => e.name).toString();
+        parameters.map((e) => e.name).toString() ==
+            other.parameters.map((e) => e.name).toString();
   }
 }

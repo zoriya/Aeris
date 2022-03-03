@@ -6,7 +6,7 @@ import 'package:aeris/src/models/trigger.dart';
 /// Object representation of a pipeline
 class Pipeline {
   ///Unique identifier
-  final int id;
+  int id;
 
   /// Name of the pipeline, defined by the user
   final String name;

@@ -20,13 +20,13 @@ class Reaction extends aeris_action.Action {
       : super(service: Service.all()[0], name: '', parameters: []);
 
   static Reaction fromJSON(Object reaction) {
-    var reactionJSON = reaction as Map<String, Object>;
+    var reactionJSON = reaction as Map<String, dynamic>;
     Tuple2<Service, String> service = aeris_action.Action.parseServiceAndName(
         reactionJSON['rType'] as String);
     return Reaction(
         service: service.item1,
         name: service.item2,
-        parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, Object>)));
+        parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, dynamic>)));
   }
 
   /// Serialize Reaction to JSON

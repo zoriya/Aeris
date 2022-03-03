@@ -71,6 +71,8 @@ class Service {
 
   /// Construct a service based on a lowercase string, the name of the service
   static Service factory(String name) {
+    if (name.toLowerCase() == "git") return const Service.github();
+    if (name.toLowerCase() == "ani") return const Service.anilist();
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }

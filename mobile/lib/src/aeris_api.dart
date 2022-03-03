@@ -32,7 +32,7 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String baseRoute = "http://10.29.124.174:8080"; ///TODO make it modifiable
+  final String baseRoute = "http://10.29.124.174:81"; ///TODO make it modifiable
 
   /// Name of the file that contains the JWT used for Aeris' API requestd
   static const String jwtFile = 'aeris_jwt.txt';
@@ -113,11 +113,9 @@ class AerisAPI {
 
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
-    print(newPipeline.toJSON());
     var res = await _requestAPI(
         '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
-    print(jsonDecode(res.body)); ///TODO could not be fetched back
-    newPipeline = Pipeline.fromJSON(jsonDecode(res.body));
+    newPipeline.id = Pipeline.fromJSON(jsonDecode(res.body)).id;
     return res.ok;
   }
 
@@ -145,7 +143,6 @@ class AerisAPI {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
     final List body = jsonDecode(res.body);
-    print(body);
 
     return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
   }

@@ -16,7 +16,7 @@ class ActionParameter {
 
   MapEntry<String, dynamic> toJson() => MapEntry(name, value);
 
-  static List<ActionParameter> fromJSON(Map<String, Object> params) {
+  static List<ActionParameter> fromJSON(Map<String, dynamic> params) {
     List<ActionParameter> actionParameters = [];
     params.forEach((key, value) =>
         actionParameters.add(ActionParameter(name: key, value: value)));
