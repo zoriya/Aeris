@@ -14,6 +14,8 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CableIcon from "@mui/icons-material/Cable";
+import {useTranslation} from "react-i18next";
+import '../../i18n/config';
 import "./PipelineSquare.css";
 
 export interface PipelineSquareProps {
@@ -22,6 +24,7 @@ export interface PipelineSquareProps {
 }
 
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
+    const { t } = useTranslation();
 	const backgroundColor = pipelineData.data.enabled ? (pipelineData.data.error ? "#ffdddd" : null) : "#464646";
 	const textColor = pipelineData.data.enabled ? (pipelineData.data.error ? "red" : null) : "#adadad";
 	return (
@@ -102,7 +105,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					</div>
 					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
 						<Typography align="left" variant="body1">
-							{pipelineData.data.error ? "Error: " + pipelineData.data.errorText : pipelineData.data.status}
+							{pipelineData.data.error ? t("pipeline_error_prefix") + pipelineData.data.errorText : pipelineData.data.status}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
