@@ -20,6 +20,7 @@ extra-source-files:
     services/discord.json
     services/github.json
     services/spotify.json
+    services/twitter.json
     services/youtube.json
 
 source-repository head
