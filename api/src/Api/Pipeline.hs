@@ -136,13 +136,13 @@ informWorker method id =
     do
         url <- envAsString "WORKER_URL" "worker/"
         request <- parseRequest url
+        print request
         response <- httpBS
             $ setRequestMethod method
-            $ addRequestHeader "Accept" "application/json"
-            $ setRequestPath (encodeUtf8 (pack $ "/worker/" <> show id))
+            $ setRequestPath (encodeUtf8 (pack $ "/workflow/" <> show id))
             request
+        print response
         return ()
-    <|> return ()
 
 
 getPipelineHandler :: AuthRes -> PipelineId -> AppM GetPipelineResponse
