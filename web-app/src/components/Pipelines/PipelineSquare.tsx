@@ -51,7 +51,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					}}>
 					<CardMedia
 						component="img"
-						sx={{ ridArea: "ActionLogoDisplay", width: "70%" }}
+						sx={{ ridArea: "ActionLogoDisplay", width: "60%" }}
 						image={pipelineData.action.service.logo.imageSrc}
 						alt={pipelineData.action.service.logo.altText}
 					/>
@@ -62,7 +62,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					{pipelineData.reactions.length === 1 ? (
 						<CardMedia
 							component="img"
-							sx={{ gridArea: "ReactionsLogoDisplay", width: "70%" }}
+							sx={{ gridArea: "ReactionsLogoDisplay", width: "60%" }}
 							image={pipelineData.reactions[0].service.logo.imageSrc}
 							alt={pipelineData.reactions[0].service.logo.altText}
 						/>
@@ -73,15 +73,15 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 								gridArea: "ReactionsLogoDisplay",
 							}}>
 							<div className="pipeline-square-square-content">
-								{pipelineData.reactions.slice(0, 4).map((reac) => (
+								{pipelineData.reactions.slice(0, 4).map((reac, idx, arr) => (
 									<div
 										style={{
 											float: "left",
 											display: "flex",
 											alignItems: "center",
 											justifyItems: "center",
-											width: "50%",
-											height: "50%",
+											width:  "50%",
+											height: arr.length === 2 ? "100%" : "50%",
 										}}>
 										<CardMedia
 											component="img"
