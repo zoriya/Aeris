@@ -136,7 +136,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: ReCase(pipeline.trigger.name).paramCase,
+                title: ReCase(pipeline.trigger.name).titleCase,
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     action: pipeline.trigger,
