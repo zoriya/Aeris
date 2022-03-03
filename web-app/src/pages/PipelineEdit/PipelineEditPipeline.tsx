@@ -24,7 +24,7 @@ import {useTranslation} from "react-i18next";
 import '../../i18n/config';
 import {NoAREA} from "../../utils/globals";
 import {useState} from "react";
-import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
+import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -55,6 +55,7 @@ export default function PipelineEditPipeline({
 }: PipelineEditPipelineProps) {
 	const { t } = useTranslation();
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
+	const [reactions, setReactionList] = useState<AppAREAType[]>(pipelineData.reactions);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
 
 	const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -68,6 +69,17 @@ export default function PipelineEditPipeline({
 
 		...draggableStyle
 	})
+
+	const handleOnDragEnd = (result: DropResult) => {
+		const { source, destination } = result
+
+		if (!destination)
+			return
+		const items = Array.from(reactions);
+		const [newOrder] = items.splice(source.index, 1);
+		items.splice(destination.index, 0, newOrder);
+		setReactionList(items);
+	}
 
 	return (
 		<div>
@@ -173,10 +185,11 @@ export default function PipelineEditPipeline({
 					style={{
 						width: "100%",
 						overflow: "auto",
-						maxHeight: "50vh",
+						height: "50vh",
 						gridArea: "reactionData",
 						padding: "10px",
 					}}>
+
 					<Grid container direction="column" spacing={1} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.length === 0 && (
 							<Grid item sm={10} md={10} lg={5} xl={4}>
@@ -192,11 +205,11 @@ export default function PipelineEditPipeline({
 								</Button>
 							</Grid>
 						)}
-						<DragDropContext onDragEnd={() => {}}>
+						<DragDropContext onDragEnd={handleOnDragEnd}>
 							<Droppable droppableId="reactions">
 								{(provided) => (
 									<div className="reactions" {...provided.droppableProps} ref={provided.innerRef}>
-										{pipelineData.reactions.map((el, index, arr) => {
+										{reactions.map((el, index, arr) => {
 											return (
 												<Draggable key={index.toString()} draggableId={index.toString()} index={index}>
 													{(provided, snapshot) => (

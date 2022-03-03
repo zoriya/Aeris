@@ -204,13 +204,33 @@ export const FakeAREA: AppAREAType = {
 	service: AppServices[0],
 };
 
+export const FakeAREAA: AppAREAType = {
+	type: "Twiitersmth",
+	params: {
+		contents: {},
+	},
+	returns: {},
+	description: "There's nothing",
+	service: AppServices[1],
+};
+
+export const FakeAREAAA: AppAREAType = {
+	type: "Twiitersmth",
+	params: {
+		contents: {},
+	},
+	returns: {},
+	description: "There's nothing",
+	service: AppServices[2],
+};
+
 
 export const AppListPipelines: Array<AppPipelineType> = [
 	{
 		id: 56,
 		name: "my pipe",
 		action: FakeAREA,
-		reactions: [FakeAREA, FakeAREA, FakeAREA],
+		reactions: [FakeAREA, FakeAREAA, FakeAREAAA],
 		data: {
 			enabled: true,
 			status: "il fait beau aujourd'hui",
