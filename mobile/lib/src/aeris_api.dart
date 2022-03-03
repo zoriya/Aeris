@@ -29,7 +29,7 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = false; //TODO Will be false later
+  bool _connected = false;
   bool get isConnected => _connected;
 
   /// JWT token used to request API
@@ -37,8 +37,8 @@ class AerisAPI {
 
   late final String deepLinkRoute;
 
-  String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
-    ?? "http://10.0.2.2:8080";
+  String _baseRoute =
+      GetIt.I<SharedPreferences>().getString('api') ?? "http://10.0.2.2:8080";
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
@@ -141,8 +141,6 @@ class AerisAPI {
   Future<bool> editPipeline(Pipeline updatedPipeline) async {
     var res = await _requestAPI('/workflow/${updatedPipeline.id}',
         AerisAPIRequestType.put, updatedPipeline.toJSON());
-    print(res.body);
-    print(res.statusCode);
     return res.ok;
   }
 
@@ -150,7 +148,6 @@ class AerisAPI {
   Future<List<Pipeline>> getPipelines() async {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
-    print(res.body);
     final List body = jsonDecode(res.body);
 
     return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
@@ -162,7 +159,8 @@ class AerisAPI {
         await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
     return (jsonDecode(res.body) as List)
-        .map((e) => Service.factory(e.toString())).toList();
+        .map((e) => Service.factory(e.toString()))
+        .toList();
   }
 
   /// Disconnects the user from the service
@@ -182,7 +180,8 @@ class AerisAPI {
   }
 
   List<ActionTemplate> getActionsFor(Service service, aeris.Action action) {
-    final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
+    final catalogue =
+        Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
       return catalogue!.triggerTemplates[service]!;
     }
@@ -198,7 +197,7 @@ class AerisAPI {
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
     final Map<String, String> header = {
-      'Content-type' : 'application/json', 
+      'Content-type': 'application/json',
       'Accept': 'application/json',
     };
     if (_connected) {
@@ -208,27 +207,40 @@ class AerisAPI {
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
-          return await http.delete(_encoreUri(route),
-              body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .delete(_encoreUri(route),
+                  body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.get:
           return await http.get(_encoreUri(route), headers: header).timeout(
             duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.post:
-          return await http.post(_encoreUri(route), body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .post(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.put:
-          return await http.put(_encoreUri(route), body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .put(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
       }
     } catch (e) {
       return http.Response('{}', 400);

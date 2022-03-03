@@ -6,7 +6,6 @@ import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tuple/tuple.dart';
 
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
@@ -23,16 +22,16 @@ class Trigger extends aeris_action.Action {
   /// Unserialize
   static Trigger fromJSON(Object action) {
     var triggerJSON = action as Map<String, dynamic>;
-    Tuple2<Service, String> service =
-        aeris_action.Action.parseServiceAndName(triggerJSON['pType'] as String);
+    Service service =
+        aeris_action.Action.parseServiceInName(triggerJSON['pType'] as String);
     var lastTriggerField = action['lastTrigger'];
     DateTime? last = lastTriggerField == null
       ? null
       : DateTime.parse(lastTriggerField as String);
 
     return Trigger(
-        service: service.item1,
-        name: service.item2,
+        service: service,
+        name: triggerJSON['pType'] as String,
         last: last,
         parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, dynamic>))
     );

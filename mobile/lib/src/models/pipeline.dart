@@ -1,4 +1,3 @@
-import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
@@ -51,7 +50,7 @@ class Pipeline {
     "action": {
       "id": id,
       "name": name,
-      "pType": aeris_action.Action.getType(trigger.service, trigger.name),
+      "pType": trigger.name,
       "pParams": { for (var e in trigger.parameters) e.name : e.value }, ///Serialize
       "enabled": enabled,
       "lastTrigger": trigger.last?.toIso8601String(),

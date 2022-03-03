@@ -14,12 +14,19 @@ class ActionCatalogueProvider extends ChangeNotifier {
   Map<Service, List<ActionTemplate>> get reactionTemplates =>
       _reactionTemplates;
 
+  String removeServiceFromAName(String aName) {
+    var words = aName.split('_');
+    words.removeAt(0);
+    return words.join();
+  }
+
   void reloadCatalogue() {
+    _triggerTemplates.clear();
+    _reactionTemplates.clear();
     Service.all().forEach((element) {
       _triggerTemplates.putIfAbsent(element, () => []);
       _reactionTemplates.putIfAbsent(element, () => []);
     });
-    notifyListeners();
     GetIt.I<AerisAPI>().getAbout().then((about) {
       if (about.isEmpty || about == null) return;
       final services = (about['server'] as Map<String, dynamic>)['services'] as List<dynamic>;
