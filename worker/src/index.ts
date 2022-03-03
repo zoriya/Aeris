@@ -1,10 +1,10 @@
-import { fromEvent, mergeAll, mergeWith, Observable } from "rxjs";
+import { from, fromEvent, mergeAll, mergeWith, Observable } from "rxjs";
 import { fromFetch } from 'rxjs/fetch';
 import { Manager } from "./actions";
 import "./services";
 import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
-import { Pipeline, PipelineType } from "./models/pipeline";
+import { Pipeline, pipelineFromApi, PipelineType } from "./models/pipeline";
 import { EventEmitter } from "events"
 import express from "express";
 
@@ -15,21 +15,23 @@ global.AbortController = AbortController;
 const app = express()
 const pipelineEvent = new EventEmitter();
 app.put("/workflow/:id", req => {
-
+	console.log(`edit pipeline ${req.params.id}`);
 	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
 		.then(res => {
-			pipelineEvent.emit("event", res.json());
+			pipelineEvent.emit("event", pipelineFromApi(res.json()));
 		});
 });
 
 app.post("/workflow/:id", req => {
+	console.log(`new pipeline ${req.params.id}`);
 	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
 		.then(res => {
-			pipelineEvent.emit("event", res.json());
+			pipelineEvent.emit("event", pipelineFromApi(res.json()));
 		});
 });
 
 app.delete("/workflow/:id", req => {
+	console.log(`delete pipeline ${req.params.id}`);
 	pipelineEvent.emit("event", {
 		id: req.params.id,
 		type: PipelineType.Never,
@@ -39,7 +41,7 @@ app.delete("/workflow/:id", req => {
 app.listen(5000);
 
 
-const pipelines = fromFetch<Pipeline[]>(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {selector: x => x.json()})
+const pipelines = fromFetch<Pipeline[]>(`${process.env["WORKER_API_URL"]}/workflows?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {selector: async x => (await x.json()).map((y: any) => pipelineFromApi(y))})
 		.pipe(
 			mergeAll(),
 			mergeWith(fromEvent(pipelineEvent, "event")),
