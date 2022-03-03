@@ -1,6 +1,7 @@
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
@@ -14,10 +15,15 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
-  const SetupActionPage({Key? key, required this.action}) : super(key: key);
+  const SetupActionPage({Key? key, required this.action, required this.parentReactions, this.parentTrigger}) : super(key: key);
 
   /// Action to setup
   final aeris.Action action;
+  /// Trigger of Parent of the action to setup
+  final Trigger? parentTrigger;
+
+  /// reactions of Parent of the action to setup
+  final List<Reaction> parentReactions;
 
   @override
   State<SetupActionPage> createState() => _SetupActionPageState();
@@ -120,6 +126,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   expanded: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ActionForm(
+                        reactionsCandidates: widget.parentReactions,
+                        triggerCandidate: widget.parentTrigger,
+                        candidate: widget.action,
                         key: Key("${availableAction.name}${availableAction.description}${availableAction.service}"),
                         description: availableAction.description!,
                         name: availableAction.name,
