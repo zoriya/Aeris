@@ -1,12 +1,15 @@
 import { Grid, Typography, Chip, Avatar, Stack } from "@mui/material";
 import { PipelineSquare, PipelineSquareProps } from "./PipelineSquare";
 import theme from "../../Aeris.theme";
+import { useTranslation } from "react-i18next";
+import "../../i18n/config";
 export interface PipelineSquaresLayout {
 	data: Array<PipelineSquareProps>;
 	style?: any;
 }
 
 export const PipelineSquaresLayout = ({ data, style }: PipelineSquaresLayout) => {
+	const { t } = useTranslation();
 	const enabledPipelines = data.filter((pd) => pd.pipelineData.data.enabled);
 	const disabledPipelines = data.filter((pd) => !pd.pipelineData.data.enabled);
 
@@ -23,7 +26,7 @@ export const PipelineSquaresLayout = ({ data, style }: PipelineSquaresLayout) =>
 				<>
 					<Stack direction={"row"} spacing={1} alignItems="center" style={{ margin: "20px" }}>
 						<Typography variant="h3" align="left">
-							My Pipelines
+							{t("pipeline_layout_pipeline_section_title")}
 						</Typography>
 						<Avatar sx={{ float: "left", bgcolor: theme.palette.secondary.main, width: 30, height: 30, fontSize: 20 }}>
 							{enabledPipelines.length}
@@ -42,7 +45,7 @@ export const PipelineSquaresLayout = ({ data, style }: PipelineSquaresLayout) =>
 				<>
 					<Stack direction={"row"} spacing={1} alignItems="center" style={{ margin: "25px 0 10px 20px" }}>
 						<Typography variant="h5" align="left">
-							Disabled pipelines
+							{t("pipeline_layout_disable_pipeline_section_title")}
 						</Typography>
 						<Avatar sx={{ float: "left", bgcolor: theme.palette.secondary.main, width: 24, height: 24, fontSize: 15 }}>
 							{disabledPipelines.length}

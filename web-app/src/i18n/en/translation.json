@@ -30,5 +30,7 @@
   "get_mobile_app": "Get the app",
   "switch_to_french": "French",
   "switch_to_english": "English",
-  "pipeline_error_prefix": "Error: "
+  "pipeline_error_prefix": "Error: ",
+  "pipeline_layout_pipeline_section_title": "My pipelines",
+  "pipeline_layout_disable_pipeline_section_title": "Disabled pipelines"
 }
