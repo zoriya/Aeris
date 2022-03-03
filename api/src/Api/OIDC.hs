@@ -62,7 +62,7 @@ urlHandler Spotify (Just r) = do
 urlHandler Github  (Just r) = do
     clientId <- liftIO $ envAsString "GITHUB_CLIENT_ID" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://github.com/login/oauth/authorize?response_type=code&client_id=" ++ clientId ++ "&redirect_uri=" ++ r)] } 
+        [("Location", B8.pack $ "https://github.com/login/oauth/authorize?response_type=code&scope=repo&client_id=" ++ clientId ++ "&redirect_uri=" ++ r)] } 
 
 servicesHandler :: AuthRes -> AppM [String]
 servicesHandler (Authenticated (User uid name slug)) = do
