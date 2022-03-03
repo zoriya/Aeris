@@ -98,6 +98,7 @@ export class Youtube extends BaseService {
 
 	@reaction(ReactionType.YtComment, ["videoId", "body"])
 	async reactComment(params: any): Promise<PipelineEnv> {
+		try {
 		let infos = await this._youtube.commentThreads.insert({
 			part: ["snippet"],
 			requestBody: {
@@ -113,6 +114,10 @@ export class Youtube extends BaseService {
 		});
 		return {
 			ID: infos.data.id,
+		}
+		} catch(e) {
+			console.log(`youtube react comment error: ${e}`);
+			throw new Error("Impossible to comment on this video. Comments may be disabled.");
 		}
 	}
 
