@@ -46,22 +46,29 @@ export default function PipelineEditPage({
 			return (
 				<PipelineEditPipeline
 					disableDeletion={disableDeletion}
+					handleEditReactionOrder={(new_reas) =>
+						setEditPipelineData({
+							...editPipelineData,
+							reactions: new_reas,
+						})
+					}
 					pipelineData={editPipelineData}
-					handleEditPipelineTitle={(newTtitle) => setEditPipelineData({
-						...editPipelineData,
-						name: newTtitle
-					})}
+					handleEditPipelineTitle={(newTtitle) =>
+						setEditPipelineData({
+							...editPipelineData,
+							name: newTtitle,
+						})
+					}
 					handleEditPipelineMetaData={(name, enabled) => {
 						setEditPipelineData({
 							...editPipelineData,
 							name: name,
 							data: {
 								...editPipelineData.data,
-								enabled: enabled
-							}
-						})
-					}
-					}
+								enabled: enabled,
+							},
+						});
+					}}
 					handleEditAction={(action) => {
 						setEditActionData(action);
 						setMode(PipelineEditMode.EditAction);

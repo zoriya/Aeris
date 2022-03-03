@@ -1,4 +1,4 @@
-import {AppAREAType, AppPipelineType} from "../../utils/types";
+import { AppAREAType, AppPipelineType } from "../../utils/types";
 import {
 	Button,
 	ButtonGroup,
@@ -17,14 +17,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {PipelineEditMode} from "./PipelineEditPage";
-import {PipelineAREACard} from "../../components/PipelineAREACard";
+import { PipelineEditMode } from "./PipelineEditPage";
+import { PipelineAREACard } from "../../components/PipelineAREACard";
 
-import {useTranslation} from "react-i18next";
-import '../../i18n/config';
-import {NoAREA} from "../../utils/globals";
-import {useState} from "react";
-import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
+import { useTranslation } from "react-i18next";
+import "../../i18n/config";
+import { NoAREA } from "../../utils/globals";
+import { useState } from "react";
+
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 
 interface PipelineEditPipelineProps {
 	pipelineData: AppPipelineType;
@@ -33,6 +34,7 @@ interface PipelineEditPipelineProps {
 	handleEditReaction: (reaction: AppAREAType, index: number) => any;
 	handleDeleteReaction: (reaction: AppAREAType, index: number) => any;
 	handleDelete: (pD: AppPipelineType) => any;
+	handleEditReactionOrder: (pDs: Array<AppAREAType>) => any;
 	handleSave: (pD: AppPipelineType) => any;
 	handleEditPipelineTitle: (newTtitle: string) => any;
 	setEditMode: (mode: PipelineEditMode) => any;
@@ -49,26 +51,27 @@ export default function PipelineEditPipeline({
 	handleEditPipelineTitle,
 	handleDelete,
 	handleSave,
+	handleEditReactionOrder,
 	setEditMode,
 	disableDeletion,
 	setEditReactionIndex,
 }: PipelineEditPipelineProps) {
 	const { t } = useTranslation();
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
-	const [reactions, setReactionList] = useState<AppAREAType[]>(pipelineData.reactions);
+	const [reactionsList, setReactionList] = useState<AppAREAType[]>(pipelineData.reactions);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
-	const [switchLabel, setSwitchLabel] = useState<string>(pipelineData.data.enabled? t('activated') : t('deactivated'));
+	const [switchLabel, setSwitchLabel] = useState<string>(pipelineData.data.enabled ? t("activated") : t("deactivated"));
 
 	const handleOnDragEnd = (result: DropResult) => {
-		const { source, destination } = result
+		const { source, destination } = result;
 
-		if (!destination)
-			return
-		const items = Array.from(reactions);
+		if (!destination) return;
+		const items = Array.from(reactionsList);
 		const [newOrder] = items.splice(source.index, 1);
 		items.splice(destination.index, 0, newOrder);
 		setReactionList(items);
-	}
+		handleEditReactionOrder(items);
+	};
 
 	return (
 		<div>
@@ -121,7 +124,7 @@ export default function PipelineEditPipeline({
 								checked={pipelineData.data.enabled}
 								onChange={(e) => {
 									handleEditPipelineMetaData(pipelineData.name, e.target.checked);
-									setSwitchLabel(e.target.checked ? t('activated') : t('deactivated'));
+									setSwitchLabel(e.target.checked ? t("activated") : t("deactivated"));
 								}}
 							/>
 						}
@@ -130,11 +133,11 @@ export default function PipelineEditPipeline({
 				</FormGroup>
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					{t('actionCaps')}
+					{t("actionCaps")}
 				</Typography>
 
 				<Typography style={{ gridArea: "reactionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
-					{t('reactionCaps')}
+					{t("reactionCaps")}
 				</Typography>
 
 				<Grid
@@ -152,7 +155,7 @@ export default function PipelineEditPipeline({
 									variant={"contained"}
 									color={"secondary"}
 									onClick={() => setEditMode(PipelineEditMode.Action)}>
-									{t('addAction')}
+									{t("addAction")}
 								</Button>
 							</Grid>
 						) : (
@@ -181,7 +184,6 @@ export default function PipelineEditPipeline({
 						gridArea: "reactionData",
 						padding: "10px",
 					}}>
-
 					<Grid container direction="column" spacing={1} justifyContent="center" alignItems="flex-start">
 						{pipelineData.reactions.length === 0 && (
 							<Grid item sm={10} md={10} lg={5} xl={4}>
@@ -193,7 +195,7 @@ export default function PipelineEditPipeline({
 										setEditMode(PipelineEditMode.Reactions);
 										setEditReactionIndex(pipelineData.reactions.length);
 									}}>
-									{t('addReaction')}
+									{t("addReaction")}
 								</Button>
 							</Grid>
 						)}
@@ -201,11 +203,21 @@ export default function PipelineEditPipeline({
 							<Droppable droppableId="reactions">
 								{(provided) => (
 									<div className="reactions" {...provided.droppableProps} ref={provided.innerRef}>
-										{reactions.map((el, index, arr) => {
+										{reactionsList.map((el, index, arr) => {
 											return (
 												<Draggable key={index.toString()} draggableId={index.toString()} index={index}>
 													{(provided, snapshot) => (
-														<Grid item sm={10} marginBottom={1} md={10} lg={5} xl={4} key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+														<Grid
+															item
+															sm={10}
+															marginBottom={1}
+															md={10}
+															lg={5}
+															xl={4}
+															key={index}
+															ref={provided.innerRef}
+															{...provided.draggableProps}
+															{...provided.dragHandleProps}>
 															<PipelineAREACard
 																AREA={el}
 																order={index + 1}
@@ -244,7 +256,7 @@ export default function PipelineEditPipeline({
 						}}
 						startIcon={<AddBoxIcon />}
 						variant="contained">
-						{t('addReaction')}
+						{t("addReaction")}
 					</LoadingButton>
 				)}
 
@@ -257,7 +269,7 @@ export default function PipelineEditPipeline({
 					onClick={() => handleDelete(pipelineData)}
 					disabled={disableDeletion}
 					loading={false}>
-					{t('deletePipeline')}
+					{t("deletePipeline")}
 				</LoadingButton>
 
 				<ButtonGroup sx={{ gridArea: "buttonCancelSave", justifySelf: "right" }}>
@@ -267,7 +279,7 @@ export default function PipelineEditPipeline({
 						disabled={pipelineData.action.type === NoAREA.type || pipelineData.reactions.length === 0}
 						onClick={async () => handleSave(pipelineData)}
 						variant="contained">
-						{t('save')}
+						{t("save")}
 					</Button>
 				</ButtonGroup>
 			</div>
