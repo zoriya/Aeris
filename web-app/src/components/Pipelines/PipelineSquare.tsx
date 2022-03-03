@@ -76,6 +76,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 							<div className="pipeline-square-square-content">
 								{pipelineData.reactions.slice(0, 4).map((reac, idx, arr) => (
 									<div
+										key={idx}
 										style={{
 											float: "left",
 											display: "flex",

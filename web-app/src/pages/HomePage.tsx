@@ -16,6 +16,7 @@ import {
 	deSerialisePipeline,
 	fetchWorkflows,
 	fetchLinkedServices,
+	deepCopy,
 } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
@@ -73,6 +74,9 @@ export default function HomePage() {
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
+			console.log(pD);
+
+			if (creation) setPipelinesData([...pipelinesData, pD]);
 			return setModalMode(ModalSelection.None);
 		}
 	};
@@ -133,8 +137,8 @@ export default function HomePage() {
 				onClickRefresh={refreshWorkflows}
 			/>
 			<Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start">
-				{pipelinesData.map((el) => (
-					<Grid item>
+				{pipelinesData.map((el, idx) => (
+					<Grid item key={idx}>
 						<PipelineSquare
 							pipelineData={el}
 							onClick={() => {
@@ -179,7 +183,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineDeletion(false);
-						setPipelineData(JSON.parse(JSON.stringify(NewEmptyPipeline)));
+						setPipelineData(deepCopy(NewEmptyPipeline));
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}
