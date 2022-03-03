@@ -115,7 +115,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   header: Padding(
                       padding:
                           const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                      child: Text(ReCase(availableAction.name).titleCase,
+                      child: Text(availableAction.displayName(),
                           style: const TextStyle(fontSize: 15))),
                   collapsed: Container(),
                   expanded: Padding(

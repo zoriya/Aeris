@@ -136,7 +136,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: ReCase(pipeline.trigger.name).titleCase,
+                title: pipeline.trigger.displayName(),
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     action: pipeline.trigger,
@@ -153,7 +153,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: ReCase(reaction.name).titleCase,
+                      title: reaction.displayName(),
                       trailing: ActionCardPopupMenu(
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,

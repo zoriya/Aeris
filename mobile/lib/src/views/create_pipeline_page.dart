@@ -86,7 +86,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: ReCase(trigger.name).titleCase,
+                                title: trigger.displayName(),
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
                                     action: trigger,
@@ -105,7 +105,7 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               itemBuilder: (reaction) => ActionCard(
                               key: ValueKey(reactions.indexOf(reaction)),
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: ReCase(reaction.name).titleCase,
+                              title: reaction.displayName(),
                               trailing: ActionCardPopupMenu(
                                   deletable: reactions.length > 1,
                                   action: reaction,
