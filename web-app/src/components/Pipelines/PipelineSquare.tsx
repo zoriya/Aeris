@@ -14,6 +14,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
 import NumbersIcon from "@mui/icons-material/Numbers";
 import CableIcon from "@mui/icons-material/Cable";
+import "./PipelineSquare.css";
 
 export interface PipelineSquareProps {
 	pipelineData: AppPipelineType;
@@ -58,12 +59,42 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 						sx={{ gridArea: "Arrow", height: 58, width: 58, color: pipelineData.data.error ? "black" : null }}
 					/>
 
-					<CardMedia
-						component="img"
-						sx={{ ridArea: "ReactionsLogoDisplay", width: "70%" }}
-						image={pipelineData.reactions[0].service.logo.imageSrc}
-						alt={pipelineData.reactions[0].service.logo.altText}
-					/>
+					{pipelineData.reactions.length === 1 ? (
+						<CardMedia
+							component="img"
+							sx={{ gridArea: "ReactionsLogoDisplay", width: "70%" }}
+							image={pipelineData.reactions[0].service.logo.imageSrc}
+							alt={pipelineData.reactions[0].service.logo.altText}
+						/>
+					) : (
+						<div
+							className="pipeline-square-square-box"
+							style={{
+								gridArea: "ReactionsLogoDisplay",
+							}}>
+							<div className="pipeline-square-square-content">
+								{pipelineData.reactions.slice(0, 4).map((reac) => (
+									<div
+										style={{
+											float: "left",
+											display: "flex",
+											alignItems: "center",
+											justifyItems: "center",
+											width: "50%",
+											height: "50%",
+										}}>
+										<CardMedia
+											component="img"
+											sx={{ width: "90%" }}
+											image={reac.service.logo.imageSrc}
+											alt={reac.service.logo.altText}
+										/>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
 					<div style={{ gridArea: "PipelineTitle", width: "100%", alignSelf: "start", justifySelf: "start" }}>
 						<Typography sx={{ wordWrap: "break-word" }} align="left" variant="h3">
 							{pipelineData.name.length < 19 ? pipelineData.name : pipelineData.name.substring(0, 18) + "..."}
