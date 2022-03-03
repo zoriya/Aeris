@@ -14,28 +14,33 @@ global.AbortController = AbortController;
 
 const app = express()
 const pipelineEvent = new EventEmitter();
-app.put("/workflow/:id", req => {
+app.put("/workflow/:id", (req, res) => {
 	console.log(`edit pipeline ${req.params.id}`);
 	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
-		.then(res => {
-			pipelineEvent.emit("event", pipelineFromApi(res.json()));
-		});
+		.then(async res => {
+			pipelineEvent.emit("event", pipelineFromApi(await res.json()));
+		})
+		.catch(console.error);
+	res.send()
 });
 
-app.post("/workflow/:id", req => {
+app.post("/workflow/:id", (req, res) => {
 	console.log(`new pipeline ${req.params.id}`);
 	fetch(`${process.env["WORKER_API_URL"]}/workflow/${req.params.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`)
-		.then(res => {
-			pipelineEvent.emit("event", pipelineFromApi(res.json()));
-		});
+		.then(async res => {
+			pipelineEvent.emit("event", pipelineFromApi(await res.json()));
+		})
+		.catch(console.error);
+	res.send()
 });
 
-app.delete("/workflow/:id", req => {
+app.delete("/workflow/:id", (req, res) => {
 	console.log(`delete pipeline ${req.params.id}`);
 	pipelineEvent.emit("event", {
 		id: req.params.id,
 		type: PipelineType.Never,
 	});
+	res.send()
 });
 
 app.listen(5000);

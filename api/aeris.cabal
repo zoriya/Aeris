@@ -76,6 +76,7 @@ library
     , network
     , opaleye >=0.9.0.0 && <0.9.1.0
     , rel8
+    , scientific ==0.3.7.0
     , servant
     , servant-auth
     , servant-auth-server
@@ -118,6 +119,7 @@ executable aeris-exe
     , network
     , opaleye >=0.9.0.0 && <0.9.1.0
     , rel8
+    , scientific ==0.3.7.0
     , servant
     , servant-auth
     , servant-auth-server
@@ -164,6 +166,7 @@ test-suite aeris-test
     , network
     , opaleye >=0.9.0.0 && <0.9.1.0
     , rel8
+    , scientific ==0.3.7.0
     , servant
     , servant-auth
     , servant-auth-server
