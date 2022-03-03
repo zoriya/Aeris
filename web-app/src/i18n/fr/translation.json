@@ -24,6 +24,7 @@
   "refresh": "Rafraîchir",
   "logout": "Se déconnecter",
   "activated": "Activée",
+  "deactivated": "Désactivée",
   "username": "Nom d'utilisateur",
   "password": "Mot de passe",
   "confirm_password": "Confirmation du mot de passe",

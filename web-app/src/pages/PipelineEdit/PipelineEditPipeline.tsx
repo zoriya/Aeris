@@ -57,6 +57,7 @@ export default function PipelineEditPipeline({
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
 	const [reactions, setReactionList] = useState<AppAREAType[]>(pipelineData.reactions);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
+	const [switchLabel, setSwitchLabel] = useState<string>(pipelineData.data.enabled? t('activated') : t('deactivated'));
 
 	const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
 		padding: 10,
@@ -128,12 +129,15 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
-								defaultChecked
 								color="secondary"
-								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
+								checked={pipelineData.data.enabled}
+								onChange={(e) => {
+									handleEditPipelineMetaData(pipelineData.name, e.target.checked);
+									setSwitchLabel(e.target.checked ? t('activated') : t('deactivated'));
+								}}
 							/>
 						}
-						label={t('activated') as string}
+						label={switchLabel}
 					/>
 				</FormGroup>
 
