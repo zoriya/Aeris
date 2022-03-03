@@ -44,12 +44,8 @@ services:
       - "api"
     environment:
       - YOUTUBE_KEY=${YOUTUBE_KEY}
-<<<<<<< HEAD
-=======
       - WORKER_API_URL=${WORKER_API_URL}
       - WORKER_API_KEY=${WORKER_API_KEY}
->>>>>>> 6e1880a441c6f538f6a35085b547e8bf93467405
-
 volumes:
   apk:
 
