@@ -104,7 +104,7 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
-								defaultChecked
+								defaultChecked={pipelineData.data.enabled}
 								color="secondary"
 								onChange={(e) => handleEditPipelineMetaData(pipelineData.name, e.target.checked)}
 							/>

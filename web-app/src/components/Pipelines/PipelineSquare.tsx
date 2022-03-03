@@ -58,9 +58,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 						image={pipelineData.action.service.logo.imageSrc}
 						alt={pipelineData.action.service.logo.altText}
 					/>
-					<ArrowForwardIcon
-						sx={{ gridArea: "Arrow", height: 58, width: 58, color: pipelineData.data.error ? "black" : null }}
-					/>
+					<ArrowForwardIcon sx={{ gridArea: "Arrow", height: 58, width: 58 }} />
 
 					{pipelineData.reactions.length === 1 ? (
 						<CardMedia
@@ -105,9 +103,9 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					</div>
 					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
 						<Typography align="left" variant="body1">
-							{pipelineData.data.error
-								? t("pipeline_error_prefix") + pipelineData.data.errorText
-								: pipelineData.data.status}
+							{pipelineData.data.enabled &&
+								pipelineData.data.error &&
+								t("pipeline_error_prefix") + pipelineData.data.errorText}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
