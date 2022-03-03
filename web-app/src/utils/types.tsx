@@ -49,6 +49,9 @@ export interface AppPipelineInfoType {
 	enabled: boolean;
 	status: string;
 	error: boolean;
+	errorText: string;
+	triggerCount: number;
+	lastTrigger: Date;
 }
 
 export interface AppPipelineType {

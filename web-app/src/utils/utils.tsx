@@ -152,8 +152,11 @@ export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
-			error: false,
-			status: "mdr", //TODO => Change status from request
+			error: data.action.error !== null,
+			lastTrigger: new Date(),
+			triggerCount: data.action?.triggerCount ?? 0,
+			errorText: data.action.error !== null ? data.action.error : "",
+			status: "reaction(s): " + reactionList.length,
 		},
 	} as AppPipelineType;
 };
@@ -175,6 +178,25 @@ export const fetchWorkflows = async (): Promise<any> => {
 	console.error("Can't fetch newer workflows");
 	return null;
 };
+
+export const fetchLinkedServices = async (): Promise<Array<string>> => {
+	const response = await fetch(API_ROUTE + "/auth/services", {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
+	});
+
+	if (response.ok) {
+		let json = await response.json();
+		return json;
+	}
+	console.error("Can't fetch linked services");
+	return [];
+};
+
 
 export const generateRandomString = (): string => {
 	let randomString = "";

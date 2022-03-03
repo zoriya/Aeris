@@ -1,0 +1,17 @@
+.pipeline-square-square-box {
+	position: relative;
+	width: 70%;
+	overflow: hidden;
+}
+.pipeline-square-square-box:before {
+	content: "";
+	display: block;
+	padding-top: 100%;
+}
+.pipeline-square-square-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}

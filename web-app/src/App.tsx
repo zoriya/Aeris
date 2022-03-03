@@ -1,8 +1,8 @@
 import { Typography, Box, Button } from "@mui/material";
 
-import { useTranslation } from 'react-i18next';
-import './i18n/config';
-
+import { useTranslation } from "react-i18next";
+import "./i18n/config";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Navigate, useNavigate } from "react-router-dom";
 import { getCookie } from "./utils/utils";
 
@@ -14,8 +14,7 @@ export default function App() {
 		navigate("/auth");
 	};
 
-	if (getCookie("aeris_jwt"))
-		return <Navigate to="/pipelines" replace />;
+	if (getCookie("aeris_jwt")) return <Navigate to="/pipelines" replace />;
 
 	return (
 		<div className="App">
@@ -30,7 +29,7 @@ export default function App() {
 						<Box component="img" alt="Aeris Logo" src={require("./assets/logo-white.png")} />
 						<br />
 						<Typography variant="h4" style={{ textAlign: "center", maxWidth: "75%" }}>
-							{t('aerisDescription')}
+							{t("aerisDescription")}
 						</Typography>
 						<br />
 						<Button
@@ -39,10 +38,10 @@ export default function App() {
 							color="secondary"
 							className="EndStartupBtn"
 							onClick={pushToLogin}>
-							{t('goToApp')}
+							{t("goToApp")}
 						</Button>
-						<Button variant="text" href="/client.apk" download color="secondary">
-							{t('get_mobile_app')}
+						<Button variant="text" startIcon={<DownloadIcon />} href="/client.apk" download color="secondary">
+							{t("get_mobile_app")}
 						</Button>
 					</Box>
 				</div>
