@@ -120,6 +120,7 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
+								defaultChecked={pipelineData.data.enabled}
 								color="secondary"
 								checked={pipelineData.data.enabled}
 								onChange={(e) => {

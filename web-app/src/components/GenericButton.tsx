@@ -1,6 +1,6 @@
 import { Box, CardContent, Typography, CardMedia, IconButton, CardActionArea } from "@mui/material";
 import Card from "@mui/material/Card";
-import type { ImageProps } from "./types";
+import { ImageProps } from "../utils/types"
 
 interface GenericButtonProps {
 	title: string;

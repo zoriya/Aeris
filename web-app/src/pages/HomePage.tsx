@@ -1,4 +1,4 @@
-import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
+import { PipelineSquaresLayout } from "../components/Pipelines/PipelineSquaresLayout";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
@@ -16,6 +16,7 @@ import {
 	deSerialisePipeline,
 	fetchWorkflows,
 	fetchLinkedServices,
+	deepCopy,
 } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
@@ -73,6 +74,8 @@ export default function HomePage() {
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
+			if (creation) setPipelinesData([...pipelinesData, pD]);
+			else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
 			return setModalMode(ModalSelection.None);
 		}
 	};
@@ -132,21 +135,18 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
-			<Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start">
-				{pipelinesData.map((el) => (
-					<Grid item>
-						<PipelineSquare
-							pipelineData={el}
-							onClick={() => {
-								setPipelineData(el);
-								setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-								setModalMode(ModalSelection.PipelineEdit);
-								setPipelineDeletion(true);
-							}}
-						/>
-					</Grid>
-				))}
-			</Grid>
+
+			<PipelineSquaresLayout
+				data={pipelinesData.map((el) => ({
+					pipelineData: el,
+					onClick: () => {
+						setPipelineData(el);
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+						setModalMode(ModalSelection.PipelineEdit);
+						setPipelineDeletion(true);
+					},
+				}))}
+			/>
 
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.PipelineEdit}
@@ -158,7 +158,12 @@ export default function HomePage() {
 					services={AppServices}
 					actions={AREAs[0]}
 					reactions={AREAs[1]}
-					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
+					handleDelete={async (pD: AppPipelineType) => {
+						if (await deletePipeline(pD)) {
+							setPipelinesData(pipelinesData.filter((ipD) => ipD.id !== pD.id));
+							setModalMode(ModalSelection.None);
+						}
+					}}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
 			</PipelineModal>
@@ -166,7 +171,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={servicesData} />
+				<ServiceSetupModal services={servicesData} setServices={setServicesData} />
 			</PipelineModal>
 
 			<Box
@@ -179,7 +184,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineDeletion(false);
-						setPipelineData(JSON.parse(JSON.stringify(NewEmptyPipeline)));
+						setPipelineData(deepCopy(NewEmptyPipeline));
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}

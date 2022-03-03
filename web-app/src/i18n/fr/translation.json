@@ -32,5 +32,7 @@
   "get_mobile_app": "Obtenir l'app mobile",
   "switch_to_french": "Français",
   "switch_to_english": "Anglais",
-  "pipeline_error_prefix": "Erreur: "
+  "pipeline_error_prefix": "Erreur: ",
+  "pipeline_layout_pipeline_section_title": "Mes pipelines",
+  "pipeline_layout_disable_pipeline_section_title": "Pipelines désativées"
 }

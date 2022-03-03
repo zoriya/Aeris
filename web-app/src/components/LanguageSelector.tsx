@@ -34,7 +34,7 @@ export default function LanguageSelector() {
 		<>
 			<Select
 				size="small"
-                variant="standard"
+				variant="standard"
 				value={selectedLanguage}
 				onChange={(e: SelectChangeEvent) => {
 					changeLanguage(e.target.value);
