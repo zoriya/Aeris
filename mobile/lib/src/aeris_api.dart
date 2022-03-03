@@ -32,6 +32,8 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
+  final String deepLinkRoute = "http://aeris.area.epi";
+
   final String baseRoute = "http://10.29.124.174:81"; ///TODO make it modifiable
 
   /// Name of the file that contains the JWT used for Aeris' API requestd
@@ -128,7 +130,7 @@ class AerisAPI {
 
   String getServiceAuthURL(Service service) {
     final serviceName = service == const Service.youtube() ? "google" : service.name.toLowerCase();
-    return "$baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
@@ -169,7 +171,7 @@ class AerisAPI {
   /// Connects the user from the service
   Future<bool> connectService(Service service, String code) async {
     var res = await _requestAPI(
-        '/auth/${service.name.toLowerCase()}?code=$code&redirect_uri=aeris://aeris.com/authorization/${service.name.toLowerCase()}',
+        '/auth/${service.name.toLowerCase()}?code=$code&redirect_uri=$deepLinkRoute/authorization/${service.name.toLowerCase()}',
         AerisAPIRequestType.get,
         null);
     return res.ok;
