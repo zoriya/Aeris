@@ -22,7 +22,7 @@ import Servant.Server.Experimental.Auth (AuthServerData)
 import Servant.Auth.JWT (ToJWT, FromJWT)
 
 newtype UserId = UserId {toInt64 :: Int64}
-    deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON)
+    deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
     deriving stock (Generic)
 
 data Service = Github | Google | Spotify | Twitter | Discord | Anilist
