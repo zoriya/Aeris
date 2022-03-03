@@ -14,9 +14,10 @@ class AuthorizationPage extends StatelessWidget {
     final serviceName = Uri.parse(route).pathSegments.last;
     final service = Service.factory(serviceName);
 
-    context.read<ServiceProvider>().addService(service, code).then(
-      (_) => Navigator.pop(context)
-    );
+    Provider.of<ServiceProvider>(context, listen: false).addService(service, code).then((_) {
+      Provider.of<ServiceProvider>(context, listen: false).notifyListeners();
+      Navigator.pop(context);
+    });
     return Container(
         alignment: Alignment.center,
         child: LoadingIndicator(
