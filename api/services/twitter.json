@@ -3,7 +3,7 @@
 	"actions": [],
 	"reactions": [
 		{
-			"name": "followUser",
+			"name": "Twitter_FollowUser",
 			"description": "Follow a Twitter user",
 			"params": [
 				{
@@ -32,7 +32,7 @@
 			]
 		},
 		{
-			"name": "postTweet",
+			"name": "Twitter_PostTweet",
 			"description": "Post a tweet",
 			"params": [
 				{
@@ -53,7 +53,7 @@
 			]
 		},
 		{
-			"name": "replyToTweet",
+			"name": "Twitter_ReplyToTweet",
 			"description": "Reply to a tweet",
 			"params": [
 				{
@@ -83,7 +83,7 @@
 			]
 		},
 		{
-			"name": "likeTweet",
+			"name": "Twitter_LikeTweet",
 			"description": "Post a tweet",
 			"params": [
 				{
@@ -108,7 +108,7 @@
 			]
 		},
 		{
-			"name": "retweet",
+			"name": "Twitter_Retweet",
 			"description": "Post a tweet",
 			"params": [
 				{

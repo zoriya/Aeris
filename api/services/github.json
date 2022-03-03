@@ -2,7 +2,7 @@
 	"name": "Github",
 	"actions": [
 		{
-			"name": "OnOpenPR",
+			"name": "Github_OnOpenPR",
 			"description": "An event triggered when a pull request is opened on the repository given as parameter",
 			"params": [
 				{
@@ -48,7 +48,7 @@
 			]
 		},
 		{
-			"name": "OnCommentPR",
+			"name": "Github_OnCommentPR",
 			"description": "An event triggered by a new comment inside the pull request on the repository given as parameter",
 			"params": [
 				{
@@ -102,7 +102,7 @@
 			]
 		},
 		{
-			"name": "OnClosePR",
+			"name": "Github_OnClosePR",
 			"description": "An event triggered when a pull request is closed on the repository given as parameter",
 			"params": [
 				{
@@ -148,7 +148,7 @@
 			]
 		},
 		{
-			"name": "OnMergePR",
+			"name": "Github_OnMergePR",
 			"description": "An event triggered when a pull request is merged on the repository given as parameter",
 			"params": [
 				{
@@ -194,7 +194,7 @@
 			]
 		},
 		{
-			"name": "OnCreateIssue",
+			"name": "Github_OnCreateIssue",
 			"description": "An event triggered when an issue is created on the repository given as parameter",
 			"params": [
 				{
@@ -232,7 +232,7 @@
 			]
 		},
 		{
-			"name": "OnCommentIssue",
+			"name": "Github_OnCommentIssue",
 			"description": "An event triggered when an user comments an issue on the repository given as parameter",
 			"params": [
 				{
@@ -278,7 +278,7 @@
 			]
 		},
 		{
-			"name": "OnCloseIssue",
+			"name": "Github_OnCloseIssue",
 			"description": "An event triggered when an issue is closed in the repository given as parameter",
 			"params": [
 				{
@@ -316,7 +316,7 @@
 			]
 		},
 		{
-			"name": "OnForkRepo",
+			"name": "Github_OnForkRepo",
 			"description": "An event triggered when the repository given as parameter is forked",
 			"params": [
 				{
@@ -346,7 +346,7 @@
 			]
 		},
 		{
-			"name": "OnStarRepo",
+			"name": "Github_OnStarRepo",
 			"description": "An event triggered when a user star the repository given as parameter",
 			"params": [
 				{
@@ -380,7 +380,7 @@
 			]
 		},
 		{
-			"name": "OnWatchRepo",
+			"name": "Github_OnWatchRepo",
 			"description": "An event triggered when an user watch a repository",
 			"params": [
 				{
@@ -416,7 +416,7 @@
 	],
 	"reactions": [
 		{
-			"name": "OpenPR",
+			"name": "Github_OpenPR",
 			"description": "Open a pull request on a given repository",
 			"params": [
 				{
@@ -453,7 +453,7 @@
 			]
 		},
 		{
-			"name": "CommentPR",
+			"name": "Github_CommentPR",
 			"description": "Comments the numbered pull request of the given repository",
 			"params": [
 				{
@@ -485,7 +485,7 @@
 			]
 		},
 		{
-			"name": "ClosePR",
+			"name": "Github_ClosePR",
 			"description": "Closes the pull request given as parameter",
 			"params": [
 				{
@@ -507,7 +507,7 @@
 			"returns": []
 		},
 		{
-			"name": "MergePR",
+			"name": "Github_MergePR",
 			"description": "Merges the pull request given as parameter into base branch",
 			"params": [
 				{
@@ -529,7 +529,7 @@
 			"returns": []
 		},
 		{
-			"name": "CreateIssue",
+			"name": "Github_CreateIssue",
 			"description": "Creates an issue into the given repository",
 			"params": [
 				{
@@ -561,7 +561,7 @@
 			]
 		},
 		{
-			"name": "CommentIssue",
+			"name": "Github_CommentIssue",
 			"description": "Comments the given issue into the given repository",
 			"params": [
 				{
@@ -593,7 +593,7 @@
 			]
 		},
 		{
-			"name": "CloseIssue",
+			"name": "Github_CloseIssue",
 			"description": "Closes the given issue into the given repository",
 			"params": [
 				{
@@ -620,7 +620,7 @@
 			]
 		},
 		{
-			"name": "CreateRepo",
+			"name": "Github_CreateRepo",
 			"description": "Creates a new repository with the given name",
 			"params": [
 				{
@@ -637,7 +637,7 @@
 			]
 		},
 		{
-			"name": "CreatePrivateRepo",
+			"name": "Github_CreatePrivateRepo",
 			"description": "Creates a new private repository with the given name",
 			"params": [
 				{
@@ -654,7 +654,7 @@
 			]
 		},
 		{
-			"name": "UpdateDescription",
+			"name": "Github_UpdateDescription",
 			"description": "Updates the description of the given repository",
 			"params": [
 				{
@@ -681,7 +681,7 @@
 			]
 		},
 		{
-			"name": "ForkRepo",
+			"name": "Github_ForkRepo",
 			"description": "Forks the repository of the user given as parameter",
 			"params": [
 				{
@@ -703,7 +703,7 @@
 			]
 		},
 		{
-			"name": "StarRepo",
+			"name": "Github_StarRepo",
 			"description": "Stars the repository of the user given as parameter",
 			"params": [
 				{
@@ -720,7 +720,7 @@
 			"returns": []
 		},
 		{
-			"name": "WatchRepo",
+			"name": "Github_WatchRepo",
 			"description": "Watches the repository of the user given as parameter",
 			"params": [
 				{
