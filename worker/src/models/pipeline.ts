@@ -5,6 +5,7 @@ export enum ServiceType {
 	Spotify,
 	Discord,
 	Anilist,
+	Utils,
 };
 
 
@@ -35,6 +36,8 @@ export enum PipelineType {
 	OnDiscordMention,
 	OnNewDiscordGuildMember,
 	OnDiscordGuildLeave,
+
+	OnTrigger,
 };
 
 export enum ReactionType {
