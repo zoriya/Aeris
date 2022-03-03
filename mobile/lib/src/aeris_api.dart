@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:aeris/main.dart';
-import 'package:aeris/src/models/action.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -12,6 +12,7 @@ import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -32,7 +33,16 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
-  final String deepLinkRoute = "http://aeris.area.epi";
+  late final String deepLinkRoute;
+
+  AerisAPI() {
+    var scheme = "http";
+    if (Theme.of(Aeris.materialKey.currentContext!).platform ==
+        TargetPlatform.iOS) {
+      scheme = "aeris";
+    }
+    deepLinkRoute = "$scheme://aeris.com";
+  }
 
   final String baseRoute = "http://10.29.124.174:81"; ///TODO make it modifiable
 
@@ -129,7 +139,9 @@ class AerisAPI {
   }
 
   String getServiceAuthURL(Service service) {
-    final serviceName = service == const Service.youtube() ? "google" : service.name.toLowerCase();
+    final serviceName = service == const Service.youtube()
+        ? "google"
+        : service.name.toLowerCase();
     return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/$serviceName";
   }
 
@@ -177,8 +189,7 @@ class AerisAPI {
     return res.ok;
   }
 
-  List<ActionTemplate> getActionsFor(
-      Service service, Action action) {
+  List<ActionTemplate> getActionsFor(Service service, aeris.Action action) {
     final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
       return catalogue!.triggerTemplates[service]!;
