@@ -74,9 +74,8 @@ export default function HomePage() {
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
-			console.log(pD);
-
 			if (creation) setPipelinesData([...pipelinesData, pD]);
+			else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
 			return setModalMode(ModalSelection.None);
 		}
 	};
@@ -162,7 +161,12 @@ export default function HomePage() {
 					services={AppServices}
 					actions={AREAs[0]}
 					reactions={AREAs[1]}
-					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
+					handleDelete={async (pD: AppPipelineType) => {
+						if (await deletePipeline(pD)) {
+							setPipelinesData(pipelinesData.filter((ipD) => ipD.id !== pD.id));
+							setModalMode(ModalSelection.None);
+						}
+					}}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
 			</PipelineModal>
