@@ -12,10 +12,10 @@ import {
 import { AppPipelineType } from "../../utils/types";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
-import LoopIcon from '@mui/icons-material/Loop';
+import LoopIcon from "@mui/icons-material/Loop";
 import CableIcon from "@mui/icons-material/Cable";
-import {useTranslation} from "react-i18next";
-import '../../i18n/config';
+import { useTranslation } from "react-i18next";
+import "../../i18n/config";
 import "./PipelineSquare.css";
 
 export interface PipelineSquareProps {
@@ -24,7 +24,7 @@ export interface PipelineSquareProps {
 }
 
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
-    const { t } = useTranslation();
+	const { t } = useTranslation();
 	const backgroundColor = pipelineData.data.enabled ? (pipelineData.data.error ? "#ffdddd" : null) : "#464646";
 	const textColor = pipelineData.data.enabled ? (pipelineData.data.error ? "red" : null) : "#adadad";
 	return (
@@ -45,10 +45,10 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 						gridTemplateColumns: "45% 10% 45%",
 						gridTemplateRows: "30% 40% 20% 10%",
 						gridTemplateAreas: `
-                            'ActionLogoDisplay  Arrow            ReactionsLogoDisplay'
-                            'PipelineTitle      PipelineTitle    PipelineTitle'
-                            'PipelineStatus     PipelineStatus   PipelineStatus'
-                            'PipelineInfo       PipelineInfo     PipelineInfo'
+							'ActionLogoDisplay  Arrow            ReactionsLogoDisplay'
+							'PipelineTitle      PipelineTitle    PipelineTitle'
+							'PipelineStatus     PipelineStatus   PipelineStatus'
+							'PipelineInfo       PipelineInfo     PipelineInfo'
                         `,
 						placeItems: "center center",
 					}}>
@@ -83,7 +83,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 											display: "flex",
 											alignItems: "center",
 											justifyItems: "center",
-											width:  "50%",
+											width: "50%",
 											height: arr.length === 2 ? "100%" : "50%",
 										}}>
 										<CardMedia
@@ -105,7 +105,9 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					</div>
 					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
 						<Typography align="left" variant="body1">
-							{pipelineData.data.error ? t("pipeline_error_prefix") + pipelineData.data.errorText : pipelineData.data.status}
+							{pipelineData.data.error
+								? t("pipeline_error_prefix") + pipelineData.data.errorText
+								: pipelineData.data.status}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
