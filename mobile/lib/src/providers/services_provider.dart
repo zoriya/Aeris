@@ -26,11 +26,9 @@ class ServiceProvider extends ChangeNotifier {
   }
 
   /// Refresh services from API
-  refreshServices() {
-    GetIt.I<AerisAPI>().getConnectedService().then((value) {
-      _connectedServices = value;
-      notifyListeners();
-    });
+  refreshServices() async {
+    _connectedServices = await GetIt.I<AerisAPI>().getConnectedService();
+    notifyListeners();
   }
 
   /// Removes a service from the Provider, and calls API
