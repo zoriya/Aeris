@@ -44,8 +44,7 @@ class AerisAPI {
 
   AerisAPI() {
     var scheme = "http";
-    if (Theme.of(Aeris.materialKey.currentContext!).platform ==
-        TargetPlatform.iOS) {
+    if (Platform.isIOS) {
       scheme = "aeris";
     }
     deepLinkRoute = "$scheme://aeris.com";

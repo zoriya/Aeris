@@ -1,8 +1,10 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -61,8 +63,6 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
   Widget build(BuildContext context) {
     return AlertDialog(
         title: Text(AppLocalizations.of(context).setupAPIRoute),
-
-        ///TODO translate
         content: FormBuilder(
           key: _formKey,
           child: FormBuilderTextField(
@@ -104,12 +104,11 @@ class _SetupAPIRouteModalState extends State<SetupAPIRouteModal> {
                 : connected == true
                     ? AppLocalizations.of(context).save
                     : AppLocalizations.of(context).invalidUrl),
-
-            ///TODO translate
             onPressed: connected == true
                 ? () {
                     GetIt.I<SharedPreferences>()
                       .setString('api', GetIt.I<AerisAPI>().baseRoute);
+                    Provider.of<ActionCatalogueProvider>(context, listen: false).reloadCatalogue();
                     Navigator.of(context).pop();
                   }
                 : null,

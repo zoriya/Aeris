@@ -7,20 +7,21 @@ import 'package:get_it/get_it.dart';
 
 /// Provider class for Action listed in /about.json
 class ActionCatalogueProvider extends ChangeNotifier {
-
   /// Tells if the provers has loaded data at least once
   final Map<Service, List<ActionTemplate>> _triggerTemplates = {};
   final Map<Service, List<ActionTemplate>> _reactionTemplates = {};
   Map<Service, List<ActionTemplate>> get triggerTemplates => _triggerTemplates;
-  Map<Service, List<ActionTemplate>> get reactionTemplates => _reactionTemplates;
+  Map<Service, List<ActionTemplate>> get reactionTemplates =>
+      _reactionTemplates;
 
-  ActionCatalogueProvider() {
+  void reloadCatalogue() {
     Service.all().forEach((element) {
       _triggerTemplates.putIfAbsent(element, () => []);
       _reactionTemplates.putIfAbsent(element, () => []);
     });
     notifyListeners();
-    GetIt.I<AerisAPI>().getAbout().then((Map<String, dynamic> about) {
+    GetIt.I<AerisAPI>().getAbout().then((about) {
+      if (about.isEmpty || about == null) return;
       final services = (about['server'] as Map<String, dynamic>)['services'] as List<dynamic>;
       for (var serviceContent in services) {
         Service service = Service.factory(serviceContent['name']);
@@ -57,5 +58,9 @@ class ActionCatalogueProvider extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  ActionCatalogueProvider() {
+    reloadCatalogue();
   }
 }
