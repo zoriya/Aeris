@@ -11,7 +11,7 @@ export class Anilist extends BaseService {
 		this._client = new GraphQLClient("https://graphql.anilist.co/");
 	}
 	
-	@reaction(ReactionType.ToggleFavourite, ["about"])
+	@reaction(ReactionType.UpdateAbout, ["about"])
 	async updateAbout(params: any): Promise<PipelineEnv> {
 		await this._client.request(gql`
 			mutation($about: Int) {
