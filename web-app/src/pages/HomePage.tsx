@@ -1,4 +1,4 @@
-import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
+import { PipelineSquaresLayout } from "../components/Pipelines/PipelineSquaresLayout";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
@@ -135,21 +135,18 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
-			<Grid container spacing={2} justifyContent="flex-start" alignItems="flex-start">
-				{pipelinesData.map((el, idx) => (
-					<Grid item key={idx}>
-						<PipelineSquare
-							pipelineData={el}
-							onClick={() => {
-								setPipelineData(el);
-								setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-								setModalMode(ModalSelection.PipelineEdit);
-								setPipelineDeletion(true);
-							}}
-						/>
-					</Grid>
-				))}
-			</Grid>
+
+			<PipelineSquaresLayout
+				data={pipelinesData.map((el) => ({
+					pipelineData: el,
+					onClick: () => {
+						setPipelineData(el);
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+						setModalMode(ModalSelection.PipelineEdit);
+						setPipelineDeletion(true);
+					},
+				}))}
+			/>
 
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.PipelineEdit}
