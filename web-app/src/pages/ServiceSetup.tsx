@@ -46,7 +46,7 @@ export default function ServiceSetupModal({ services, setServices }: ServiceSetu
 
 			<Grid gridArea={"LinkedList"} alignSelf="start" container direction="column" spacing={2}>
 				{linkedServices.map((elem, index) => (
-					<Grid item mb={4} key={index}>
+					<Grid item key={index}>
 						<GenericButton
 							service={elem.logo}
 							title={elem.label}
