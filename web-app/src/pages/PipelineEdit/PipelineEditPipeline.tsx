@@ -59,18 +59,6 @@ export default function PipelineEditPipeline({
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
 	const [switchLabel, setSwitchLabel] = useState<string>(pipelineData.data.enabled? t('activated') : t('deactivated'));
 
-	const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-		padding: 10,
-		margin: `0 50px 15px 50px`,
-		background: isDragging ? "#4a2975" : "white",
-		color: isDragging ? "white" : "black",
-		border: `1px solid black`,
-		fontSize: `20px`,
-		borderRadius: `5px`,
-
-		...draggableStyle
-	})
-
 	const handleOnDragEnd = (result: DropResult) => {
 		const { source, destination } = result
 
