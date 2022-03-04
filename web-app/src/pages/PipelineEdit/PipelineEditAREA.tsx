@@ -12,8 +12,8 @@ import { PipelineEditMode } from "./PipelineEditPage";
 import { AREACard } from "../../components/AREACard";
 import { useState } from "react";
 
-import { useTranslation } from 'react-i18next';
-import '../../i18n/config';
+import { useTranslation } from "react-i18next";
+import "../../i18n/config";
 
 export interface PipelineEditAREAProps {
 	pipelineData: AppPipelineType;
@@ -36,6 +36,7 @@ export default function PipelineEditAREA({
 }: PipelineEditAREAProps) {
 	const { t } = useTranslation();
 	const [serviceToShow, setServiceToShow] = useState<string>(selectedAREA?.service.uid ?? services[0].uid);
+	const serviceData = services.find((s) => s.uid === serviceToShow);
 
 	let filteredElements = AREAs.filter((el) => el.service.uid === serviceToShow);
 
@@ -56,7 +57,7 @@ export default function PipelineEditAREA({
 					placeItems: "center",
 				}}>
 				<Typography gridArea={"mainTitle"} justifySelf={"left"} width="100%" variant="h4" noWrap align="left">
-					{t('setup')} {isActions ? t('action') : t('reaction')} :
+					{t("setup")} {isActions ? t("action") : t("reaction")} :
 				</Typography>
 
 				<Box sx={{ gridArea: "select" }}>
@@ -77,7 +78,7 @@ export default function PipelineEditAREA({
 						))}
 					</Select>
 					<FormHelperText>
-						{filteredElements.length} {isActions ? t("action") : t("reactions")} {t('availables')}
+						{filteredElements.length} {isActions ? t("action") : t("reactions")} {t("availables")}
 					</FormHelperText>
 				</Box>
 
@@ -92,26 +93,41 @@ export default function PipelineEditAREA({
 						borderStyle: "none solid none none",
 						borderWidth: "1px",
 					}}>
-					<Grid
-						container
-						alignSelf="start"
-						direction="row"
-						justifyContent="flex-start"
-						spacing={2}
-						alignItems="flex-start">
-						{filteredElements.map((el, elIndex) => {
-							return (
-								<Grid item key={elIndex}>
-									<AREACard
-										AREA={el}
-										onClick={() => {
-											setAREAData(el);
-										}}
-									/>
-								</Grid>
-							);
-						})}
-					</Grid>
+					{serviceData?.linked ? (
+						<Grid
+							container
+							alignSelf="start"
+							direction="row"
+							justifyContent="flex-start"
+							spacing={2}
+							alignItems="flex-start">
+							{filteredElements.map((el, elIndex) => {
+								return (
+									<Grid item key={elIndex}>
+										<AREACard
+											AREA={el}
+											onClick={() => {
+												setAREAData(el);
+											}}
+										/>
+									</Grid>
+								);
+							})}
+						</Grid>
+					) : (
+						<Typography
+							style={{
+								width: "100%",
+								height: "100%",
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center",
+							}}>
+							{"Vous devez être connecté au service " +
+								serviceData?.label +
+								" pour profitez de ses différentes actions"}
+						</Typography>
+					)}
 				</div>
 
 				{AREAData === null ? (
@@ -119,7 +135,7 @@ export default function PipelineEditAREA({
 						sx={{
 							gridArea: "AREAParams",
 						}}>
-						{isActions ? t('selectAction') : t('selectReaction')}
+						{isActions ? t("selectAction") : t("selectReaction")}
 					</Typography>
 				) : (
 					<div
@@ -146,7 +162,7 @@ export default function PipelineEditAREA({
 					startIcon={<ArrowBackIcon />}
 					onClick={() => setEditMode(PipelineEditMode.Pipeline)}
 					variant="contained">
-					{t('cancel')}
+					{t("cancel")}
 				</Button>
 			</div>
 		</div>

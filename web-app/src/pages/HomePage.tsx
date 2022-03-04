@@ -156,7 +156,7 @@ export default function HomePage() {
 					disableDeletion={!pipelineDeletion}
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
-					services={AppServices}
+					services={servicesData}
 					actions={AREAs[0]}
 					reactions={AREAs[1]}
 					handleDelete={async (pD: AppPipelineType) => {

@@ -92,7 +92,7 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "utils",
 		logo: AppServicesLogos["utils"],
 		urlAuth: "",
-		linked: false,
+		linked: true,
 	},
 ];
 
