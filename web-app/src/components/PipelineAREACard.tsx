@@ -56,7 +56,6 @@ export const PipelineAREACard = ({
 }: PipelineAREACardProps) => {
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const languageUid = i18next.resolvedLanguage;
-	console.log(AREA);
 
 	return (
 		<Card sx={style}>
