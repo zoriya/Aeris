@@ -5,7 +5,6 @@ import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class Suggestion extends Tuple3<int, ActionParameter, ActionTemplate> {
    
   @override
   String toString() {
-    return "{${item2.name}@$item1}";
+    return "${item2.name}@$item1";
   }
 }
 
@@ -64,7 +63,7 @@ class _ActionFormState extends State<ActionForm> {
 
   List<Suggestion> getSuggestions(String pattern, ActionCatalogueProvider catalogue) {
     List<Suggestion> suggestions = [];
-    if (pattern.endsWith("#") == false) return suggestions;
+    if (pattern.endsWith("{") == false) return suggestions;
     if (widget.candidate is Trigger) return suggestions;
     if (widget.triggerCandidate != null) {
       Trigger trigger = widget.triggerCandidate!;
@@ -106,6 +105,7 @@ class _ActionFormState extends State<ActionForm> {
             return TypeAheadFormField<Suggestion>(
               key: Key(param.description),
               textFieldConfiguration: TextFieldConfiguration(
+                  autofocus: true,
                   controller: textEditingController,
                   enableSuggestions: widget.candidate is Reaction,
                   decoration: InputDecoration(
@@ -116,6 +116,10 @@ class _ActionFormState extends State<ActionForm> {
               onSaved: (value) {
                 values[param.name] = value!;
               },
+              suggestionsBoxDecoration: const  SuggestionsBoxDecoration(
+                elevation: 6,
+                borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
               validator: FormBuilderValidators.compose([
                 FormBuilderValidators.required(context),
               ]),
@@ -123,10 +127,10 @@ class _ActionFormState extends State<ActionForm> {
               suggestionsCallback: (suggestion) => getSuggestions(suggestion, catalogue),
               onSuggestionSelected: (suggestion) {
                 textEditingController.text += suggestion.toString();
+                textEditingController.text += "}";
                 values[param.name] = textEditingController.text;
               },
               itemBuilder: (context, suggestion) => ListTile(
-                //onTap: () => onSelected(suggestion),
                 isThreeLine: true,
                 dense: true,
                 leading: suggestion.item3.service.getLogo(logoSize: 30),
@@ -137,11 +141,8 @@ class _ActionFormState extends State<ActionForm> {
             ElevatedButton(
               child: Text(AppLocalizations.of(context).save),
               onPressed: () {
-                print("Pressed");
                 if (_formKey.currentState!.validate()) {
-                  print("Validated");
                   _formKey.currentState!.save();
-                  print(values);
                   widget.onValidate(values);
                 }
               },

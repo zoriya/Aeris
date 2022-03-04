@@ -105,7 +105,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
           ),
           const SizedBox(height: 20),
           Text(
-            "To inherit parameters from previous action, type '#' in the text field and tap on the choosen parameter"
+            "To inherit parameters from previous action, type '{' in the text field and tap on the choosen parameter"
           ), //TODO translate
           const SizedBox(height: 20),
           if (availableActions == null)
