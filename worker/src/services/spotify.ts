@@ -73,7 +73,11 @@ export class Spotify extends BaseService {
 	async playTrack(params: any): Promise<PipelineEnv> {
 		await this._refreshIfNeeded();
 		let track = await this._searchTrack(params['artist'], params['track']);
-		await this._spotify.play({uris: [track.uri]});
+		try {
+			await this._spotify.play({uris: [track.uri]});
+		} catch (e) {
+			throw new Error("Spotify premium is required.");
+		}
 		return {
 			URL: track.uri,
 			ARTIST: track.artists?.[0].name,
