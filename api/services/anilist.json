@@ -18,7 +18,7 @@
 					"type": "string",
 					"description": {
 						"en": "The description on your profile.",
-						"fr": "La description de votre profil."
+						"fr": "Description de votre profil."
 					}
 				}
 			],
@@ -40,7 +40,7 @@
 					"type": "string",
 					"description": {
 						"en": "The ID of the anime",
-						"fr": "L'identifiant de l'animé"
+						"fr": "Identifiant de l'animé"
 					}
 				}
 			],

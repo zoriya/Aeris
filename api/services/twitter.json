@@ -18,7 +18,7 @@
 					"type": "string",
 					"description": {
 						"en": "Twitter username of the user to follow",
-						"fr": "Le pseudo de l'utilisateur à suivre"
+						"fr": "Pseudo de l'utilisateur à suivre"
 					}
 				}
 			],
@@ -27,28 +27,28 @@
 					"name": "FOLLOWED_ID",
 					"description": {
 						"en": "Twitter ID of the followed user",
-						"fr": "L'identifiant Twitter de l'utilisateur suivi"
+						"fr": "Identifiant Twitter de l'utilisateur suivi"
 					}
 				},
 				{
 					"name": "FOLLOWED_NAME",
 					"description": {
 						"en": "Twitter Username of the followed user",
-						"fr": "Le pseudo Twitter de l'utilisateur suivi"
+						"fr": "Pseudo Twitter de l'utilisateur suivi"
 					}
 				},
 				{
 					"name": "FOLLOWED_BIO",
 					"description": {
 						"en": "Twitter Bio of the followed user",
-						"fr": "La biographie Twitter de l'utilisateur suivi"
+						"fr": "Biographie Twitter de l'utilisateur suivi"
 					}
 				},
 				{
 					"name": "FOLLOWED_URL",
 					"description": {
 						"en": "Twitter URL of the followed user",
-						"fr": "L'URL du compte Twitter suivi"
+						"fr": "URL du compte Twitter suivi"
 					}
 				}
 			]
@@ -69,7 +69,7 @@
 					"type": "string",
 					"description": {
 						"en": "Body of the tweet",
-						"fr": "Le corps du tweet"
+						"fr": "Corps du tweet"
 					}
 				}
 			],
@@ -78,14 +78,14 @@
 					"name": "TWEET_ID",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				},
 				{
 					"name": "TWEET_CONTENT",
 					"description": {
 						"en": "Body of the tweet",
-						"fr": "Le corps du tweet"
+						"fr": "Corps du tweet"
 					}
 				}
 			]
@@ -106,7 +106,7 @@
 					"type": "string",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				},
 				{
@@ -114,7 +114,7 @@
 					"type": "string",
 					"description": {
 						"en": "Body of the reply",
-						"fr": "Le corps de la réponse"
+						"fr": "Corps de la réponse"
 					}
 				}
 			],
@@ -123,21 +123,21 @@
 					"name": "TWEET_ID",
 					"description": {
 						"en": "Twitter ID of the replied tweet",
-						"fr": "L'identifiant du tweet répondu"
+						"fr": "Identifiant du tweet répondu"
 					}
 				},
 				{
 					"name": "REPLY_ID",
 					"description": {
 						"en": "Twitter ID of the reply",
-						"fr": "L'identifiant de la réponse"
+						"fr": "Identifiant de la réponse"
 					}
 				},
 				{
 					"name": "REPLY_CONTENT",
 					"description": {
 						"en": "Body of the reply",
-						"fr": "Le corps de la réponse"
+						"fr": "Corps de la réponse"
 					}
 				}
 			]
@@ -158,7 +158,7 @@
 					"type": "string",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				}
 			],
@@ -167,21 +167,21 @@
 					"name": "TWEET_ID",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				},
 				{
 					"name": "TWEET_CONTENT",
 					"description": {
 						"en": "Body of the tweet",
-						"fr": "Le corps du tweet"
+						"fr": "Corps du tweet"
 					}
 				},
 				{
 					"name": "TWEET_AUTHOR_ID",
 					"description": {
 						"en": "Author of the tweet",
-						"fr": "L'auteur du tweet"
+						"fr": "Auteur du tweet"
 					}
 				}
 			]
@@ -202,7 +202,7 @@
 					"type": "string",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				}
 			],
@@ -211,7 +211,7 @@
 					"name": "TWEET_ID",
 					"description": {
 						"en": "Twitter ID of the tweet",
-						"fr": "L'identifiant du tweet"
+						"fr": "Identifiant du tweet"
 					}
 				}
 			]

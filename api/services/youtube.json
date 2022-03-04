@@ -26,7 +26,7 @@
 					"name": "ID",
 					"description": {
 						"en": "Youtube ID of the uploaded video",
-						"fr": "L'identifiant de la vidéo mise en ligne"
+						"fr": "Identifiant de la vidéo mise en ligne"
 					}
 				},
 				{

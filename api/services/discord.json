@@ -17,21 +17,21 @@
 					"name": "MESSAGE",
 					"description": {
 						"en": "The body of the received message",
-						"fr": "Le corps du message reçu"
+						"fr": "Corps du message reçu"
 					}
 				},
 				{
 					"name": "AUTHOR_ID",
 					"description": {
 						"en": "The Discord ID of the message's author",
-						"fr": "L'identifiant Discord de l'auteur du message"
+						"fr": "Identifiant Discord de l'auteur du message"
 					}
 				},
 				{
 					"name": "AUTHOR_NAME",
 					"description": {
 						"en": "The Discord username of the message's author",
-						"fr": "Le pseudo Discord de l'auteur du message"
+						"fr": "Pseudo Discord de l'auteur du message"
 					}
 				}
 			]
@@ -52,7 +52,7 @@
 					"type": "string",
 					"description": {
 						"en": "The Discord ID of the sender",
-						"fr": "L'identifiant Discord de l'envoyeur"
+						"fr": "Identifiant Discord de l'envoyeur"
 					}
 				}
 			],
@@ -61,21 +61,21 @@
 					"name": "MESSAGE",
 					"description": {
 						"en": "The body of the received message",
-						"fr": "Le corps du message reçu"
+						"fr": "Corps du message reçu"
 					}
 				},
 				{
 					"name": "AUTHOR_ID",
 					"description": {
 						"en": "The Discord ID of the message's author",
-						"fr": "L'identifiant Discord de l'auteur du message"
+						"fr": "Identifiant Discord de l'auteur du message"
 					}
 				},
 				{
 					"name": "AUTHOR_NAME",
 					"description": {
 						"en": "The Discord username of the message's author",
-						"fr": "Le pseudo Discord de l'auteur du message"
+						"fr": "Pseudo Discord de l'auteur du message"
 					}
 				}
 			]
@@ -96,21 +96,21 @@
 					"name": "MESSAGE",
 					"description": {
 						"en": "The body of the received message",
-						"fr": "Le corps du message reçu"
+						"fr": "Corps du message reçu"
 					}
 				},
 				{
 					"name": "AUTHOR_ID",
 					"description": {
 						"en": "The Discord ID of the message's author",
-						"fr": "L'identifiant Discord de l'auteur du message"
+						"fr": "Identifiant Discord de l'auteur du message"
 					}
 				},
 				{
 					"name": "AUTHOR_NAME",
 					"description": {
 						"en": "The Discord username of the message's author",
-						"fr": "Le pseudo Discord de l'auteur du message"
+						"fr": "Pseudo Discord de l'auteur du message"
 					}
 				}
 			]
@@ -131,28 +131,28 @@
 					"name": "NEW_MEMBER_ID",
 					"description": {
 						"en": "The Discord ID of the new member",
-						"fr": "L'identifiant Discord du nouveau membre"
+						"fr": "Identifiant Discord du nouveau membre"
 					}
 				},
 				{
 					"name": "NEW_MEMBER_NAME",
 					"description": {
 						"en": "The Discord Username of the new member",
-						"fr": "Le pseudo Discord du nouveau membre"
+						"fr": "Pseudo Discord du nouveau membre"
 					}
 				},
 				{
 					"name": "SERVER_ID",
 					"description": {
 						"en": "The Discord ID of the guild",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				},
 				{
 					"name": "SERVER_NAME",
 					"description": {
 						"en": "The name of the guild",
-						"fr": "Le nom du serveur"
+						"fr": "Nom du serveur"
 					}
 				}
 			]
@@ -173,28 +173,28 @@
 					"name": "NEW_MEMBER_ID",
 					"description": {
 						"en": "The Discord ID of the new member",
-						"fr": "L'identifiant Discord du nouveau membre"
+						"fr": "Identifiant Discord du nouveau membre"
 					}
 				},
 				{
 					"name": "NEW_MEMBER_NAME",
 					"description": {
 						"en": "The Discord Username of the new member",
-						"fr": "Le pseudo Discord du nouveau membre"
+						"fr": "Pseudo Discord du nouveau membre"
 					}
 				},
 				{
 					"name": "SERVER_ID",
 					"description": {
 						"en": "The Discord ID of the guild",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				},
 				{
 					"name": "SERVER_NAME",
 					"description": {
 						"en": "The name of the guild",
-						"fr": "Le nom du serveur"
+						"fr": "Nom du serveur"
 					}
 				}
 			]
@@ -217,23 +217,23 @@
 					"type": "string",
 					"description": {
 						"en": "The Discord ID of the server",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				},
 				{
 					"name": "channel_id",
 					"type": "string",
 					"description": {
-						"en": "The Discord ID of the channel",
-						"fr": "L'identifiant Discord du canal"
+						"en": "Discord ID of the channel",
+						"fr": "Identifiant Discord du canal"
 					}
 				},
 				{
 					"name": "content",
 					"type": "string",
 					"description": {
-						"en": "The body of the message to post",
-						"fr": "Le corps du message à envoyer"
+						"en": "Body of the message to post",
+						"fr": "Corps du message à envoyer"
 					}
 				}
 			],
@@ -242,49 +242,49 @@
 					"name": "USER_ID",
 					"description": {
 						"en": "The Discord ID of the sender",
-						"fr": "L'identifiant Discord de l'envoyeur"
+						"fr": "Identifiant Discord de l'envoyeur"
 					}
 				},
 				{
 					"name": "USERNAME",
 					"description": {
 						"en": "The Discord username of the sender",
-						"fr": "Le pseudo Discord de l'envoyeur"
+						"fr": "Pseudo Discord de l'envoyeur"
 					}
 				},
 				{
 					"name": "MESSAGE_CONTENT",
 					"description": {
 						"en": "The body of the posted message",
-						"fr": "Le corps du message posté"
+						"fr": "Corps du message posté"
 					}
 				},
 				{
 					"name": "CHANNEL_ID",
 					"description": {
 						"en": "The Discord ID of the channel",
-						"fr": "L'identifiant Discord du canal"
+						"fr": "Identifiant Discord du canal"
 					}
 				},
 				{
 					"name": "CHANNEL_NAME",
 					"description": {
 						"en": "The Discord name of the channel",
-						"fr": "Le nom du canal Discord"
+						"fr": "Nom du canal Discord"
 					}
 				},
 				{
 					"name": "SERVER_ID",
 					"description": {
 						"en": "The Discord ID of the server",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				},
 				{
 					"name": "SERVER_NAME",
 					"description": {
 						"en": "The Discord name of the server",
-						"fr": "Le nom du serveur Discord"
+						"fr": "Nom du serveur Discord"
 					}
 				}
 			]
@@ -305,15 +305,15 @@
 					"type": "string",
 					"description": {
 						"en": "The Discord ID of the recipient",
-						"fr": "L'identifiant Discord du receveur"
+						"fr": "Identifiant Discord du receveur"
 					}
 				},
 				{
 					"name": "content",
 					"type": "string",
 					"description": {
-						"en": "The body of the message to send",
-						"fr": "Le corps du message à envoyer"
+						"en": "Body of the message to send",
+						"fr": "Corps du message à envoyer"
 					}
 				}
 			],
@@ -322,35 +322,35 @@
 					"name": "USER_ID",
 					"description": {
 						"en": "The Discord ID of the sender",
-						"fr": "L'identifiant Discord de l'envoyeur"
+						"fr": "Identifiant Discord de l'envoyeur"
 					}
 				},
 				{
 					"name": "USERNAME",
 					"description": {
 						"en": "The Discord username of the sender",
-						"fr": "Le pseudo Discord de l'envoyeur"
+						"fr": "Pseudo Discord de l'envoyeur"
 					}
 				},
 				{
 					"name": "MESSAGE_CONTENT",
 					"description": {
 						"en": "The body of the posted message",
-						"fr": "Le corps du message posté"
+						"fr": "Corps du message posté"
 					}
 				},
 				{
 					"name": "SENDEE_ID",
 					"description": {
 						"en": "The Discord ID of the recipient",
-						"fr": "L'identifiant Discord du receveur"
+						"fr": "Identifiant Discord du receveur"
 					}
 				},
 				{
 					"name": "SENDEE_USERNAME",
 					"description": {
 						"en": "The Discord name of the recipient",
-						"fr": "Le pseudo Discord du receveur"
+						"fr": "Pseudo Discord du receveur"
 					}
 				}
 			]
@@ -371,7 +371,7 @@
 					"type": "string",
 					"description": {
 						"en": "The Discord ID of the server",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				}
 			],
@@ -380,28 +380,28 @@
 					"name": "USER_ID",
 					"description": {
 						"en": "The Discord ID of the leaver",
-						"fr": "L'identifiant Discord de l'utilisateur qui quitte le serveur"
+						"fr": "Identifiant Discord de l'utilisateur qui quitte le serveur"
 					}
 				},
 				{
 					"name": "USERNAME",
 					"description": {
 						"en": "The Discord username of the leaver",
-						"fr": "Le pseudo Discord de l'utilisateur qui quitte le serveur"
+						"fr": "Pseudo Discord de l'utilisateur qui quitte le serveur"
 					}
 				},
 				{
 					"name": "SERVER_ID",
 					"description": {
 						"en": "The Discord ID of the server",
-						"fr": "L'identifiant Discord du serveur"
+						"fr": "Identifiant Discord du serveur"
 					}
 				},
 				{
 					"name": "SERVER_NAME",
 					"description": {
 						"en": "The Discord name of the server",
-						"fr": "Le nom du serveur Discord"
+						"fr": "Nom du serveur Discord"
 					}
 				}
 			]
@@ -418,7 +418,7 @@
 					"type": "string",
 					"description": {
 						"en": "The status to set",
-						"fr": "Le statut à définir"
+						"fr": "Statut à définir"
 					}
 				}
 			],
@@ -427,21 +427,21 @@
 					"name": "USER_ID",
 					"description": {
 						"en": "The Discord ID of the user",
-						"fr": "L'identifiant Discord de l'utilisateur"
+						"fr": "Identifiant Discord de l'utilisateur"
 					}
 				},
 				{
 					"name": "USERNAME",
 					"description": {
 						"en": "The Discord username of the user",
-						"fr": "Le pseudo Discord de l'utilisateur"
+						"fr": "Pseudo Discord de l'utilisateur"
 					}
 				},
 				{
 					"name": "STATUS",
 					"description": {
 						"en": "The Discord status of the user",
-						"fr": "Le status Discord de l'utilisateur"
+						"fr": "Status Discord de l'utilisateur"
 					}
 				}
 			]

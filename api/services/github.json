@@ -17,7 +17,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -25,7 +25,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -34,49 +34,49 @@
 					"name": "PR_NAME",
 					"description": {
 						"en": "The opened pull request name",
-						"fr": "Le nom de la pull request ouverte"
+						"fr": "Nom de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_BODY",
 					"description": {
 						"en": "The opened pull request body",
-						"fr": "Le corps de la pull request ouverte"
+						"fr": "Corps de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_OPENER",
 					"description": {
 						"en": "The user's username that opened the pull request",
-						"fr": "Le pseudo de l'utilisateur qui a ouvert la pull request"
+						"fr": "Pseudo de l'utilisateur qui a ouvert la pull request"
 					}
 				},
 				{
 					"name": "PR_HEAD",
 					"description": {
 						"en": "The name of the branch to merge into the base branch",
-						"fr": "Le nom de la branche à merger dans la branche de base"
+						"fr": "Nom de la branche à merger dans la branche de base"
 					}
 				},
 				{
 					"name": "PR_BASE",
 					"description": {
 						"en": "The name of the branch to merge head branch into",
-						"fr": "Le nom de la branche dans laquelle merger la branche 'head'"
+						"fr": "Nom de la branche dans laquelle merger la branche 'head'"
 					}
 				},
 				{
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				}
 			]
@@ -97,7 +97,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -105,7 +105,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -114,63 +114,63 @@
 					"name": "PR_NAME",
 					"description": {
 						"en": "The opened pull request name",
-						"fr": "Le nom de la pull request ouverte"
+						"fr": "Nom de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_BODY",
 					"description": {
 						"en": "The opened pull request body",
-						"fr": "Le corps de la pull request ouverte"
+						"fr": "Corps de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_OPENER",
 					"description": {
 						"en": "The user's username that opened the pull request",
-						"fr": "Le pseudo de l'utilisateur qui a ouvert la pull request"
+						"fr": "Pseudo de l'utilisateur qui a ouvert la pull request"
 					}
 				},
 				{
 					"name": "PR_HEAD",
 					"description": {
 						"en": "The name of the branch to merge into the base branch",
-						"fr": "Le nom de la branche à merger dans la branche de base"
+						"fr": "Nom de la branche à merger dans la branche de base"
 					}
 				},
 				{
 					"name": "PR_BASE",
 					"description": {
 						"en": "The name of the branch to merge head branch into",
-						"fr": "Le nom de la branche dans laquelle merger la branche 'head'"
+						"fr": "Nom de la branche dans laquelle merger la branche 'head'"
 					}
 				},
 				{
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "COMMENTER",
 					"description": {
 						"en": "The user's username that comment the pull request",
-						"fr": "Le pseudo de l'utilisateur qui a commenté la pull request"
+						"fr": "Pseudo de l'utilisateur qui a commenté la pull request"
 					}
 				},
 				{
 					"name": "COMMENT_BODY",
 					"description": {
 						"en": "The body of the new comment on the pull request",
-						"fr": "Le corps du nouveau commentaire sous la pull request"
+						"fr": "Corps du nouveau commentaire sous la pull request"
 					}
 				}
 			]
@@ -191,7 +191,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -199,7 +199,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -208,49 +208,49 @@
 					"name": "PR_NAME",
 					"description": {
 						"en": "The opened pull request name",
-						"fr": "Le nom de la pull request ouverte"
+						"fr": "Nom de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_BODY",
 					"description": {
 						"en": "The opened pull request body",
-						"fr": "Le corps de la pull request ouverte"
+						"fr": "Corps de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_OPENER",
 					"description": {
 						"en": "The user's username that opened the pull request",
-						"fr": "Le pseudo de l'utilisateur qui a ouvert la pull request"
+						"fr": "Pseudo de l'utilisateur qui a ouvert la pull request"
 					}
 				},
 				{
 					"name": "PR_HEAD",
 					"description": {
 						"en": "The name of the branch to merge into the base branch",
-						"fr": "Le nom de la branche à merger dans la branche de base"
+						"fr": "Nom de la branche à merger dans la branche de base"
 					}
 				},
 				{
 					"name": "PR_BASE",
 					"description": {
 						"en": "The name of the branch to merge head branch into",
-						"fr": "Le nom de la branche dans laquelle merger la branche 'head'"
+						"fr": "Nom de la branche dans laquelle merger la branche 'head'"
 					}
 				},
 				{
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				}
 			]
@@ -271,7 +271,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -279,7 +279,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -288,49 +288,49 @@
 					"name": "PR_NAME",
 					"description": {
 						"en": "The opened pull request name",
-						"fr": "Le nom de la pull request ouverte"
+						"fr": "Nom de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_BODY",
 					"description": {
 						"en": "The opened pull request body",
-						"fr": "Le corps de la pull request ouverte"
+						"fr": "Corps de la pull request ouverte"
 					}
 				},
 				{
 					"name": "PR_OPENER",
 					"description": {
 						"en": "The user's username that opened the pull request",
-						"fr": "Le pseudo de l'utilisateur qui a ouvert la pull request"
+						"fr": "Pseudo de l'utilisateur qui a ouvert la pull request"
 					}
 				},
 				{
 					"name": "PR_HEAD",
 					"description": {
 						"en": "The name of the branch to merge into the base branch",
-						"fr": "Le nom de la branche à merger dans la branche de base"
+						"fr": "Nom de la branche à merger dans la branche de base"
 					}
 				},
 				{
 					"name": "PR_BASE",
 					"description": {
 						"en": "The name of the branch to merge head branch into",
-						"fr": "Le nom de la branche dans laquelle merger la branche 'head'"
+						"fr": "Nom de la branche dans laquelle merger la branche 'head'"
 					}
 				},
 				{
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				}
 			]
@@ -351,7 +351,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -359,7 +359,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -368,35 +368,35 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "ISSUE_NAME",
 					"description": {
 						"en": "The title of the created issue",
-						"fr": "Le titre de l'issue créée"
+						"fr": "Titre de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_CONTENT",
 					"description": {
 						"en": "The description of the created issue",
-						"fr": "La description de l'issue créée"
+						"fr": "Description de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_AUTHOR",
 					"description": {
 						"en": "The issue creator username",
-						"fr": "Le pseudo de l'auteur de l'issue"
+						"fr": "Pseudo de l'auteur de l'issue"
 					}
 				}
 			]
@@ -417,7 +417,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -425,7 +425,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -434,49 +434,49 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "ISSUE_NAME",
 					"description": {
 						"en": "The title of the created issue",
-						"fr": "Le titre de l'issue créée"
+						"fr": "Titre de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_CONTENT",
 					"description": {
 						"en": "The description of the created issue",
-						"fr": "La description de l'issue créée"
+						"fr": "Description de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_AUTHOR",
 					"description": {
 						"en": "The issue creator username",
-						"fr": "Le pseudo de l'auteur de l'issue"
+						"fr": "Pseudo de l'auteur de l'issue"
 					}
 				},
 				{
 					"name": "COMMENT",
 					"description": {
 						"en": "The body of the new comment on an issue of the repository given as parameter",
-						"fr": "Le corps du nouveau commentaire sur une issue dans le répertoire donné"
+						"fr": "Corps du nouveau commentaire sur une issue dans le répertoire donné"
 					}
 				},
 				{
 					"name": "COMMENTER",
 					"description": {
 						"en": "The author of the comment on an issue",
-						"fr": "Le pseudo de l'auteur du commentaire de l'issue"
+						"fr": "Pseudo de l'auteur du commentaire de l'issue"
 					}
 				}
 			]
@@ -497,7 +497,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -505,7 +505,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -514,35 +514,35 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "ISSUE_NAME",
 					"description": {
 						"en": "The title of the created issue",
-						"fr": "Le titre de l'issue créée"
+						"fr": "Titre de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_CONTENT",
 					"description": {
 						"en": "The description of the created issue",
-						"fr": "La description de l'issue créée"
+						"fr": "Description de l'issue créée"
 					}
 				},
 				{
 					"name": "ISSUE_AUTHOR",
 					"description": {
 						"en": "The issue creator username",
-						"fr": "Le pseudo de l'auteur de l'issue"
+						"fr": "Pseudo de l'auteur de l'issue"
 					}
 				}
 			]
@@ -563,7 +563,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -571,7 +571,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -580,21 +580,21 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "FORKER",
 					"description": {
 						"en": "The username of the user that fork the repository",
-						"fr": "Le pseudo de l'utilisateur qui a fork le répertoire"
+						"fr": "Pseudo de l'utilisateur qui a fork le répertoire"
 					}
 				}
 			]
@@ -615,7 +615,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -623,7 +623,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -632,28 +632,28 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "STAR_COUNT",
 					"description": {
 						"en": "The number of stars on the repository",
-						"fr": "Le nombre de star sur le répertoire"
+						"fr": "Nombre de star sur le répertoire"
 					}
 				},
 				{
 					"name": "STARER",
 					"description": {
 						"en": "The username of the user that starred the repository",
-						"fr": "Le pseudo de l'utilisateur qui a star le répertoire"
+						"fr": "Pseudo de l'utilisateur qui a star le répertoire"
 					}
 				}
 			]
@@ -674,7 +674,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -682,7 +682,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -691,28 +691,28 @@
 					"name": "REPO_NAME",
 					"description": {
 						"en": "The name of the repository",
-						"fr": "Le nom du répertoire"
+						"fr": "Nom du répertoire"
 					}
 				},
 				{
 					"name": "REPO_OWNER",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
 					"name": "WATCH_COUNT",
 					"description": {
 						"en": "The number of users watching the repository",
-						"fr": "Le nombre d'utilisateur qui watch le répertoire"
+						"fr": "Nombre d'utilisateur qui watch le répertoire"
 					}
 				},
 				{
 					"name": "WATCHER",
 					"description": {
 						"en": "The username of the user that watched the repository",
-						"fr": "Le pseudo de l'utilisateur qui vient de watch le répertoire"
+						"fr": "Pseudo de l'utilisateur qui vient de watch le répertoire"
 					}
 				}
 			]
@@ -735,7 +735,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -743,7 +743,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -751,7 +751,7 @@
 					"type": "string",
 					"description": {
 						"en": "The title of the opened pull request",
-						"fr": "Le titre de la pull request ouverte"
+						"fr": "Titre de la pull request ouverte"
 					}
 				},
 				{
@@ -759,7 +759,7 @@
 					"type": "string",
 					"description": {
 						"en": "The name of the branch to merge into base branch",
-						"fr": "Le nom de la branche à merger dans la branche de base"
+						"fr": "Nom de la branche à merger dans la branche de base"
 					}
 				},
 				{
@@ -767,7 +767,7 @@
 					"type": "string",
 					"description": {
 						"en": "The name of the branch to merge intro head branch",
-						"fr": "Le nom de la branche dans laquelle merger la branche 'head'"
+						"fr": "Nom de la branche dans laquelle merger la branche 'head'"
 					}
 				}
 			],
@@ -776,7 +776,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the newly opened pull request",
-						"fr": "L'URL de la pull request nouvellement ouverte"
+						"fr": "URL de la pull request nouvellement ouverte"
 					}
 				}
 			]
@@ -797,7 +797,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -805,7 +805,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -813,7 +813,7 @@
 					"type": "integer",
 					"description": {
 						"en": "The number assigned to the commented pull request",
-						"fr": "Le numéro assignée à la pull request commentée"
+						"fr": "Numéro assignée à la pull request commentée"
 					}
 				},
 				{
@@ -821,7 +821,7 @@
 					"type": "string",
 					"description": {
 						"en": "The body of the comment written under the pull request",
-						"fr": "Le corps du commentaire écrit sous la pull request"
+						"fr": "Corps du commentaire écrit sous la pull request"
 					}
 				}
 			],
@@ -830,7 +830,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url to the comment",
-						"fr": "L'URL vers le commentaire"
+						"fr": "URL vers le commentaire"
 					}
 				}
 			]
@@ -851,7 +851,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -859,7 +859,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -867,7 +867,7 @@
 					"type": "integer",
 					"description": {
 						"en": "The number assigned to the pull request to close",
-						"fr": "Le numéro assignée à la pull request à fermer"
+						"fr": "Numéro assignée à la pull request à fermer"
 					}
 				}
 			],
@@ -889,7 +889,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -897,7 +897,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -905,7 +905,7 @@
 					"type": "integer",
 					"description": {
 						"en": "The number assigned to the pull request to merge",
-						"fr": "Le numéro assigné à la pull request à merger"
+						"fr": "Numéro assigné à la pull request à merger"
 					}
 				}
 			],
@@ -927,7 +927,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -935,7 +935,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -943,7 +943,7 @@
 					"type": "string",
 					"description": {
 						"en": "The title of the issue to create",
-						"fr": "Le titre de l'issue à créer"
+						"fr": "Titre de l'issue à créer"
 					}
 				},
 				{
@@ -951,7 +951,7 @@
 					"type": "string",
 					"description": {
 						"en": "The body of the issue to create",
-						"fr": "Le corps de l'issue à créer"
+						"fr": "Corps de l'issue à créer"
 					}
 				}
 			],
@@ -960,7 +960,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the newly created issue",
-						"fr": "L'URL de l'issue nouvellement créée"
+						"fr": "URL de l'issue nouvellement créée"
 					}
 				}
 			]
@@ -981,7 +981,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -989,7 +989,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -997,7 +997,7 @@
 					"type": "integer",
 					"description": {
 						"en": "The number assigned to the issue to comment",
-						"fr": "Le numéro assigné à l'issue à commenter"
+						"fr": "Numéro assigné à l'issue à commenter"
 					}
 				},
 				{
@@ -1005,7 +1005,7 @@
 					"type": "string",
 					"description": {
 						"en": "The body of the comment",
-						"fr": "Le corps du commentaire écrit sous l'issue"
+						"fr": "Corps du commentaire écrit sous l'issue"
 					}
 				}
 			],
@@ -1014,7 +1014,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the newly created comment",
-						"fr": "L'URL du commentaire nouvellement créé"
+						"fr": "URL du commentaire nouvellement créé"
 					}
 				}
 			]
@@ -1035,7 +1035,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -1043,7 +1043,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -1051,7 +1051,7 @@
 					"type": "integer",
 					"description": {
 						"en": "The number assigned to the issue to close",
-						"fr": "Le numéro assigné à l'issue à fermer"
+						"fr": "Numéro assigné à l'issue à fermer"
 					}
 				}
 			],
@@ -1060,7 +1060,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the closed issue",
-						"fr": "L'URL de l'issue fermée"
+						"fr": "URL de l'issue fermée"
 					}
 				}
 			]
@@ -1069,7 +1069,7 @@
 			"name": "Github_CreateRepo",
 			"description": {
 				"en": "Creates a new repository with the given name",
-				"fr": "Crée un nouveau répertoire avec le nom donné"
+				"fr": "Crée un nouveau répertoire avec Nom donné"
 			},
 			"label": {
 				"en": "Creates a repository",
@@ -1081,7 +1081,7 @@
 					"type": "string",
 					"description": {
 						"en": "The name of the repository to create",
-						"fr": "Le nom du répertoire à créer"
+						"fr": "Nom du répertoire à créer"
 					}
 				}
 			],
@@ -1090,7 +1090,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the newly created repository",
-						"fr": "L'URL du répertoire nouvellement créé"
+						"fr": "URL du répertoire nouvellement créé"
 					}
 				}
 			]
@@ -1099,7 +1099,7 @@
 			"name": "Github_CreatePrivateRepo",
 			"description": {
 				"en": "Creates a new private repository with the given name",
-				"fr": "Crée un nouveau répertoire privé avec le nom donné"
+				"fr": "Crée un nouveau répertoire privé avec Nom donné"
 			},
 			"label": {
 				"en": "Creates a private repository",
@@ -1111,7 +1111,7 @@
 					"type": "string",
 					"description": {
 						"en": "The name of the private repository to create",
-						"fr": "Le nom du répertoire privé à créer"
+						"fr": "Nom du répertoire privé à créer"
 					}
 				}
 			],
@@ -1120,7 +1120,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the newly created private repository",
-						"fr": "L'URL du répertoire privé nouvellement créé"
+						"fr": "URL du répertoire privé nouvellement créé"
 					}
 				}
 			]
@@ -1129,11 +1129,11 @@
 			"name": "Github_UpdateDescription",
 			"description": {
 				"en": "Updates the description of the given repository",
-				"fr": "Met à jour la description du répertoire donné"
+				"fr": "Met à jour Description du répertoire donné"
 			},
 			"label": {
 				"en": "Updates a repository description",
-				"fr": "Met à jour la description d'un répertoire"
+				"fr": "Met à jour Description d'un répertoire"
 			},
 			"params": [
 				{
@@ -1141,7 +1141,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -1149,7 +1149,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				},
 				{
@@ -1157,7 +1157,7 @@
 					"type": "string",
 					"description": {
 						"en": "The description to set to the given repository",
-						"fr": "La description à appliquer au répertoire donné"
+						"fr": "Description à appliquer au répertoire donné"
 					}
 				}
 			],
@@ -1166,7 +1166,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the repository",
-						"fr": "L'URL du répertoire"
+						"fr": "URL du répertoire"
 					}
 				}
 			]
@@ -1187,7 +1187,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -1195,7 +1195,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -1204,7 +1204,7 @@
 					"name": "URL",
 					"description": {
 						"en": "The url of the forked repository",
-						"fr": "L'URL du répertoire forké"
+						"fr": "URL du répertoire forké"
 					}
 				}
 			]
@@ -1225,7 +1225,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -1233,7 +1233,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],
@@ -1255,7 +1255,7 @@
 					"type": "string",
 					"description": {
 						"en": "The user's username that owns the repository",
-						"fr": "Le pseudo de l'utilisateur qui possède le répertoire"
+						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
 					}
 				},
 				{
@@ -1263,7 +1263,7 @@
 					"type": "string",
 					"description": {
 						"en": "The targeted repository's name",
-						"fr": "Le nom du répertoire ciblé"
+						"fr": "Nom du répertoire ciblé"
 					}
 				}
 			],

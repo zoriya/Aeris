@@ -17,7 +17,7 @@
 					"type": "string",
 					"description": {
 						"en": "The Spotify ID of the playlist to watch",
-						"fr": "L'identifiant de la playlist Spotify à regarder"
+						"fr": "Identifiant de la playlist Spotify à regarder"
 					}
 				}
 			],
@@ -26,14 +26,14 @@
 					"name": "ID",
 					"description": {
 						"en": "ID of the added track",
-						"fr": "L'identifiant de la musique ajoutée"
+						"fr": "Identifiant de la musique ajoutée"
 					}
 				},
 				{
 					"name": "NAME",
 					"description": {
 						"en": "Name of the added track",
-						"fr": "Le nom de la musique ajoutée"
+						"fr": "Nom de la musique ajoutée"
 					}
 				}
 			]
@@ -54,14 +54,14 @@
 					"name": "ID",
 					"description": {
 						"en": "ID of the added track",
-						"fr": "L'identifiant de la musique ajoutée"
+						"fr": "Identifiant de la musique ajoutée"
 					}
 				},
 				{
 					"name": "NAME",
 					"description": {
 						"en": "Name of the added track",
-						"fr": "Le nom de la musique ajoutée"
+						"fr": "Nom de la musique ajoutée"
 					}
 				}
 			]
@@ -84,7 +84,7 @@
 					"type": "string",
 					"description": {
 						"en": "Artist of the song to play",
-						"fr": "L'interprète de la musique à jouer"
+						"fr": "Interprète de la musique à jouer"
 					}
 				},
 				{
@@ -92,7 +92,7 @@
 					"type": "string",
 					"description": {
 						"en": "Title of the song to play",
-						"fr": "Le titre de la musique à jouer"
+						"fr": "Titre de la musique à jouer"
 					}
 				}
 			],
@@ -101,7 +101,7 @@
 					"name": "URL",
 					"description": {
 						"en": "URL of the song",
-						"fr": "L'URL de la musique"
+						"fr": "URL de la musique"
 					}
 				},
 				{
@@ -149,7 +149,7 @@
 					"type": "string",
 					"description": {
 						"en": "Artist of the song to add",
-						"fr": "L'interprète de la musique à ajouter"
+						"fr": "Interprète de la musique à ajouter"
 					}
 				},
 				{
@@ -157,7 +157,7 @@
 					"type": "string",
 					"description": {
 						"en": "Title of the song to add",
-						"fr": "Le titre de la musique à ajouter"
+						"fr": "Titre de la musique à ajouter"
 					}
 				}
 			],
@@ -166,21 +166,21 @@
 					"name": "URL",
 					"description": {
 						"en": "URL of the added song",
-						"fr": "L'URL de la musique ajoutée"
+						"fr": "URL de la musique ajoutée"
 					}
 				},
 				{
 					"name": "ARTIST",
 					"description": {
 						"en": "Artist of the added song",
-						"fr": "L'interprète de la musique ajoutée"
+						"fr": "Interprète de la musique ajoutée"
 					}
 				},
 				{
 					"name": "TRACK",
 					"description": {
 						"en": "Title of the added song",
-						"fr": "Le titre de la musique ajoutée"
+						"fr": "Titre de la musique ajoutée"
 					}
 				}
 			]
@@ -201,7 +201,7 @@
 					"type": "string",
 					"description": {
 						"en": "Artist of the song to add",
-						"fr": "L'interprète de la musique à ajouter"
+						"fr": "Interprète de la musique à ajouter"
 					}
 				},
 				{
@@ -209,7 +209,7 @@
 					"type": "string",
 					"description": {
 						"en": "Title of the song to add",
-						"fr": "Le titre de la musique à ajouter"
+						"fr": "Titre de la musique à ajouter"
 					}
 				},
 				{
@@ -217,7 +217,7 @@
 					"type": "string",
 					"description": {
 						"en": "Name of the playlist",
-						"fr": "Le nom de la playlist dans laquelle ajouter la musique"
+						"fr": "Nom de la playlist dans laquelle ajouter la musique"
 					}
 				}
 			],
@@ -226,21 +226,21 @@
 					"name": "URL",
 					"description": {
 						"en": "URL of the added song",
-						"fr": "L'URL de la musique ajoutée"
+						"fr": "URL de la musique ajoutée"
 					}
 				},
 				{
 					"name": "ARTIST",
 					"description": {
 						"en": "Artist of the added song",
-						"fr": "L'interprète de la musique ajoutée"
+						"fr": "Interprète de la musique ajoutée"
 					}
 				},
 				{
 					"name": "TRACK",
 					"description": {
 						"en": "Title of the added song",
-						"fr": "Le titre de la musique ajoutée"
+						"fr": "Titre de la musique ajoutée"
 					}
 				}
 			]
