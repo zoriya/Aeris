@@ -26,7 +26,7 @@ export class Runner {
 		const ret: any = {};
 		for (let [key, value] of Object.entries(params)) {
 			let newValue = value;
-			if (value instanceof String) {
+			if (typeof value == "string") {
 				newValue = value.replace(/{(\w*)(?:@(\d))?}/, (_, name, index) => {
 					if (index)
 						return this._history[parseInt(index)][name]

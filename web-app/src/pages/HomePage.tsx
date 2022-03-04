@@ -1,4 +1,4 @@
-import PipelineBoxesLayout from "../components/Pipelines/PipelineBoxesLayout";
+import { PipelineSquaresLayout } from "../components/Pipelines/PipelineSquaresLayout";
 import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
@@ -6,17 +6,26 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useEffect } from "react";
 import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
+import { Grid } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
-import { getCookie, deSerializeServices, deSerialisePipeline, fetchWorkflows } from "../utils/utils";
+import {
+	getCookie,
+	deSerializeServices,
+	deSerialisePipeline,
+	fetchWorkflows,
+	fetchLinkedServices,
+	deepCopy,
+} from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
-import { AppAREAType, AppPipelineType } from "../utils/types";
+import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import MenuItem from "@mui/material/MenuItem";
 import { Navigate } from "react-router-dom";
+import { PipelineSquare } from "../components/Pipelines/PipelineSquare";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -49,9 +58,7 @@ const getUserName = async (): Promise<string> => {
 };
 
 export default function HomePage() {
-	if (!getCookie("aeris_jwt"))
-		return <Navigate to="/auth" replace />;
-
+	if (!getCookie("aeris_jwt")) return <Navigate to="/auth" replace />;
 
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
@@ -61,11 +68,14 @@ export default function HomePage() {
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
 		() => (t: AppPipelineType) => {}
 	);
+	const [servicesData, setServicesData] = useState<Array<AppServiceType>>(AppServices);
 	const [pipelineDeletion, setPipelineDeletion] = useState<boolean>(true);
 	const [pipelinesData, setPipelinesData] = useState<Array<AppPipelineType>>([]);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		if (await requestCreatePipeline(pD, creation)) {
+			if (creation) setPipelinesData([...pipelinesData, pD]);
+			else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
 			return setModalMode(ModalSelection.None);
 		}
 	};
@@ -77,6 +87,22 @@ export default function HomePage() {
 			.catch((error) => {
 				console.warn(error);
 				setAREAs([[], []]);
+			});
+	}, []);
+
+	useEffect(() => {
+		fetchLinkedServices()
+			.then((services) => {
+				services = services.map((el) => el.toLowerCase());
+				setServicesData(
+					servicesData.map((servData) => ({
+						...servData,
+						linked: services.includes(servData.uid),
+					}))
+				);
+			})
+			.catch((error) => {
+				console.warn(error);
 			});
 	}, []);
 
@@ -109,22 +135,17 @@ export default function HomePage() {
 				}}
 				onClickRefresh={refreshWorkflows}
 			/>
-			<PipelineBoxesLayout
-				data={pipelinesData.map(
-					(pipelineData) =>
-						({
-							title: pipelineData.name,
-							statusText: pipelineData.reactions.length + " reaction(s)",
-							service1: pipelineData.action.service.logo,
-							service2: pipelineData.reactions[0].service.logo,
-							onClickCallback: () => {
-								setPipelineData(pipelineData);
-								setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
-								setModalMode(ModalSelection.PipelineEdit);
-								setPipelineDeletion(true);
-							},
-						} as PipelineBoxProps)
-				)}
+
+			<PipelineSquaresLayout
+				data={pipelinesData.map((el) => ({
+					pipelineData: el,
+					onClick: () => {
+						setPipelineData(el);
+						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, false));
+						setModalMode(ModalSelection.PipelineEdit);
+						setPipelineDeletion(true);
+					},
+				}))}
 			/>
 
 			<PipelineModal
@@ -137,7 +158,12 @@ export default function HomePage() {
 					services={AppServices}
 					actions={AREAs[0]}
 					reactions={AREAs[1]}
-					handleDelete={(pD: AppPipelineType) => deletePipeline(pD)}
+					handleDelete={async (pD: AppPipelineType) => {
+						if (await deletePipeline(pD)) {
+							setPipelinesData(pipelinesData.filter((ipD) => ipD.id !== pD.id));
+							setModalMode(ModalSelection.None);
+						}
+					}}
 					handleQuit={() => setModalMode(ModalSelection.None)}
 				/>
 			</PipelineModal>
@@ -145,7 +171,7 @@ export default function HomePage() {
 			<PipelineModal
 				isOpen={modalMode === ModalSelection.ServiceSetup}
 				handleClose={() => setModalMode(ModalSelection.None)}>
-				<ServiceSetupModal services={AppServices} />
+				<ServiceSetupModal services={servicesData} setServices={setServicesData} />
 			</PipelineModal>
 
 			<Box
@@ -158,7 +184,7 @@ export default function HomePage() {
 				<Fab
 					onClick={() => {
 						setPipelineDeletion(false);
-						setPipelineData(NewEmptyPipeline);
+						setPipelineData(deepCopy(NewEmptyPipeline));
 						setHandleSavePipeline(() => (pD: AppPipelineType) => homePagePipeLineSave(pD, true));
 						setModalMode(ModalSelection.PipelineEdit);
 					}}

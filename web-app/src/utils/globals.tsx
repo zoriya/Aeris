@@ -1,4 +1,3 @@
-import { GenericButtonProps } from "../components/GenericButton";
 import {
 	AppAREAType,
 	ReactionTypeEnum,
@@ -8,8 +7,6 @@ import {
 	ImageProps,
 	AppServiceType,
 } from "./types";
-import MoreVert from "@mui/icons-material/MoreVert";
-import { generateRandomString } from "./utils";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
 
@@ -40,12 +37,13 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
-const getServiceUrl = (service: string) => `${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`
+const getServiceUrl = (service: string) =>
+	`${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`;
 
 export const AppServices: Array<AppServiceType> = [
 	{
 		label: "YouTube",
-		uid: "youtube",
+		uid: "google",
 		logo: AppServicesLogos["youtube"],
 		urlAuth: getServiceUrl("google"),
 		linked: false,
@@ -69,14 +67,14 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
 		urlAuth: getServiceUrl("twitter"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "Discord",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: getServiceUrl("discord"),
-		linked: true,
+		linked: false,
 	},
 	{
 		label: "AniList",
@@ -95,14 +93,6 @@ export const NoAREA: AppAREAType = {
 	service: AppServices[0],
 };
 
-export const FakeAREA: AppAREAType = {
-	type: "Twiitersmth",
-	params: {},
-	returns: {},
-	description: "There's nothing",
-	service: AppServices[0],
-};
-
 export const NewEmptyPipeline: AppPipelineType = {
 	id: 89,
 	name: "nouvelle pipeline",
@@ -111,6 +101,9 @@ export const NewEmptyPipeline: AppPipelineType = {
 	data: {
 		enabled: true,
 		status: "",
+		errorText: "",
 		error: false,
+		triggerCount: 0,
+		lastTrigger: new Date(),
 	},
 };

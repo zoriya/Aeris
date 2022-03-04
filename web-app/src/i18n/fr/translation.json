@@ -18,16 +18,21 @@
   "selectReaction": "Sélectionner une réaction",
   "cancel": "Retour",
   "parameters": "Paramètres",
-  "addAction": "Ajouter une réaction",
+  "addAction": "Ajouter une action",
+  "addReaction": "Ajouter une réaction",
   "deletePipeline": "Supprimer la pipeline",
   "refresh": "Rafraîchir",
   "logout": "Se déconnecter",
   "activated": "Activée",
+  "deactivated": "Désactivée",
   "username": "Nom d'utilisateur",
   "password": "Mot de passe",
   "confirm_password": "Confirmation du mot de passe",
   "switch_language": "Langue changée pour Français",
   "get_mobile_app": "Obtenir l'app mobile",
   "switch_to_french": "Français",
-  "switch_to_english": "Anglais"
+  "switch_to_english": "Anglais",
+  "pipeline_error_prefix": "Erreur: ",
+  "pipeline_layout_pipeline_section_title": "Mes pipelines",
+  "pipeline_layout_disable_pipeline_section_title": "Pipelines désativées"
 }
