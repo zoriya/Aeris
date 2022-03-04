@@ -58,7 +58,6 @@ class _ActionFormState extends State<ActionForm> {
     if (widget.candidate is Trigger) return suggestions;
     if (widget.triggerCandidate != null) {
       Trigger trigger = widget.triggerCandidate!;
-      ///TODO Dumb ass; look for returns instead of param
       var triggerTemplate = catalogue.triggerTemplates[trigger.service]!.firstWhere(
         (element) => element.name == trigger.name
       );
@@ -97,6 +96,7 @@ class _ActionFormState extends State<ActionForm> {
                 FormBuilderValidators.required(context),
               ]),
               hideOnEmpty: true,
+              autoFlipDirection: true,
               textFieldConfiguration: TextFieldConfiguration(
                 decoration: InputDecoration(
                   labelText: ReCase(param.name).titleCase,
@@ -118,6 +118,7 @@ class _ActionFormState extends State<ActionForm> {
                 var suggestion = input as Tuple3<int, ActionParameter, ActionTemplate>;
                 return ListTile(
                   isThreeLine: true,
+                  dense: true,
                   leading: suggestion.item3.service.getLogo(logoSize: 30),
                   title: Text(suggestion.item2.name),
                   subtitle: Text("${suggestion.item2.description}, from '${suggestion.item3.displayName()}'")
