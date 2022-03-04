@@ -51,7 +51,7 @@ export enum AlertLevel {
 	Info = "info",
 	Warning = "warning",
 	Error = "error",
-	Success = "success"
+	Success = "success",
 }
 
 export interface AppPipelineInfoType {
@@ -59,7 +59,7 @@ export interface AppPipelineInfoType {
 	status: string;
 	triggerCount: number;
 	lastTrigger: Date;
-	alertLevel: AlertLevel
+	alertLevel: AlertLevel;
 }
 
 export interface AppPipelineType {

@@ -9,6 +9,7 @@ import {
 	Switch,
 	TextField,
 	Alert,
+	AlertColor,
 	Typography,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -43,6 +44,14 @@ interface PipelineEditPipelineProps {
 	setEditReactionIndex: any;
 	disableDeletion: boolean;
 }
+
+const getAlert = (alertLvl: AlertLevel, text: string) => {
+	return (
+		<Alert style={{ width: "95%" }} severity={alertLvl as AlertColor}>
+			{text}
+		</Alert>
+	);
+};
 
 export default function PipelineEditPipeline({
 	pipelineData,
@@ -133,7 +142,9 @@ export default function PipelineEditPipeline({
 					/>
 				</FormGroup>
 				{pipelineData.data.alertLevel !== AlertLevel.None && (
-					<Alert style={{ gridArea: "pipelineAlert", width: "95%" }} severity={"error"}>
+					<Alert
+						style={{ gridArea: "pipelineAlert", width: "95%" }}
+						severity={pipelineData.data.alertLevel as AlertColor}>
 						{pipelineData.data.status}
 					</Alert>
 				)}
