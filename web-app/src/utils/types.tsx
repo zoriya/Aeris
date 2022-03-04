@@ -39,9 +39,9 @@ export interface ParamsType {
 
 export interface AppAREAType {
 	type: ActionTypeEnum | ReactionTypeEnum | string;
-	label: { [key: string]: string }
+	label: { [key: string]: string };
 	params: { [key: string]: ParamsType };
-	returns: { [key: string]: string };
+	returns: { [key: string]: { [key: string]: string } };
 	description: { [key: string]: string };
 	service: AppServiceType;
 }

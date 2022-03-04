@@ -79,6 +79,8 @@ export default function HomePage() {
 			return setModalMode(ModalSelection.None);
 		}
 	};
+
+	console.log(AREAs);
 	useEffect(() => {
 		getAboutJson()
 			.then((aboutInfoParam) => {

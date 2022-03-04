@@ -72,8 +72,8 @@ const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: Para
 	return params;
 };
 
-const deSerializeAREAReturns = (dumpAREAReturns: Array<any>): { [key: string]: string } => {
-	let returns: { [key: string]: string } = {};
+const deSerializeAREAReturns = (dumpAREAReturns: Array<any>): { [key: string]: { [key: string]: string } } => {
+	let returns: { [key: string]: { [key: string]: string } } = {};
 	dumpAREAReturns.forEach((el) => {
 		returns[el.name] = el.description;
 	});
@@ -229,25 +229,25 @@ export const unLinkService = async (service: AppServiceType): Promise<boolean> =
 };
 
 export const deepCopy = (obj: any): any => {
-    if(typeof obj !== 'object' || obj === null) {
-        return obj;
-    }
+	if (typeof obj !== "object" || obj === null) {
+		return obj;
+	}
 
-    if(obj instanceof Date) {
-        return new Date(obj.getTime());
-    }
+	if (obj instanceof Date) {
+		return new Date(obj.getTime());
+	}
 
-    if(obj instanceof Array) {
-        return obj.reduce((arr, item, i) => {
-            arr[i] = deepCopy(item);
-            return arr;
-        }, []);
-    }
+	if (obj instanceof Array) {
+		return obj.reduce((arr, item, i) => {
+			arr[i] = deepCopy(item);
+			return arr;
+		}, []);
+	}
 
-    if(obj instanceof Object) {
-        return Object.keys(obj).reduce((newObj: any, key) => {
-            newObj[key] = deepCopy(obj[key]);
-            return newObj;
-        }, {})
-    }
-}
+	if (obj instanceof Object) {
+		return Object.keys(obj).reduce((newObj: any, key) => {
+			newObj[key] = deepCopy(obj[key]);
+			return newObj;
+		}, {});
+	}
+};

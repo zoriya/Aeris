@@ -117,7 +117,7 @@ export const PipelineAREACard = ({
 						{Object.entries(AREA.returns).map((el, idx) => {
 							return (
 								<Grid item key={idx}>
-									<Chip label={el[0]} title={el[1]} color="primary" variant="outlined" size="small" />
+									<Chip label={el[0]} title={el[1][languageUid]} color="primary" variant="outlined" size="small" />
 								</Grid>
 							);
 						})}
