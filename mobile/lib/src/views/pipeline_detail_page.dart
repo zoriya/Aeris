@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   final Pipeline pipeline;
@@ -94,7 +95,12 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             onTap: () {
               Reaction newreaction = Reaction.template();
               showAerisCardPage(
-                      context, (_) => SetupActionPage(action: newreaction))
+                      context, (_) => SetupActionPage(
+                        action: newreaction,
+                        parentTrigger: pipeline.trigger,
+                        parentReactions: pipeline.reactions,
+                      )
+                    )
                   .then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
@@ -137,6 +143,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 title: pipeline.trigger.displayName(),
                 trailing: ActionCardPopupMenu(
                     deletable: false,
+                    parentTrigger: pipeline.trigger,
+                    parentReactions: pipeline.reactions,
                     action: pipeline.trigger,
                     then: () {
                       setState(() {});
@@ -153,6 +161,8 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                       leading: reaction.service.getLogo(logoSize: 50),
                       title: reaction.displayName(),
                       trailing: ActionCardPopupMenu(
+                          parentTrigger: pipeline.trigger,
+                          parentReactions: pipeline.reactions,
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,
                           then: () {
