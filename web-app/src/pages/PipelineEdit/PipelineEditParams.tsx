@@ -11,11 +11,12 @@ import "../../i18n/config";
 interface PipelineEditParamsProps {
 	pipelineData: AppPipelineType;
 	AREA: AppAREAType;
+	isAction: boolean;
 	setParams: (area: AppAREAType) => any;
 	handleQuit: () => any;
 }
 
-export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
+export default function PipelineEditParams({ pipelineData, isAction, AREA, setParams }: PipelineEditParamsProps) {
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
 	const { t } = useTranslation();
 	const languageUid = i18next.resolvedLanguage;
@@ -23,19 +24,22 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 	return (
 		<div>
 			<Typography variant="h5" align="left">
-				'{AREA.type}' {t("parameters")}
+				'{AREA.label[languageUid]}' {t("parameters")}
 			</Typography>
-			<div
-				style={{
-					backgroundColor: "#c8c8ff",
-					borderRadius: "5px",
-					padding: "5px",
-				}}>
-				<Info sx={{ marginRight: 1 }} fontSize="small" />
-				<Typography variant="body2" fontStyle="italic">
-					{t("pipeline_edit_params_info_text")}
-				</Typography>
-			</div>
+			{!isAction && Object.keys(AREA.params).length > 0 && (
+				<div
+					style={{
+						backgroundColor: "#c8c8ff",
+						borderRadius: "5px",
+						padding: "5px",
+					}}>
+					<Info sx={{ marginRight: 1 }} fontSize="small" />
+
+					<Typography variant="body2" fontStyle="italic">
+						{t("pipeline_edit_params_info_text")}
+					</Typography>
+				</div>
+			)}
 			<Stack>
 				{Object.entries(AREA.params).map((param, key) => {
 					return (

@@ -150,6 +150,7 @@ export default function PipelineEditAREA({
 						}}>
 						<PipelineEditParams
 							pipelineData={pipelineData}
+							isAction={isActions}
 							AREA={AREAData ?? filteredElements[0]}
 							handleQuit={() => {}}
 							setParams={setAREA}

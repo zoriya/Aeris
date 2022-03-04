@@ -98,7 +98,7 @@ export default function HomePage() {
 				setServicesData(
 					servicesData.map((servData) => ({
 						...servData,
-						linked: services.includes(servData.uid),
+						linked: services.includes(servData.uid) || servData.uid === "utils",
 					}))
 				);
 			})
