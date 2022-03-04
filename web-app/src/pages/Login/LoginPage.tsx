@@ -33,12 +33,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 		color: aerisTheme.palette.primary.contrastText,
 		minWidth: 150,
 		margin: `${theme.spacing(0)} auto`,
+		'&:hover': {
+			backgroundColor: aerisTheme.palette.secondary.light
+		}
 	},
 	switchBtn: {
 		backgroundColor: aerisTheme.palette.primary.main,
 		color: aerisTheme.palette.primary.contrastText,
 		minWidth: 150,
 		margin: `${theme.spacing(0)} auto`,
+		'&:hover': {
+			backgroundColor: aerisTheme.palette.primary.light
+		}
 	},
 	media: {
 		display: "absolute",
