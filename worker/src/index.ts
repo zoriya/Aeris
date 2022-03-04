@@ -1,4 +1,4 @@
-import { from, fromEvent, mergeAll, mergeWith, Observable } from "rxjs";
+import { fromEvent, mergeAll, mergeWith, Observable } from "rxjs";
 import { fromFetch } from 'rxjs/fetch';
 import { Manager } from "./actions";
 import "./services";
@@ -7,6 +7,7 @@ import AbortController from 'abort-controller';
 import { Pipeline, pipelineFromApi, PipelineType } from "./models/pipeline";
 import { EventEmitter } from "events"
 import express from "express";
+import { UtilsService } from "./services/utils";
 
 // @ts-ignore
 global.fetch  = fetch;
@@ -41,6 +42,11 @@ app.delete("/workflow/:id", (req, res) => {
 		type: PipelineType.Never,
 	});
 	res.send()
+});
+
+app.put("/action/:id", (req, res) => {
+	UtilsService.triggerEvents.emit(req.params.id, {});
+	res.send();
 });
 
 app.listen(5000);

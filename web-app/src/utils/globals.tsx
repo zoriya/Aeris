@@ -1,4 +1,3 @@
-import { GenericButtonProps } from "../components/GenericButton";
 import {
 	AppAREAType,
 	ReactionTypeEnum,
@@ -8,8 +7,6 @@ import {
 	ImageProps,
 	AppServiceType,
 } from "./types";
-import MoreVert from "@mui/icons-material/MoreVert";
-import { generateRandomString } from "./utils";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
 
@@ -37,6 +34,10 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	anilist: {
 		imageSrc: "https://anilist.co/img/icons/safari-pinned-tab.svg",
 		altText: "AniList logo",
+	},
+	utils: {
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Cle.png/1024px-Cle.png",
+		altText: "Utils logo",
 	},
 };
 
@@ -86,18 +87,17 @@ export const AppServices: Array<AppServiceType> = [
 		urlAuth: getServiceUrl("anilist"),
 		linked: false,
 	},
+	{
+		label: "Utils",
+		uid: "utils",
+		logo: AppServicesLogos["utils"],
+		urlAuth: "",
+		linked: false,
+	},
 ];
 
 export const NoAREA: AppAREAType = {
 	type: "WebFrontEndNoAREA",
-	params: {},
-	returns: {},
-	description: "There's nothing",
-	service: AppServices[0],
-};
-
-export const FakeAREA: AppAREAType = {
-	type: "Twiitersmth",
 	params: {},
 	returns: {},
 	description: "There's nothing",

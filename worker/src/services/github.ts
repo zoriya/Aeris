@@ -10,10 +10,11 @@ export class Github extends BaseService {
 	private _github: Octokit;
 	private _websocket: Webhooks;
 
-	constructor(_: Pipeline) {
+	constructor(pipeline: Pipeline) {
 		super();
-		///TODO Get various credentials
-		this._github = new Octokit();
+		if (!("Github" in pipeline.userData))
+			throw new Error("User not authenticated via github");
+		this._github = new Octokit({auth: pipeline.userData["Github"].accessToken});
 		this._websocket = new Webhooks({
 			secret: "bidibi"
 		});

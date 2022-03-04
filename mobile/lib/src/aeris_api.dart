@@ -38,7 +38,7 @@ class AerisAPI {
   late final String deepLinkRoute;
 
   String _baseRoute =
-      GetIt.I<SharedPreferences>().getString('api') ?? "http://10.0.2.2:8080";
+      GetIt.I<SharedPreferences>().getString('api') ?? "http://localhost:8080";
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
@@ -47,7 +47,7 @@ class AerisAPI {
     if (Platform.isIOS) {
       scheme = "aeris";
     }
-    deepLinkRoute = "$scheme://aeris.com";
+    deepLinkRoute = "$scheme://arthichaud.me";
   }
 
   /// Name of the file that contains the JWT used for Aeris' API requestd
