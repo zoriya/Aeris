@@ -38,7 +38,7 @@ class AerisAPI {
   late final String deepLinkRoute;
 
   String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
-    ?? "http://10.0.2.2:8080";
+    ?? "http://localhost:8080";
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
