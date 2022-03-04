@@ -123,8 +123,8 @@
 		{
 			"name": "Spotify_Pause",
 			"description": {
-				"en": "Pause play",
-				"fr": "Mets la lecture de la musique en pause"
+				"en": "Pause the currently playing music",
+				"fr": "Mets la musique en cours de lecture en pause"
 			},
 			"label": {
 				"en": "Pause play",
@@ -137,10 +137,10 @@
 			"name": "Spotify_AddTrackToLibrary",
 			"description": {
 				"en": "Add a track to library",
-				"fr": "Ajoute une musique à la librarie"
+				"fr": "Ajoute une musique à votre librarie"
 			},
 			"label": {
-				"en": "Add a song to library",
+				"en": "Add a track to library",
 				"fr": "Ajoute une musique à votre librarie"
 			},
 			"params": [

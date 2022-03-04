@@ -48,15 +48,6 @@ export default function App() {
 						<Button variant="text" startIcon={<DownloadIcon />} href="/client.apk" download color="secondary">
 							{t("get_mobile_app")}
 						</Button>
-						<div style={{ backgroundColor: "white", padding: "20px" }}>
-							<Autocomplete
-								disablePortal
-								id="combo-box-demo"
-								options={autoCompleteData}
-								sx={{ width: 300 }}
-								renderInput={(params) => <TextField {...params} label="Movie" />}
-							/>
-						</div>
 					</Box>
 				</div>
 			</header>
