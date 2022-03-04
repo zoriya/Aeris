@@ -4,123 +4,215 @@
 	"reactions": [
 		{
 			"name": "Twitter_FollowUser",
-			"description": "Follow a Twitter user",
+			"description": {
+				"en": "Follow a Twitter user",
+				"fr": "Suis un utilisateur Twitter"
+			},
+			"label": {
+				"en": "Follow someone",
+				"fr": "Suis quelqu'un"
+			},
 			"params": [
 				{
 					"name": "user_name",
 					"type": "string",
-					"description": "Twitter username of the user to follow"
+					"description": {
+						"en": "Twitter username of the user to follow",
+						"fr": "Le pseudo de l'utilisateur à suivre"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "FOLLOWED_ID",
-					"description": "Twitter ID of the followed user"
+					"description": {
+						"en": "Twitter ID of the followed user",
+						"fr": "L'identifiant Twitter de l'utilisateur suivi"
+					}
 				},
 				{
 					"name": "FOLLOWED_NAME",
-					"description": "Twitter Username of the followed user"
+					"description": {
+						"en": "Twitter Username of the followed user",
+						"fr": "Le pseudo Twitter de l'utilisateur suivi"
+					}
 				},
 				{
 					"name": "FOLLOWED_BIO",
-					"description": "Twitter Bio of the followed user"
+					"description": {
+						"en": "Twitter Bio of the followed user",
+						"fr": "La biographie Twitter de l'utilisateur suivi"
+					}
 				},
 				{
 					"name": "FOLLOWED_URL",
-					"description": "Twitter URL of the followed user"
+					"description": {
+						"en": "Twitter URL of the followed user",
+						"fr": "L'URL du compte Twitter suivi"
+					}
 				}
 			]
 		},
 		{
 			"name": "Twitter_PostTweet",
-			"description": "Post a tweet",
+			"description": {
+				"en": "Post a tweet",
+				"fr": "Poste un nouveau tweet"
+			},
+			"label": {
+				"en": "Post a tweet",
+				"fr": "Poste un tweet"
+			},
 			"params": [
 				{
 					"name": "tweet_content",
 					"type": "string",
-					"description": "Body of the tweet"
+					"description": {
+						"en": "Body of the tweet",
+						"fr": "Le corps du tweet"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "TWEET_ID",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				},
 				{
 					"name": "TWEET_CONTENT",
-					"description": "Body of the tweet"
+					"description": {
+						"en": "Body of the tweet",
+						"fr": "Le corps du tweet"
+					}
 				}
 			]
 		},
 		{
 			"name": "Twitter_ReplyToTweet",
-			"description": "Reply to a tweet",
+			"description": {
+				"en": "Reply to a tweet",
+				"fr": "Réponds à un tweet"
+			},
+			"label": {
+				"en": "Reply to a tweet",
+				"fr": "Réponds à un tweet"
+			},
 			"params": [
 				{
 					"name": "tweet_id",
 					"type": "string",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				},
 				{
 					"name": "reply_body",
 					"type": "string",
-					"description": "Body of the reply"
+					"description": {
+						"en": "Body of the reply",
+						"fr": "Le corps de la réponse"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "TWEET_ID",
-					"description": "Twitter ID of the replied tweet "
+					"description": {
+						"en": "Twitter ID of the replied tweet",
+						"fr": "L'identifiant du tweet répondu"
+					}
 				},
 				{
 					"name": "REPLY_ID",
-					"description": "Twitter ID of the reply"
+					"description": {
+						"en": "Twitter ID of the reply",
+						"fr": "L'identifiant de la réponse"
+					}
 				},
 				{
 					"name": "REPLY_CONTENT",
-					"description": "Body of the reply"
+					"description": {
+						"en": "Body of the reply",
+						"fr": "Le corps de la réponse"
+					}
 				}
 			]
 		},
 		{
 			"name": "Twitter_LikeTweet",
-			"description": "Post a tweet",
+			"description": {
+				"en": "Like a tweet",
+				"fr": "Aime un tweet"
+			},
+			"label": {
+				"en": "Like a tweet",
+				"fr": "Aime un tweet"
+			},
 			"params": [
 				{
 					"name": "tweet_id",
 					"type": "string",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "TWEET_ID",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				},
 				{
 					"name": "TWEET_CONTENT",
-					"description": "Body of the tweet"
+					"description": {
+						"en": "Body of the tweet",
+						"fr": "Le corps du tweet"
+					}
 				},
 				{
 					"name": "TWEET_AUTHOR_ID",
-					"description": "Author of the tweet"
+					"description": {
+						"en": "Author of the tweet",
+						"fr": "L'auteur du tweet"
+					}
 				}
 			]
 		},
 		{
 			"name": "Twitter_Retweet",
-			"description": "Post a tweet",
+			"description": {
+				"en": "Retweet a tweet",
+				"fr": "Retweet un tweet"
+			},
+			"label": {
+				"en": "Retweet a tweet",
+				"fr": "Retweet un tweet"
+			},
 			"params": [
 				{
 					"name": "tweet_id",
 					"type": "string",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "TWEET_ID",
-					"description": "Twitter ID of the tweet"
+					"description": {
+						"en": "Twitter ID of the tweet",
+						"fr": "L'identifiant du tweet"
+					}
 				}
 			]
 		}
