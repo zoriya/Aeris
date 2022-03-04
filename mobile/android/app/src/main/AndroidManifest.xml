@@ -31,7 +31,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="aeris" android:host="aeris.com" />
+                <data android:scheme="http" android:host="arthichaud.me" />
+                <data android:scheme="https" android:host="arthichaud.me"/>
+                <data android:scheme="aeris" android:host="arthichaud.me"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

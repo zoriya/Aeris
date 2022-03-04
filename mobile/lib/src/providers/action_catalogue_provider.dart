@@ -7,19 +7,28 @@ import 'package:get_it/get_it.dart';
 
 /// Provider class for Action listed in /about.json
 class ActionCatalogueProvider extends ChangeNotifier {
-
   /// Tells if the provers has loaded data at least once
-  late Map<Service, List<ActionTemplate>> _triggerTemplates;
-  late Map<Service, List<ActionTemplate>> _reactionTemplates;
+  final Map<Service, List<ActionTemplate>> _triggerTemplates = {};
+  final Map<Service, List<ActionTemplate>> _reactionTemplates = {};
   Map<Service, List<ActionTemplate>> get triggerTemplates => _triggerTemplates;
-  Map<Service, List<ActionTemplate>> get reactionTemplates => _reactionTemplates;
+  Map<Service, List<ActionTemplate>> get reactionTemplates =>
+      _reactionTemplates;
 
-  ActionCatalogueProvider() {
-    GetIt.I<AerisAPI>().getAbout().then((Map<String, dynamic> about) {
-      Service.all().forEach((element) {
-        _triggerTemplates.putIfAbsent(element, () => []);
-        _reactionTemplates.putIfAbsent(element, () => []);
-      });
+  String removeServiceFromAName(String aName) {
+    var words = aName.split('_');
+    words.removeAt(0);
+    return words.join();
+  }
+
+  void reloadCatalogue() {
+    _triggerTemplates.clear();
+    _reactionTemplates.clear();
+    Service.all().forEach((element) {
+      _triggerTemplates.putIfAbsent(element, () => []);
+      _reactionTemplates.putIfAbsent(element, () => []);
+    });
+    GetIt.I<AerisAPI>().getAbout().then((about) {
+      if (about.isEmpty || about == null) return;
       final services = (about['server'] as Map<String, dynamic>)['services'] as List<dynamic>;
       for (var serviceContent in services) {
         Service service = Service.factory(serviceContent['name']);
@@ -56,5 +65,9 @@ class ActionCatalogueProvider extends ChangeNotifier {
       }
       notifyListeners();
     });
+  }
+
+  ActionCatalogueProvider() {
+    reloadCatalogue();
   }
 }

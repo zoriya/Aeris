@@ -3,20 +3,37 @@
 	"actions": [],
 	"reactions": [
 		{
-			"name": "UpdateAbout",
-			"description": "Update the about you section.",
+			"name": "Anilist_UpdateAbout",
+			"label": {
+				"en": "Update 'About You' section",
+				"fr": "Changer la bio"
+			},
+			"description": {
+				"en": "Update 'About You' section",
+				"fr": "Changer la bio"
+			},
 			"params": [
 				{
 					"name": "about",
 					"type": "string",
-					"description": "The description on your profile."
+					"description": {
+						"en": "The description of your profile",
+						"fr": "Le contenu de la bio"
+					}
 				}
 			],
 			"returns": []
 		},
 		{
-			"name": "ToggleFavourite",
-			"description": "Add or remove an anime fro your favorite.",
+			"name": "Anilist_ToggleFavourite",
+			"label": {
+				"en": "(Un)Favorite an anime",
+				"fr": "(Dé)Liker un animé"
+			},
+			"description": {
+				"en": "Add or remove an anime from your favorite.",
+				"fr": "Ajouter ou modifier un animé des favoris"
+			},
 			"params": [
 				{
 					"name": "animeID",

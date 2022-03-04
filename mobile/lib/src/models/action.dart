@@ -2,7 +2,6 @@ import 'package:aeris/src/models/action_parameter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:recase/recase.dart';
-import 'package:tuple/tuple.dart';
 
 ///Base class for reactions and trigger
 abstract class Action {
@@ -25,15 +24,15 @@ abstract class Action {
       this.description,
       this.parameters = const []});
 
-  static Tuple2<Service, String> parseServiceAndName(String rType) {
-    var snake = ReCase(rType).snakeCase.split('_');
-    return Tuple2(Service.factory(snake.first),
-        ReCase(snake.getRange(1, snake.length - 1).join('_')).titleCase);
+  static Service parseServiceInName(String rType) {
+    var snake = rType.split('_');
+    var service = snake.removeAt(0);
+    return Service.factory(service);
   }
 
-  static String getType(Service service, String aName) {
-    String serviceName = ReCase(service.name).pascalCase;
-    String actionName = ReCase(aName).paramCase;
-    return "$serviceName$actionName";
+  String displayName() {
+    var words = name.split('_');
+    words.removeAt(0);
+    return ReCase(words.join()).titleCase;
   }
 }

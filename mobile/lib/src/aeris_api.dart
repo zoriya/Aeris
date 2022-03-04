@@ -3,8 +3,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:aeris/src/main.dart';
-import 'package:aeris/src/models/action.dart';
+import 'package:aeris/main.dart';
+import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -12,6 +12,7 @@ import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -28,68 +29,25 @@ enum AerisAPIRequestType { get, post, put, delete }
 /// Call to interact with Aeris' Back end
 class AerisAPI {
   /// Get Connection state
-  bool _connected = false; //TODO Will be false later
+  bool _connected = false;
   bool get isConnected => _connected;
-
-  late List<Pipeline> fakeAPI;
 
   /// JWT token used to request API
   late String _jwt;
 
-  String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
-    ?? "http://10.0.2.2:8080";
+  late final String deepLinkRoute;
+
+  String _baseRoute =
+      GetIt.I<SharedPreferences>().getString('api') ?? "http://localhost:8080";
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
   AerisAPI() {
-    var trigger1 = Trigger(
-        service: const Service.spotify(), name: "Play song", last: DateTime.now());
-    var trigger3 = Trigger(
-        service: const Service.discord(),
-        name: "Send a message",
-        last: DateTime.now());
-    var trigger2 = Trigger(
-        service: const Service.spotify(),
-        name: "Play song",
-        last: DateTime.parse("2022-01-01"));
-    var reaction = Reaction(
-        service: const Service.twitter(), parameters: [], name: "Post a tweet");
-    var reaction2 =
-        Reaction(service: const Service.anilist(), parameters: [], name: "Do smth");
-    var reaction1 = Reaction(
-        service: const Service.youtube(), parameters: [], name: "Do smth youtube");
-    var pipeline1 = Pipeline(
-        id: 10,
-        name: "My Action",
-        triggerCount: 1,
-        enabled: true,
-        trigger: trigger1,
-        reactions: [reaction]);
-    var pipeline2 = Pipeline(
-        id: 10,
-        name: "My very long action Action",
-        triggerCount: 10,
-        enabled: true,
-        trigger: trigger2,
-        reactions: [reaction, reaction1, reaction2]);
-    var pipeline3 = Pipeline(
-        id: 10,
-        name: "Disabled",
-        triggerCount: 3,
-        enabled: false,
-        trigger: trigger3,
-        reactions: [reaction]);
-    fakeAPI = [
-      pipeline3,
-      pipeline2,
-      pipeline1,
-      pipeline3,
-      pipeline2,
-      pipeline1,
-      pipeline3,
-      pipeline2,
-      pipeline1
-    ];
+    var scheme = "http";
+    if (Platform.isIOS) {
+      scheme = "aeris";
+    }
+    deepLinkRoute = "$scheme://arthichaud.me";
   }
 
   /// Name of the file that contains the JWT used for Aeris' API requestd
@@ -100,8 +58,8 @@ class AerisAPI {
   Future<bool> signUpUser(String username, String password) async {
     http.Response response =
         await _requestAPI('/auth/signup', AerisAPIRequestType.post, {
-      username: username,
-      password: password,
+      'username': username,
+      'password': password,
     });
     if (!response.ok) {
       return false;
@@ -113,8 +71,8 @@ class AerisAPI {
   Future<bool> createConnection(String username, String password) async {
     http.Response response =
         await _requestAPI('/auth/login', AerisAPIRequestType.post, {
-      username: username,
-      password: password,
+      'username': username,
+      'password': password,
     });
     if (!response.ok) {
       return false;
@@ -159,10 +117,9 @@ class AerisAPI {
 
   /// Adds new pipeline to API, returns false if post failed
   Future<bool> createPipeline(Pipeline newPipeline) async {
-    fakeAPI.add(newPipeline);
     var res = await _requestAPI(
         '/workflow', AerisAPIRequestType.post, newPipeline.toJSON());
-    newPipeline = Pipeline.fromJSON(jsonDecode(res.body));
+    newPipeline.id = Pipeline.fromJSON(jsonDecode(res.body)).id;
     return res.ok;
   }
 
@@ -174,8 +131,10 @@ class AerisAPI {
   }
 
   String getServiceAuthURL(Service service) {
-    final serviceName = service.name.toLowerCase();
-    return "$_baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+    final serviceName = service == const Service.youtube()
+        ? "google"
+        : service.name.toLowerCase();
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
@@ -189,10 +148,9 @@ class AerisAPI {
   Future<List<Pipeline>> getPipelines() async {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
-    List<Object> body = jsonDecode(res.body);
+    final List body = jsonDecode(res.body);
 
-    ///TODO return body.map((e) => Pipeline.fromJSON(e as Map<String, Object>)).toList();
-    return fakeAPI;
+    return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
   }
 
   /// Fetch the services the user is authenticated to
@@ -200,8 +158,9 @@ class AerisAPI {
     var res =
         await _requestAPI('/auth/services', AerisAPIRequestType.get, null);
     if (!res.ok) return [];
-    return (jsonDecode(res.body) as List<String>)
-        .map((e) => Service.factory(e)).toList();
+    return (jsonDecode(res.body) as List)
+        .map((e) => Service.factory(e.toString()))
+        .toList();
   }
 
   /// Disconnects the user from the service
@@ -214,15 +173,15 @@ class AerisAPI {
   /// Connects the user from the service
   Future<bool> connectService(Service service, String code) async {
     var res = await _requestAPI(
-        '/auth/${service.name.toLowerCase()}?code=$code',
+        '/auth/${service.name.toLowerCase()}?code=$code&redirect_uri=$deepLinkRoute/authorization/${service.name.toLowerCase()}',
         AerisAPIRequestType.get,
         null);
     return res.ok;
   }
 
-  Future<List<ActionTemplate>> getActionsFor(
-      Service service, Action action) async {
-    final catalogue = Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
+  List<ActionTemplate> getActionsFor(Service service, aeris.Action action) {
+    final catalogue =
+        Aeris.materialKey.currentContext?.read<ActionCatalogueProvider>();
     if (action is Trigger) {
       return catalogue!.triggerTemplates[service]!;
     }
@@ -237,33 +196,51 @@ class AerisAPI {
   /// Calls API using a HTTP request type, a route and body
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
-    final Map<String, String>? header =
-        _connected ? {'Authorization': 'Bearer $_jwt'} : null;
+    final Map<String, String> header = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    if (_connected) {
+      header.addAll({'Authorization': 'Bearer $_jwt'});
+    }
     const duration = Duration(seconds: 3);
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
-          return await http.delete(_encoreUri(route),
-              body: body, headers: header).timeout(duration,
+          return await http
+              .delete(_encoreUri(route),
+                  body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.get:
           return await http.get(_encoreUri(route), headers: header).timeout(
             duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.post:
-          return await http.post(_encoreUri(route), body: body, headers: header).timeout(duration,
+          return await http
+              .post(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.put:
-          return await http.put(_encoreUri(route), body: body, headers: header).timeout(duration,
+          return await http
+              .put(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
       }
     } catch (e) {
       return http.Response('{}', 400);

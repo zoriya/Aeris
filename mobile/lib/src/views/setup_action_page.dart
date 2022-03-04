@@ -31,9 +31,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
   void initState() {
     super.initState();
     serviceState = widget.action.service;
-    GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action).then((actions) => setState(() {
-      availableActions = actions;
-    }));
+    availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
   }
 
   @override
@@ -46,11 +44,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
       onChanged: (service) {
         setState(() {
           serviceState = service;
-          availableActions = null;
+          availableActions = GetIt.I<AerisAPI>().getActionsFor(service!, widget.action);
         });
-        GetIt.I<AerisAPI>().getActionsFor(service!, widget.action).then((actions) => setState(() {
-            availableActions = actions;
-        }));
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
         return DropdownMenuItem<Service>(
@@ -119,15 +114,16 @@ class _SetupActionPageState extends State<SetupActionPage> {
                   header: Padding(
                       padding:
                           const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                      child: Text(availableAction.name,
+                      child: Text(availableAction.displayName(),
                           style: const TextStyle(fontSize: 15))),
                   collapsed: Container(),
                   expanded: Padding(
                     padding: const EdgeInsets.all(20),
                     child: ActionForm(
+                        key: Key("${availableAction.name}${availableAction.description}${availableAction.service}"),
                         description: availableAction.description!,
                         name: availableAction.name,
-                        parameters: availableAction.parameters.map((param) { 
+                        parameters: availableAction.parameters.map((param) {
                           if (widget.action.service.name == serviceState!.name && widget.action.name == availableAction.name) {
                             var previousParams = widget.action.parameters.where((element) => element.name == param.name);
                             if (previousParams.isNotEmpty) {

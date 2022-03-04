@@ -25,7 +25,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => PipelineProvider()),
     ChangeNotifierProvider(create: (_) => ServiceProvider()),
-    ChangeNotifierProvider(create: (_) => ActionCatalogueProvider())
+    ChangeNotifierProvider(create: (_) => ActionCatalogueProvider(), lazy: false)
   ], child: const Aeris()));
 }
 

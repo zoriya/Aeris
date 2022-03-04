@@ -14,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 ///Page for a Pipeline's details
 class PipelineDetailPage extends StatefulWidget {
   final Pipeline pipeline;
@@ -135,7 +134,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: pipeline.trigger.name,
+                title: pipeline.trigger.displayName(),
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     action: pipeline.trigger,
@@ -152,7 +151,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.name,
+                      title: reaction.displayName(),
                       trailing: ActionCardPopupMenu(
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,

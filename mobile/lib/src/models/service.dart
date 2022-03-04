@@ -35,7 +35,7 @@ class Service {
         logoUrl =
             "https://www.presse-citron.net/app/uploads/2020/06/spotify-une-.jpg";
   const Service.anilist()
-      : name = "AniList",
+      : name = "Anilist",
         url = "https://anilist.co",
         logoUrl =
             "https://anilist.co/img/icons/android-chrome-512x512.png";
@@ -50,7 +50,7 @@ class Service {
         logoUrl =
             "https://f.hellowork.com/blogdumoderateur/2019/11/twitter-logo-1200x1200.jpg";
   const Service.github()
-      : name = "GitHub",
+      : name = "Github",
         url = "https://github.com/",
         logoUrl = "https://avatars.githubusercontent.com/u/9919?s=280&v=4";
   const Service.youtube()
@@ -76,6 +76,8 @@ class Service {
 
   /// Construct a service based on a lowercase string, the name of the service
   static Service factory(String name) {
+    if (name.toLowerCase() == "git") return const Service.github();
+    if (name.toLowerCase() == "ani") return const Service.anilist();
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }

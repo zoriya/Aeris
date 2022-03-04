@@ -1,4 +1,3 @@
-import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
@@ -6,7 +5,7 @@ import 'package:aeris/src/models/trigger.dart';
 /// Object representation of a pipeline
 class Pipeline {
   ///Unique identifier
-  final int id;
+  int id;
 
   /// Name of the pipeline, defined by the user
   final String name;
@@ -31,9 +30,9 @@ class Pipeline {
       required this.reactions});
 
   /// Unserialize Pipeline from JSON
-  static Pipeline fromJSON(Map<String, Object> data) {
-    var action = data['action'] as Map<String, Object>;
-    var reactions = data['reactions'] as Map<String, Object>;
+  static Pipeline fromJSON(Map<String, dynamic> data) {
+    var action = data['action'] as Map<String, dynamic>;
+    var reactions = data['reactions'] as List<dynamic>;
 
     return Pipeline(
         name: action['name'] as String,
@@ -41,7 +40,7 @@ class Pipeline {
         id: action['id'] as int,
         triggerCount: action['triggerCount'] as int,
         trigger: Trigger.fromJSON(action),
-        reactions: (reactions as List<Object>)
+        reactions: reactions
             .map<Reaction>((e) => Reaction.fromJSON(e))
             .toList());
   }
@@ -51,8 +50,8 @@ class Pipeline {
     "action": {
       "id": id,
       "name": name,
-      "pType": aeris_action.Action.getType(trigger.service, trigger.name),
-      "pParams": trigger.parameters,
+      "pType": trigger.name,
+      "pParams": { for (var e in trigger.parameters) e.name : e.value }, ///Serialize
       "enabled": enabled,
       "lastTrigger": trigger.last?.toIso8601String(),
       "triggerCount": triggerCount
