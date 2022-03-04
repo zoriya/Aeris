@@ -47,7 +47,7 @@
 					"name": "DESCRIPTION",
 					"description": {
 						"en": "Description of the uploaded video",
-						"fr": "Descritpion de la vidéo mise en ligne"
+						"fr": "Description de la vidéo mise en ligne"
 					}
 				},
 				{
@@ -103,7 +103,7 @@
 					"name": "DESCRIPTION",
 					"description": {
 						"en": "Description of the uploaded video",
-						"fr": "Descritpion de la vidéo mise en ligne"
+						"fr": "Description de la vidéo mise en ligne"
 					}
 				},
 				{
@@ -161,7 +161,7 @@
 					"name": "DESCRIPTION",
 					"description": {
 						"en": "Description of the added video",
-						"fr": "Descritpion de la vidéo ajoutée"
+						"fr": "Description de la vidéo ajoutée"
 					}
 				},
 				{
