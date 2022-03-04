@@ -81,36 +81,36 @@
 				{
 					"name": "ID",
 					"description": {
-						"en": "Youtube ID of the added video",
-						"fr": "Identifiant de la vidéo ajoutée"
+						"en": "Youtube ID of the liked video",
+						"fr": "Identifiant de la vidéo likée"
 					}
 				},
 				{
 					"name": "CHANNEL_ID",
 					"description": {
-						"en": "Youtube ID of the channel the video was added to",
-						"fr": "Identifiant de la chaîne YouTube sur laquelle la vidéo a été mise en ligne"
+						"en": "Youtube ID of the channel the liked video",
+						"fr": "Identifiant de la chaîne YouTube de la vidéo likée"
 					}
 				},
 				{
 					"name": "TITLE",
 					"description": {
-						"en": "Title of the uploaded video",
-						"fr": "Titre de la vidéo mise en ligne"
+						"en": "Title of the liked video",
+						"fr": "Titre de la vidéo likée"
 					}
 				},
 				{
 					"name": "DESCRIPTION",
 					"description": {
-						"en": "Description of the uploaded video",
-						"fr": "Description de la vidéo mise en ligne"
+						"en": "Description of the liked video",
+						"fr": "Description de la vidéo likée"
 					}
 				},
 				{
 					"name": "CHANNEL_TITLE",
 					"description": {
-						"en": "Name of the channel the video was uploaded to",
-						"fr": "Nom de la chaîne sur laquelle la vidéo a été mise en ligne"
+						"en": "Name of the channel of the liked video",
+						"fr": "Nom de la chaîne de la vidéo likée"
 					}
 				}
 			]
@@ -146,8 +146,8 @@
 				{
 					"name": "CHANNEL_ID",
 					"description": {
-						"en": "Youtube ID of the channel the video was added to",
-						"fr": "Identifiant de la chaîne YouTube sur laquelle la vidéo a été ajoutée"
+						"en": "Youtube ID of the channel of the added video",
+						"fr": "Identifiant de la chaîne YouTube de la vidéo ajoutée"
 					}
 				},
 				{
@@ -167,7 +167,7 @@
 				{
 					"name": "CHANNEL_TITLE",
 					"description": {
-						"en": "Name of the channel the video belongs to",
+						"en": "Name of the channel of the added video",
 						"fr": "Nom de la chaîne à laquelle la vidéo appartient"
 					}
 				}
@@ -179,7 +179,7 @@
 			"name": "Youtube_YtLike",
 			"description": {
 				"en": "Like a Youtube video",
-				"fr": "Aime une vidéo YouTube"
+				"fr": "Like une vidéo YouTube"
 			},
 			"label": {
 				"en": "Like a video",
@@ -190,8 +190,8 @@
 					"name": "videoId",
 					"type": "string",
 					"description": {
-						"en": "ID of the video to like",
-						"fr": "Identifiant de la vidéo à aimer"
+						"en": "ID of the liked video",
+						"fr": "Identifiant de la vidéo likée"
 					}
 				}
 			],
@@ -200,7 +200,7 @@
 					"name": "ID",
 					"description": {
 						"en": "Youtube ID of the liked video",
-						"fr": "Identifiant de la vidéo YouTube aimée"
+						"fr": "Identifiant de la vidéo YouTube likée"
 					}
 				}
 			]

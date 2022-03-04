@@ -551,11 +551,11 @@
 			"name": "Github_OnForkRepo",
 			"description": {
 				"en": "An event triggered when the repository given as parameter is forked",
-				"fr": "Un évènement déclenché lorsque le répertoire donné est forké"
+				"fr": "Un évènement déclenché lorsque le répertoire donné est fourché"
 			},
 			"label": {
 				"en": "Forked repository",
-				"fr": "répertoire forké"
+				"fr": "Répertoire fourché"
 			},
 			"params": [
 				{
@@ -603,11 +603,11 @@
 			"name": "Github_OnStarRepo",
 			"description": {
 				"en": "An event triggered when a user star the repository given as parameter",
-				"fr": "Un évènement déclenché lorsqu'un utilisateur star un répertoire donné"
+				"fr": "Un évènement déclenché lorsqu'un utilisateur étoile un répertoire donné"
 			},
 			"label": {
 				"en": "Starred repository",
-				"fr": "répertoire starré"
+				"fr": "Répertoire étoilé"
 			},
 			"params": [
 				{
@@ -666,7 +666,7 @@
 			},
 			"label": {
 				"en": "Watch a repository",
-				"fr": "Watch un répertoire"
+				"fr": "Répertoire observé"
 			},
 			"params": [
 				{
