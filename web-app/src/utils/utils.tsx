@@ -23,7 +23,11 @@ export function getCookie(cname: string): string {
 	return "";
 }
 
-export const sendServiceAuthToken = async (authToken: string, serviceEndpoint: string, redirectUri: string): Promise<boolean> => {
+export const sendServiceAuthToken = async (
+	authToken: string,
+	serviceEndpoint: string,
+	redirectUri: string
+): Promise<boolean> => {
 	const response = await fetch(`${API_ROUTE}${serviceEndpoint}?code=${authToken}&redirect_uri=${redirectUri}`, {
 		method: "GET",
 		headers: {
@@ -197,7 +201,6 @@ export const fetchLinkedServices = async (): Promise<Array<string>> => {
 	return [];
 };
 
-
 export const generateRandomString = (): string => {
 	let randomString = "";
 	const randomNumber = Math.floor(Math.random() * 10);
@@ -207,3 +210,43 @@ export const generateRandomString = (): string => {
 	}
 	return randomString;
 };
+
+export const unLinkService = async (service: AppServiceType): Promise<boolean> => {
+	let route = service.urlAuth.slice(0, service.urlAuth.indexOf("?"));
+	route = route.slice(0, route.lastIndexOf("/"));
+
+	const response = await fetch(route, {
+		method: "DELETE",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + getCookie("aeris_jwt"),
+		},
+	});
+
+	return response.ok;
+};
+
+export const deepCopy = (obj: any): any => {
+    if(typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    if(obj instanceof Date) {
+        return new Date(obj.getTime());
+    }
+
+    if(obj instanceof Array) {
+        return obj.reduce((arr, item, i) => {
+            arr[i] = deepCopy(item);
+            return arr;
+        }, []);
+    }
+
+    if(obj instanceof Object) {
+        return Object.keys(obj).reduce((newObj: any, key) => {
+            newObj[key] = deepCopy(obj[key]);
+            return newObj;
+        }, {})
+    }
+}
