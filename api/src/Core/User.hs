@@ -43,6 +43,7 @@ data ExternalToken = ExternalToken
     , refreshToken :: Text
     , expiresIn :: Int64
     , service :: Service
+    , providerId :: Maybe Text 
     }
     deriving (Eq, Show, Generic)
     deriving anyclass (ToJSON, FromJSON)
