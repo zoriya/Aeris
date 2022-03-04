@@ -1,4 +1,4 @@
-import SpotifyWebApi from 'spotify-web-api-js';
+import SpotifyWebApi from 'spotify-web-api-node';
 import { action, BaseService, reaction, service } from "../models/base-service";
 import { Observable } from 'rxjs';
 import { Utils } from '../utils';
@@ -9,17 +9,28 @@ export class Spotify extends BaseService {
 
 	private _spotify;
 
-	constructor(_: Pipeline) {
+	constructor(pipeline: Pipeline) {
 		super();
-		// TODO load credentials
-		this._spotify = new SpotifyWebApi();
+		if (!("Spotify" in pipeline.userData))
+			throw new Error("User is not authenticated via Spotify");
+		this._spotify = new SpotifyWebApi({
+			accessToken: pipeline.userData["Spotify"].accessToken,
+			refreshToken: pipeline.userData["Spotify"].refreshToken,
+			clientId: process.env["SPOTIFY_CLIENT_ID"],
+			clientSecret: process.env["SPOTIFY_SECRET"],
+		});
+	}
+
+	private async _refreshIfNeeded(): Promise<void> {
+		
 	}
 
 	@action(PipelineType.OnSpotifyAddToPlaylist, ["playlistId"])
 	listenAddToPlaylist(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async since => {
+			await this._refreshIfNeeded();
 			let ret = await this._spotify.getPlaylistTracks(params.playlistId);
-			return ret.items
+			return ret.body.items
 				.filter(x => new Date(x.added_at) >= since)
 				.map(x => ({
 					ID: x.track.id,
@@ -31,8 +42,9 @@ export class Spotify extends BaseService {
 	@action(PipelineType.OnSpotifySaveToLibrary, [])
 	listenSaveToLibrary(_: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async since => {
+			await this._refreshIfNeeded();
 			let ret = await this._spotify.getMySavedTracks();
-			return ret.items
+			return ret.body.items
 				.filter(x => new Date(x.added_at) >= since)
 				.map(x => ({
 					ID: x.track.id,
@@ -42,23 +54,26 @@ export class Spotify extends BaseService {
 	}
 
 	private async _searchTrack(artistName: string, trackName: string)  {
+		await this._refreshIfNeeded();
 		let searchResult = await this._spotify.searchTracks(`artist=${artistName}&track=${trackName}`);
-		if (searchResult.tracks.total == 0)
+		if (searchResult.body.tracks.total == 0)
 			throw new Error(`Spotify API: '${trackName}' by ${artistName}: no such track`);
-		return searchResult.tracks.items[0];
+		return searchResult.body.tracks.items[0];
 	}
 
 	private async _searchPlaylist(playlistName: string)  {
+		await this._refreshIfNeeded();
 		let searchResult = await this._spotify.searchPlaylists(`name=${playlistName}&type=playlist`);
-		if (searchResult.playlists.total == 0)
+		if (searchResult.body.playlists.total == 0)
 			throw new Error(`Spotify API: '${playlistName}': no such playlist`);
-		return searchResult.playlists.items[0];
+		return searchResult.body.playlists.items[0];
 	}
 
 	@reaction(ReactionType.PlayTrack, ['artist', 'track'])
 	async playTrack(params: any): Promise<PipelineEnv> {
+		await this._refreshIfNeeded();
 		let track = await this._searchTrack(params['artist'], params['track']);
-		this._spotify.play({uris: [track.uri]});
+		await this._spotify.play({uris: [track.uri]});
 		return {
 			URL: track.uri,
 			ARTIST: track.artists?.[0].name,
@@ -68,14 +83,16 @@ export class Spotify extends BaseService {
 
 	@reaction(ReactionType.Pause, [])
 	async pause(params: any): Promise<PipelineEnv> {
-		this._spotify.pause();
+		await this._refreshIfNeeded();
+		await this._spotify.pause();
 		return {};
 	}
 
 	@reaction(ReactionType.AddTrackToLibrary, ['artist', 'track'])
 	async addTrackToLibrary(params: any): Promise<PipelineEnv> {
+		await this._refreshIfNeeded();
 		let track = await this._searchTrack(params['artist'], params['track']);
-		this._spotify.addToMySavedTracks([track.id]);
+		await this._spotify.addToMySavedTracks([track.id]);
 		return {
 			URL: track.uri,
 			ARTIST: track.artists?.[0].name,
@@ -85,9 +102,10 @@ export class Spotify extends BaseService {
 
 	@reaction(ReactionType.AddToPlaylist, ['artist', 'track', 'playlist'])
 	async addToPlaylist(params: any): Promise<PipelineEnv> {
+		await this._refreshIfNeeded();
 		let playlist = await this._searchPlaylist( params['playlist']);
 		let track = await this._searchTrack(params['artist'], params['track']);
-		this._spotify.addTracksToPlaylist(playlist.id, [track.uri]);
+		await this._spotify.addTracksToPlaylist(playlist.id, [track.uri]);
 		return {
 			URL: track.uri,
 			ARTIST: track.artists?.[0].name,

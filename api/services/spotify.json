@@ -40,7 +40,7 @@
 	],
 	"reactions": [
 		{
-			"name": "PlayTrack",
+			"name": "Spotify_PlayTrack",
 			"description": "Play a track",
 			"params": [
 				{
@@ -76,7 +76,7 @@
 			"returns": []
 		},
 		{
-			"name": "AddTrackToLibrary",
+			"name": "Spotify_AddTrackToLibrary",
 			"description": "Add a track to library",
 			"params": [
 				{

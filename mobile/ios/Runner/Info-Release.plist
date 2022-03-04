@@ -45,5 +45,20 @@
 		<false/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>FlutterDeepLinkingEnabled</key>
+		<true/>
+		<key>CFBundleURLTypes</key>
+		<array>
+		    <dict>
+		    <key>CFBundleTypeRole</key>
+		    <string>Editor</string>
+		    <key>CFBundleURLName</key>
+	    	<string>arthichaud.me</string>
+	    	<key>CFBundleURLSchemes</key>
+	    	<array>
+	    		<string>aeris</string>
+		    </array>
+		    </dict>
+		</array>
 	</dict>
 </plist>
