@@ -4,6 +4,8 @@ import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/services_provider.dart';
+import 'package:aeris/src/views/service_page.dart';
+import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/service.dart';
@@ -80,10 +82,27 @@ class _SetupActionPageState extends State<SetupActionPage> {
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          services.connectedServices.isEmpty
-          ? Container()
-          : Text(widget.action is Trigger 
+        children: services.connectedServices.isEmpty ?
+          ([
+            Text(AppLocalizations.of(context).authenticatedToNoService,
+              style: const TextStyle(
+                fontSize: 25,
+              )
+            ),
+            Padding(padding: const EdgeInsets.all(30), 
+              child: ColoredClickableCard(
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer,
+                text:AppLocalizations.of(context).connectService,
+                onTap: () => showAerisCardPage(
+                  context, (_) => const ServicePage()).then((value) => setState((){}) //TODO check, might be useless
+                )
+              )
+            )
+          ])
+          : [ 
+            Text(widget.action is Trigger 
                 ? AppLocalizations.of(context).setupTrigger
                 : AppLocalizations.of(context).setupReaction,
               style: const TextStyle(
