@@ -13,8 +13,9 @@ class ActionTemplate extends Action {
       {Key? key,
       required Service service,
       required String name,
+      required String displayName,
       required String description,
       this.returnedValues = const [],
       List<ActionParameter> parameters = const []})
-      : super(service: service, name: name, parameters: parameters, description: description);
+      : super(service: service, name: name, parameters: parameters, description: description, displayName: displayName);
 }

@@ -15,9 +15,10 @@ class Trigger extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
+      required String displayName,
       List<ActionParameter> parameters = const [],
       this.last})
-      : super(service: service, name: name, parameters: parameters);
+      : super(service: service, name: name, parameters: parameters, displayName: displayName);
 
   /// Unserialize
   static Trigger fromJSON(Object action) {
@@ -30,6 +31,7 @@ class Trigger extends aeris_action.Action {
       : DateTime.parse(lastTriggerField as String);
 
     return Trigger(
+        displayName: triggerJSON['label']['en'], ///TODO use locale
         service: service,
         name: triggerJSON['pType'] as String,
         last: last,
@@ -49,7 +51,7 @@ class Trigger extends aeris_action.Action {
 
   /// Template trigger, used as an 'empty' trigger
   Trigger.template({Key? key, this.last})
-      : super(service: Service.all()[0], name: '', parameters: []);
+      : super(service: Service.all()[0], name: '', parameters: [], displayName: '');
 
   @override
   // ignore: avoid_renaming_method_parameters

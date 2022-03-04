@@ -11,17 +11,19 @@ class Reaction extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
+      required String displayName,
       List<ActionParameter> parameters = const []})
-      : super(service: service, name: name, parameters: parameters);
+      : super(service: service, name: name, parameters: parameters, displayName: displayName);
 
   /// Template trigger, used as an 'empty' trigger
   Reaction.template()
-      : super(service: Service.all()[0], name: '', parameters: []);
+      : super(service: Service.all()[0], name: '', parameters: [],displayName: '');
 
   static Reaction fromJSON(Object reaction) {
     var reactionJSON = reaction as Map<String, dynamic>;
     var service = aeris_action.Action.parseServiceInName(reactionJSON['rType'] as String);
     return Reaction(
+        displayName: reactionJSON['label']['en'], ///TODO use locale
         service: service,
         name: reactionJSON['rType'] as String,
         parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, dynamic>)));

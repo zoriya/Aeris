@@ -33,31 +33,35 @@ class ActionCatalogueProvider extends ChangeNotifier {
       for (var serviceContent in services) {
         Service service = Service.factory(serviceContent['name']);
         for (var action in (serviceContent['actions'] as List)) {
+          print(action);
           _triggerTemplates[service]!.add(
             ActionTemplate(
               name: action['name'],
+              displayName: action['label']['en'], ///TODO use locale
               service: service,
-              description: action['description'],
+              description: action['description']['en'], ///TODO use locale
               parameters: (action['params'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: e['description']['en'])///TODO use locale
               ).toList(),
               returnedValues: (action['returns'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: e['description']['en']) ///TODO use locale
               ).toList(),
             )
           );
         }
         for (var reaction in serviceContent['reactions']) {
+          print(reaction);
           _reactionTemplates[service]!.add(
             ActionTemplate(
+              displayName: reaction['label']['en'], ///TODO use locale
               name: reaction['name'],
               service: service,
-              description: reaction['description'],
+              description: reaction['description']['en'], ///TODO use locale
               parameters: (reaction['params'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: e['description']['en']) ///TODO use locale
               ).toList(),
               returnedValues: (reaction['returns'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: e['description']['en']) ///TODO use locale
               ).toList(),
             )
           );
