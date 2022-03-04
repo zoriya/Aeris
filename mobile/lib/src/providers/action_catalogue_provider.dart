@@ -33,7 +33,6 @@ class ActionCatalogueProvider extends ChangeNotifier {
       for (var serviceContent in services) {
         Service service = Service.factory(serviceContent['name']);
         for (var action in (serviceContent['actions'] as List)) {
-          print(action);
           _triggerTemplates[service]!.add(
             ActionTemplate(
               name: action['name'],
@@ -50,7 +49,6 @@ class ActionCatalogueProvider extends ChangeNotifier {
           );
         }
         for (var reaction in serviceContent['reactions']) {
-          print(reaction);
           _reactionTemplates[service]!.add(
             ActionTemplate(
               displayName: reaction['label']['en'], ///TODO use locale

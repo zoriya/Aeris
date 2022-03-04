@@ -7,7 +7,6 @@ import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 ///Object representation of a pipeline trigger

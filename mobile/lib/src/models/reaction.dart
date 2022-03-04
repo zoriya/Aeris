@@ -6,7 +6,6 @@ import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';
-import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 ///Object representation of a reaction
