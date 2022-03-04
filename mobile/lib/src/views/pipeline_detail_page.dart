@@ -1,5 +1,7 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/providers/services_provider.dart';
+import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
@@ -28,7 +30,8 @@ class PipelineDetailPage extends StatefulWidget {
 class _PipelineDetailPageState extends State<PipelineDetailPage> {
   @override
   Widget build(BuildContext context) =>
-      Consumer<PipelineProvider>(builder: (context, provider, _) {
+    Consumer<ServiceProvider>(builder: (context, services, _) {
+      return Consumer<PipelineProvider>(builder: (context, provider, _) {
         Pipeline pipeline = widget.pipeline;
 
         final cardHeader = Row(
@@ -67,11 +70,24 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         width: 60,
                         value: pipeline.enabled,
                         onToggle: (value) {
-                          setState(() {
-                            pipeline.enabled = !pipeline.enabled;
-                            GetIt.I<AerisAPI>().editPipeline(pipeline);
-                            provider.sortPipelines();
-                          });
+                          if (services.disconnectedServices.any(
+                            (service) => pipeline.dependsOn(service))
+                          ) {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => WarningDialog(
+                                message: AppLocalizations.of(context).cantEnablePipeline,
+                                onAccept: () => showAerisCardPage(context, (_) => const ServicePage()),
+                                actionButtonColor: Theme.of(context).colorScheme.secondaryContainer,
+                                warnedAction: AppLocalizations.of(context).connectService)
+                            );
+                          } else {
+                            setState(() {
+                              pipeline.enabled = !pipeline.enabled;
+                              GetIt.I<AerisAPI>().editPipeline(pipeline);
+                              provider.sortPipelines();
+                            });
+                          }
                         },
                       ),
                     ),
@@ -186,4 +202,5 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           ]),
         ));
       });
+    });
 }
