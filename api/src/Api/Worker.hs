@@ -113,7 +113,7 @@ refreshHandler :: Service -> UserId -> Maybe String -> RefreshBody -> AppM NoCon
 refreshHandler service uid (Just key) (RefreshBody at rt ex) = do
     k <- liftIO $ envAsString "WORKER_API_KEY" ""
     if k == key then do
-        updateTokens uid $ ExternalToken at rt ex service
+        updateTokens uid $ ExternalToken at rt ex service Nothing
         return NoContent 
     else throwError err403  
 refreshHandler _ _ _ _ = throwError err403
