@@ -62,7 +62,7 @@ export default function HomePage() {
 
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
-	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([[], []]);
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(NewEmptyPipeline);
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
@@ -112,6 +112,8 @@ export default function HomePage() {
 	}, [AREAs]);
 
 	const refreshWorkflows = () => {
+		if (AREAs[0].length === 0 && AREAs[1].length === 0)
+			return;
 		fetchWorkflows()
 			.then((workflows) => {
 				setPipelinesData(workflows.map((workflow: any) => deSerialisePipeline(workflow, AREAs)));

@@ -143,7 +143,6 @@ export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAR
 
 export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
-
 	for (const reaction of data.reactions) {
 		reactionList.push(deSerialiseApiPipelineReaction(reaction, AREAs[1]));
 	}
