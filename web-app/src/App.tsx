@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Autocomplete, TextField } from "@mui/material";
 
 import { useTranslation } from "react-i18next";
 import "./i18n/config";
@@ -15,6 +15,11 @@ export default function App() {
 	};
 
 	if (getCookie("aeris_jwt")) return <Navigate to="/pipelines" replace />;
+
+	const autoCompleteData = [
+		{ label: "The Godfather", id: 1 },
+		{ label: "Pulp Fiction", id: 2 },
+	];
 
 	return (
 		<div className="App">
@@ -43,6 +48,15 @@ export default function App() {
 						<Button variant="text" startIcon={<DownloadIcon />} href="/client.apk" download color="secondary">
 							{t("get_mobile_app")}
 						</Button>
+						<div style={{ backgroundColor: "white", padding: "20px" }}>
+							<Autocomplete
+								disablePortal
+								id="combo-box-demo"
+								options={autoCompleteData}
+								sx={{ width: 300 }}
+								renderInput={(params) => <TextField {...params} label="Movie" />}
+							/>
+						</div>
 					</Box>
 				</div>
 			</header>
