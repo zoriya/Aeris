@@ -22,8 +22,8 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 							variant={"square"}
 						/>
 					}
-					title={<Typography variant="h5">{AREA.label[languageUid]}</Typography>}
-					subheader={AREA.description[languageUid]}
+					title={<Typography variant="h5">{AREA?.label?.[languageUid] ?? AREA.type}</Typography>}
+					subheader={AREA?.description?.[languageUid] ?? ""}
 				/>
 				{Object.keys(AREA.params).length > 0 || Object.keys(AREA.returns).length > 0 ? (
 					<CardContent>
@@ -33,7 +33,7 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 									<Grid item key={idx}>
 										<Chip
 											label={el[0]}
-											title={el[1].description[languageUid]}
+											title={el[1]?.description?.[languageUid] ?? null}
 											color="secondary"
 											variant="outlined"
 											size="small"
@@ -47,7 +47,7 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 							{Object.entries(AREA.returns).map((el, idx) => {
 								return (
 									<Grid item key={idx}>
-										<Chip label={el[0]} title={el[1][languageUid]} color="primary" variant="outlined" size="small" />
+										<Chip label={el[0]} title={el[1]?.[languageUid] ?? null} color="primary" variant="outlined" size="small" />
 									</Grid>
 								);
 							})}
