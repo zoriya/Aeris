@@ -3,14 +3,14 @@ import 'package:flutter/widgets.dart';
 import 'package:reorderables/reorderables.dart';
 
 class ReorderableReactionCardsList extends StatefulWidget {
-  ReorderableReactionCardsList(
+  const ReorderableReactionCardsList(
       {Key? key,
       required this.onReorder,
       required this.reactionList,
       required this.itemBuilder})
       : super(key: key);
 
-  List<Reaction> reactionList;
+  final List<Reaction> reactionList;
 
   // Callback when a list has been reordered
   final void Function() onReorder;

@@ -20,7 +20,6 @@ jobs:
       - name: Run Docker
         run: docker run -v $PWD:/dist aeris_mobile_build
       - name: Upload build artifact
-        if: github.ref == 'refs/head/master'
         uses: actions/upload-artifact@v2
         with:
           name: aeris_apk

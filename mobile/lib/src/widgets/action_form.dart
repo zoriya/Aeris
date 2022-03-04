@@ -1,3 +1,4 @@
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -7,10 +8,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ActionForm extends StatefulWidget {
   /// Name of the action
   final String name;
-  /// Names of the parameters
-  final List<String> parametersNames;
-  /// Initial values of the fields
-  final Map<String, Object> initValues;
+  /// List of parameters, 'values' are used as default values
+  final List<ActionParameter> parameters;
+  /// What the action does
+  final String description;
 
   /// On validate callback
   final void Function(Map<String, String>) onValidate;
@@ -18,9 +19,9 @@ class ActionForm extends StatefulWidget {
   const ActionForm(
       {Key? key,
       required this.name,
-      required this.parametersNames,
-      required this.onValidate,
-      this.initValues = const {}})
+      required this.description,
+      required this.parameters,
+      required this.onValidate})
       : super(key: key);
 
   @override
@@ -36,16 +37,17 @@ class _ActionFormState extends State<ActionForm> {
       key: _formKey,
       child: Column(
         children: [
-          ...widget.parametersNames.map((name) => FormBuilderTextField(
-            initialValue: (widget.initValues.containsKey(name)) ? widget.initValues[name] as String : null,
-            name: name,
+          Text(widget.description, textAlign: TextAlign.left, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+          ...widget.parameters.map((param) => FormBuilderTextField(
+            initialValue: param.value?.toString(),
+            name: param.name,
             decoration: InputDecoration(
-              labelText: name,
+              labelText: param.name,
+              helperText: param.description
             ),
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(context),
             ]),
-            keyboardType: (widget.initValues.containsKey(name)) && widget.initValues[name] is int ? TextInputType.number : null,
           )),
           ...[
             ElevatedButton(
