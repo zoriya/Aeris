@@ -98,15 +98,34 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					)}
 
 					<div style={{ gridArea: "PipelineTitle", width: "100%", alignSelf: "start", justifySelf: "start" }}>
-						<Typography sx={{ wordWrap: "break-word" }} align="left" variant="h3">
-							{pipelineData.name.length < 19 ? pipelineData.name : pipelineData.name.substring(0, 18) + "..."}
+						<Typography
+							sx={{
+								overflow: "hidden",
+								textOverflow: "ellipsis",
+								display: "-webkit-box",
+								WebkitLineClamp: "2",
+								WebkitBoxOrient: "vertical",
+								maxHeight: "3",
+							}}
+							align="left"
+							variant="h3">
+							{pipelineData.name}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
-						<Typography align="left" variant="body1">
-							{pipelineData.data.enabled &&
-								pipelineData.data.error &&
-								t("pipeline_error_prefix") + pipelineData.data.errorText}
+						<Typography
+							align="left"
+							variant="body1"
+							style={{
+								lineHeight: "1.5em",
+								overflow: "hidden",
+								textOverflow: "ellipsis",
+								display: "-webkit-box",
+								WebkitLineClamp: "2",
+								WebkitBoxOrient: "vertical",
+								maxHeight: "3",
+							}}>
+							{pipelineData.data.enabled && pipelineData.data.error && pipelineData.data.errorText}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
