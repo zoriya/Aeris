@@ -12,7 +12,10 @@ import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
+=======
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
@@ -35,10 +38,15 @@ class AerisAPI {
   /// JWT token used to request API
   late String _jwt;
 
+<<<<<<< HEAD
   late final String deepLinkRoute;
 
   String _baseRoute =
       GetIt.I<SharedPreferences>().getString('api') ?? "http://10.0.2.2:8080";
+=======
+  String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
+    ?? "http://10.0.2.2:8080";
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
@@ -131,10 +139,15 @@ class AerisAPI {
   }
 
   String getServiceAuthURL(Service service) {
+<<<<<<< HEAD
     final serviceName = service == const Service.youtube()
         ? "google"
         : service.name.toLowerCase();
     return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/$serviceName";
+=======
+    final serviceName = service.name.toLowerCase();
+    return "$_baseRoute/auth/$serviceName/url?redirect_uri=aeris://aeris.com/authorization/$serviceName";
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
   }
 
   /// Send PUT request to update Pipeline, returns false if failed
@@ -196,6 +209,7 @@ class AerisAPI {
   /// Calls API using a HTTP request type, a route and body
   Future<http.Response> _requestAPI(
       String route, AerisAPIRequestType requestType, Object? body) async {
+<<<<<<< HEAD
     final Map<String, String> header = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -203,10 +217,15 @@ class AerisAPI {
     if (_connected) {
       header.addAll({'Authorization': 'Bearer $_jwt'});
     }
+=======
+    final Map<String, String>? header =
+        _connected ? {'Authorization': 'Bearer $_jwt'} : null;
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
     const duration = Duration(seconds: 3);
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
+<<<<<<< HEAD
           return await http
               .delete(_encoreUri(route),
                   body: jsonEncode(body), headers: header)
@@ -216,11 +235,19 @@ class AerisAPI {
               return http.Response('Error', 408);
             },
           );
+=======
+          return await http.delete(_encoreUri(route),
+              body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
         case AerisAPIRequestType.get:
           return await http.get(_encoreUri(route), headers: header).timeout(
             duration,
             onTimeout: () {
               return http.Response('Error', 408);
+<<<<<<< HEAD
             },
           );
         case AerisAPIRequestType.post:
@@ -241,6 +268,19 @@ class AerisAPI {
               return http.Response('Error', 408);
             },
           );
+=======
+            },);
+        case AerisAPIRequestType.post:
+          return await http.post(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+        case AerisAPIRequestType.put:
+          return await http.put(_encoreUri(route), body: body, headers: header).timeout(duration,
+            onTimeout: () {
+              return http.Response('Error', 408);
+            },);
+>>>>>>> 1716b2643c2cdd0801b6f0b2a75f76dbd3c99dfa
       }
     } catch (e) {
       return http.Response('{}', 400);
