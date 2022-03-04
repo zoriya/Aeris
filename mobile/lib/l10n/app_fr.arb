@@ -45,5 +45,6 @@
     "setupAPIRoute": "Choisir la route de l'API",
     "paramInheritTip": "Afin d'hériter de variables venant d'actions précedentes, entrez '{' dans un champ et choisissez la valeur",
     "authenticatedToNoService": "Aucun service n'est connecté",
-    "connectService": "Connecter un service"
+    "connectService": "Connexion aux services",
+    "cantEnablePipeline": "Impossible d'activer la pipeline car elle dépend d'un service qui n'est pas connecté"
 }

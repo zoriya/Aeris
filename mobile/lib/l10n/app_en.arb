@@ -45,5 +45,6 @@
     "setupAPIRoute": "Setup API Route",
     "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter",
     "authenticatedToNoService": "You are not authenticated to any services.",
-    "connectService": "Connect a service"
+    "connectService": "Connect service",
+    "cantEnablePipeline": "You can't enable this pipeline because it depends on a serce that is not connected"
 }
