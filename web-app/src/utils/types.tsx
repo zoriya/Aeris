@@ -33,15 +33,16 @@ export enum ReactionTypeEnum {
 
 export interface ParamsType {
 	value: string;
-	description: string;
+	description: { [key: string]: string };
 	type: ParamTypeEnum;
 }
 
 export interface AppAREAType {
 	type: ActionTypeEnum | ReactionTypeEnum | string;
+	label: { [key: string]: string }
 	params: { [key: string]: ParamsType };
 	returns: { [key: string]: string };
-	description?: string;
+	description: { [key: string]: string };
 	service: AppServiceType;
 }
 

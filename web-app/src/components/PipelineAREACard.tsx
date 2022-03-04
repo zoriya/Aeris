@@ -18,6 +18,7 @@ import { styled } from "@mui/material/styles";
 
 import { AppAREAType } from "../utils/types";
 import { useState } from "react";
+import i18next from "i18next";
 
 interface ExpandMoreProps extends IconButtonProps {
 	expand: boolean;
@@ -54,6 +55,7 @@ export const PipelineAREACard = ({
 	canBeRemoved,
 }: PipelineAREACardProps) => {
 	const [expanded, setExpanded] = useState<boolean>(false);
+	const languageUid = i18next.resolvedLanguage;
 
 	return (
 		<Card sx={style}>
@@ -98,7 +100,13 @@ export const PipelineAREACard = ({
 						{Object.entries(AREA.params).map((el, idx) => {
 							return (
 								<Grid item display={"flex"} justifyContent={"space-between"} width={"100%"} key={idx}>
-									<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
+									<Chip
+										label={el[0]}
+										title={el[1].description[languageUid]}
+										color="secondary"
+										variant="outlined"
+										size="small"
+									/>
 									<code>{el[1].value}</code>
 								</Grid>
 							);

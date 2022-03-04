@@ -85,6 +85,7 @@ export const deSerializeAREA = (dumpAREA: any, service: AppServiceType): AppAREA
 		type: dumpAREA.name,
 		description: dumpAREA.description,
 		service: service,
+		label: dumpAREA.label,
 		params: deSerializeAREAParams(dumpAREA.params),
 		returns: deSerializeAREAReturns(dumpAREA.returns),
 	};

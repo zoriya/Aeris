@@ -1,6 +1,7 @@
 import { Card, Chip, CardActionArea, CardContent, CardHeader, Typography, Avatar, Grid } from "@mui/material";
 
 import { AppAREAType } from "../utils/types";
+import i18next from "i18next";
 
 export interface AREACardProps {
 	AREA: AppAREAType;
@@ -8,6 +9,7 @@ export interface AREACardProps {
 }
 
 export const AREACard = ({ AREA, onClick }: AREACardProps) => {
+	const languageUid = i18next.resolvedLanguage;
 	return (
 		<Card sx={{ width: "500px" }}>
 			<CardActionArea onClick={onClick}>
@@ -29,7 +31,13 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 							{Object.entries(AREA.params).map((el, idx) => {
 								return (
 									<Grid item key={idx}>
-										<Chip label={el[0]} title={el[1].description} color="secondary" variant="outlined" size="small" />
+										<Chip
+											label={el[0]}
+											title={el[1].description[languageUid]}
+											color="secondary"
+											variant="outlined"
+											size="small"
+										/>
 									</Grid>
 								);
 							})}
