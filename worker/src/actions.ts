@@ -32,6 +32,7 @@ export class Manager {
 					} catch (err) {
 						this.handlePipelineError(x, err);
 					}
+					console.log(`Pipeline finished ${x.name}`)
 				}),
 			));
 	}
@@ -55,7 +56,10 @@ export class Manager {
 		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type?.toString()}).`, error)
 		fetch(`${process.env["WORKER_API_URL"]}/error/${pipeline.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
 			method: "POST",
-			body: JSON.stringify({error}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({error: error.toString()}),
 		});
 		return NEVER;
 	}
