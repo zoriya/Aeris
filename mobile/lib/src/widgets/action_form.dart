@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class Suggestion extends Tuple3<int, ActionParameter, ActionTemplate> {
   Suggestion(int item1, ActionParameter item2, ActionTemplate item3) : super(item1, item2, item3);
@@ -59,7 +60,7 @@ class ActionForm extends StatefulWidget {
 }
 
 class _ActionFormState extends State<ActionForm> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _formKey = GlobalKey<FormState>();
 
   List<Suggestion> getSuggestions(String pattern, ActionCatalogueProvider catalogue) {
     List<Suggestion> suggestions = [];
@@ -89,70 +90,59 @@ class _ActionFormState extends State<ActionForm> {
     return suggestions;
   }
 
+  Map<String, String> values = {};
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ActionCatalogueProvider>(
-      builder: (__, catalogue, _) => FormBuilder(
+      builder: (__, catalogue, _) => Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(widget.description, textAlign: TextAlign.left, style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           ...widget.parameters.map((param) {
-            return Autocomplete<Suggestion>(
-              initialValue: TextEditingValue(text: param.value?.toString() ?? ''),
-              fieldViewBuilder: (context, textEditingController, focusNode, onSubmit) => 
-                FormBuilderTextField(
-                  name: param.name,
+            final textEditingController = TextEditingController(text: values[param.name] ?? param.value?.toString());
+            return TypeAheadFormField<Suggestion>(
+              key: Key(param.description),
+              textFieldConfiguration: TextFieldConfiguration(
                   controller: textEditingController,
-                  focusNode: focusNode,
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(context),
-                  ]),
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  enableSuggestions: widget.candidate is Reaction,
                   decoration: InputDecoration(
                     labelText: ReCase(param.name).titleCase,
                     helperText: param.description
                   ),
-
               ),
-              optionsBuilder: (suggestion) => getSuggestions(suggestion.text, catalogue),
-              onSelected: (suggestion) {},
-              optionsViewBuilder: (context, onSelected, inputs) => Align(
-                alignment: Alignment.topLeft,
-                child: Material(
-                  elevation: 6,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  child: SizedBox(
-                    width: MediaQuery. of(context). size. width * 0.7,
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: inputs.length,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        Suggestion suggestion = inputs.elementAt(index);
-                        return ListTile(
-                          onTap: () => onSelected(suggestion),
-                          isThreeLine: true,
-                          dense: true,
-                          leading: suggestion.item3.service.getLogo(logoSize: 30),
-                          title: Text(suggestion.item2.name),
-                          subtitle: Text("${suggestion.item2.description}, from '${suggestion.item3.displayName()}'")
-                        );
-                      }
-                    ),
-                  )
-                )
-            ));}),
+              onSaved: (value) {
+                values[param.name] = value!;
+              },
+              validator: FormBuilderValidators.compose([
+                FormBuilderValidators.required(context),
+              ]),
+              hideOnEmpty: true,
+              suggestionsCallback: (suggestion) => getSuggestions(suggestion, catalogue),
+              onSuggestionSelected: (suggestion) {
+                textEditingController.text += suggestion.toString();
+                values[param.name] = textEditingController.text;
+              },
+              itemBuilder: (context, suggestion) => ListTile(
+                //onTap: () => onSelected(suggestion),
+                isThreeLine: true,
+                dense: true,
+                leading: suggestion.item3.service.getLogo(logoSize: 30),
+                title: Text(suggestion.item2.name),
+                subtitle: Text("${suggestion.item2.description}, from '${suggestion.item3.displayName()}'")
+              ));}),
           ...[
             ElevatedButton(
               child: Text(AppLocalizations.of(context).save),
               onPressed: () {
-                _formKey.currentState!.save();
+                print("Pressed");
                 if (_formKey.currentState!.validate()) {
-                  widget.onValidate(_formKey.currentState!.value.map((key, value) => MapEntry(key, value)));
+                  print("Validated");
+                  _formKey.currentState!.save();
+                  print(values);
+                  widget.onValidate(values);
                 }
               },
             ),
