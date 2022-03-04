@@ -123,9 +123,10 @@ export default function PipelineEditAREA({
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							{"Vous devez être connecté au service " +
-								serviceData?.label +
-								" pour profitez de ses différentes actions"}
+							{t("pipeline_edit_area_service_disconnected_info_part_1") +
+								(serviceData?.label ?? "") +
+								t("pipeline_edit_area_service_disconnected_info_part_2") +
+								(isActions ? t("action") : t("reactions"))}
 						</Typography>
 					)}
 				</div>

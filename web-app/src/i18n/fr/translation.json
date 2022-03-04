@@ -10,7 +10,7 @@
   "available": "Disponibles",
   "actionCaps": "Action",
   "reactionCaps": "Réactions",
-  "action": "action",
+  "action": "action(s)",
   "reaction": "réaction(s)",
   "availables": "disponibles",
   "setup": "Configurer une ",
@@ -35,5 +35,7 @@
   "pipeline_error_prefix": "Erreur: ",
   "pipeline_layout_pipeline_section_title": "Mes pipelines",
   "pipeline_layout_disable_pipeline_section_title": "Pipelines désativées",
-  "pipeline_edit_params_info_text": "Vous pouvez utiliser les résidus des actions et réactions passées en utilisant la synthaxe suivante {NOW_DU_PARAM@ID_RÉACTION}."
+  "pipeline_edit_params_info_text": "Vous pouvez utiliser les résidus des actions et réactions passées en utilisant la synthaxe suivante {NOW_DU_PARAM@ID_RÉACTION}.",
+  "pipeline_edit_area_service_disconnected_info_part_1": "Vous devez être connecté au service ",
+  "pipeline_edit_area_service_disconnected_info_part_2": " pour profiter de ses "
 }

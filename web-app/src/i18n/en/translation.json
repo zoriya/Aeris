@@ -10,7 +10,7 @@
   "available": "Availables",
   "actionCaps": "Action",
   "reactionCaps": "Reactions",
-  "action": "action",
+  "action": "action(s)",
   "reaction": "reaction(s)",
   "availables": "availables",
   "setup": "Setup a ",
@@ -35,5 +35,7 @@
   "pipeline_error_prefix": "Error: ",
   "pipeline_layout_pipeline_section_title": "My pipelines",
   "pipeline_layout_disable_pipeline_section_title": "Disabled pipelines",
-  "pipeline_edit_params_info_text": "You can use the residuals variables from previous reactions by typing {PARAMETER_NAME@REACTION_ID}."
+  "pipeline_edit_params_info_text": "You can use the residuals variables from previous reactions by typing {PARAMETER_NAME@REACTION_ID}.",
+  "pipeline_edit_area_service_disconnected_info_part_1": "You must be connected to the ",
+  "pipeline_edit_area_service_disconnected_info_part_2": " service to use its "
 }
