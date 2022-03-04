@@ -27,11 +27,11 @@ class Reaction extends aeris_action.Action {
     String rType = reactionJSON['rType'] as String;
     var service = aeris_action.Action.parseServiceInName(rType);
     return Reaction(
-        displayName: reactionJSON['label']?['en'] 
+        displayName: aeris_action.Action.getForCurrentLang(reactionJSON['label'])
           ?? Provider.of<ActionCatalogueProvider>(Aeris.materialKey.currentContext!, listen: false)
             .reactionTemplates[service]!.firstWhere((template) {
               return template.name == rType;
-            }).displayName, ///TODO use locale
+            }).displayName,
         service: service,
         name: rType,
         parameters: ActionParameter.fromJSON((reactionJSON['rParams'] as Map<String, dynamic>)));

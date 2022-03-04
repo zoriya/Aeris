@@ -34,11 +34,11 @@ class Trigger extends aeris_action.Action {
     String pType = triggerJSON['pType'] as String;
 
     return Trigger(
-        displayName: triggerJSON['label']?['en'] 
+        displayName: aeris_action.Action.getForCurrentLang(triggerJSON['label'])
           ?? Provider.of<ActionCatalogueProvider>(Aeris.materialKey.currentContext!, listen: false)
             .triggerTemplates[service]!.firstWhere((template) {
               return template.name == pType;
-            }).displayName, ///TODO use locale
+            }).displayName,
         service: service,
         name: pType,
         last: last,

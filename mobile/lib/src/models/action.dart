@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:aeris/src/models/service.dart';
@@ -30,5 +31,14 @@ abstract class Action {
     var snake = rType.split('_');
     var service = snake.removeAt(0);
     return Service.factory(service);
+  }
+
+  static String? getForCurrentLang(Object? object) {
+    if (object == null) return null;
+    var map = Map<String, String>.from(object as dynamic);
+    var key = map.keys.firstWhere(
+        (lang) => Platform.localeName.contains(lang),
+        orElse: () => map.keys.first);
+    return map[key]!;
   }
 }
