@@ -95,7 +95,12 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             onTap: () {
               Reaction newreaction = Reaction.template();
               showAerisCardPage(
-                      context, (_) => SetupActionPage(action: newreaction))
+                      context, (_) => SetupActionPage(
+                        action: newreaction,
+                        parentTrigger: pipeline.trigger,
+                        parentReactions: pipeline.reactions,
+                      )
+                    )
                   .then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
@@ -135,9 +140,11 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: pipeline.trigger.name,
+                title: pipeline.trigger.displayName(),
                 trailing: ActionCardPopupMenu(
                     deletable: false,
+                    parentTrigger: pipeline.trigger,
+                    parentReactions: pipeline.reactions,
                     action: pipeline.trigger,
                     then: () {
                       setState(() {});
@@ -152,8 +159,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
               itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.name,
+                      title: reaction.displayName(),
                       trailing: ActionCardPopupMenu(
+                          parentTrigger: pipeline.trigger,
+                          parentReactions: pipeline.reactions,
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,
                           then: () {

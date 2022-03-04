@@ -1,7 +1,8 @@
 // ignore_for_file: hash_and_equals
 
+import 'package:aeris/src/models/action_parameter.dart';
 import 'package:flutter/material.dart';
-import 'package:aeris/src/main.dart';
+import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,11 +15,27 @@ class Trigger extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
-      Map<String, Object> parameters = const {},
+      List<ActionParameter> parameters = const [],
       this.last})
       : super(service: service, name: name, parameters: parameters);
 
-  ///TODO Constructor from DB 'Type' field
+  /// Unserialize
+  static Trigger fromJSON(Object action) {
+    var triggerJSON = action as Map<String, dynamic>;
+    Service service =
+        aeris_action.Action.parseServiceInName(triggerJSON['pType'] as String);
+    var lastTriggerField = action['lastTrigger'];
+    DateTime? last = lastTriggerField == null
+      ? null
+      : DateTime.parse(lastTriggerField as String);
+
+    return Trigger(
+        service: service,
+        name: triggerJSON['pType'] as String,
+        last: last,
+        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, dynamic>))
+    );
+  }
 
   String lastToString() {
     var context = AppLocalizations.of(Aeris.materialKey.currentContext!);
@@ -32,7 +49,7 @@ class Trigger extends aeris_action.Action {
 
   /// Template trigger, used as an 'empty' trigger
   Trigger.template({Key? key, this.last})
-      : super(service: const Service.twitter(), name: '', parameters: {});
+      : super(service: Service.all()[0], name: '', parameters: []);
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -41,7 +58,7 @@ class Trigger extends aeris_action.Action {
     return service.name == other.service.name &&
         name == other.name &&
         last == other.last &&
-        parameters.values.toString() == other.parameters.values.toString() &&
-        parameters.keys.toString() == other.parameters.keys.toString();
+        parameters.map((e) => e.name).toString() ==
+            other.parameters.map((e) => e.name).toString();
   }
 }

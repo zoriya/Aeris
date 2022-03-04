@@ -1,13 +1,10 @@
-import 'package:aeris/src/main.dart';
+import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/main.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-const users = {
-  'dribbble@gmail.com': '12345',
-  'hunter@gmail.com': 'hunter',
-};
+import 'package:get_it/get_it.dart';
 
 /// Login Page Widget
 class LoginPage extends StatelessWidget {
@@ -17,39 +14,24 @@ class LoginPage extends StatelessWidget {
   Duration get loginDuration => const Duration(milliseconds: 2500);
 
   /// Called when user clicks on [FlutterLogin] widget 'login' button
-  Future<String?> _authUser(LoginData data) {
-    debugPrint('Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginDuration).then((_) {
-      if (!users.containsKey(data.name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)
-            .usernameOrPasswordIncorrect;
-      }
-      if (users[data.name] != data.password) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)
-            .usernameOrPasswordIncorrect;
-      }
-      return null;
-    });
+  Future<String?> _authUser(LoginData data) async {
+    bool connected =
+        await GetIt.I<AerisAPI>().createConnection(data.name, data.password);
+    if (!connected) {
+      return AppLocalizations.of(Aeris.materialKey.currentContext!)
+          .usernameOrPasswordIncorrect;
+    }
+    return null;
   }
 
   /// Opens signup page of [FlutterLogin] widget
-  Future<String?> _signupUser(SignupData data) {
-    debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginDuration).then((_) {
-      return null;
-    });
-  }
-
-  /// Opens user password recovery page
-  Future<String?> _recoverPassword(String name) {
-    debugPrint('Name: $name');
-    return Future.delayed(loginDuration).then((_) {
-      if (!users.containsKey(name)) {
-        return AppLocalizations.of(Aeris.materialKey.currentContext!)
-            .userDoesNotExist;
-      }
-      return null;
-    });
+  Future<String?> _signupUser(SignupData data) async {
+    bool connected =
+        await GetIt.I<AerisAPI>().signUpUser(data.name!, data.password!);
+    if (connected == false) {
+      return AppLocalizations.of(Aeris.materialKey.currentContext!).errorOnSignup;
+    }
+    return null;
   }
 
   @override
@@ -59,16 +41,21 @@ class LoginPage extends StatelessWidget {
         body: FlutterLogin(
             disableCustomPageTransformer: true,
             logo: const AssetImage("assets/logo.png"),
-            onRecoverPassword: _recoverPassword,
+            hideForgotPasswordButton: true,
+            onRecoverPassword: (_) => null,
             theme: LoginTheme(
                 pageColorLight: Colors.transparent,
                 pageColorDark: Colors.transparent,
                 primaryColor: Theme.of(context).colorScheme.primary),
             onLogin: _authUser,
             onSignup: _signupUser,
+            userType: LoginUserType.name,
+            userValidator: (input) {
+              if (input == null || input.trim().length < 4) return "Must be at least 4 chars long";
+              return null;
+            },
             onSubmitAnimationCompleted: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-              Navigator.of(context).popAndPushNamed("/home");
+              Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
             }));
   }
 }

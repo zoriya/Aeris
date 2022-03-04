@@ -69,6 +69,7 @@
 	],
 	"reactions": [
 		{
+<<<<<<< HEAD
 			"name": "PlayTrack",
 			"description": {
 				"en": "Play a track",
@@ -78,6 +79,10 @@
 				"en": "Play a track",
 				"fr": "Joue une musique"
 			},
+=======
+			"name": "Spotify_PlayTrack",
+			"description": "Play a track",
+>>>>>>> 26566154676c8e279c3615522129e61b851c75a9
 			"params": [
 				{
 					"name": "artist",
@@ -134,6 +139,7 @@
 			"returns": []
 		},
 		{
+<<<<<<< HEAD
 			"name": "AddTrackToLibrary",
 			"description": {
 				"en": "Add a track to library",
@@ -143,6 +149,10 @@
 				"en": "Add a song to library",
 				"fr": "Ajoute une musique à votre librarie"
 			},
+=======
+			"name": "Spotify_AddTrackToLibrary",
+			"description": "Add a track to library",
+>>>>>>> 26566154676c8e279c3615522129e61b851c75a9
 			"params": [
 				{
 					"name": "artist",

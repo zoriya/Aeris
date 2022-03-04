@@ -36,5 +36,12 @@
     "pipelineFormMisingAction": "You must select at least a trigger and a reaction",
     "logoutWarningMessage": "You are about to logout, are you sure?",
     "warning": "Warning",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "errorOnSignup": "An error occured while signing you up, please try again",
+    "loading": "Loading...",
+    "invalidUrl": "Invalid URL",
+    "tryToConnect": "Try to connect",
+    "routeToApi": "Route to API",
+    "setupAPIRoute": "Setup API Route",
+    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter"
 }

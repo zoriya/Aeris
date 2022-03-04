@@ -79,15 +79,19 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                 onTap: () {
                                   showAerisCardPage(
                                           context,
-                                          (_) =>
-                                              SetupActionPage(action: trigger))
+                                          (_) => SetupActionPage(
+                                            action: trigger,
+                                            parentReactions: reactions
+                                          ))
                                       .then((_) => setState(() {}));
                                 })
                             : ActionCard(
                                 leading: trigger.service.getLogo(logoSize: 50),
-                                title: trigger.name,
+                                title: trigger.displayName(),
                                 trailing: ActionCardPopupMenu(
                                     deletable: false,
+                                    parentReactions: reactions,
+                                    parentTrigger: trigger,
                                     action: trigger,
                                     then: () => setState(() {})),
                               ),
@@ -104,8 +108,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               itemBuilder: (reaction) => ActionCard(
                               key: ValueKey(reactions.indexOf(reaction)),
                               leading: reaction.service.getLogo(logoSize: 50),
-                              title: reaction.name,
+                              title: reaction.displayName(),
                               trailing: ActionCardPopupMenu(
+                                  parentTrigger: trigger == Trigger.template() ? null : trigger,
+                                  parentReactions: reactions,
                                   deletable: reactions.length > 1,
                                   action: reaction,
                                   then: () => setState(() {}),
@@ -128,7 +134,10 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                               showAerisCardPage(
                                       context,
                                       (_) => SetupActionPage(
-                                          action: newreact))
+                                          action: newreact,
+                                          parentReactions: reactions,
+                                          parentTrigger: trigger == Trigger.template() ? null : trigger,
+                                      ))
                                   .then((_) => setState(() {
                                     if (newreact != Reaction.template()) {
                                       reactions.add(newreact);

@@ -3,7 +3,7 @@
 	"actions": [],
 	"reactions": [
 		{
-			"name": "UpdateAbout",
+			"name": "Anilist_UpdateAbout",
 			"description": {
 				"en": "Update the about you section.",
 				"fr": "Mets à jour votre section \"À propos de moi\"."
@@ -25,7 +25,7 @@
 			"returns": []
 		},
 		{
-			"name": "ToggleFavourite",
+			"name": "Anilist_ToggleFavourite",
 			"description": {
 				"en": "Add or remove an anime from your favorite.",
 				"fr": "Ajoute ou retire un animé de vos favoris."

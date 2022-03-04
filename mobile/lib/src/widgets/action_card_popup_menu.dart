@@ -1,3 +1,5 @@
+import 'package:aeris/src/models/reaction.dart';
+import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
@@ -11,6 +13,8 @@ class ActionCardPopupMenu extends StatelessWidget {
   ActionCardPopupMenu({
     Key? key,
     required this.action,
+    this.parentTrigger,
+    required this.parentReactions,
     required this.then,
     required this.deletable,
     this.onDelete,
@@ -22,6 +26,10 @@ class ActionCardPopupMenu extends StatelessWidget {
 
   /// Selected Action
   final aeris.Action action;
+  /// Trigger of the Parent of the action
+  final Trigger? parentTrigger;
+    /// Trigger of the Parent of the action
+  final List<Reaction> parentReactions;
 
   /// Function to trigger once the Edit menu is closed
   final void Function() then;
@@ -46,15 +54,18 @@ class ActionCardPopupMenu extends StatelessWidget {
                   icon: Icons.settings,
                   title: AppLocalizations.of(context).modify,
                   value: () => showAerisCardPage(
-                      context, (_) => SetupActionPage(action: action)).then((_) => then())
-              ),
+                          context, (_) => SetupActionPage(
+                            action: action,
+                            parentTrigger: parentTrigger,
+                            parentReactions: parentReactions,
+                          ))
+                      .then((_) => then())),
               AerisPopupMenuItem(
-                context: context,
-                icon: Icons.delete,
-                title: AppLocalizations.of(context).delete,
-                value: onDelete,
-                enabled: deletable
-              ),
+                  context: context,
+                  icon: Icons.delete,
+                  title: AppLocalizations.of(context).delete,
+                  value: onDelete,
+                  enabled: deletable),
             ]);
   }
 }
