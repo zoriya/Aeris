@@ -412,6 +412,10 @@
 				"en": "Leave given Discord server",
 				"fr": "Quitte le serveur Discord donné"
 			},
+			"label": {
+				"en": "Set Discord status",
+				"fr": "Change le status Discord"
+			},
 			"params": [
 				{
 					"name": "status",

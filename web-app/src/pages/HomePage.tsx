@@ -80,7 +80,6 @@ export default function HomePage() {
 		}
 	};
 
-	console.log(AREAs);
 	useEffect(() => {
 		getAboutJson()
 			.then((aboutInfoParam) => {

@@ -56,6 +56,7 @@ export const PipelineAREACard = ({
 }: PipelineAREACardProps) => {
 	const [expanded, setExpanded] = useState<boolean>(false);
 	const languageUid = i18next.resolvedLanguage;
+	console.log(AREA);
 
 	return (
 		<Card sx={style}>
@@ -77,7 +78,7 @@ export const PipelineAREACard = ({
 						<ExpandMoreIcon />
 					</ExpandMore>
 				}
-				title={AREA.type}
+				title={AREA?.label?.[languageUid] ?? AREA.type}
 				subheader={"#" + order}
 			/>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
