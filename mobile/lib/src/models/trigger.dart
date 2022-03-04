@@ -1,11 +1,14 @@
 // ignore_for_file: hash_and_equals
 
 import 'package:aeris/src/models/action_parameter.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
@@ -29,11 +32,16 @@ class Trigger extends aeris_action.Action {
     DateTime? last = lastTriggerField == null
       ? null
       : DateTime.parse(lastTriggerField as String);
+    String pType = triggerJSON['pType'] as String;
 
     return Trigger(
-        displayName: triggerJSON['label']['en'], ///TODO use locale
+        displayName: triggerJSON['label']?['en'] 
+          ?? Provider.of<ActionCatalogueProvider>(Aeris.materialKey.currentContext!, listen: false)
+            .triggerTemplates[service]!.firstWhere((template) {
+              return template.name == pType;
+            }).displayName, ///TODO use locale
         service: service,
-        name: triggerJSON['pType'] as String,
+        name: pType,
         last: last,
         parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, dynamic>))
     );

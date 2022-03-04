@@ -166,6 +166,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                                 widget.action.parameters =
                                     ActionParameter.fromJSON(parameters);
                                 widget.action.name = availableAction.name;
+                                widget.action.displayName = availableAction.displayName;
                                 Navigator.of(context).pop();
                               }),
                         )),
