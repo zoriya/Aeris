@@ -3,110 +3,199 @@
 	"actions": [
 		{
 			"name": "Discord_OnDiscordMessage",
-			"description": "An event triggered by the reception of a direct message",
+			"description": {
+				"en": "An event triggered by the reception of a direct message",
+				"fr": "Un évènement déclenché par la réception d'un message privé."
+			},
+			"label": {
+				"en": "Reception of a direct message",
+				"fr": "Réception d'un message privé"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "MESSAGE",
-					"description": "The body of the received message"
+					"description": {
+						"en": "The body of the received message",
+						"fr": "Le corps du message reçu"
+					}
 				},
 				{
 					"name": "AUTHOR_ID",
-					"description": "The Discord ID of the message's author"
+					"description": {
+						"en": "The Discord ID of the message's author",
+						"fr": "L'identifiant Discord de l'auteur du message"
+					}
 				},
 				{
 					"name": "AUTHOR_NAME",
-					"description": "The Discord username of the message's author"
+					"description": {
+						"en": "The Discord username of the message's author",
+						"fr": "Le pseudo Discord de l'auteur du message"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_OnDiscordMessageFrom",
-			"description": "An event triggered by the reception of a direct message from a specified user",
+			"description": {
+				"en": "An event triggered by the reception of a direct message from a specified user",
+				"fr": "Un évènement déclenché par la réception d'un message privé d'un certain utilisateur"
+			},
+			"label": {
+				"en": "Reception of a direct message from a specific user",
+				"fr": "Réception d'un message privé d'un certain utilisateur"
+			},
 			"params": [
 				{
 					"name": "user_id",
 					"type": "string",
-					"description": "The Discord ID of the sender"
+					"description": {
+						"en": "The Discord ID of the sender",
+						"fr": "L'identifiant Discord de l'envoyeur"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "MESSAGE",
-					"description": "The body of the received message"
+					"description": {
+						"en": "The body of the received message",
+						"fr": "Le corps du message reçu"
+					}
 				},
 				{
 					"name": "AUTHOR_ID",
-					"description": "The Discord ID of the message's author"
+					"description": {
+						"en": "The Discord ID of the message's author",
+						"fr": "L'identifiant Discord de l'auteur du message"
+					}
 				},
 				{
 					"name": "AUTHOR_NAME",
-					"description": "The Discord username of the message's author"
+					"description": {
+						"en": "The Discord username of the message's author",
+						"fr": "Le pseudo Discord de l'auteur du message"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_OnDiscordMention",
-			"description": "An event triggered when the authenticated user is mentioned",
+			"description": {
+				"en": "An event triggered when the authenticated user is mentioned",
+				"fr": "Un évènement déclenché lorsque l'utilisateur authentifié est mentionné"
+			},
+			"label": {
+				"en": "Authenticated user mentioned",
+				"fr": "Utilisateur authentifié mentioné"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "MESSAGE",
-					"description": "The body of the received message"
+					"description": {
+						"en": "The body of the received message",
+						"fr": "Le corps du message reçu"
+					}
 				},
 				{
 					"name": "AUTHOR_ID",
-					"description": "The Discord ID of the message's author"
+					"description": {
+						"en": "The Discord ID of the message's author",
+						"fr": "L'identifiant Discord de l'auteur du message"
+					}
 				},
 				{
 					"name": "AUTHOR_NAME",
-					"description": "The Discord username of the message's author"
+					"description": {
+						"en": "The Discord username of the message's author",
+						"fr": "Le pseudo Discord de l'auteur du message"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_OnNewDiscordGuildMember",
-			"description": "An event triggered when a new member joins a guild",
+			"description": {
+				"en": "An event triggered when a new member joins a guild",
+				"fr": "Un évènement déclenché lorsqu'un nouveau membre rejoint un serveur"
+			},
+			"label": {
+				"en": "New member joins a guild",
+				"fr": "Nouveau membre rejoint un serveur"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "NEW_MEMBER_ID",
-					"description": "The Discord ID of the new member"
+					"description": {
+						"en": "The Discord ID of the new member",
+						"fr": "L'identifiant Discord du nouveau membre"
+					}
 				},
 				{
 					"name": "NEW_MEMBER_NAME",
-					"description": "The Discord Username of the new member"
+					"description": {
+						"en": "The Discord Username of the new member",
+						"fr": "Le pseudo Discord du nouveau membre"
+					}
 				},
 				{
 					"name": "SERVER_ID",
-					"description": "The Discord ID of the guild"
+					"description": {
+						"en": "The Discord ID of the guild",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				},
 				{
 					"name": "SERVER_NAME",
-					"description": "The name of the guild"
+					"description": {
+						"en": "The name of the guild",
+						"fr": "Le nom du serveur"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_OnDiscordGuildLeave",
-			"description": "An event triggered when a member leaves a guild",
+			"description": {
+				"en": "An event triggered when a member leaves a guild",
+				"fr": "Un évènement déclenché lorsqu'un membre qui un serveur"
+			},
+			"label": {
+				"en": "A member leaves a guild",
+				"fr": "Un utilisateur quitte un serveur"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "NEW_MEMBER_ID",
-					"description": "The Discord ID of the new member"
+					"description": {
+						"en": "The Discord ID of the new member",
+						"fr": "L'identifiant Discord du nouveau membre"
+					}
 				},
 				{
 					"name": "NEW_MEMBER_NAME",
-					"description": "The Discord Username of the new member"
+					"description": {
+						"en": "The Discord Username of the new member",
+						"fr": "Le pseudo Discord du nouveau membre"
+					}
 				},
 				{
 					"name": "SERVER_ID",
-					"description": "The Discord ID of the guild"
+					"description": {
+						"en": "The Discord ID of the guild",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				},
 				{
 					"name": "SERVER_NAME",
-					"description": "The name of the guild"
+					"description": {
+						"en": "The name of the guild",
+						"fr": "Le nom du serveur"
+					}
 				}
 			]
 		}
@@ -114,144 +203,246 @@
 	"reactions": [
 		{
 			"name": "Discord_PostDiscordMessage",
-			"description": "Posts a message on a given server (in a given channel)",
+			"description": {
+				"en": "Posts a message on a given server (in a given channel)",
+				"fr": "Poste un message sur le serveur donné dans un canal donné"
+			},
+			"label": {
+				"en": "Post a message on a server",
+				"fr": "Poste un message sur un serveur"
+			},
 			"params": [
 				{
 					"name": "server_id",
 					"type": "string",
-					"description": "The Discord ID of the server"
+					"description": {
+						"en": "The Discord ID of the server",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				},
 				{
 					"name": "channel_id",
 					"type": "string",
-					"description": "The Discord ID of the channel"
+					"description": {
+						"en": "The Discord ID of the channel",
+						"fr": "L'identifiant Discord du canal"
+					}
 				},
 				{
 					"name": "content",
 					"type": "string",
-					"description": "The body of the message to post"
+					"description": {
+						"en": "The body of the message to post",
+						"fr": "Le corps du message à envoyer"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "USER_ID",
-					"description": "The Discord ID of the sender"
+					"description": {
+						"en": "The Discord ID of the sender",
+						"fr": "L'identifiant Discord de l'envoyeur"
+					}
 				},
 				{
 					"name": "USERNAME",
-					"description": "The Discord username of the sender"
+					"description": {
+						"en": "The Discord username of the sender",
+						"fr": "Le pseudo Discord de l'envoyeur"
+					}
 				},
 				{
 					"name": "MESSAGE_CONTENT",
-					"description": "The body of the posted message"
+					"description": {
+						"en": "The body of the posted message",
+						"fr": "Le corps du message posté"
+					}
 				},
 				{
 					"name": "CHANNEL_ID",
-					"description": "The Discord ID of the channel"
+					"description": {
+						"en": "The Discord ID of the channel",
+						"fr": "L'identifiant Discord du canal"
+					}
 				},
 				{
 					"name": "CHANNEL_NAME",
-					"description": "The Discord name of the channel"
+					"description": {
+						"en": "The Discord name of the channel",
+						"fr": "Le nom du canal Discord"
+					}
 				},
 				{
 					"name": "SERVER_ID",
-					"description": "The Discord ID of the server"
+					"description": {
+						"en": "The Discord ID of the server",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				},
 				{
 					"name": "SERVER_NAME",
-					"description": "The Discord name of the server"
+					"description": {
+						"en": "The Discord name of the server",
+						"fr": "Le nom du serveur Discord"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_PostDiscordDM",
-			"description": "Sends a message to a given user",
+			"description": {
+				"en": "Sends a message to a given user",
+				"fr": "Envois un message à un utilisateur donné"
+			},
+			"label": {
+				"en": "Send a direct message",
+				"fr": "Envoi un message privé"
+			},
 			"params": [
 				{
 					"name": "other_id",
 					"type": "string",
-					"description": "The Discord ID of the recipient"
+					"description": {
+						"en": "The Discord ID of the recipient",
+						"fr": "L'identifiant Discord du receveur"
+					}
 				},
 				{
 					"name": "content",
 					"type": "string",
-					"description": "The body of the message to send"
+					"description": {
+						"en": "The body of the message to send",
+						"fr": "Le corps du message à envoyer"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "USER_ID",
-					"description": "The Discord ID of the sender"
+					"description": {
+						"en": "The Discord ID of the sender",
+						"fr": "L'identifiant Discord de l'envoyeur"
+					}
 				},
 				{
 					"name": "USERNAME",
-					"description": "The Discord username of the sender"
+					"description": {
+						"en": "The Discord username of the sender",
+						"fr": "Le pseudo Discord de l'envoyeur"
+					}
 				},
 				{
 					"name": "MESSAGE_CONTENT",
-					"description": "The body of the posted message"
+					"description": {
+						"en": "The body of the posted message",
+						"fr": "Le corps du message posté"
+					}
 				},
 				{
 					"name": "SENDEE_ID",
-					"description": "The Discord ID of the recipient"
+					"description": {
+						"en": "The Discord ID of the recipient",
+						"fr": "L'identifiant Discord du receveur"
+					}
 				},
 				{
 					"name": "SENDEE_USERNAME",
-					"description": "The Discord name of the recipient"
+					"description": {
+						"en": "The Discord name of the recipient",
+						"fr": "Le pseudo Discord du receveur"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_LeaveDiscordServer",
-			"description": "Leave given Discord server",
+			"description": {
+				"en": "Leave given Discord server",
+				"fr": "Quitte le serveur Discord donné"
+			},
+			"label": {
+				"en": "Leave a server",
+				"fr": "Quitte un serveur"
+			},
 			"params": [
 				{
 					"name": "server_id",
 					"type": "string",
-					"description": "The Discord ID of the server"
+					"description": {
+						"en": "The Discord ID of the server",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "USER_ID",
-					"description": "The Discord ID of the leaver"
+					"description": {
+						"en": "The Discord ID of the leaver",
+						"fr": "L'identifiant Discord de l'utilisateur qui quitte le serveur"
+					}
 				},
 				{
 					"name": "USERNAME",
-					"description": "The Discord username of the leaver"
+					"description": {
+						"en": "The Discord username of the leaver",
+						"fr": "Le pseudo Discord de l'utilisateur qui quitte le serveur"
+					}
 				},
 				{
 					"name": "SERVER_ID",
-					"description": "The Discord ID of the server"
+					"description": {
+						"en": "The Discord ID of the server",
+						"fr": "L'identifiant Discord du serveur"
+					}
 				},
 				{
 					"name": "SERVER_NAME",
-					"description": "The Discord name of the server"
+					"description": {
+						"en": "The Discord name of the server",
+						"fr": "Le nom du serveur Discord"
+					}
 				}
 			]
 		},
 		{
 			"name": "Discord_SetDiscordStatus",
-			"description": "Leave given Discord server",
+			"description": {
+				"en": "Leave given Discord server",
+				"fr": "Quitte le serveur Discord donné"
+			},
 			"params": [
 				{
 					"name": "status",
 					"type": "string",
-					"description": "The status to set"
+					"description": {
+						"en": "The status to set",
+						"fr": "Le statut à définir"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "USER_ID",
-					"description": "The Discord ID of the user"
+					"description": {
+						"en": "The Discord ID of the user",
+						"fr": "L'identifiant Discord de l'utilisateur"
+					}
 				},
 				{
 					"name": "USERNAME",
-					"description": "The Discord username of the user"
+					"description": {
+						"en": "The Discord username of the user",
+						"fr": "Le pseudo Discord de l'utilisateur"
+					}
 				},
 				{
 					"name": "STATUS",
-					"description": "The Discord status of the user"
+					"description": {
+						"en": "The Discord status of the user",
+						"fr": "Le status Discord de l'utilisateur"
+					}
 				}
 			]
 		}
