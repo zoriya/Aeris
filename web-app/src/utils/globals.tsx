@@ -100,7 +100,8 @@ export const NoAREA: AppAREAType = {
 	type: "WebFrontEndNoAREA",
 	params: {},
 	returns: {},
-	description: "There's nothing",
+	description: {},
+	label: {},
 	service: AppServices[0],
 };
 

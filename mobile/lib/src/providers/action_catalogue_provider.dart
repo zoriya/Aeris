@@ -1,3 +1,4 @@
+import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/models/service.dart';
@@ -36,13 +37,14 @@ class ActionCatalogueProvider extends ChangeNotifier {
           _triggerTemplates[service]!.add(
             ActionTemplate(
               name: action['name'],
+              displayName: aeris.Action.getForCurrentLang(action['label'])!,
               service: service,
-              description: action['description'],
+              description: aeris.Action.getForCurrentLang(action['description'])!,
               parameters: (action['params'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: aeris.Action.getForCurrentLang(e['description'])!)
               ).toList(),
               returnedValues: (action['returns'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: aeris.Action.getForCurrentLang(e['description'])!)
               ).toList(),
             )
           );
@@ -50,14 +52,15 @@ class ActionCatalogueProvider extends ChangeNotifier {
         for (var reaction in serviceContent['reactions']) {
           _reactionTemplates[service]!.add(
             ActionTemplate(
+              displayName: aeris.Action.getForCurrentLang(reaction['label'])!,
               name: reaction['name'],
               service: service,
-              description: reaction['description'],
+              description: aeris.Action.getForCurrentLang(reaction['description'])!,
               parameters: (reaction['params'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: aeris.Action.getForCurrentLang(e['description'])!)
               ).toList(),
               returnedValues: (reaction['returns'] as List).map(
-                (e) => ActionParameter(name: e['name'], description: e['description'])
+                (e) => ActionParameter(name: e['name'], description: aeris.Action.getForCurrentLang(e['description'])!)
               ).toList(),
             )
           );

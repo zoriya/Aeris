@@ -15,10 +15,16 @@ import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
 class SetupActionPage extends StatefulWidget {
-  const SetupActionPage({Key? key, required this.action, required this.parentReactions, this.parentTrigger}) : super(key: key);
+  const SetupActionPage(
+      {Key? key,
+      required this.action,
+      required this.parentReactions,
+      this.parentTrigger})
+      : super(key: key);
 
   /// Action to setup
   final aeris.Action action;
+
   /// Trigger of Parent of the action to setup
   final Trigger? parentTrigger;
 
@@ -37,12 +43,12 @@ class _SetupActionPageState extends State<SetupActionPage> {
   void initState() {
     super.initState();
     serviceState = widget.action.service;
-    availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
+    availableActions =
+        GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
   }
 
   @override
   Widget build(BuildContext context) {
-
     final Widget serviceDropdown = DropdownButton<Service>(
       value: serviceState,
       elevation: 8,
@@ -50,7 +56,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
       onChanged: (service) {
         setState(() {
           serviceState = service;
-          availableActions = GetIt.I<AerisAPI>().getActionsFor(service!, widget.action);
+          availableActions =
+              GetIt.I<AerisAPI>().getActionsFor(service!, widget.action);
         });
       },
       items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
@@ -77,9 +84,10 @@ class _SetupActionPageState extends State<SetupActionPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.action is Trigger 
-                ? AppLocalizations.of(context).setupTrigger
-                : AppLocalizations.of(context).setupReaction,
+          Text(
+              widget.action is Trigger
+                  ? AppLocalizations.of(context).setupTrigger
+                  : AppLocalizations.of(context).setupReaction,
               style: const TextStyle(
                 fontSize: 25,
               )),
@@ -108,49 +116,61 @@ class _SetupActionPageState extends State<SetupActionPage> {
           const SizedBox(height: 20),
           if (availableActions == null)
             SkeletonLoader(
-                builder: Card(shape: cardShape, child: const SizedBox(height: 40), elevation: 5),
+                builder: Card(
+                    shape: cardShape,
+                    child: const SizedBox(height: 40),
+                    elevation: 5),
                 items: 15,
-                highlightColor: Theme.of(context).colorScheme.secondary
-            )
-          else 
-            ...[for (ActionTemplate availableAction in availableActions!)
-            Card(
-              elevation: 5,
-                shape: cardShape,
-                child: ExpandableNotifier(
-                  child: ScrollOnExpand(child: ExpandablePanel(
-                  header: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                      child: Text(availableAction.displayName(),
-                          style: const TextStyle(fontSize: 15))),
-                  collapsed: Container(),
-                  expanded: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: ActionForm(
-                        reactionsCandidates: widget.parentReactions,
-                        triggerCandidate: widget.parentTrigger,
-                        candidate: widget.action,
-                        key: Key("${availableAction.name}${availableAction.description}${availableAction.service}"),
-                        description: availableAction.description!,
-                        name: availableAction.name,
-                        parameters: availableAction.parameters.map((param) {
-                          if (widget.action.service.name == serviceState!.name && widget.action.name == availableAction.name) {
-                            var previousParams = widget.action.parameters.where((element) => element.name == param.name);
-                            if (previousParams.isNotEmpty) {
-                              param.value = previousParams.first.value;
-                            }
-                          }
-                          return param;
-                        }).toList(),
-                        onValidate: (parameters) {
-                          widget.action.service = serviceState!;
-                          widget.action.parameters = ActionParameter.fromJSON(parameters);
-                          widget.action.name = availableAction.name;
-                          Navigator.of(context).pop();
-                        }),
-                  )),
-            ))),
+                highlightColor: Theme.of(context).colorScheme.secondary)
+          else ...[
+            for (ActionTemplate availableAction in availableActions!)
+              Card(
+                  elevation: 5,
+                  shape: cardShape,
+                  child: ExpandableNotifier(
+                      child: ScrollOnExpand(
+                    child: ExpandablePanel(
+                        header: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 30, top: 20, bottom: 20),
+                            child: Text(availableAction.displayName,
+                                style: const TextStyle(fontSize: 15))),
+                        collapsed: Container(),
+                        expanded: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: ActionForm(
+                              reactionsCandidates: widget.parentReactions,
+                              triggerCandidate: widget.parentTrigger,
+                              candidate: widget.action,
+                              key: Key(
+                                  "${availableAction.name}${availableAction.description}${availableAction.service}"),
+                              description: availableAction.description!,
+                              name: availableAction.name,
+                              parameters:
+                                  availableAction.parameters.map((param) {
+                                if (widget.action.service.name ==
+                                        serviceState!.name &&
+                                    widget.action.name ==
+                                        availableAction.name) {
+                                  var previousParams = widget.action.parameters
+                                      .where((element) =>
+                                          element.name == param.name);
+                                  if (previousParams.isNotEmpty) {
+                                    param.value = previousParams.first.value;
+                                  }
+                                }
+                                return param;
+                              }).toList(),
+                              onValidate: (parameters) {
+                                widget.action.service = serviceState!;
+                                widget.action.parameters =
+                                    ActionParameter.fromJSON(parameters);
+                                widget.action.name = availableAction.name;
+                                widget.action.displayName = availableAction.displayName;
+                                Navigator.of(context).pop();
+                              }),
+                        )),
+                  ))),
             const SizedBox(height: 10)
           ]
         ],
