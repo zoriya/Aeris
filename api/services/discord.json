@@ -161,7 +161,7 @@
 			"name": "Discord_OnDiscordGuildLeave",
 			"description": {
 				"en": "An event triggered when a member leaves a guild",
-				"fr": "Un évènement déclenché lorsqu'un membre qui un serveur"
+				"fr": "Un évènement déclenché lorsqu'un membre quitte un serveur"
 			},
 			"label": {
 				"en": "A member leaves a guild",
@@ -233,7 +233,7 @@
 					"type": "string",
 					"description": {
 						"en": "Body of the message to post",
-						"fr": "Corps du message à envoyer"
+						"fr": "Contenu du message à envoyer"
 					}
 				}
 			],
@@ -293,7 +293,7 @@
 			"name": "Discord_PostDiscordDM",
 			"description": {
 				"en": "Sends a message to a given user",
-				"fr": "Envois un message à un utilisateur donné"
+				"fr": "Envoie un message à un utilisateur donné"
 			},
 			"label": {
 				"en": "Send a direct message",
@@ -409,8 +409,8 @@
 		{
 			"name": "Discord_SetDiscordStatus",
 			"description": {
-				"en": "Leave given Discord server",
-				"fr": "Quitte le serveur Discord donné"
+				"en": "Set discord status",
+				"fr": "Change le status Discord"
 			},
 			"label": {
 				"en": "Set Discord status",
