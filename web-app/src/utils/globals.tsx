@@ -6,6 +6,7 @@ import {
 	AppPipelineType,
 	ImageProps,
 	AppServiceType,
+	AlertLevel,
 } from "./types";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
@@ -111,10 +112,9 @@ export const NewEmptyPipeline: AppPipelineType = {
 	action: NoAREA,
 	reactions: [],
 	data: {
+		alertLevel: AlertLevel.None,
 		enabled: true,
 		status: "",
-		errorText: "",
-		error: false,
 		triggerCount: 0,
 		lastTrigger: new Date(),
 	},

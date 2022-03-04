@@ -46,13 +46,20 @@ export interface AppAREAType {
 	service: AppServiceType;
 }
 
+export enum AlertLevel {
+	None = "none",
+	Info = "info",
+	Warning = "warning",
+	Error = "error",
+	Success = "success"
+}
+
 export interface AppPipelineInfoType {
 	enabled: boolean;
 	status: string;
-	error: boolean;
-	errorText: string;
 	triggerCount: number;
 	lastTrigger: Date;
+	alertLevel: AlertLevel
 }
 
 export interface AppPipelineType {

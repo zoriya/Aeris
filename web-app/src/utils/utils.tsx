@@ -1,7 +1,5 @@
-import { pipeline } from "stream";
-import { API_ROUTE } from "./globals";
-import { AppServices } from "./globals";
-import { AppAREAType, AppPipelineType, AppServiceType, ParamsType } from "./types";
+import { API_ROUTE, AppServices } from "./globals";
+import { AppAREAType, AppPipelineType, AppServiceType, ParamsType, AlertLevel } from "./types";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
 	const d = new Date();
@@ -157,11 +155,10 @@ export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
-			error: data.action.error !== null,
+			alertLevel: data.action.error !== null ? AlertLevel.Error : AlertLevel.None,
 			lastTrigger: new Date(),
 			triggerCount: data.action?.triggerCount ?? 0,
-			errorText: data.action.error !== null ? data.action.error + " un truc super long encore plus méga méga long" : "",
-			status: "reaction(s): " + reactionList.length,
+			status: data.action.error !== null ? data.action.error : "",
 		},
 	} as AppPipelineType;
 };

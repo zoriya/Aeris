@@ -8,8 +8,9 @@ import {
 	Avatar,
 	Stack,
 	Box,
+	Alert
 } from "@mui/material";
-import { AppPipelineType } from "../../utils/types";
+import { AppPipelineType, AlertLevel } from "../../utils/types";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
 import LoopIcon from "@mui/icons-material/Loop";
@@ -25,8 +26,9 @@ export interface PipelineSquareProps {
 
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
 	const { t } = useTranslation();
-	const backgroundColor = pipelineData.data.enabled ? (pipelineData.data.error ? "#ffdddd" : null) : "#464646";
-	const textColor = pipelineData.data.enabled ? (pipelineData.data.error ? "red" : null) : "#adadad";
+	const errorMode: boolean = pipelineData.data.alertLevel === AlertLevel.Error;
+	const backgroundColor = pipelineData.data.enabled ? (errorMode ? "#ffdddd" : null) : "#464646";
+	const textColor = pipelineData.data.enabled ? (errorMode ? "red" : null) : "#adadad";
 	return (
 		<Card
 			sx={{
@@ -125,7 +127,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 								WebkitBoxOrient: "vertical",
 								maxHeight: "3",
 							}}>
-							{pipelineData.data.enabled && pipelineData.data.error && pipelineData.data.errorText}
+							{pipelineData.data.enabled && errorMode && pipelineData.data.status}
 						</Typography>
 					</div>
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
