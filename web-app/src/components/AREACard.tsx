@@ -22,7 +22,7 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 							variant={"square"}
 						/>
 					}
-					title={<Typography variant="h5">{AREA.type}</Typography>}
+					title={<Typography variant="h5">{AREA.label[languageUid]}</Typography>}
 					subheader={AREA.description[languageUid]}
 				/>
 				{Object.keys(AREA.params).length > 0 || Object.keys(AREA.returns).length > 0 ? (
