@@ -14,7 +14,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:recase/recase.dart';
 
 /// Page to create a new pipeline
 class CreatePipelinePage extends StatefulWidget {
