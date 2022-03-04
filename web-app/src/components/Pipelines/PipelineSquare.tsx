@@ -8,7 +8,8 @@ import {
 	Avatar,
 	Stack,
 	Box,
-	Alert
+	Alert,
+	AlertColor,
 } from "@mui/material";
 import { AppPipelineType, AlertLevel } from "../../utils/types";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -18,6 +19,25 @@ import CableIcon from "@mui/icons-material/Cable";
 import { useTranslation } from "react-i18next";
 import "../../i18n/config";
 import "./PipelineSquare.css";
+
+/*
+<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
+						<Typography
+							align="left"
+							variant="body1"
+							style={{
+								lineHeight: "1.5em",
+								overflow: "hidden",
+								textOverflow: "ellipsis",
+								display: "-webkit-box",
+								WebkitLineClamp: "2",
+								WebkitBoxOrient: "vertical",
+								maxHeight: "3",
+							}}>
+							{pipelineData.data.enabled && errorMode && pipelineData.data.status}
+						</Typography>
+					</div>
+*/
 
 export interface PipelineSquareProps {
 	pipelineData: AppPipelineType;
@@ -114,22 +134,23 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 							{pipelineData.name}
 						</Typography>
 					</div>
-					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
-						<Typography
-							align="left"
-							variant="body1"
-							style={{
-								lineHeight: "1.5em",
-								overflow: "hidden",
-								textOverflow: "ellipsis",
-								display: "-webkit-box",
-								WebkitLineClamp: "2",
-								WebkitBoxOrient: "vertical",
-								maxHeight: "3",
-							}}>
-							{pipelineData.data.enabled && errorMode && pipelineData.data.status}
-						</Typography>
-					</div>
+					{pipelineData.data.alertLevel !== AlertLevel.None && (
+						<Alert
+							sx={{
+								gridArea: "PipelineStatus",
+								width: "100%",
+								"& .MuiAlert-message": {
+									width: "100%",
+									textOverflow: "ellipsis",
+									overflow: "hidden",
+									whiteSpace: "nowrap",
+								},
+							}}
+							severity={pipelineData.data.alertLevel as AlertColor}>
+							{pipelineData.data.status}
+						</Alert>
+					)}
+
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
 						<Stack direction={"row"} spacing={1}>
 							<Box sx={{ display: "flex", flexFlow: "row", alignItems: "center" }}>
