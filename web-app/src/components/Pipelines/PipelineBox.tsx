@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { borderRadius } from "@mui/system";
-import type { ImageProps } from "./../types";
+import { ImageProps } from "../../utils/types";
 
 interface PipelineBoxProps {
 	// title of the pipeline box

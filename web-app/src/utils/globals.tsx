@@ -1,4 +1,3 @@
-import { GenericButtonProps } from "../components/GenericButton";
 import {
 	AppAREAType,
 	ReactionTypeEnum,
@@ -8,8 +7,6 @@ import {
 	ImageProps,
 	AppServiceType,
 } from "./types";
-import MoreVert from "@mui/icons-material/MoreVert";
-import { generateRandomString } from "./utils";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
 
@@ -90,14 +87,6 @@ export const AppServices: Array<AppServiceType> = [
 
 export const NoAREA: AppAREAType = {
 	type: "WebFrontEndNoAREA",
-	params: {},
-	returns: {},
-	description: "There's nothing",
-	service: AppServices[0],
-};
-
-export const FakeAREA: AppAREAType = {
-	type: "Twiitersmth",
 	params: {},
 	returns: {},
 	description: "There's nothing",
