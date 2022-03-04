@@ -18,11 +18,12 @@ import Utils (UserAuth, AuthRes)
 import qualified Data.ByteString.Char8 as B8
 import Servant.Auth.Server (AuthResult(Authenticated))
 import System.Environment.MrEnv (envAsString)
+import Control.Monad.Trans.Maybe (MaybeT(runMaybeT))
 
 oauthHandler :: AuthRes -> Service -> Maybe String -> AppM NoContent
 oauthHandler _ _ Nothing = throwError err400
 oauthHandler (Authenticated (User uid _ _)) service (Just code) = do
-    tokens <- liftIO $ getOauthTokens service code
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
     case tokens of
         Nothing -> throwError err403 
         Just t -> do
@@ -57,7 +58,7 @@ urlHandler Twitter (Just r) = do
     clientId <- liftIO $ envAsString "TWITTER_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write users.read&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Spotify (Just r) = do
     clientId <- liftIO $ envAsString "SPOTIFY_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
