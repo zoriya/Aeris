@@ -51,6 +51,10 @@ class Service {
         url = "https://youtube.com",
         logoUrl =
             "https://play-lh.googleusercontent.com/lMoItBgdPPVDJsNOVtP26EKHePkwBg-PkuY9NOrc-fumRtTFP4XhpUNk_22syN4Datc";
+  const Service.utils()
+      : name = "Utils",
+        url = "",
+        logoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Cle.png/1024px-Cle.png";
 
   /// Returns a list of all the available services
   static all() => const [
@@ -59,6 +63,7 @@ class Service {
         Service.gmail(),
         Service.youtube(),
         Service.twitter(),
-        Service.spotify()
+        Service.spotify(),
+        Service.utils(),
       ];
 }
