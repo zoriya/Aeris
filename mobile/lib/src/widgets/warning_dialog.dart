@@ -45,7 +45,6 @@ class WarningDialog extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: actionButtonColor),
-                  //primary: Theme.of(context).colorScheme.error),
                 onPressed: () => {
                   Navigator.pop(context),
                   onAccept(),
