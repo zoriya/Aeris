@@ -3,37 +3,66 @@
 	"actions": [
 		{
 			"name": "Spotify_OnSpotifyAddToPlaylist",
-			"description": "Event triggered when a song is added to a Spotify playlist",
+			"description": {
+				"en": "Event triggered when a song is added to a Spotify playlist",
+				"fr": "Un évènement déclenché lorsqu'une musique est ajoutée à une playlist Spotify"
+			},
+			"label": {
+				"en": "Song added to playlist",
+				"fr": "Musique ajoutée à une playlist"
+			},
 			"params": [
 				{
 					"name": "playlistId",
 					"type": "string",
-					"description": "The Spotify ID of the playlist to watch"
+					"description": {
+						"en": "The Spotify ID of the playlist to watch",
+						"fr": "Identifiant de la playlist Spotify à regarder"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "ID of the added track"
+					"description": {
+						"en": "ID of the added track",
+						"fr": "Identifiant de la musique ajoutée"
+					}
 				},
 				{
 					"name": "NAME",
-					"description": "Name of the added track"
+					"description": {
+						"en": "Name of the added track",
+						"fr": "Nom de la musique ajoutée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Spotify_OnSpotifySaveToLibrary",
-			"description": "Event triggered when a song is added to a Spotify library",
+			"description": {
+				"en": "Event triggered when a song is added to your Spotify library",
+				"fr": "Un évènement déclenché lorsqu'une musique est ajoutée à votre librairie Spotify"
+			},
+			"label": {
+				"en": "Song added to Spotify library",
+				"fr": "Musique ajoutée à la librairie Spotify"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "ID of the added track"
+					"description": {
+						"en": "ID of the added track",
+						"fr": "Identifiant de la musique ajoutée"
+					}
 				},
 				{
 					"name": "NAME",
-					"description": "Name of the added track"
+					"description": {
+						"en": "Name of the added track",
+						"fr": "Nom de la musique ajoutée"
+					}
 				}
 			]
 		}
@@ -41,102 +70,178 @@
 	"reactions": [
 		{
 			"name": "Spotify_PlayTrack",
-			"description": "Play a track",
+			"description": {
+				"en": "Play a track",
+				"fr": "Joue une musique"
+			},
+			"label": {
+				"en": "Play a track",
+				"fr": "Joue une musique"
+			},
 			"params": [
 				{
 					"name": "artist",
 					"type": "string",
-					"description": "Artist of the song to play"
+					"description": {
+						"en": "Artist of the song to play",
+						"fr": "Interprète de la musique à jouer"
+					}
 				},
 				{
 					"name": "track",
 					"type": "string",
-					"description": "Title of the song to play"
+					"description": {
+						"en": "Title of the song to play",
+						"fr": "Titre de la musique à jouer"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "URL",
-					"description": "URL of the song"
+					"description": {
+						"en": "URL of the song",
+						"fr": "URL de la musique"
+					}
 				},
 				{
 					"name": "ARTIST",
-					"description": "Artist of the song"
+					"description": {
+						"en": "Artist of the song",
+						"fr": "Interprête de la musique"
+					}
 				},
 				{
 					"name": "TRACK",
-					"description": "Title of the song"
+					"description": {
+						"en": "Title of the song",
+						"fr": "Titre de la musique"
+					}
 				}
 			]
 		},
 		{
 			"name": "Spotify_Pause",
-			"description": "Pause play",
+			"description": {
+				"en": "Pause the currently playing music",
+				"fr": "Mets la musique en cours de lecture en pause"
+			},
+			"label": {
+				"en": "Pause play",
+				"fr": "Mets pause"
+			},
 			"params": [],
 			"returns": []
 		},
 		{
 			"name": "Spotify_AddTrackToLibrary",
-			"description": "Add a track to library",
+			"description": {
+				"en": "Add a track to library",
+				"fr": "Ajoute une musique à votre librarie"
+			},
+			"label": {
+				"en": "Add a track to library",
+				"fr": "Ajoute une musique à votre librarie"
+			},
 			"params": [
 				{
 					"name": "artist",
 					"type": "string",
-					"description": "Artist of the song to add"
+					"description": {
+						"en": "Artist of the song to add",
+						"fr": "Interprète de la musique à ajouter"
+					}
 				},
 				{
 					"name": "track",
 					"type": "string",
-					"description": "Title of the song to add"
+					"description": {
+						"en": "Title of the song to add",
+						"fr": "Titre de la musique à ajouter"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "URL",
-					"description": "URL of the added song"
+					"description": {
+						"en": "URL of the added song",
+						"fr": "URL de la musique ajoutée"
+					}
 				},
 				{
 					"name": "ARTIST",
-					"description": "Artist of the added song"
+					"description": {
+						"en": "Artist of the added song",
+						"fr": "Interprète de la musique ajoutée"
+					}
 				},
 				{
 					"name": "TRACK",
-					"description": "Title of the added song"
+					"description": {
+						"en": "Title of the added song",
+						"fr": "Titre de la musique ajoutée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Spotify_AddToPlaylist",
-			"description": "Add a track to a playlist",
+			"description": {
+				"en": "Add a track to a given playlist",
+				"fr": "Ajoute une musique à une playlist donnée"
+			},
+			"label": {
+				"en": "Add a song to a playlist",
+				"fr": "Ajoute une musique à une playlist"
+			},
 			"params": [
 				{
 					"name": "artist",
 					"type": "string",
-					"description": "Artist of the song to add"
+					"description": {
+						"en": "Artist of the song to add",
+						"fr": "Interprète de la musique à ajouter"
+					}
 				},
 				{
 					"name": "track",
 					"type": "string",
-					"description": "Title of the song to add"
+					"description": {
+						"en": "Title of the song to add",
+						"fr": "Titre de la musique à ajouter"
+					}
 				},
 				{
 					"name": "playlist",
 					"type": "string",
-					"description": "Name of the playlist"
+					"description": {
+						"en": "Name of the playlist",
+						"fr": "Nom de la playlist dans laquelle ajouter la musique"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "URL",
-					"description": "URL of the added song"
+					"description": {
+						"en": "URL of the added song",
+						"fr": "URL de la musique ajoutée"
+					}
 				},
 				{
 					"name": "ARTIST",
-					"description": "Artist of the added song"
+					"description": {
+						"en": "Artist of the added song",
+						"fr": "Interprète de la musique ajoutée"
+					}
 				},
 				{
 					"name": "TRACK",
-					"description": "Title of the added song"
+					"description": {
+						"en": "Title of the added song",
+						"fr": "Titre de la musique ajoutée"
+					}
 				}
 			]
 		}
