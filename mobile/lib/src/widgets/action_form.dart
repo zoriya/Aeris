@@ -6,15 +6,22 @@ import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:recase/recase.dart';
 import 'package:tuple/tuple.dart';
 
+class Suggestion extends Tuple3<int, ActionParameter, ActionTemplate> {
+  Suggestion(int item1, ActionParameter item2, ActionTemplate item3) : super(item1, item2, item3);
 
-typedef Suggestion = Tuple3<int, ActionParameter, ActionTemplate>;
+  // Overriding show method
+   
+  @override
+  String toString() {
+    return "{${item2.name}@$item1}";
+  }
+}
 
 /// Form for an action
 class ActionForm extends StatefulWidget {
@@ -111,20 +118,8 @@ class _ActionFormState extends State<ActionForm> {
 
               ),
               optionsBuilder: (suggestion) => getSuggestions(suggestion.text, catalogue),
-              // onSelected: (suggestion) {
-              //   var parameterSuggestion = suggestion;
-              //   String content = _formKey.currentState!.value[param.name];
-              //   print(content);
-              //   content = "{${parameterSuggestion.item2}@${parameterSuggestion.item1}}";
-              //   print(content);
-              // },
-              displayStringForOption: (suggestion) {
-                var parameterSuggestion = suggestion;
-                String content = _formKey.currentState!.value[param.name];
-                print(content);
-                content = "{${parameterSuggestion.item2}@${parameterSuggestion.item1}}";
-                print(content);
-                return content;
+              onSelected: (suggestion) {
+                print(suggestion);
               },
               optionsViewBuilder: (context, onSelected, inputs) => Align(
                 alignment: Alignment.topLeft,
@@ -134,7 +129,7 @@ class _ActionFormState extends State<ActionForm> {
                   ),
                   child: SizedBox(
                     height: 60.0 * inputs.length,
-                    width: MediaQuery. of(context). size. width * 0.7, // <-- Right here !
+                    width: MediaQuery. of(context). size. width * 0.7,
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: inputs.length,
