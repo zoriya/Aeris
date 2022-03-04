@@ -42,5 +42,6 @@
     "invalidUrl": "URL invalide",
     "tryToConnect": "Tester la connection",
     "routeToApi": "Route de l'API",
-    "setupAPIRoute": "Choisir la route de l'API"
+    "setupAPIRoute": "Choisir la route de l'API",
+    "paramInheritTip": "Afin d'hériter de variables venant d'action précedents, entrez '{' dans un champ et choisissez la valeur"
 }

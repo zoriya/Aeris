@@ -42,5 +42,6 @@
     "invalidUrl": "Invalid URL",
     "tryToConnect": "Try to connect",
     "routeToApi": "Route to API",
-    "setupAPIRoute": "Setup API Route"
+    "setupAPIRoute": "Setup API Route",
+    "paramInheritTip": "To inherit parameters from previous action, type '{' in the text field and tap on the choosen parameter"
 }
