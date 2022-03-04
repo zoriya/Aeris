@@ -87,7 +87,7 @@ export const deSerializeAREA = (dumpAREA: any, service: AppServiceType): AppAREA
 };
 
 export const deSerializeService = (dumpService: any, services: Array<AppServiceType>): Array<Array<AppAREAType>> => {
-	let service: AppServiceType = services.filter((el) => el.uid === dumpService.name.toLowerCase())[0] ?? services[0];
+	let service: AppServiceType = services.find((el) => el.uid === dumpService.name.toLowerCase()) ?? services[0];
 
 	let actions: Array<AppAREAType> = dumpService.actions.map((el: any) => deSerializeAREA(el, service));
 	let reactions: Array<AppAREAType> = dumpService.reactions.map((el: any) => deSerializeAREA(el, service));

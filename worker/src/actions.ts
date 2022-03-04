@@ -52,7 +52,7 @@ export class Manager {
 	}
 
 	handlePipelineError(pipeline: Pipeline, error: Error): Observable<never> {
-		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type.toString()}).`, error)
+		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type?.toString()}).`, error)
 		fetch(`${process.env["WORKER_API_URL"]}/error/${pipeline.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
 			method: "POST",
 			body: JSON.stringify({error}),

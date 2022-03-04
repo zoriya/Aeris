@@ -38,6 +38,10 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 		imageSrc: "https://anilist.co/img/icons/safari-pinned-tab.svg",
 		altText: "AniList logo",
 	},
+	utils: {
+		imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Cle.png/1024px-Cle.png",
+		altText: "Utils logo",
+	},
 };
 
 const getServiceUrl = (service: string) =>
@@ -84,6 +88,13 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "anilist",
 		logo: AppServicesLogos["anilist"],
 		urlAuth: getServiceUrl("anilist"),
+		linked: false,
+	},
+	{
+		label: "Utils",
+		uid: "utils",
+		logo: AppServicesLogos["utils"],
+		urlAuth: "",
 		linked: false,
 	},
 ];

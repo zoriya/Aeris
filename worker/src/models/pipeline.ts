@@ -111,6 +111,7 @@ export class PipelineEnv {
 
 export const pipelineFromApi = (data: any): Pipeline => {
 	const type: string = data.res.action.pType;
+	console.log("type::", type);
 	return {
 		id: data.res.action.id,
 		name: data.res.action.name,

@@ -15,6 +15,7 @@ export interface ServiceSetupProps {
 
 export default function ServiceSetupModal({ services }: ServiceSetupProps) {
 	const { t } = useTranslation();
+	services = services.filter(x => x.uid !== "utils");
 	const unlinkedServices = services.filter(el => !el.linked);
 	const linkedServices = services.filter(el => el.linked);
 	return (
