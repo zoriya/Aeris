@@ -47,7 +47,7 @@ urlHandler Discord (Just r) = do
     clientId <- liftIO $ envAsString "DISCORD_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify%20guilds%20messages.read%20activities.write%20webhook.incoming&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
 urlHandler Google  (Just r) = do
     clientId <- liftIO $ envAsString "GOOGLE_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
