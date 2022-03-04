@@ -34,5 +34,6 @@
   "switch_to_english": "English",
   "pipeline_error_prefix": "Error: ",
   "pipeline_layout_pipeline_section_title": "My pipelines",
-  "pipeline_layout_disable_pipeline_section_title": "Disabled pipelines"
+  "pipeline_layout_disable_pipeline_section_title": "Disabled pipelines",
+  "pipeline_edit_params_info_text": "You can use the residuals variables from previous reactions by typing {PARAMETER_NAME@REACTION_ID}."
 }
