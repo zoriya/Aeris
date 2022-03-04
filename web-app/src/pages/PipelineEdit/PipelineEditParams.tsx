@@ -1,7 +1,7 @@
 import { AppPipelineType, AppAREAType, ParamsType } from "../../utils/types";
 import { Grid, TextField, Typography, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Save } from "@mui/icons-material";
+import {Help, Save} from "@mui/icons-material";
 import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
@@ -24,6 +24,10 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 				'{AREA.type}' {t('parameters')}
 			</Typography>
 			<Stack>
+				<Typography variant="body2" sx={{ alignItems: 'center', margin: 2 }} fontStyle="italic" lineHeight={1.75}>
+					<Help sx={{ marginRight: 1 }} fontSize="small" />
+					{'You can use the previous reactions parameters by typing {PARAMETER_NAME@REACTION_ID}.'}
+				</Typography>
 				{Object.entries(AREA.params).map((param, key) => {
 					return (
 						<TextField
