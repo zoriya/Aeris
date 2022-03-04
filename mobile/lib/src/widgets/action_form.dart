@@ -86,8 +86,6 @@ class _ActionFormState extends State<ActionForm> {
       }
       index++;
     }
-    print(index);
-    suggestions.forEach((element) => print(element.item2.name));
     return suggestions;
   }
 
@@ -111,6 +109,7 @@ class _ActionFormState extends State<ActionForm> {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(context),
                   ]),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     labelText: ReCase(param.name).titleCase,
                     helperText: param.description
@@ -118,9 +117,7 @@ class _ActionFormState extends State<ActionForm> {
 
               ),
               optionsBuilder: (suggestion) => getSuggestions(suggestion.text, catalogue),
-              onSelected: (suggestion) {
-                print(suggestion);
-              },
+              onSelected: (suggestion) {},
               optionsViewBuilder: (context, onSelected, inputs) => Align(
                 alignment: Alignment.topLeft,
                 child: Material(
