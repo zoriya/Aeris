@@ -53,7 +53,7 @@
 		    <key>CFBundleTypeRole</key>
 		    <string>Editor</string>
 		    <key>CFBundleURLName</key>
-	    	<string>aeris.com</string>
+	    	<string>arthichaud.me</string>
 	    	<key>CFBundleURLSchemes</key>
 	    	<array>
 	    		<string>aeris</string>

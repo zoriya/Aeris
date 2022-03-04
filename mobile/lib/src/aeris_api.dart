@@ -37,8 +37,8 @@ class AerisAPI {
 
   late final String deepLinkRoute;
 
-  String _baseRoute = GetIt.I<SharedPreferences>().getString('api') 
-    ?? "http://localhost:8080";
+  String _baseRoute =
+      GetIt.I<SharedPreferences>().getString('api') ?? "http://localhost:8080";
   String get baseRoute => _baseRoute;
   set baseRoute(value) => _baseRoute = value;
 
@@ -47,7 +47,7 @@ class AerisAPI {
     if (Platform.isIOS) {
       scheme = "aeris";
     }
-    deepLinkRoute = "$scheme://aeris.com";
+    deepLinkRoute = "$scheme://arthichaud.me";
   }
 
   /// Name of the file that contains the JWT used for Aeris' API requestd
@@ -207,27 +207,40 @@ class AerisAPI {
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
-          return await http.delete(_encoreUri(route),
-              body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .delete(_encoreUri(route),
+                  body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.get:
           return await http.get(_encoreUri(route), headers: header).timeout(
             duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.post:
-          return await http.post(_encoreUri(route), body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .post(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
         case AerisAPIRequestType.put:
-          return await http.put(_encoreUri(route), body: jsonEncode(body), headers: header).timeout(duration,
+          return await http
+              .put(_encoreUri(route), body: jsonEncode(body), headers: header)
+              .timeout(
+            duration,
             onTimeout: () {
               return http.Response('Error', 408);
-            },);
+            },
+          );
       }
     } catch (e) {
       return http.Response('{}', 400);
