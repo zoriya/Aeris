@@ -19,6 +19,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { PipelineEditMode } from "./PipelineEditPage";
 import { PipelineAREACard } from "../../components/PipelineAREACard";
+import { deepCopy } from "../../utils/utils";
 
 import { useTranslation } from "react-i18next";
 import "../../i18n/config";
@@ -60,13 +61,12 @@ export default function PipelineEditPipeline({
 	const [titleEditMode, setTitleEditMode] = useState<boolean>(false);
 	const [reactionsList, setReactionList] = useState<AppAREAType[]>(pipelineData.reactions);
 	const [titlePipelineEditValue, setTitlePipelineEditValue] = useState<string>(pipelineData.name);
-	const [switchLabel, setSwitchLabel] = useState<string>(pipelineData.data.enabled ? t("activated") : t("deactivated"));
 
 	const handleOnDragEnd = (result: DropResult) => {
 		const { source, destination } = result;
 
 		if (!destination) return;
-		const items = Array.from(reactionsList);
+		const items = deepCopy(reactionsList);
 		const [newOrder] = items.splice(source.index, 1);
 		items.splice(destination.index, 0, newOrder);
 		setReactionList(items);
@@ -120,16 +120,14 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
-								defaultChecked={pipelineData.data.enabled}
 								color="secondary"
 								checked={pipelineData.data.enabled}
 								onChange={(e) => {
 									handleEditPipelineMetaData(pipelineData.name, e.target.checked);
-									setSwitchLabel(e.target.checked ? t("activated") : t("deactivated"));
 								}}
 							/>
 						}
-						label={switchLabel}
+						label={t(pipelineData.data.enabled ? "activated" : "deactivated") as string}
 					/>
 				</FormGroup>
 
@@ -181,7 +179,7 @@ export default function PipelineEditPipeline({
 					style={{
 						width: "100%",
 						overflow: "auto",
-						height: "50vh",
+						maxHeight: "50vh",
 						gridArea: "reactionData",
 						padding: "10px",
 					}}>
@@ -207,7 +205,7 @@ export default function PipelineEditPipeline({
 										{reactionsList.map((el, index, arr) => {
 											return (
 												<Draggable key={index.toString()} draggableId={index.toString()} index={index}>
-													{(provided, snapshot) => (
+													{(providedDrag, snapshot) => (
 														<Grid
 															item
 															sm={10}
@@ -216,9 +214,9 @@ export default function PipelineEditPipeline({
 															lg={5}
 															xl={4}
 															key={index}
-															ref={provided.innerRef}
-															{...provided.draggableProps}
-															{...provided.dragHandleProps}>
+															ref={providedDrag.innerRef}
+															{...providedDrag.draggableProps}
+															{...providedDrag.dragHandleProps}>
 															<PipelineAREACard
 																AREA={el}
 																order={index + 1}
@@ -238,6 +236,7 @@ export default function PipelineEditPipeline({
 												</Draggable>
 											);
 										})}
+										{provided.placeholder}
 									</div>
 								)}
 							</Droppable>
