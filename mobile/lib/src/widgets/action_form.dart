@@ -121,16 +121,16 @@ class _ActionFormState extends State<ActionForm> {
               optionsViewBuilder: (context, onSelected, inputs) => Align(
                 alignment: Alignment.topLeft,
                 child: Material(
+                  elevation: 6,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   child: SizedBox(
-                    height: 60.0 * inputs.length,
                     width: MediaQuery. of(context). size. width * 0.7,
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: inputs.length,
-                      shrinkWrap: false,
+                      shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
                         Suggestion suggestion = inputs.elementAt(index);
                         return ListTile(
