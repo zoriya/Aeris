@@ -95,7 +95,7 @@ class _ActionFormState extends State<ActionForm> {
     return suggestions;
   }
 
-  Map<String, String> values = {};
+  final Map<String, String> values = {};
 
   @override
   Widget build(BuildContext context) {
