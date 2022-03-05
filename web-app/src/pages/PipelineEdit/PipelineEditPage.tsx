@@ -42,7 +42,7 @@ export default function PipelineEditPage({
 	const [editReactionData, setEditReactionData] = useState<AppAREAType | undefined>();
 	const [editReactionIndex, setEditReactionIndex] = useState<number>(0);
 
-	//const changeEditPipeline = (pD: AppPipelineType) => lintPipeline(pD, services);
+	const changeEditPipeline = (pD: AppPipelineType) => setEditPipelineData(lintPipeline(pD, services));
 
 	switch (mode) {
 		default:
@@ -51,20 +51,20 @@ export default function PipelineEditPage({
 				<PipelineEditPipeline
 					disableDeletion={disableDeletion}
 					handleEditReactionOrder={(new_reas) =>
-						setEditPipelineData({
+						changeEditPipeline({
 							...editPipelineData,
 							reactions: new_reas,
 						})
 					}
 					pipelineData={editPipelineData}
 					handleEditPipelineTitle={(newTtitle) =>
-						setEditPipelineData({
+						changeEditPipeline({
 							...editPipelineData,
 							name: newTtitle,
 						})
 					}
 					handleEditPipelineMetaData={(name, enabled) => {
-						setEditPipelineData({
+						changeEditPipeline({
 							...editPipelineData,
 							name: name,
 							data: {
@@ -85,7 +85,7 @@ export default function PipelineEditPage({
 					handleDeleteReaction={(reaction, index) => {
 						let reactionsTmp = editPipelineData.reactions;
 						reactionsTmp.splice(index, 1);
-						setEditPipelineData({
+						changeEditPipeline({
 							...editPipelineData,
 							reactions: reactionsTmp,
 						});
@@ -108,7 +108,7 @@ export default function PipelineEditPage({
 						setEditMode={setMode}
 						isActions={true}
 						setAREA={(AREA: AppAREAType) => {
-							setEditPipelineData({
+							changeEditPipeline({
 								...editPipelineData,
 								action: AREA,
 							});
@@ -133,7 +133,7 @@ export default function PipelineEditPage({
 						setAREA={(AREA: AppAREAType) => {
 							let reactionsTmp = editPipelineData.reactions;
 							reactionsTmp[editReactionIndex] = AREA;
-							setEditPipelineData({
+							changeEditPipeline({
 								...editPipelineData,
 								reactions: reactionsTmp,
 							});
@@ -156,7 +156,7 @@ export default function PipelineEditPage({
 						setEditMode={setMode}
 						isActions={true}
 						setAREA={(AREA: AppAREAType) => {
-							setEditPipelineData({
+							changeEditPipeline({
 								...editPipelineData,
 								action: AREA,
 							});
@@ -182,7 +182,7 @@ export default function PipelineEditPage({
 						setAREA={(AREA: AppAREAType) => {
 							let reactionsTmp = editPipelineData.reactions;
 							reactionsTmp[editReactionIndex] = AREA;
-							setEditPipelineData({
+							changeEditPipeline({
 								...editPipelineData,
 								reactions: reactionsTmp,
 							});

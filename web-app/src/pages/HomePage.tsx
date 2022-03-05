@@ -113,7 +113,9 @@ export default function HomePage() {
 		if (AREAs[0].length === 0 && AREAs[1].length === 0) return;
 		fetchWorkflows()
 			.then((workflows) => {
-				setPipelinesData(workflows.map((workflow: any) => deSerializePipeline(workflow, AREAs)));
+				setPipelinesData(
+					workflows.map((workflow: any) => lintPipeline(deSerializePipeline(workflow, AREAs), servicesData))
+				);
 			})
 			.catch((error) => {
 				console.warn(error);

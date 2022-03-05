@@ -59,6 +59,7 @@ const getAlert = (alertLvl: AlertLevel, text: string, enabled: boolean) => {
 					textOverflow: "ellipsis",
 					overflow: "hidden",
 					whiteSpace: "nowrap",
+					textAlign: "start",
 				},
 			}}
 			severity={alertLvl as AlertColor}>

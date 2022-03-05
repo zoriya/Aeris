@@ -132,8 +132,6 @@ export const deSerializeApiPipelineAction = (data: any, actions: Array<AppAREATy
 export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
 	const refReaction = reactions.filter((el) => el.type === data.rType);
 
-	console.log(data);
-
 	let params: { [key: string]: ParamsType } = refReaction[0].params;
 	Object.entries(data.rParams as { [key: string]: string }).forEach((paramData) => {
 		if (!(paramData[0] in params)) return;
@@ -148,7 +146,6 @@ export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAR
 
 export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
-	console.log(AREAs);
 	for (const reaction of data.reactions) {
 		reactionList.push(deSerializeApiPipelineReaction(reaction, AREAs[1]));
 	}
@@ -265,12 +262,12 @@ export const doesPipelineUseService = (pD: AppPipelineType, service: AppServiceT
 };
 
 export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType>): AppPipelineType => {
-	const { t } = useTranslation();
+	//const { t } = useTranslation();
 	for (const svc of services) {
 		if (!svc.linked && doesPipelineUseService(pD, svc)) {
 			pD.data.alertLevel = AlertLevel.Warning;
-			pD.data.status =
-				t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
+			pD.data.status = "warning";
+			//	t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
 		}
 	}
 	return pD;
