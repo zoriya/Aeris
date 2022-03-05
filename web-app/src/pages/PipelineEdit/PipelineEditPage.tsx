@@ -1,5 +1,5 @@
 import { AlertLevel, AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types";
-import { lintPipeline } from "../../utils/utils";
+import { lintPipeline, deepCopy } from "../../utils/utils";
 import { useState } from "react";
 import PipelineModal from "../../components/Pipelines/PipelineModal";
 
@@ -36,6 +36,7 @@ export default function PipelineEditPage({
 	disableDeletion,
 	handleQuit,
 }: PipelineEditProps) {
+	pipelineData = deepCopy(pipelineData);
 	const [mode, setMode] = useState<PipelineEditMode>(PipelineEditMode.Pipeline);
 	const [editPipelineData, setEditPipelineData] = useState<AppPipelineType>(pipelineData);
 	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);

@@ -21,6 +21,7 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 	AREA = deepCopy(AREA);
 	console.log(AREA);
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>(AREA.params);
+	console.log("formData", formData);
 	const { t } = useTranslation();
 	const languageUid = i18next.resolvedLanguage;
 
@@ -34,7 +35,7 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 					sx={{
 						"& .MuiAlert-message": {
 							width: "100%",
-							fontSize: 12
+							fontSize: 12,
 						},
 					}}
 					severity="info">
