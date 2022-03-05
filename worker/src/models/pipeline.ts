@@ -5,6 +5,7 @@ export enum ServiceType {
 	Spotify,
 	Discord,
 	Anilist,
+	Utils,
 };
 
 
@@ -35,6 +36,8 @@ export enum PipelineType {
 	OnDiscordMention,
 	OnNewDiscordGuildMember,
 	OnDiscordGuildLeave,
+
+	OnTrigger,
 };
 
 export enum ReactionType {
@@ -93,7 +96,7 @@ export class Pipeline {
 export class Token {
 	accessToken: string;
 	refreshToken: string;
-	expiresIn: string;
+	expiresAt: string;
 };
 
 export class Reaction {
@@ -108,6 +111,7 @@ export class PipelineEnv {
 
 export const pipelineFromApi = (data: any): Pipeline => {
 	const type: string = data.res.action.pType;
+	console.log("type::", type);
 	return {
 		id: data.res.action.id,
 		name: data.res.action.name,
@@ -128,7 +132,7 @@ export const pipelineFromApi = (data: any): Pipeline => {
 			{
 				accessToken: x.accessToken,
 				refreshToken: x.refreshToken,
-				expiresIn: x.expiresIn
+				expiresAt: x.expiresAt
 			} as Token
 		])),
 	};

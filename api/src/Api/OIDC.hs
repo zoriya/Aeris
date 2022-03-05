@@ -40,34 +40,35 @@ urlHandler :: Service -> Maybe String -> AppM NoContent
 urlHandler _ Nothing = throwError err400
 urlHandler Anilist (Just r) = do
     clientId <- liftIO $ envAsString "ANILIST_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://anilist.co/api/v2/oauth/authorize?client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://anilist.co/api/v2/oauth/authorize?client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Discord (Just r) = do
     clientId <- liftIO $ envAsString "DISCORD_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify%20guilds%20messages.read%20activities.write%20webhook.incoming&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify%20guilds%20messages.read%20activities.write%20webhook.incoming&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Google  (Just r) = do
     clientId <- liftIO $ envAsString "GOOGLE_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/youtube.force-ssl&access_type=offline&prompt=consent&include_granted_scopes=true&response_type=code&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/youtube.force-ssl&access_type=offline&prompt=consent&include_granted_scopes=true&response_type=code&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Twitter (Just r) = do
     clientId <- liftIO $ envAsString "TWITTER_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Spotify (Just r) = do
     clientId <- liftIO $ envAsString "SPOTIFY_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read user-library-modify streaming playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-modify-playback-state user-read-private&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] }
+
 urlHandler Github  (Just r) = do
     clientId <- liftIO $ envAsString "GITHUB_CLIENT_ID" ""
-    backRedirect <- liftIO $ envAsString "BACK_REDIRECT_URL" ""
+    backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://github.com/login/oauth/authorize?response_type=code&scope=repo&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://github.com/login/oauth/authorize?response_type=code&scope=repo&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 
 servicesHandler :: AuthRes -> AppM [String]
 servicesHandler (Authenticated (User uid name slug)) = do

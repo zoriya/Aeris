@@ -33,7 +33,7 @@ lookupObjString obj key = case Data.HashMap.Strict.lookup key obj of
 
 lookupObjInt :: Object -> Text -> Maybe Int64
 lookupObjInt obj key = case Data.HashMap.Strict.lookup key obj of
-    Just (Number x) -> toBoundedInteger $ x
+    Just (Number x) -> toBoundedInteger x
     _ -> Nothing
 
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d

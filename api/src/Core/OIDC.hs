@@ -6,13 +6,14 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
+import Core.User (ExternalToken (ExternalToken, expiresAt), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
-import Utils (lookupObjString)
+import Utils (lookupObjString, lookupObjInt)
 import Data.ByteString.Base64
+import Data.Time (getCurrentTime, addUTCTime)
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
     , oauthClientSecret :: String
@@ -55,11 +56,12 @@ getGithubTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
-            Just $ ExternalToken (pack access) "" 0 Github
+            Just $ ExternalToken (pack access) "" currTime Github
 
 -- DISCORD
 getDiscordConfig :: IO OAuth2Conf
@@ -86,12 +88,15 @@ getDiscordTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Discord
+            expiresIn <- lookupObjInt obj "expires_in"
+            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Discord
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -118,12 +123,15 @@ getGoogleTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Google
+            expiresIn <- lookupObjInt obj "expires_in"
+            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Google
 
 -- SPOTIFY
 getSpotifyConfig :: IO OAuth2Conf
@@ -151,12 +159,15 @@ getSpotifyTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Spotify
+            expiresIn <- lookupObjInt obj "expires_in"
+            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Spotify
 
 -- TWITTER
 getTwitterConfig :: IO OAuth2Conf
@@ -184,12 +195,15 @@ getTwitterTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Twitter
+            expiresIn <- lookupObjInt obj "expires_in"
+            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Twitter
 
 -- ANILIST
 getAnilistConfig :: IO OAuth2Conf
@@ -216,12 +230,15 @@ getAnilistTokens code = do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     return $ case (getResponseBody response :: Either JSONException Object) of
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
             refresh <- lookupObjString obj "refresh_token"
-            Just $ ExternalToken (pack access) (pack refresh) 0 Anilist
+            expiresIn <- lookupObjInt obj "expires_in"
+            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Anilist
 
 
 

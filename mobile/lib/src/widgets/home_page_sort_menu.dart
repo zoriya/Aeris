@@ -50,7 +50,6 @@ class HomePageSortMenu extends StatelessWidget {
             value: !split),
       ],
       onSelected: (sortingMethod) {
-        /// TODO: not clean
         if (sortingMethod is bool) {
           collectionProvider.splitDisabled = sortingMethod;
         } else {

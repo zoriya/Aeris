@@ -6,16 +6,18 @@ import { GraphQLClient, gql } from 'graphql-request'
 export class Anilist extends BaseService {
 	private _client: GraphQLClient;
 
-	constructor(_: Pipeline) {
+	constructor(pipeline: Pipeline) {
 		super();
-		this._client = new GraphQLClient("https://graphql.anilist.co/");
+		this._client = new GraphQLClient("https://graphql.anilist.co/")
+			.setHeader("Authorization", `Bearer ${pipeline.userData["Anilist"].accessToken}`);
 	}
 	
 	@reaction(ReactionType.UpdateAbout, ["about"])
 	async updateAbout(params: any): Promise<PipelineEnv> {
 		await this._client.request(gql`
-			mutation($about: Int) {
+			mutation($about: String) {
 				UpdateUser(about: $about){
+					id
 				}
 			}
 		`, {
@@ -24,15 +26,20 @@ export class Anilist extends BaseService {
 		return {};
 	}
 
-	@reaction(ReactionType.ToggleFavourite, ["animeId"])
+	@reaction(ReactionType.ToggleFavourite, ["animeID"])
 	async toggleFavourite(params: any): Promise<PipelineEnv> {
 		await this._client.request(gql`
 			mutation($animeId: Int) {
-				ToggleFavourite(animeId: $animeId){
+				ToggleFavourite(animeId: $animeId) {
+					anime(page: 1, perPage: 0) {
+						nodes {
+							id
+						}
+					}
 				}
 			}
 		`, {
-			animeId: params.animeId,
+			animeId: params.animeID,
 		});
 		return {};
 	}

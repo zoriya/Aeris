@@ -1,5 +1,7 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
+import 'package:aeris/src/providers/services_provider.dart';
+import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
@@ -28,7 +30,8 @@ class PipelineDetailPage extends StatefulWidget {
 class _PipelineDetailPageState extends State<PipelineDetailPage> {
   @override
   Widget build(BuildContext context) =>
-      Consumer<PipelineProvider>(builder: (context, provider, _) {
+    Consumer<ServiceProvider>(builder: (context, services, _) {
+      return Consumer<PipelineProvider>(builder: (context, provider, _) {
         Pipeline pipeline = widget.pipeline;
 
         final cardHeader = Row(
@@ -67,11 +70,24 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         width: 60,
                         value: pipeline.enabled,
                         onToggle: (value) {
-                          setState(() {
-                            pipeline.enabled = !pipeline.enabled;
-                            GetIt.I<AerisAPI>().editPipeline(pipeline);
-                            provider.sortPipelines();
-                          });
+                          if (!pipeline.enabled && services.disconnectedServices.any(
+                            (service) => pipeline.dependsOn(service))
+                          ) {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => WarningDialog(
+                                message: AppLocalizations.of(context).cantEnablePipeline,
+                                onAccept: () => showAerisCardPage(context, (_) => const ServicePage()),
+                                actionButtonColor: Theme.of(context).colorScheme.secondaryContainer,
+                                warnedAction: AppLocalizations.of(context).connectService)
+                            );
+                          } else {
+                            setState(() {
+                              pipeline.enabled = !pipeline.enabled;
+                              GetIt.I<AerisAPI>().editPipeline(pipeline);
+                              provider.sortPipelines();
+                            });
+                          }
                         },
                       ),
                     ),
@@ -95,8 +111,12 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             onTap: () {
               Reaction newreaction = Reaction.template();
               showAerisCardPage(
-                      context, (_) => SetupActionPage(action: newreaction))
-                  .then((r) {
+                  context,
+                  (_) => SetupActionPage(
+                        action: newreaction,
+                        parentTrigger: pipeline.trigger,
+                        parentReactions: pipeline.reactions,
+                      )).then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
                     pipeline.reactions.add(newreaction);
@@ -135,9 +155,11 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: pipeline.trigger.name,
+                title: pipeline.trigger.displayName,
                 trailing: ActionCardPopupMenu(
                     deletable: false,
+                    parentTrigger: pipeline.trigger,
+                    parentReactions: pipeline.reactions,
                     action: pipeline.trigger,
                     then: () {
                       setState(() {});
@@ -147,13 +169,15 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ReorderableReactionCardsList(
-              onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
-              reactionList: pipeline.reactions,
-              itemBuilder: (reaction) => ActionCard(
+                onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
+                reactionList: pipeline.reactions,
+                itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.name,
+                      title: reaction.displayName,
                       trailing: ActionCardPopupMenu(
+                          parentTrigger: pipeline.trigger,
+                          parentReactions: pipeline.reactions,
                           deletable: pipeline.reactions.length > 1,
                           action: reaction,
                           then: () {
@@ -165,8 +189,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                             setState(() {});
                             GetIt.I<AerisAPI>().editPipeline(pipeline);
                           }),
-                    )
-            ),
+                    )),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),
@@ -177,4 +200,5 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           ]),
         ));
       });
+    });
 }

@@ -79,6 +79,7 @@ export default function HomePage() {
 			return setModalMode(ModalSelection.None);
 		}
 	};
+
 	useEffect(() => {
 		getAboutJson()
 			.then((aboutInfoParam) => {
