@@ -29,7 +29,7 @@ import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Trans.Maybe (MaybeT(runMaybeT))
 import Core.OIDC ( getOauthTokens )
 import Data.Aeson (FromJSON, ToJSON)
-import Db.User (User', UserDB (UserDB), password, toUser)
+import Db.User (User', UserDB (UserDB, userDBId), password, toUser)
 import GHC.Generics (Generic)
 import Servant.API.Generic (ToServantApi, (:-))
 import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin, AuthResult (Authenticated), makeJWT)
@@ -41,7 +41,7 @@ import App (AppM)
 import Core.User (User, UserId (UserId), Service)
 import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
-import Repository (createUser, getUserByName', getUserByToken)
+import Repository (createUser, getUserByName', getUserByToken, updateTokens)
 import Utils (UserAuth, AuthRes)
 
 data LoginUser = LoginUser
@@ -88,6 +88,10 @@ type Unprotected =
     :<|> Capture "service" Service :> "signin"
         :> QueryParam "code" String
         :> Post '[JSON] LoginResponse
+    :<|> Capture "service" Service :> "signup"
+        :> QueryParam "code" String
+        :> ReqBody '[JSON] SignupUser
+        :> Post '[JSON] LoginResponse
  
 
 loginHandler ::
@@ -106,7 +110,6 @@ loginHandler cs jwts (LoginUser username p) = do
                 Right v -> return $ LoginResponse $ unpack v
         else throwError err401
 
-
 loginOauthHandler :: JWTSettings -> Service -> Maybe String -> AppM LoginResponse
 loginOauthHandler jwts _ Nothing = throwError err400
 loginOauthHandler jwts service (Just code) = do
@@ -120,7 +123,20 @@ loginOauthHandler jwts service (Just code) = do
                 Left e -> throwError err401
                 Right v -> return $ LoginResponse $ unpack v
 
-
+signupOauthHandler :: JWTSettings -> Service -> Maybe String -> SignupUser -> AppM LoginResponse 
+signupOauthHandler jwts service (Just code) (SignupUser name p) = do
+    hashed <- hashPassword'' $ toPassword $ pack p
+    user <- createUser $ UserDB (UserId 1) (pack name) hashed (pack name) []
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
+    case tokens of
+        Nothing -> throwError err403 
+        Just t -> do
+            updateTokens (userDBId user) t
+            etoken <- liftIO $ makeJWT (toUser user) jwts Nothing
+            case etoken of
+                Left e -> throwError err401
+                Right v -> return $ LoginResponse $ unpack v
+signupOauthHandler _ _ _ _ = throwError err400 
 
 signupHandler ::
     SignupUser ->
@@ -135,6 +151,7 @@ unprotected cs jwts =
          loginHandler cs jwts
     :<|> signupHandler
     :<|> loginOauthHandler jwts
+    :<|> signupOauthHandler jwts
 
 data AuthAPI mode = AuthAPI
     { protectedApi :: mode :- UserAuth :> Protected

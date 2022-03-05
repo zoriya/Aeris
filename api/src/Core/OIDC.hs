@@ -12,12 +12,11 @@ import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded, setRequestBodyJSON, setRequestBodyLBS)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
 import Utils (lookupObjString, lookupObjObject, lookupObjInt)
-import Data.ByteString.Base64
 import Control.Monad.Trans.Maybe (MaybeT (MaybeT, runMaybeT))
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import Control.Monad (MonadPlus (mzero))
 import Data.Aeson (decode)
-import Data.ByteString.Base64
+import Data.ByteString.Base64 ( encodeBase64 )
 import Data.Time (getCurrentTime, addUTCTime)
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String

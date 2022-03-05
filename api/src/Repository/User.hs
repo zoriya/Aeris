@@ -36,8 +36,10 @@ getUserByToken t = do
                 Just tok -> providerId tok == providerId t
 
 
-createUser :: User' -> AppM [UserId]
-createUser user = runQuery (insert $ insertUser user)
+createUser :: User' -> AppM User'
+createUser user = do
+    ids <- runQuery (insert $ insertUser user)
+    getUserById' $ head ids
 
 getTokensByUserId :: UserId -> AppM [ExternalToken] 
 getTokensByUserId uid = do
