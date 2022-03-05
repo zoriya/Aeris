@@ -76,16 +76,17 @@ class ActionDetailCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Padding(child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(action.parameters.isEmpty ? "No parameter": "Parameters:"), //TODO translta
                       popupMenu
-                    ],
+                    ]),
+                    padding: const EdgeInsets.only(bottom: 5)
                   ),
                   ...[for (var parameter in action.parameters) 
                     paramView(context, parameter)
-                  ]
+                  ],
                 ]
               )
             )
