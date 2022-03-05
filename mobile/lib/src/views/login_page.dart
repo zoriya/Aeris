@@ -41,6 +41,12 @@ class LoginPage extends StatelessWidget {
     return AerisPage(
         displayAppbar: false,
         body: FlutterLogin(
+            messages: LoginMessages(
+              userHint: 'Username',
+              loginButton: 'Login',
+              signupButton: 'Signup',
+              providersTitleFirst: 'or login with'
+            ),
             disableCustomPageTransformer: true,
             logo: const AssetImage("assets/logo.png"),
             hideForgotPasswordButton: true,
