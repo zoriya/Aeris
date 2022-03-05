@@ -2,11 +2,11 @@ import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
+import 'package:aeris/src/widgets/action_detail_card.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
-import 'package:aeris/src/widgets/action_card.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/pipeline.dart';
@@ -137,10 +137,9 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             ),
             Text(AppLocalizations.of(context).action,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
-            ActionCard(
-                leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: pipeline.trigger.displayName,
-                trailing: ActionCardPopupMenu(
+            ActionDetailCard(
+                action: pipeline.trigger,
+                popupMenu: ActionCardPopupMenu(
                     deletable: false,
                     parentTrigger: pipeline.trigger,
                     parentReactions: pipeline.reactions,
@@ -155,11 +154,10 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             ReorderableReactionCardsList(
                 onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
                 reactionList: pipeline.reactions,
-                itemBuilder: (reaction) => ActionCard(
+                itemBuilder: (reaction) => ActionDetailCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
-                      leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.displayName,
-                      trailing: ActionCardPopupMenu(
+                      action: reaction,
+                      popupMenu: ActionCardPopupMenu(
                           parentTrigger: pipeline.trigger,
                           parentReactions: pipeline.reactions,
                           deletable: pipeline.reactions.length > 1,

@@ -112,7 +112,10 @@ class _SetupActionPageState extends State<SetupActionPage> {
             ],
           ),
           const SizedBox(height: 20),
-          Text(AppLocalizations.of(context).paramInheritTip),
+          Text(
+            AppLocalizations.of(context).paramInheritTip,
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface)
+          ),
           const SizedBox(height: 20),
           if (availableActions == null)
             SkeletonLoader(
