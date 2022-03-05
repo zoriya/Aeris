@@ -15,13 +15,16 @@ export class Manager {
 		await lastValueFrom(this._pipelines
 			.pipe(
 				tap(x => console.log(`Found pipeline ${JSON.stringify(x)}`)),
-				filter(x => x.enabled),
 				groupBy((x: Pipeline) => x.id),
-				switchAll(),
-				mergeMap((x: Pipeline) =>
-					this.createPipeline(x).pipe(
-						map((env: PipelineEnv) => [x, env]),
-						catchError(err => this.handlePipelineError(x, err)),
+				mergeMap(grp =>
+					grp.pipe(
+						map((x: Pipeline) =>
+							this.createPipeline(x).pipe(
+								map((env: PipelineEnv) => [x, env]),
+								catchError(err => this.handlePipelineError(x, err)),
+							)
+						),
+						switchAll(),
 					)
 				),
 				tap(async ([x, env]: [Pipeline, PipelineEnv]) => {
@@ -38,7 +41,7 @@ export class Manager {
 	}
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
-		if (pipeline.type === PipelineType.Never) {
+		if (pipeline.type === PipelineType.Never || !pipeline.enabled) {
 			console.log(`Deleting the pipeline ${pipeline.name}`);
 			return NEVER;
 		}

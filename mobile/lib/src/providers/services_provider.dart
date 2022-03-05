@@ -10,7 +10,7 @@ class ServiceProvider extends ChangeNotifier {
   List<Service> get connectedServices => _connectedServices;
 
   /// Get the services the user is not connected to
-  List<Service> get availableServices => Service.all()
+  List<Service> get disconnectedServices => Service.all()
       .where((element) => !_connectedServices.contains(element))
       .toList();
 

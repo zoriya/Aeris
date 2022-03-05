@@ -67,7 +67,7 @@ class ServicePage extends StatelessWidget {
                         warnedAction: AppLocalizations.of(context).disconnect)),
                 context),
             ...getServiceGroup(
-                serviceProvider.availableServices,
+                serviceProvider.disconnectedServices,
                 AppLocalizations.of(context).available,
                 const Icon(Icons.connect_without_contact, color: Colors.green),
                 (Service service) {

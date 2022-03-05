@@ -3,6 +3,9 @@ import 'package:aeris/src/models/action_template.dart';
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
+import 'package:aeris/src/providers/services_provider.dart';
+import 'package:aeris/src/views/service_page.dart';
+import 'package:aeris/src/widgets/colored_clickable_card.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/service.dart';
@@ -11,6 +14,7 @@ import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:skeleton_loader/skeleton_loader.dart';
 
 ///Page to setup an action
@@ -43,13 +47,11 @@ class _SetupActionPageState extends State<SetupActionPage> {
   void initState() {
     super.initState();
     serviceState = widget.action.service;
-    availableActions =
-        GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
+    availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final Widget serviceDropdown = DropdownButton<Service>(
+  Widget serviceDropdown(List<Service> services) {
+    return DropdownButton<Service>(
       value: serviceState,
       elevation: 8,
       underline: Container(),
@@ -60,7 +62,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
               GetIt.I<AerisAPI>().getActionsFor(service!, widget.action);
         });
       },
-      items: Service.all().map<DropdownMenuItem<Service>>((Service service) {
+      items: services.map<DropdownMenuItem<Service>>((Service service) {
         return DropdownMenuItem<Service>(
           value: service,
           child: Row(children: [
@@ -74,20 +76,42 @@ class _SetupActionPageState extends State<SetupActionPage> {
         );
       }).toList(),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     var cardShape = const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)));
 
     return AerisCardPage(
-        body: Padding(
+        body: Consumer<ServiceProvider>(builder: (context, services, _) => Padding(
       padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-              widget.action is Trigger
-                  ? AppLocalizations.of(context).setupTrigger
-                  : AppLocalizations.of(context).setupReaction,
+        children: services.connectedServices.isEmpty ?
+          ([
+            Text(AppLocalizations.of(context).authenticatedToNoService,
+              style: const TextStyle(
+                fontSize: 25,
+              )
+            ),
+            Padding(padding: const EdgeInsets.all(30), 
+              child: ColoredClickableCard(
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer,
+                text:AppLocalizations.of(context).connectService,
+                onTap: () => showAerisCardPage(
+                  context, (_) => const ServicePage()).then((value) => setState((){}) //TODO check, might be useless
+                )
+              )
+            )
+          ])
+          : [ 
+            Text(widget.action is Trigger 
+                ? AppLocalizations.of(context).setupTrigger
+                : AppLocalizations.of(context).setupReaction,
               style: const TextStyle(
                 fontSize: 25,
               )),
@@ -106,7 +130,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Align(
-                      alignment: Alignment.centerRight, child: serviceDropdown),
+                      alignment: Alignment.centerRight, child: serviceDropdown(services.connectedServices)),
                 ),
               ),
             ],
@@ -178,6 +202,6 @@ class _SetupActionPageState extends State<SetupActionPage> {
           ]
         ],
       ),
-    ));
+    )));
   }
 }
