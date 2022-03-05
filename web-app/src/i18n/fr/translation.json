@@ -37,5 +37,7 @@
   "pipeline_layout_disable_pipeline_section_title": "Pipelines désativées",
   "pipeline_edit_params_info_text": "Vous pouvez utiliser les résidus des actions et réactions passées en utilisant la synthaxe suivante {NOM_DU_PARAM@ID_RÉACTION}.",
   "pipeline_edit_area_service_disconnected_info_part_1": "Vous devez être connecté au service ",
-  "pipeline_edit_area_service_disconnected_info_part_2": " pour profiter de ses "
+  "pipeline_edit_area_service_disconnected_info_part_2": " pour profiter de ses ",
+  "pipeline_missing_service_account_part_1": "Vous n'êtes pas connecté à un compte ",
+  "pipeline_missing_service_account_part_2": " et vous utilisez des actions/réactions de ce service dans cette pipeline"
 }

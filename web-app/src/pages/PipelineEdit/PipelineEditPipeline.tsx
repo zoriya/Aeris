@@ -24,7 +24,6 @@ import { PipelineAREACard } from "../../components/PipelineAREACard";
 import { deepCopy } from "../../utils/utils";
 
 import { useTranslation } from "react-i18next";
-import "../../i18n/config";
 import { NoAREA } from "../../utils/globals";
 import { useState } from "react";
 

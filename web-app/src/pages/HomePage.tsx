@@ -22,6 +22,7 @@ import ServiceSetupModal from "./ServiceSetup";
 import { AppServices, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
 import { Navigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -56,6 +57,7 @@ const getUserName = async (): Promise<string> => {
 export default function HomePage() {
 	if (!getCookie("aeris_jwt")) return <Navigate to="/auth" replace />;
 
+	const { t } = useTranslation();
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
 	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([[], []]);
@@ -117,7 +119,10 @@ export default function HomePage() {
 						for (const svc of servicesData) {
 							if (!svc.linked && doesPipelineUseService(pD, svc) && svc.uid !== "google") {
 								pD.data.alertLevel = AlertLevel.Warning;
-								pD.data.status = "vous n'avez pas de compte " + svc.label;
+								pD.data.status =
+									t("pipeline_missing_service_account_part_1") +
+									svc.label +
+									t("pipeline_missing_service_account_part_2");
 							}
 						}
 						return pD;
