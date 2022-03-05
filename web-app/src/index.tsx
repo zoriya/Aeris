@@ -4,12 +4,6 @@ import "./App.css";
 
 import App from "./App";
 import ServiceAuth from "./components/Authorizations/ServiceAuth";
-import GithubAuth from "./components/Authorizations/GithubAuth";
-import SpotifyAuth from "./components/Authorizations/SpotifyAuth";
-import GoogleAuth from "./components/Authorizations/YoutubeAuth";
-import TwitterAuth from "./components/Authorizations/TwitterAuth";
-import DiscordAuth from "./components/Authorizations/DiscordAuth";
-import AnilistAuth from "./components/Authorizations/AnilistAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthComponent from "./pages/Login/LoginPage";
 import PipelinePage from "./pages/HomePage";
@@ -18,6 +12,7 @@ import { ThemeProvider } from "@mui/material";
 import theme from "./Aeris.theme";
 import {AppServices} from "./utils/globals";
 import {AppServiceType} from "./utils/types";
+import ServiceSignIn from "./components/Authorizations/ServiceSignIn";
 
 /**
  * Creates the routing tree.
@@ -35,11 +30,11 @@ function AerisRouter() {
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
 							{possibleServices.map((elem, index) => {
-								return (<Route path={`/authorization/${elem.uid}`} element={<ServiceAuth service={elem.uid} navigate_to="/pipelines" redirect_uri={`authorization/${elem.uid}`}/>} />);
+								return (<Route path={`/authorization/${elem.uid}`} element={<ServiceAuth service={elem.uid} endpoint="" navigate_to="/pipelines" redirect_uri={`authorization/${elem.uid}`}/>} />);
 							})}
-							{/*{possibleServices.map((elem, index) => {*/}
-							{/*	return (<Route path={`/signin/${elem.uid}`} element={<ServiceAuth service={elem.uid} navigate_to="/pipelines" redirect_uri={`singin/${elem.uid}`}/>} />);*/}
-							{/*})}*/}
+							{possibleServices.map((elem, index) => {
+								return (<Route path={`/signin/${elem.uid}`} element={<ServiceSignIn service={elem.uid} endpoint="/signin" navigate_to="/pipelines" redirect_uri={`singin/${elem.uid}`}/>} />);
+							})}
 						</Routes>
 					</BrowserRouter>
 				</header>

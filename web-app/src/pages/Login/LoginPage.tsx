@@ -265,7 +265,7 @@ export default function AuthComponent() {
 								return (<div/>);
 							return (
 								<Button
-									onClick={() => (window.location.href = elem.urlAuth)}
+									onClick={() => (window.location.href = elem.signinUrl)}
 									variant="text"
 									style={{ borderRadius: "20px", width: "20px", height: "20px" }}
 								>

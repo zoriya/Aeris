@@ -41,8 +41,8 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 };
 
-const getServiceUrl = (service: string) =>
-	`${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/authorization/${service}`;
+const getServiceUrl = (service: string, method: string = "authorization") =>
+	`${API_ROUTE}/auth/${service}/url?redirect_uri=${window.location.origin}/${method}/${service}`;
 
 export const AppServices: Array<AppServiceType> = [
 	{
@@ -50,6 +50,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "google",
 		logo: AppServicesLogos["youtube"],
 		urlAuth: getServiceUrl("google"),
+		signinUrl: getServiceUrl("google", "signin"),
+		signupUrl: getServiceUrl("google", "signup"),
 		linked: false,
 	},
 	{
@@ -57,6 +59,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "spotify",
 		logo: AppServicesLogos["spotify"],
 		urlAuth: getServiceUrl("spotify"),
+		signinUrl: getServiceUrl("spotify", "signin"),
+		signupUrl: getServiceUrl("spotify", "signup"),
 		linked: false,
 	},
 	{
@@ -64,6 +68,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "github",
 		logo: AppServicesLogos["github"],
 		urlAuth: getServiceUrl("github"),
+		signinUrl: getServiceUrl("github", "signin"),
+		signupUrl: getServiceUrl("github", "signup"),
 		linked: false,
 	},
 	{
@@ -71,6 +77,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "twitter",
 		logo: AppServicesLogos["twitter"],
 		urlAuth: getServiceUrl("twitter"),
+		signinUrl: getServiceUrl("twitter", "signin"),
+		signupUrl: getServiceUrl("twitter", "signup"),
 		linked: false,
 	},
 	{
@@ -78,6 +86,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: getServiceUrl("discord"),
+		signinUrl: getServiceUrl("discord", "signin"),
+		signupUrl: getServiceUrl("discord", "signup"),
 		linked: false,
 	},
 	{
@@ -85,6 +95,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "anilist",
 		logo: AppServicesLogos["anilist"],
 		urlAuth: getServiceUrl("anilist"),
+		signinUrl: getServiceUrl("anilist", "signin"),
+		signupUrl: getServiceUrl("anilist", "signup"),
 		linked: false,
 	},
 	{
@@ -92,6 +104,8 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "utils",
 		logo: AppServicesLogos["utils"],
 		urlAuth: "",
+		signinUrl: "",
+		signupUrl: "",
 		linked: false,
 	},
 ];
