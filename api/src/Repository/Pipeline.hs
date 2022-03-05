@@ -31,5 +31,5 @@ triggerPipeline' pId = do
   currTime <- liftIO getCurrentTime
   runQuery $ update $ triggerPipeline pId currTime
 
-errorPipeline' :: PipelineId -> Text -> AppM Int64
-errorPipeline' pId msg = runQuery $ update $ errorPipeline pId msg
+errorPipeline' :: PipelineId -> Text -> Maybe Bool ->AppM Int64
+errorPipeline' pId msg mDisable = runQuery $ update $ errorPipeline pId msg (fmap not mDisable)
