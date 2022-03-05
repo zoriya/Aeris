@@ -3,6 +3,7 @@
 {-# OPTIONS_GHC -Wno-deferred-out-of-scope-variables #-}
 {-# LANGUAGE FlexibleInstances #-}
 
+
 module Utils where
 
 import Data.Aeson.Types (Value (String), Object)
@@ -18,9 +19,10 @@ import Db.Pipeline (Pipeline (Pipeline), PipelineId (PipelineId), pipelineLastTr
 import Core.Pipeline (PipelineParams (PipelineParams))
 import Data.Time (UTCTime (UTCTime), fromGregorian, secondsToDiffTime)
 import Data.Default (Default, def)
-import Data.Aeson (Value(Number, Object), decode)
+import Data.Aeson (Value(Number, Object), decode, ToJSON, FromJSON)
 import Data.Int (Int64)
 import Data.Scientific ( toBoundedInteger )
+import GHC.Generics (Generic)
 
 mapInd :: (a -> Int -> b) -> [a] -> [b]
 mapInd f l = zipWith f l [0 ..]
@@ -61,3 +63,4 @@ instance Default (Pipeline Identity) where
 
 type UserAuth = Servant.Auth.Server.Auth '[JWT] User
 type AuthRes = Servant.Auth.Server.AuthResult User
+
