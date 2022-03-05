@@ -62,7 +62,8 @@ urlHandler Spotify (Just r) = do
     clientId <- liftIO $ envAsString "SPOTIFY_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read user-library-modify streaming playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-modify-playback-state user-read-private&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] }
+
 urlHandler Github  (Just r) = do
     clientId <- liftIO $ envAsString "GITHUB_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""

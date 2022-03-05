@@ -22,9 +22,19 @@ export class Youtube extends BaseService {
 			refresh_token: pipeline.userData["Google"].refreshToken,
 			access_token: pipeline.userData["Google"].accessToken,
 		});
-		// client.on("tokens", x => {
-		// 	
-		// });
+		client.on("tokens", x => {
+			fetch(`${process.env["WORKER_API_URL"]}/google/${pipeline.userId}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					accessToken: x.access_token,
+					refreshToken: x.refresh_token,
+					expiresAt: x.expiry_date,
+				}),
+			});
+		});
 		this._youtube = new youtube_v3.Youtube({
 			auth: client,
 		});
