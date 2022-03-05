@@ -13,6 +13,7 @@ import theme from "./Aeris.theme";
 import {AppServices} from "./utils/globals";
 import {AppServiceType} from "./utils/types";
 import ServiceSignIn from "./components/Authorizations/ServiceSignIn";
+import ServiceSignUp from "./components/Authorizations/ServiceSignUp";
 
 /**
  * Creates the routing tree.
@@ -34,6 +35,9 @@ function AerisRouter() {
 							})}
 							{possibleServices.map((elem, index) => {
 								return (<Route path={`/signin/${elem.uid}`} element={<ServiceSignIn service={elem.uid} endpoint="/signin" navigate_to="/pipelines" redirect_uri={`singin/${elem.uid}`}/>} />);
+							})}
+							{possibleServices.map((elem, index) => {
+								return (<Route path={`/signup/${elem.uid}`} element={<ServiceSignUp service={elem.uid} endpoint="/signup" navigate_to="/pipelines" redirect_uri={`singup/${elem.uid}`}/>} />);
 							})}
 						</Routes>
 					</BrowserRouter>

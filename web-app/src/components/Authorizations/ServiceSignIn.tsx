@@ -2,14 +2,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import {sendServiceAuthToken, setCookie, signInService} from "../../utils/utils";
 import { useEffect } from "react";
 
-interface ServiceAuthProps {
+interface ServiceSignInProps {
     service: string
     endpoint: string
     redirect_uri: string
     navigate_to: string
 }
 
-export default function ServiceSignIn({ service, endpoint, redirect_uri, navigate_to }: ServiceAuthProps) {
+export default function ServiceSignIn({ service, endpoint, redirect_uri, navigate_to }: ServiceSignInProps) {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const authCode = searchParams.get("code") as string;

@@ -47,8 +47,7 @@ export const signInService = async (
 		method: "POST",
 		headers: {
 			Accept: 'application/json',
-			"Content-Type": "application/json",
-			Authorization: "Bearer " + getCookie("aeris_jwt")
+			"Content-Type": "application/json"
 		}
 	});
 
