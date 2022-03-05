@@ -20,6 +20,7 @@ import Servant (AuthProtect, FromHttpApiData)
 import Servant.API (FromHttpApiData (parseUrlPiece))
 import Servant.Server.Experimental.Auth (AuthServerData)
 import Servant.Auth.JWT (ToJWT, FromJWT)
+import Data.Time (UTCTime)
 
 newtype UserId = UserId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
@@ -41,7 +42,7 @@ instance FromHttpApiData Service where
 data ExternalToken = ExternalToken
     { accessToken :: Text
     , refreshToken :: Text
-    , expiresIn :: Int64
+    , expiresAt :: UTCTime
     , service :: Service
     , providerId :: Maybe Text 
     }

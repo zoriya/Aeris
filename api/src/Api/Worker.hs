@@ -30,6 +30,7 @@ import Repository.User (updateTokens, getTokensByUserId, delTokens)
 import GHC.Generics (Generic)
 import Data.Int (Int64)
 import Data.Text (Text)
+import Data.Time (UTCTime)
 
 
 data WorkerUserData = WorkerUserData
@@ -47,7 +48,7 @@ newtype ErrorBody = ErrorBody { error :: Text }
 data RefreshBody = RefreshBody
     { accessToken :: Text
     , refreshToken :: Text
-    , expiresIn :: Int64
+    , expiresAt :: UTCTime
     }
 
 $(deriveJSON defaultOptions ''WorkerUserData)

@@ -15,13 +15,16 @@ export class Manager {
 		await lastValueFrom(this._pipelines
 			.pipe(
 				tap(x => console.log(`Found pipeline ${JSON.stringify(x)}`)),
-				filter(x => x.enabled),
 				groupBy((x: Pipeline) => x.id),
-				switchAll(),
-				mergeMap((x: Pipeline) =>
-					this.createPipeline(x).pipe(
-						map((env: PipelineEnv) => [x, env]),
-						catchError(err => this.handlePipelineError(x, err)),
+				mergeMap(grp =>
+					grp.pipe(
+						map((x: Pipeline) =>
+							this.createPipeline(x).pipe(
+								map((env: PipelineEnv) => [x, env]),
+								catchError(err => this.handlePipelineError(x, err)),
+							)
+						),
+						switchAll(),
 					)
 				),
 				tap(async ([x, env]: [Pipeline, PipelineEnv]) => {
@@ -32,12 +35,13 @@ export class Manager {
 					} catch (err) {
 						this.handlePipelineError(x, err);
 					}
+					console.log(`Pipeline finished ${x.name}`)
 				}),
 			));
 	}
 
 	createPipeline(pipeline: Pipeline): Observable<PipelineEnv> {
-		if (pipeline.type === PipelineType.Never) {
+		if (pipeline.type === PipelineType.Never || !pipeline.enabled) {
 			console.log(`Deleting the pipeline ${pipeline.name}`);
 			return NEVER;
 		}
@@ -55,7 +59,10 @@ export class Manager {
 		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type?.toString()}).`, error)
 		fetch(`${process.env["WORKER_API_URL"]}/error/${pipeline.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
 			method: "POST",
-			body: JSON.stringify({error}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({error: error.toString()}),
 		});
 		return NEVER;
 	}

@@ -43,5 +43,8 @@
     "tryToConnect": "Try to connect",
     "routeToApi": "Route to API",
     "setupAPIRoute": "Setup API Route",
-    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter"
+    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter",
+    "authenticatedToNoService": "You are not authenticated to any services.",
+    "connectService": "Connect service",
+    "cantEnablePipeline": "You can't enable this pipeline because it depends on a service that is not connected"
 }

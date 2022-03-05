@@ -96,7 +96,7 @@ export class Pipeline {
 export class Token {
 	accessToken: string;
 	refreshToken: string;
-	expiresIn: string;
+	expiresAt: string;
 };
 
 export class Reaction {
@@ -132,7 +132,7 @@ export const pipelineFromApi = (data: any): Pipeline => {
 			{
 				accessToken: x.accessToken,
 				refreshToken: x.refreshToken,
-				expiresIn: x.expiresIn
+				expiresAt: x.expiresAt
 			} as Token
 		])),
 	};

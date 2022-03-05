@@ -6,7 +6,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken, accessToken, providerId), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
+import Core.User (ExternalToken (ExternalToken, accessToken, providerId, expiresAt), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded, setRequestBodyJSON, setRequestBodyLBS)
@@ -17,6 +17,8 @@ import Control.Monad.Trans.Maybe (MaybeT (MaybeT, runMaybeT))
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import Control.Monad (MonadPlus (mzero))
 import Data.Aeson (decode)
+import Data.ByteString.Base64
+import Data.Time (getCurrentTime, addUTCTime)
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
     , oauthClientSecret :: String
@@ -63,9 +65,10 @@ getGithubTokens code = MaybeT $ do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
-    let t = ExternalToken access "" 0 Github Nothing
+    let t = ExternalToken access "" currTime Github Nothing
     githubId <- runMaybeT $ getGithubId t
     return $ Just $ t { providerId = githubId }
 
@@ -82,7 +85,6 @@ getGithubId t = MaybeT $ do
             addRequestHeader "User-Agent" "aeris-server"
             request'
     response <- httpJSONEither request
-    print $ accessToken t
     case (getResponseBody response :: Either JSONException Object) of
         Left err -> return Nothing
         Right obj -> case lookupObjInt obj "id" of
@@ -117,7 +119,12 @@ getDiscordTokens code = MaybeT $ do
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-    let t = ExternalToken access refresh 0 Discord Nothing
+
+    currTime <- getCurrentTime
+
+    expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
+    let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+    let t = ExternalToken access refresh expiresAt Discord Nothing
     discordId <- runMaybeT $ getDiscordId t
     return $ Just $ t { providerId = discordId }
 
@@ -133,7 +140,6 @@ getDiscordId t = MaybeT $ do
     response <- httpJSONEither request
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     return $ lookupObjString obj "id"
-
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -160,10 +166,13 @@ getGoogleTokens code = MaybeT $ do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-    let t = ExternalToken access refresh 0 Google Nothing
+    expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
+    let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+    let t = ExternalToken access refresh expiresAt Google Nothing
     googleId <- runMaybeT $ getGoogleId t
     return $ Just $ t { providerId = googleId }
 
@@ -206,10 +215,13 @@ getSpotifyTokens code = MaybeT $ do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-    let t = ExternalToken access refresh 0 Spotify Nothing
+    expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
+    let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+    let t = ExternalToken access refresh expiresAt Spotify Nothing
     spotifyId <- runMaybeT $ getSpotifyId t
     return $ Just $ t { providerId = spotifyId }
 
@@ -251,10 +263,13 @@ getTwitterTokens code = MaybeT $ do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-    let t = ExternalToken access refresh 0 Twitter Nothing
+    expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
+    let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+    let t = ExternalToken access refresh expiresAt Twitter Nothing
     twitterId <- runMaybeT $ getTwitterId t
     return $ Just $ t { providerId = twitterId }
 
@@ -297,13 +312,15 @@ getAnilistTokens code = MaybeT $ do
                 ]
             request'
     response <- httpJSONEither request
+    currTime <- getCurrentTime
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-    let t = ExternalToken access refresh 0 Anilist Nothing
+    expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
+    let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
+    let t = ExternalToken access refresh expiresAt Anilist Nothing
     anilistId <- runMaybeT $ getAnilistId t
     return $ Just $ t { providerId = anilistId }
-
 
 getAnilistId :: ExternalToken -> MaybeT IO Text
 getAnilistId t = MaybeT $ do
