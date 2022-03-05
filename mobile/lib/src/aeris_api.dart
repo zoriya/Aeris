@@ -146,15 +146,8 @@ class AerisAPI {
     var res = await _requestAPI('/workflows', AerisAPIRequestType.get, null);
     if (res.ok == false) return [];
     final List body = jsonDecode(res.body);
-    var decodedList = body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
-    decodedList.add(
-      Pipeline(id: 0, name: "My Dummy", triggerCount: 0, enabled: true, trigger: 
-      Trigger(name: "Trigger name", displayName: "Trigger Display", service: Service.discord(), parameters: [for (var i = 0; i < 3; i++) ActionParameter(name: "para$i", value: "value$i", description: "desc$i")]
-      ), reactions: [
-        Reaction(service: const Service.anilist(), name: "Reaction name", displayName: "Reaction display", parameters: [for (var i = 0; i < 3; i++) ActionParameter(name: "para$i", value: "value$i", description: "desc$i")])
-      ])
-    );
-    return decodedList;
+
+    return body.map((e) => Pipeline.fromJSON(Map.from(e))).toList();
   }
 
   /// Fetch the services the user is authenticated to
