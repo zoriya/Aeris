@@ -159,7 +159,7 @@ export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 			enabled: data.action.enabled,
 			caBeEnabled: true,
 			alertLevel: data.action.error !== null ? AlertLevel.Error : AlertLevel.None,
-			lastTrigger: new Date(),
+			lastTrigger: data.action.lastTrigger === null ? undefined : new Date(data.action.lastTrigger),
 			triggerCount: data.action?.triggerCount ?? 0,
 			status: data.action.error !== null ? data.action.error : "",
 		},
