@@ -247,3 +247,13 @@ export const deepCopy = (obj: any): any => {
 		}, {});
 	}
 };
+
+export const doesPipelineUseService = (pD: AppPipelineType, service: AppServiceType): boolean => {
+	const sUid = service.uid;
+
+	if (pD.action.service.uid === sUid) return true;
+	for (const rea of pD.reactions) {
+		if (rea.service.uid === sUid) return true;
+	}
+	return false;
+};

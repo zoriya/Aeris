@@ -1,12 +1,9 @@
 import { PipelineSquaresLayout } from "../components/Pipelines/PipelineSquaresLayout";
-import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
 import AddIcon from "@mui/icons-material/Add";
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import { Grid } from "@mui/material";
+import { useEffect } from "react";
+import { Box, Fab } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
@@ -17,15 +14,14 @@ import {
 	fetchWorkflows,
 	fetchLinkedServices,
 	deepCopy,
+	doesPipelineUseService,
 } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
-import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
+import { AppAREAType, AppPipelineType, AppServiceType, AlertLevel } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
+import { AppServices, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
-import MenuItem from "@mui/material/MenuItem";
 import { Navigate } from "react-router-dom";
-import { PipelineSquare } from "../components/Pipelines/PipelineSquare";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -109,14 +105,24 @@ export default function HomePage() {
 
 	useEffect(() => {
 		refreshWorkflows();
-	}, [AREAs]);
+	}, [AREAs, servicesData]);
 
 	const refreshWorkflows = () => {
-		if (AREAs[0].length === 0 && AREAs[1].length === 0)
-			return;
+		if (AREAs[0].length === 0 && AREAs[1].length === 0) return;
 		fetchWorkflows()
 			.then((workflows) => {
-				setPipelinesData(workflows.map((workflow: any) => deSerialisePipeline(workflow, AREAs)));
+				setPipelinesData(
+					workflows.map((workflow: any) => {
+						let pD = deSerialisePipeline(workflow, AREAs);
+						for (const svc of servicesData) {
+							if (doesPipelineUseService(pD, svc)) {
+								pD.data.alertLevel = AlertLevel.Warning;
+								pD.data.status = "vous n'avez pas de compte " + svc.label;
+							}
+						}
+						return pD;
+					})
+				);
 			})
 			.catch((error) => {
 				console.warn(error);

@@ -47,7 +47,7 @@ export interface PipelineSquareProps {
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
 	const { t } = useTranslation();
 	const errorMode: boolean = pipelineData.data.alertLevel === AlertLevel.Error;
-	const backgroundColor = pipelineData.data.enabled ? (errorMode ? "#ffdddd" : null) : "#464646";
+	const backgroundColor = pipelineData.data.enabled ? (errorMode ? "#ffdddd" : null) : "black";
 	const textColor = pipelineData.data.enabled ? (errorMode ? "red" : null) : "#adadad";
 	return (
 		<Card
@@ -128,6 +128,7 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 								WebkitLineClamp: "2",
 								WebkitBoxOrient: "vertical",
 								maxHeight: "3",
+								fontSize: "45px",
 							}}
 							align="left"
 							variant="h3">
@@ -136,9 +137,11 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					</div>
 					{pipelineData.data.alertLevel !== AlertLevel.None && (
 						<Alert
+							variant={pipelineData.data.enabled ? "outlined" : "filled"}
 							sx={{
 								gridArea: "PipelineStatus",
 								width: "100%",
+								padding: "0px 16px",
 								"& .MuiAlert-message": {
 									width: "100%",
 									textOverflow: "ellipsis",
