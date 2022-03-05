@@ -24,9 +24,8 @@ export const AREACard = ({ AREA, onClick }: AREACardProps) => {
 					}
 					title={<Typography variant="h5">{AREA?.label?.[languageUid] ?? AREA.type}</Typography>}
 					subheader={
-						(AREA.description?.[languageUid] !== AREA.label?.[languageUid] ?? AREA.type)
-							&& AREA.description?.[languageUid]
-
+						(AREA.description?.[languageUid] !== AREA.label?.[languageUid] ?? AREA.type) &&
+						AREA.description?.[languageUid]
 					}
 				/>
 				{Object.keys(AREA.params).length > 0 || Object.keys(AREA.returns).length > 0 ? (
