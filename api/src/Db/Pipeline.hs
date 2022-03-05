@@ -151,8 +151,8 @@ triggerPipeline pId currTime =
     , pipelineError = lit Nothing
     }
 
-errorPipeline :: PipelineId -> Text -> Update Int64
-errorPipeline pId msg =
+errorPipeline :: PipelineId -> Text -> Maybe Bool -> Update Int64
+errorPipeline pId msg Nothing =
     Update
         { target = pipelineSchema
         , from = pure ()
@@ -160,7 +160,20 @@ errorPipeline pId msg =
         , set = setter
         , returning = NumberOfRowsAffected
         }
-  where
-    setter = \from row -> row {
-        pipelineError = lit $ Just msg
-    }
+    where
+        setter = \from row -> row {
+            pipelineError = lit $ Just msg
+        }
+errorPipeline pId msg (Just enabled) =
+    Update
+        { target = pipelineSchema
+        , from = pure ()
+        , updateWhere = \_ o -> pipelineId o ==. lit pId
+        , set = setter
+        , returning = NumberOfRowsAffected
+        }
+    where
+        setter = \from row -> row {
+            pipelineError = lit $ Just msg
+        , pipelineEnabled = lit enabled
+        }
