@@ -17,7 +17,7 @@ jobs:
             run_name: 'Mobile client'
             doc_dir: 'doc/api'
             use: 'subosito/flutter-action@v1.5.3'
-            warm_up: flutter pub global activate dartdoc; rm -rf doc
+            warm_up: flutter pub global activate dartdoc; rm -rf doc ; flutter gen-l10n
             doc_generation: dartdoc
     defaults:
       run:
