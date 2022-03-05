@@ -70,7 +70,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                         width: 60,
                         value: pipeline.enabled,
                         onToggle: (value) {
-                          if (services.disconnectedServices.any(
+                          if (!pipeline.enabled && services.disconnectedServices.any(
                             (service) => pipeline.dependsOn(service))
                           ) {
                             showDialog<String>(

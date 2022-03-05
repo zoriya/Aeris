@@ -34,17 +34,16 @@ class WarningDialog extends StatelessWidget {
           )
         ),
         content: Text(message),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actionsOverflowDirection: VerticalDirection.up,
         actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
+          ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.primaryContainer),
                 onPressed: () => Navigator.pop(context),
                 child: Text(AppLocalizations.of(context).cancel),
               ),
-              ElevatedButton(
+          ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: actionButtonColor),
                 onPressed: () => {
@@ -53,8 +52,6 @@ class WarningDialog extends StatelessWidget {
                 },
                 child: Text(warnedAction)
               )
-            ],
-          ),
-        ]);
+            ]);
   }
 }
