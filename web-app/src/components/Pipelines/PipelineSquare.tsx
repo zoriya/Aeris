@@ -44,8 +44,32 @@ export interface PipelineSquareProps {
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+const getAlert = (alertLvl: AlertLevel, text: string, enabled: boolean) => {
+	const brightness = "brightness(" + (enabled ? "100" : "80") + "%)";
+	return (
+		<Alert
+			variant={enabled ? "outlined" : "filled"}
+			sx={{
+				gridArea: "PipelineStatus",
+				width: "100%",
+				padding: "0px 16px",
+				filter: brightness,
+				"& .MuiAlert-message": {
+					width: "100%",
+					textOverflow: "ellipsis",
+					overflow: "hidden",
+					whiteSpace: "nowrap",
+				},
+			}}
+			severity={alertLvl as AlertColor}>
+			{text}
+		</Alert>
+	);
+};
+
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
 	const { t } = useTranslation();
+	const pEnabled = pipelineData.data.enabled;
 	const errorMode: boolean = pipelineData.data.alertLevel === AlertLevel.Error;
 	const backgroundColor = pipelineData.data.enabled ? (errorMode ? "#ffdddd" : null) : "black";
 	const textColor = pipelineData.data.enabled ? (errorMode ? "red" : null) : "#adadad";
@@ -135,24 +159,8 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 							{pipelineData.name}
 						</Typography>
 					</div>
-					{pipelineData.data.alertLevel !== AlertLevel.None && (
-						<Alert
-							variant={pipelineData.data.enabled ? "outlined" : "filled"}
-							sx={{
-								gridArea: "PipelineStatus",
-								width: "100%",
-								padding: "0px 16px",
-								"& .MuiAlert-message": {
-									width: "100%",
-									textOverflow: "ellipsis",
-									overflow: "hidden",
-									whiteSpace: "nowrap",
-								},
-							}}
-							severity={pipelineData.data.alertLevel as AlertColor}>
-							{pipelineData.data.status}
-						</Alert>
-					)}
+					{pipelineData.data.alertLevel !== AlertLevel.None &&
+						getAlert(pipelineData.data.alertLevel, pipelineData.data.status, pEnabled)}
 
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
 						<Stack direction={"row"} spacing={1}>

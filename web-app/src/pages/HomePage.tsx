@@ -115,7 +115,7 @@ export default function HomePage() {
 					workflows.map((workflow: any) => {
 						let pD = deSerialisePipeline(workflow, AREAs);
 						for (const svc of servicesData) {
-							if (doesPipelineUseService(pD, svc)) {
+							if (!svc.linked && doesPipelineUseService(pD, svc) && svc.uid !== "google") {
 								pD.data.alertLevel = AlertLevel.Warning;
 								pD.data.status = "vous n'avez pas de compte " + svc.label;
 							}
