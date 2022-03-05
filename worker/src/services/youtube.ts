@@ -31,7 +31,7 @@ export class Youtube extends BaseService {
 				body: JSON.stringify({
 					accessToken: x.access_token,
 					refreshToken: x.refresh_token,
-					expires: x.expiry_date,
+					expiresAt: x.expiry_date,
 				}),
 			});
 		});
