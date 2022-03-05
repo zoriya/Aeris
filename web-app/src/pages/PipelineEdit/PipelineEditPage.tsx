@@ -45,7 +45,7 @@ export default function PipelineEditPage({
 
 	const changeEditPipeline = (pD: AppPipelineType) => {
 		pD.data.alertLevel = AlertLevel.None;
-		pD.data.status;
+		pD.data.status = "";
 		setEditPipelineData(lintPipeline(pD, services));
 	};
 
