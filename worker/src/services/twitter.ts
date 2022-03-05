@@ -1,7 +1,6 @@
-import { exhaustMap, from, fromEventPattern, map, Observable } from "rxjs";
-import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
-import { ETwitterStreamEvent, TweetStream, TwitterApi } from "twitter-api-v2";
-import { action, BaseService, reaction, service } from "../models/base-service";
+import { Pipeline, PipelineEnv, ReactionType, ServiceType } from "../models/pipeline";
+import { TwitterApi } from "twitter-api-v2";
+import { BaseService, reaction, service } from "../models/base-service";
 
 @service(ServiceType.Twitter)
 export class Twitter extends BaseService {
@@ -35,28 +34,6 @@ export class Twitter extends BaseService {
 			body: JSON.stringify(data),
 		});
 	}
-
-	// private async _createStream(): Promise<TweetStream> {
-	// 	const stream = await this._.v2.sampleStream();
-	// 	stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
-	// 	stream.on(ETwitterStreamEvent.ConnectionError, err => console.log('Connection error!', err));
-	// 	stream.on(ETwitterStreamEvent.ConnectionClosed, () => console.log('Connection has been closed.'));
-	// 	return stream;
-	// }
-
-
-	// @action(PipelineType.OnTweet, [])
-	// listenTweet(params: any): Observable<PipelineEnv> {
-	// 	return from(Twitter._createStream())
-	// 		.pipe(
-	// 			exhaustMap((stream: TweetStream) =>
-	// 				fromEventPattern(
-	// 					handler => stream.on(ETwitterStreamEvent.Data, handler),
-	// 					() => stream.close()
-	// 				)
-	// 			)
-	// 		);
-	// }
 
 	@reaction(ReactionType.FollowUser, ['user_name'])
 	async followUser(params: any): Promise<PipelineEnv> {
