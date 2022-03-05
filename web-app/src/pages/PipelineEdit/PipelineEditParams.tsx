@@ -3,6 +3,7 @@ import { Grid, TextField, Typography, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Save } from "@mui/icons-material";
 import { useState } from "react";
+import i18next from "i18next";
 
 import { useTranslation } from "react-i18next";
 import '../../i18n/config';
@@ -17,6 +18,7 @@ interface PipelineEditParamsProps {
 export default function PipelineEditParams({ pipelineData, AREA, setParams }: PipelineEditParamsProps) {
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
 	const { t } = useTranslation();
+	const languageUid = i18next.resolvedLanguage;
 
 	return (
 		<div>
@@ -32,7 +34,7 @@ export default function PipelineEditParams({ pipelineData, AREA, setParams }: Pi
 							label={param[0]}
 							required
 							fullWidth
-							helperText={param[1].description}
+							helperText={param[1].description[languageUid]}
 							defaultValue={param[1].value}
 							onChange={(e: any) => {
 								let paramToSave = formData;
