@@ -61,9 +61,7 @@ getGithubTokens code = do
         Left _ -> Nothing
         Right obj -> do
             access <- lookupObjString obj "access_token"
-            expiresIn <- lookupObjInt obj "expires_in"
-            let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
-            Just $ ExternalToken (pack access) "" expiresAt Github
+            Just $ ExternalToken (pack access) "" currTime Github
 
 -- DISCORD
 getDiscordConfig :: IO OAuth2Conf
