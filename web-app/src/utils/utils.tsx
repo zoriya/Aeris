@@ -61,7 +61,7 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 
 const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: ParamsType } => {
 	let params: { [key: string]: ParamsType } = {};
-	dumpAREAParam.forEach((el, idx) => {
+	dumpAREAParam.forEach((el) => {
 		params[el.name] = {
 			value: "",
 			type: el.type,
