@@ -9,13 +9,14 @@ import App (AppM)
 import Core.User (ExternalToken (ExternalToken, accessToken, providerId), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
-import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
+import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded, setRequestBodyJSON, setRequestBodyLBS)
 import System.Environment.MrEnv (envAsBool, envAsInt, envAsInteger, envAsString)
 import Utils (lookupObjString, lookupObjObject, lookupObjInt)
 import Data.ByteString.Base64
 import Control.Monad.Trans.Maybe (MaybeT (MaybeT, runMaybeT))
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import Control.Monad (MonadPlus (mzero))
+import Data.Aeson (decode)
 data OAuth2Conf = OAuth2Conf
     { oauthClientId :: String
     , oauthClientSecret :: String
@@ -306,17 +307,26 @@ getAnilistTokens code = MaybeT $ do
 
 getAnilistId :: ExternalToken -> MaybeT IO Text
 getAnilistId t = MaybeT $ do
-    let endpoint = "https://api.twitter.com/2/users/me"
+    let endpoint = "https://graphql.anilist.co"
     request' <- parseRequest endpoint
+    let query = (decode "{Viewer {id,}}" :: Maybe Object)
     let request =
             addRequestHeader "Content-Type" "application/json" $
-            addRequestHeader "Authorization" (B8.pack $ "Bearer " ++ unpack (accessToken t))
+            addRequestHeader "Authorization" (B8.pack $ "Bearer " ++ unpack (accessToken t)) $
+            addRequestHeader "User-Agent" "aeris-server" $
+            setRequestMethod "POST" $
+            setRequestBodyLBS "{\"query\": \"{Viewer {id}}\"}" 
             request'
     response <- httpJSONEither request
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
-    dataBody <- liftMaybe $ lookupObjObject obj "data"
-    viewer <- liftMaybe $ lookupObjObject obj "Viewer"
-    return . Just . pack . show $ lookupObjInt viewer "id"
+    case lookupObjObject obj "data" of
+        Just dataBody -> case liftMaybe $ lookupObjObject dataBody "Viewer" of 
+            Just viewer -> case lookupObjInt viewer "id" of
+                Just anilistId -> return . Just . pack . show $ anilistId
+                _ -> return Nothing 
+            _ -> return Nothing
+        _ -> return Nothing
+        
 
 -- General
 getOauthTokens :: Service -> String -> MaybeT IO ExternalToken
