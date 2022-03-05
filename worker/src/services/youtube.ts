@@ -40,7 +40,7 @@ export class Youtube extends BaseService {
 		});
 	}
 
-	@action(PipelineType.OnYtUpload, ["channel"])
+	@action(PipelineType.OnYtUpload, ["channel_id"])
 	listenChannel(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
