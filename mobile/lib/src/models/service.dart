@@ -29,6 +29,9 @@ class Service {
   /// Get full url for OAuth2
   String get authUrl => GetIt.I<AerisAPI>().getServiceAuthURL(this);
 
+    /// Get full url for OAuth2 to register
+  String get authSignInUrl => GetIt.I<AerisAPI>().getServiceSignInURL(this);
+
   const Service.spotify()
       : name = "Spotify",
         url = "https://www.spotify.com",
@@ -78,6 +81,7 @@ class Service {
   static Service factory(String name) {
     if (name.toLowerCase() == "git") return const Service.github();
     if (name.toLowerCase() == "ani") return const Service.anilist();
+    if (name.toLowerCase() == "google") return const Service.youtube();
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }

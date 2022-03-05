@@ -64,6 +64,16 @@ class AerisAPI {
     return createConnection(username, password);
   }
 
+  Future<bool> createConnectionFromService(Service service, String code) async {
+    http.Response response = await _requestAPI(
+        '/auth/${service.name.toLowerCase()}/signin?code=$code',
+        AerisAPIRequestType.post, {});
+    if (!response.ok) {
+      return false;
+    }
+    return await registerJWT(jsonDecode(response.body)['jwt']);
+  }
+
   /// On success, sets API as connected to given user. Returns false if connection false
   Future<bool> createConnection(String username, String password) async {
     http.Response response =
@@ -74,8 +84,11 @@ class AerisAPI {
     if (!response.ok) {
       return false;
     }
+    return await registerJWT(jsonDecode(response.body)['jwt']);
+  }
+
+  Future<bool> registerJWT(String jwt) async {
     try {
-      final String jwt = jsonDecode(response.body)['jwt'];
       await GetIt.I<SharedPreferences>().setString('jwt', jwt);
       _connected = true;
       _jwt = jwt;
@@ -132,6 +145,13 @@ class AerisAPI {
         ? "google"
         : service.name.toLowerCase();
     return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/$serviceName";
+  }
+
+  String getServiceSignInURL(Service service) {
+    final serviceName = service == const Service.youtube()
+        ? "google"
+        : service.name.toLowerCase();
+    return "$baseRoute/auth/$serviceName/url?redirect_uri=$deepLinkRoute/authorization/signin/$serviceName";
   }
 
   /// Send PUT request to update Pipeline, returns false if failed

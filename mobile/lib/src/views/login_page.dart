@@ -1,10 +1,13 @@
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/main.dart';
+import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/widgets/aeris_page.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:line_icons/line_icon.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// Login Page Widget
 class LoginPage extends StatelessWidget {
@@ -56,6 +59,17 @@ class LoginPage extends StatelessWidget {
             },
             onSubmitAnimationCompleted: () {
               Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
-            }));
+            },
+            loginProviders: [
+              for (var service in Service.all().where((element) => element != const Service.utils()).toList())
+              LoginProvider(
+                icon: LineIcon.alternateGithub().icon,
+                label: service.name,
+                callback: () {
+                  launch(Uri.parse(service.authSignInUrl).toString(), forceSafariVC: false);
+                }
+              )
+            ],
+            ));
   }
 }
