@@ -50,5 +50,10 @@
     "connectService": "Connect service",
     "cantEnablePipeline": "You can't enable this pipeline because it depends on a service that is not connected",
     "from": "from",
-    "cantSignInFromService": "Can't sign in using this service"
+    "cantSignInFromService": "Can't sign in using this service",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "orLoginWith": "Or Login with"
 }

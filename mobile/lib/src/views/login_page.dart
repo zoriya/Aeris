@@ -42,10 +42,11 @@ class LoginPage extends StatelessWidget {
         displayAppbar: false,
         body: FlutterLogin(
             messages: LoginMessages(
-              userHint: 'Username',
-              loginButton: 'Login',
-              signupButton: 'Signup',
-              providersTitleFirst: 'or login with'
+              userHint: AppLocalizations.of(context).username,
+              passwordHint: AppLocalizations.of(context).password,
+              loginButton: AppLocalizations.of(context).login,
+              signupButton: AppLocalizations.of(context).register,
+              providersTitleFirst: AppLocalizations.of(context).orLoginWith
             ),
             disableCustomPageTransformer: true,
             logo: const AssetImage("assets/logo.png"),

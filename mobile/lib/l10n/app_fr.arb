@@ -50,5 +50,10 @@
     "connectService": "Connexion aux services",
     "cantEnablePipeline": "Impossible d'activer la pipeline car elle dépend d'un service qui n'est pas connecté",
     "from": "de",
-    "cantSignInFromService": "Impossible de se connecter via ce service"
+    "cantSignInFromService": "Impossible de se connecter via ce service",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "login": "Se connecter",
+    "register": "S'inscrire",
+    "orLoginWith": "Se connecter avec"
 }
