@@ -130,6 +130,7 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
+								disabled={!pipelineData.data.caBeEnabled}
 								color="secondary"
 								checked={pipelineData.data.enabled}
 								onChange={(e) => {

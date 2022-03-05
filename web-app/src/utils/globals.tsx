@@ -117,5 +117,6 @@ export const NewEmptyPipeline: AppPipelineType = {
 		status: "",
 		triggerCount: 0,
 		lastTrigger: new Date(),
+		caBeEnabled: true,
 	},
 };

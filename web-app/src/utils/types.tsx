@@ -60,6 +60,7 @@ export interface AppPipelineInfoType {
 	triggerCount: number;
 	lastTrigger: Date;
 	alertLevel: AlertLevel;
+	caBeEnabled: boolean;
 }
 
 export interface AppPipelineType {

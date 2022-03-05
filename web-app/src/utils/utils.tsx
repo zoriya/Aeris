@@ -157,6 +157,7 @@ export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>)
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
+			caBeEnabled: true,
 			alertLevel: data.action.error !== null ? AlertLevel.Error : AlertLevel.None,
 			lastTrigger: new Date(),
 			triggerCount: data.action?.triggerCount ?? 0,
@@ -263,10 +264,12 @@ export const doesPipelineUseService = (pD: AppPipelineType, service: AppServiceT
 
 export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType>): AppPipelineType => {
 	//const { t } = useTranslation();
+	pD.data.caBeEnabled = true;
 	for (const svc of services) {
 		if (!svc.linked && doesPipelineUseService(pD, svc)) {
 			pD.data.alertLevel = AlertLevel.Warning;
-			pD.data.status = "warning " + svc.label + " account";
+			pD.data.caBeEnabled = false;
+			pD.data.status = "no " + svc.label + " account";
 			//	t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
 		}
 	}
