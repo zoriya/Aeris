@@ -96,7 +96,7 @@ export class Pipeline {
 export class Token {
 	accessToken: string;
 	refreshToken: string;
-	expiresIn: string;
+	expiresAt: string;
 };
 
 export class Reaction {

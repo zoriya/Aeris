@@ -7,12 +7,14 @@ import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "
 @service(ServiceType.Spotify)
 export class Spotify extends BaseService {
 
+	private _pipeline: Pipeline;
 	private _spotify;
 
 	constructor(pipeline: Pipeline) {
 		super();
 		if (!("Spotify" in pipeline.userData))
 			throw new Error("User is not authenticated via Spotify");
+		this._pipeline = pipeline;
 		this._spotify = new SpotifyWebApi({
 			accessToken: pipeline.userData["Spotify"].accessToken,
 			refreshToken: pipeline.userData["Spotify"].refreshToken,
@@ -22,7 +24,20 @@ export class Spotify extends BaseService {
 	}
 
 	private async _refreshIfNeeded(): Promise<void> {
-		
+		if (Date.parse(this._pipeline.userData["Spotify"].expiresAt) >= Date.now() + 100_000)
+			return;
+		const ret = await this._spotify.refreshAccessToken();
+		fetch(`${process.env["WORKER_API_URL"]}/spotify/${this._pipeline.userId}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				accessToken: ret.body.access_token,
+				refreshToken: ret.body.refresh_token,
+				expiresAt: new Date(Date.now() + ret.body.expires_in),
+			}),
+		});
 	}
 
 	@action(PipelineType.OnSpotifyAddToPlaylist, ["playlistId"])
