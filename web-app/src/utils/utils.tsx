@@ -61,7 +61,7 @@ export const PipeLineHostToApi = (pipelineData: AppPipelineType) => {
 
 const deSerializeAREAParams = (dumpAREAParam: Array<any>): { [key: string]: ParamsType } => {
 	let params: { [key: string]: ParamsType } = {};
-	dumpAREAParam.forEach((el) => {
+	dumpAREAParam.forEach((el, idx) => {
 		params[el.name] = {
 			value: "",
 			type: el.type,
@@ -130,16 +130,16 @@ export const deSerializeApiPipelineAction = (data: any, actions: Array<AppAREATy
 };
 
 export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
-	const refReaction = reactions.filter((el) => el.type === data.rType);
+	const refReaction = deepCopy(reactions.filter((el) => el.type === data.rType)[0]);
 
-	let params: { [key: string]: ParamsType } = refReaction[0].params;
+	let params: { [key: string]: ParamsType } = refReaction.params;
 	Object.entries(data.rParams as { [key: string]: string }).forEach((paramData) => {
 		if (!(paramData[0] in params)) return;
 		params[paramData[0]].value = paramData[1];
 	});
 
 	return {
-		...refReaction[0],
+		...refReaction,
 		params: params,
 	};
 };

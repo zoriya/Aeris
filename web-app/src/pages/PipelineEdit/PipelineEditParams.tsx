@@ -19,9 +19,7 @@ interface PipelineEditParamsProps {
 
 export default function PipelineEditParams({ pipelineData, isAction, AREA, setParams }: PipelineEditParamsProps) {
 	AREA = deepCopy(AREA);
-	console.log(AREA);
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>(AREA.params);
-	console.log("formData", formData);
 	const { t } = useTranslation();
 	const languageUid = i18next.resolvedLanguage;
 
