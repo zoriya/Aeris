@@ -68,7 +68,6 @@ class _ActionFormState extends State<ActionForm> {
   List<Suggestion> getSuggestions(
       String pattern, ActionCatalogueProvider catalogue) {
     List<Suggestion> suggestions = [];
-    print(pattern);
     if (pattern.endsWith("{") == false) return suggestions;
     if (widget.candidate is Trigger) return suggestions;
     if (widget.triggerCandidate != null) {
