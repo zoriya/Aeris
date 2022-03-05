@@ -49,5 +49,6 @@
     "authenticatedToNoService": "You are not authenticated to any services.",
     "connectService": "Connect service",
     "cantEnablePipeline": "You can't enable this pipeline because it depends on a service that is not connected",
-    "from": "from"
+    "from": "from",
+    "cantSignInFromService": "Can't sign in using this service"
 }

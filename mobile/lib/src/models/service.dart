@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 
 import 'package:get_it/get_it.dart';
+import 'package:line_icons/line_icon.dart';
 
 /// Data class used to store data about a service (logo, url, name)
 class Service {
@@ -86,5 +87,23 @@ class Service {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }
     throw Exception("Unknown service");
+  }
+
+  IconData getIcon() {
+    switch (this) {
+      case Service.anilist():
+        return LineIcon.buysellads().icon!;
+      case Service.spotify():
+        return LineIcon.spotify().icon!;
+      case Service.github():
+        return LineIcon.alternateGithub().icon!;
+      case Service.youtube():
+        return LineIcon.youtube().icon!;
+      case Service.twitter():
+        return LineIcon.twitter().icon!;
+      case Service.discord():
+        return LineIcon.discord().icon!;
+    }
+    throw ("No icon available");
   }
 }

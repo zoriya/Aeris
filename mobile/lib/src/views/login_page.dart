@@ -6,7 +6,6 @@ import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_it/get_it.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Login Page Widget
@@ -63,10 +62,11 @@ class LoginPage extends StatelessWidget {
             loginProviders: [
               for (var service in Service.all().where((element) => element != const Service.utils()).toList())
               LoginProvider(
-                icon: LineIcon.alternateGithub().icon,
+                icon: service.getIcon(),
                 label: service.name,
-                callback: () {
-                  launch(Uri.parse(service.authSignInUrl).toString(), forceSafariVC: false);
+                callback: () async {
+                  await launch(Uri.parse(service.authSignInUrl).toString(), forceSafariVC: false);
+                  return GetIt.I<AerisAPI>().isConnected ? null : AppLocalizations.of(context).cantSignInFromService;
                 }
               )
             ],

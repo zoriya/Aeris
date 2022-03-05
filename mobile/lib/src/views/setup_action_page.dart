@@ -47,7 +47,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
   void initState() {
     super.initState();
     serviceState = widget.action.service;
-    availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState, widget.action);
+    var services = Provider.of<ServiceProvider>(context, listen: false).connectedServices;
+    availableActions = GetIt.I<AerisAPI>().getActionsFor(services.contains(serviceState) ? serviceState : services[0], widget.action);
   }
 
   Widget serviceDropdown(List<Service> services) {
