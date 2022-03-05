@@ -72,7 +72,6 @@ export default function HomePage() {
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
 		let pDId = await requestCreatePipeline(pD, creation);
-		console.log(pDId);
 		if (pDId > 0) {
 			if (creation) {
 				pD.id = pDId;
