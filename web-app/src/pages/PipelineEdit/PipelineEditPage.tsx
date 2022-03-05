@@ -1,4 +1,5 @@
 import { AppAREAType, AppPipelineInfoType, AppPipelineType, AppServiceType } from "../../utils/types";
+import { lintPipeline } from "../../utils/utils";
 import { useState } from "react";
 import PipelineModal from "../../components/Pipelines/PipelineModal";
 
@@ -40,6 +41,8 @@ export default function PipelineEditPage({
 	const [editActionData, setEditActionData] = useState<AppAREAType>(pipelineData.action);
 	const [editReactionData, setEditReactionData] = useState<AppAREAType | undefined>();
 	const [editReactionIndex, setEditReactionIndex] = useState<number>(0);
+
+	//const changeEditPipeline = (pD: AppPipelineType) => lintPipeline(pD, services);
 
 	switch (mode) {
 		default:

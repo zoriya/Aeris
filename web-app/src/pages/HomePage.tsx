@@ -10,11 +10,11 @@ import { useState } from "react";
 import {
 	getCookie,
 	deSerializeServices,
-	deSerialisePipeline,
+	deSerializePipeline,
 	fetchWorkflows,
 	fetchLinkedServices,
 	deepCopy,
-	doesPipelineUseService,
+	lintPipeline,
 } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
 import { AppAREAType, AppPipelineType, AppServiceType, AlertLevel } from "../utils/types";
@@ -113,21 +113,7 @@ export default function HomePage() {
 		if (AREAs[0].length === 0 && AREAs[1].length === 0) return;
 		fetchWorkflows()
 			.then((workflows) => {
-				setPipelinesData(
-					workflows.map((workflow: any) => {
-						let pD = deSerialisePipeline(workflow, AREAs);
-						for (const svc of servicesData) {
-							if (!svc.linked && doesPipelineUseService(pD, svc) && svc.uid !== "google") {
-								pD.data.alertLevel = AlertLevel.Warning;
-								pD.data.status =
-									t("pipeline_missing_service_account_part_1") +
-									svc.label +
-									t("pipeline_missing_service_account_part_2");
-							}
-						}
-						return pD;
-					})
-				);
+				setPipelinesData(workflows.map((workflow: any) => deSerializePipeline(workflow, AREAs)));
 			})
 			.catch((error) => {
 				console.warn(error);

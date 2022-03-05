@@ -1,5 +1,6 @@
 import { API_ROUTE, AppServices } from "./globals";
 import { AppAREAType, AppPipelineType, AppServiceType, ParamsType, AlertLevel } from "./types";
+import { useTranslation } from "react-i18next";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
 	const d = new Date();
@@ -113,11 +114,12 @@ export const deSerializeServices = (
 	return [actions, reactions];
 };
 
-export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREAType>): AppAREAType => {
+export const deSerializeApiPipelineAction = (data: any, actions: Array<AppAREAType>): AppAREAType => {
 	const refAction = actions.filter((el) => el.type === data.pType);
 
 	let params: { [key: string]: ParamsType } = refAction[0].params;
 	Object.entries(data.pParams as { [key: string]: string }).forEach((paramData) => {
+		if (!(paramData[0] in params)) return;
 		params[paramData[0]].value = paramData[1];
 	});
 
@@ -127,11 +129,14 @@ export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREATy
 	};
 };
 
-export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
+export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
 	const refReaction = reactions.filter((el) => el.type === data.rType);
+
+	console.log(data);
 
 	let params: { [key: string]: ParamsType } = refReaction[0].params;
 	Object.entries(data.rParams as { [key: string]: string }).forEach((paramData) => {
+		if (!(paramData[0] in params)) return;
 		params[paramData[0]].value = paramData[1];
 	});
 
@@ -141,16 +146,17 @@ export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAR
 	};
 };
 
-export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
+export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
+	console.log(AREAs);
 	for (const reaction of data.reactions) {
-		reactionList.push(deSerialiseApiPipelineReaction(reaction, AREAs[1]));
+		reactionList.push(deSerializeApiPipelineReaction(reaction, AREAs[1]));
 	}
 
 	return {
 		id: data["action"]["id"],
 		name: data["action"]["name"],
-		action: deSerialiseApiPipelineAction(data.action, AREAs[0]),
+		action: deSerializeApiPipelineAction(data.action, AREAs[0]),
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
@@ -256,4 +262,16 @@ export const doesPipelineUseService = (pD: AppPipelineType, service: AppServiceT
 		if (rea.service.uid === sUid) return true;
 	}
 	return false;
+};
+
+export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType>): AppPipelineType => {
+	const { t } = useTranslation();
+	for (const svc of services) {
+		if (!svc.linked && doesPipelineUseService(pD, svc)) {
+			pD.data.alertLevel = AlertLevel.Warning;
+			pD.data.status =
+				t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
+		}
+	}
+	return pD;
 };
