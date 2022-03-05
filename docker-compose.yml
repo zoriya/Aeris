@@ -10,22 +10,22 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - "./api/sql/dump.sql:/docker-entrypoint-initdb.d/dump.sql"
-  #mobile:
-  #  build: ./mobile
-  #  volumes:
-  #    - apk:/dist
-  #front:
-  #  build:
-  #    context: ./web-app
-  #    dockerfile: Dockerfile
-  #    args:
-  #      - API_ROUTE=/api
-  #  ports:
-  #    - "8081:80"
-  #  depends_on:
-  #    - "mobile"
-  #  volumes:
-  #    - apk:/dist
+  mobile:
+    build: ./mobile
+    volumes:
+      - apk:/dist
+  front:
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile
+      args:
+        - API_ROUTE=/api
+    ports:
+      - "8081:80"
+    depends_on:
+      - "mobile"
+    volumes:
+      - apk:/dist
   api:
     build: ./api
     ports:
