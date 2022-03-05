@@ -21,7 +21,7 @@ export class Manager {
 						map((x: Pipeline) =>
 							this.createPipeline(x).pipe(
 								map((env: PipelineEnv) => [x, env]),
-								catchError(err => this.handlePipelineError(x, err)),
+								catchError(err => this.handlePipelineError(x, err, true)),
 							)
 						),
 						switchAll(),
@@ -33,7 +33,7 @@ export class Manager {
 						await new Runner(x).run(env);
 						fetch(`${process.env["WORKER_API_URL"]}/trigger/${x.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`);
 					} catch (err) {
-						this.handlePipelineError(x, err);
+						this.handlePipelineError(x, err, false);
 					}
 					console.log(`Pipeline finished ${x.name}`)
 				}),
@@ -51,13 +51,13 @@ export class Manager {
 			console.log(`Creating an observable for the pipeline ${pipeline.name} - ${pipeline.type} (${pipeline.service})`);
 			return service.getAction(pipeline.type)(pipeline.params)
 		} catch (err) {
-			return this.handlePipelineError(pipeline, err);
+			return this.handlePipelineError(pipeline, err, true);
 		}
 	}
 
-	handlePipelineError(pipeline: Pipeline, error: Error): Observable<never> {
+	handlePipelineError(pipeline: Pipeline, error: Error, shouldDisable: boolean): Observable<never> {
 		console.error(`Unhandled exception while trying to listen for the pipeline ${pipeline.name} (type: ${pipeline.type?.toString()}).`, error)
-		fetch(`${process.env["WORKER_API_URL"]}/error/${pipeline.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
+		fetch(`${process.env["WORKER_API_URL"]}/error/${pipeline.id}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}&disable=${shouldDisable}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
