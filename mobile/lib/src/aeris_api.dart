@@ -50,9 +50,6 @@ class AerisAPI {
     deepLinkRoute = "$scheme://arthichaud.me";
   }
 
-  /// Name of the file that contains the JWT used for Aeris' API requestd
-  static const String jwtFile = 'aeris_jwt.txt';
-
   ///ROUTES
   /// Registers new user in the database and connects it. Returns false if register failed
   Future<bool> signUpUser(String username, String password) async {

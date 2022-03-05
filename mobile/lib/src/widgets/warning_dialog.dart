@@ -1,3 +1,4 @@
+import 'package:aeris/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -11,13 +12,18 @@ class WarningDialog extends StatelessWidget {
 
   ///The action to execute once the warning was accepted
   final void Function() onAccept;
+  ///Color of the button that trigger the action
+  Color? actionButtonColor;
 
-  const WarningDialog(
+  WarningDialog(
       {Key? key,
       required this.message,
+      this.actionButtonColor,
       required this.onAccept,
       required this.warnedAction})
-      : super(key: key);
+      : super(key: key) {
+        actionButtonColor ??= Theme.of(Aeris.materialKey.currentContext!).colorScheme.error;
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -28,27 +34,24 @@ class WarningDialog extends StatelessWidget {
           )
         ),
         content: Text(message),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actionsOverflowDirection: VerticalDirection.up,
         actions: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
+          ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).colorScheme.primaryContainer),
                 onPressed: () => Navigator.pop(context),
                 child: Text(AppLocalizations.of(context).cancel),
               ),
-              ElevatedButton(
+          ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.error),
+                  primary: actionButtonColor),
                 onPressed: () => {
                   Navigator.pop(context),
                   onAccept(),
                 },
                 child: Text(warnedAction)
               )
-            ],
-          ),
-        ]);
+            ]);
   }
 }

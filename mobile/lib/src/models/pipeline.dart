@@ -1,3 +1,4 @@
+import 'package:aeris/src/models/service.dart';
 import 'package:flutter/material.dart';
 import 'package:aeris/src/models/reaction.dart';
 import 'package:aeris/src/models/trigger.dart';
@@ -58,4 +59,8 @@ class Pipeline {
     }, 
     'reactions': reactions.map((e) => e.toJSON()).toList()
   };
+
+  bool dependsOn(Service service) {
+    return service == trigger.service || reactions.any((reaction) => reaction.service == service);
+  }
 }
