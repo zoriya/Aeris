@@ -22,24 +22,21 @@ class ActionDetailCard extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Chip(
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              label: Text(parameter.name,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary
-                )
-              ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Chip(
+                backgroundColor: Theme.of(context).colorScheme.secondary,
+                label: Text(parameter.name,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary
+                  )
+                ),
+              )
             ),
-            Flexible(child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(parameter.value!.toString(), overflow: TextOverflow.ellipsis)
-            ))
+            Flexible(child:
+              Text(parameter.value!.toString(), overflow: TextOverflow.ellipsis)
+            )
           ]
-        ),
-        Text(parameter.description,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-          )
         ),
     ]);
   }
@@ -76,26 +73,19 @@ class ActionDetailCard extends StatelessWidget {
             ),
             expanded: Padding(
               padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20, top: 10),
-              child: action.parameters.isEmpty
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("No parameter"), //TODO translta
-                    popupMenu
-                  ],
-              )
-              : Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: popupMenu,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(action.parameters.isEmpty ? "No parameter": "Parameters:"), //TODO translta
+                      popupMenu
+                    ],
                   ),
-                 ...[for (var parameter in action.parameters) 
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: paramView(context, parameter)
-                    )]
+                  ...[for (var parameter in action.parameters) 
+                    paramView(context, parameter)
+                  ]
                 ]
               )
             )
