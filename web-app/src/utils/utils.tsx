@@ -273,5 +273,7 @@ export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType
 			//	t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
 		}
 	}
+	console.log("lint");
+	console.log(pD);
 	return pD;
 };
