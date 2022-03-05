@@ -143,6 +143,14 @@
 						"en": "Url of a track",
 						"fr": "Url d'une musique'"
 					}
+				},
+				{
+					"name": "playlistUri",
+					"type": "string",
+					"description": {
+						"en": "Id of the playlist",
+						"fr": "Id de la playlist dans laquelle ajouter la musique"
+					}
 				}
 			],
 			"returns": []

@@ -56,16 +56,12 @@ export class Spotify extends BaseService {
 	@reaction(ReactionType.PlayTrack, ['trackUri'])
 	async playTrack(params: any): Promise<PipelineEnv> {
 		await this._refreshIfNeeded();
-		// try {
-			await this._spotify.play({uris: [params.trackUri]});
-		// } catch (e) {
-		// 	throw new Error("Spotify premium is required.");
-		// }
+		await this._spotify.play({uris: [params.trackUri]});
 		return {};
 	}
 
 	@reaction(ReactionType.Pause, [])
-	async pause(params: any): Promise<PipelineEnv> {
+	async pause(_: any): Promise<PipelineEnv> {
 		await this._refreshIfNeeded();
 		await this._spotify.pause();
 		return {};
