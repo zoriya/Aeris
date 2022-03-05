@@ -17,17 +17,9 @@ interface PipelineEditParamsProps {
 	handleQuit: () => any;
 }
 
-const checkIfValid = (formData: { [key: string]: ParamsType }, params: { [key: string]: ParamsType }): boolean => {
-	Object.entries(params).map((el) => {
-		if (!(el[0] in formData)) return false;
-		if (formData[el[0]].value == "") return false;
-	});
-	return true;
-};
-
 export default function PipelineEditParams({ pipelineData, isAction, AREA, setParams }: PipelineEditParamsProps) {
 	AREA = deepCopy(AREA);
-	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
+	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>(AREA.params);
 	const { t } = useTranslation();
 	const languageUid = i18next.resolvedLanguage;
 
@@ -53,11 +45,8 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 					e.preventDefault();
 
 					let paramsToSave: { [key: string]: ParamsType } = deepCopy(AREA.params);
-					console.log(paramsToSave);
 					for (let prop in paramsToSave) {
-						console.log("check", e.target[prop].value);
 						if (!(prop in formData)) return;
-						console.log("pass");
 						paramsToSave[prop].value = e.target[prop].value;
 					}
 					setParams({
@@ -73,18 +62,17 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 								sx={{ marginTop: "20px" }}
 								label={param[0]}
 								name={param[0]}
+								value={formData?.[param[0]]?.value ?? ""}
 								required
 								fullWidth
 								helperText={param[1].description[languageUid]}
-								defaultValue={param[1].value}
 								onChange={(e: any) => {
 									let paramToSave = formData;
 
 									paramToSave[param[0]] = {
-										...deepCopy(AREA.params[param[0]]),
+										...AREA.params[param[0]],
 										value: e.target.value,
 									};
-									console.log(paramToSave);
 									setFormData(deepCopy(paramToSave));
 								}}
 								variant="standard"
