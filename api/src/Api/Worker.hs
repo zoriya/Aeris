@@ -48,7 +48,7 @@ newtype ErrorBody = ErrorBody { error :: Text }
 data RefreshBody = RefreshBody
     { accessToken :: Text
     , refreshToken :: Text
-    , expiresIn :: UTCTime
+    , expiresAt :: UTCTime
     }
 
 $(deriveJSON defaultOptions ''WorkerUserData)
