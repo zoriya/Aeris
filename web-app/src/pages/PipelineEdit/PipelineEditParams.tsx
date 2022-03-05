@@ -17,10 +17,19 @@ interface PipelineEditParamsProps {
 	handleQuit: () => any;
 }
 
+const checkIfValid = (formData: { [key: string]: ParamsType }, params: { [key: string]: ParamsType }): boolean => {
+	Object.entries(params).map((el) => {
+		if (!(el[0] in formData)) return false;
+		if (formData[el[0]].value == "") return false;
+	});
+	return true;
+};
+
 export default function PipelineEditParams({ pipelineData, isAction, AREA, setParams }: PipelineEditParamsProps) {
 	AREA = deepCopy(AREA);
-	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>(AREA.params);
+	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
 	const { t } = useTranslation();
+	console.log("params ", formData, AREA.params);
 	const languageUid = i18next.resolvedLanguage;
 
 	return (
@@ -40,48 +49,62 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 					{t("pipeline_edit_params_info_text")}
 				</Alert>
 			)}
-			<Stack>
-				{Object.entries(AREA.params).map((param, key) => {
-					return (
-						<TextField
-							key={key}
-							sx={{ marginTop: "20px" }}
-							label={param[0]}
-							required
-							fullWidth
-							helperText={param[1].description[languageUid]}
-							defaultValue={param[1].value}
-							onChange={(e: any) => {
-								let paramToSave = formData;
+			<form
+				onSubmit={(e: any) => {
+					e.preventDefault();
 
-								paramToSave[param[0]] = {
-									...AREA.params[param[0]],
-									value: e.target.value,
-								};
-								setFormData(paramToSave);
-							}}
-							variant="standard"
-						/>
-					);
-				})}
-			</Stack>
-			<Grid container justifyContent="center">
-				<LoadingButton
-					sx={{ marginTop: "30px" }}
-					color="secondary"
-					loading={false}
-					loadingPosition="start"
-					startIcon={<Save />}
-					onClick={() =>
-						setParams({
-							...AREA,
-							params: formData,
-						})
+					let paramsToSave: { [key: string]: ParamsType } = deepCopy(AREA.params);
+					for (let prop in paramsToSave) {
+						if (!(prop in formData)) return;
+						paramsToSave[prop].value = e.target[prop].value;
 					}
-					variant="contained">
-					{t("save")}
-				</LoadingButton>
-			</Grid>
+					setParams({
+						...AREA,
+						params: paramsToSave,
+					});
+				}}>
+				<Stack>
+					{Object.entries(AREA.params).map((param, key) => {
+						return (
+							<TextField
+								key={key}
+								sx={{ marginTop: "20px" }}
+								label={param[0]}
+								name={param[0]}
+								required
+								fullWidth
+								helperText={param[1].description[languageUid]}
+								defaultValue={param[1].value}
+								onChange={(e: any) => {
+									let paramToSave = formData;
+
+									paramToSave[param[0]] = {
+										...deepCopy(AREA.params[param[0]]),
+										value: e.target.value,
+									};
+									console.log(paramToSave);
+									setFormData(deepCopy(paramToSave));
+								}}
+								variant="standard"
+							/>
+						);
+					})}
+				</Stack>
+
+				<Grid container justifyContent="center">
+					<LoadingButton
+						sx={{ marginTop: "30px" }}
+						color="secondary"
+						type="submit"
+						disabled={!checkIfValid(formData, AREA.params)}
+						loading={false}
+						loadingPosition="start"
+						startIcon={<Save />}
+						variant="contained">
+						{t("save")}
+					</LoadingButton>
+				</Grid>
+			</form>
 		</div>
 	);
 }

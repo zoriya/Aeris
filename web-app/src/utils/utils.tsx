@@ -147,13 +147,13 @@ export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAR
 export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
 	for (const reaction of data.reactions) {
-		reactionList.push(deSerializeApiPipelineReaction(reaction, AREAs[1]));
+		reactionList.push(deepCopy(deSerializeApiPipelineReaction(reaction, AREAs[1])));
 	}
 
 	return {
 		id: data["action"]["id"],
 		name: data["action"]["name"],
-		action: deSerializeApiPipelineAction(data.action, AREAs[0]),
+		action: deepCopy(deSerializeApiPipelineAction(data.action, AREAs[0])),
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
