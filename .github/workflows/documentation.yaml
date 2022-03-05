@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - mobile_client*
   workflow_dispatch:
 jobs:
   DeployDocumentation:
