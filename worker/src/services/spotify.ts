@@ -26,8 +26,6 @@ export class Spotify extends BaseService {
 	private async _refreshIfNeeded(): Promise<void> {
 		if (Date.parse(this._pipeline.userData["Spotify"].expiresAt) >= Date.now() + 100_000)
 			return;
-		console.log("refreshing spotify")
-		console.table(this._pipeline.userData['Spotify'])
 		const ret = await this._spotify.refreshAccessToken();
 		const data = this._pipeline.userData["Spotify"];
 		data.accessToken = ret.body.access_token;
@@ -49,7 +47,6 @@ export class Spotify extends BaseService {
 	listenAddToPlaylist(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async since => {
 			await this._refreshIfNeeded();
-			console.log("pulling spotify")
 			let ret = await this._spotify.getPlaylistTracks(params.playlistId);
 			return ret.body.items
 				.filter(x => new Date(x.added_at) >= since)

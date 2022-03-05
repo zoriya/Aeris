@@ -5,42 +5,42 @@ import { action, BaseService, reaction, service } from "../models/base-service";
 
 @service(ServiceType.Twitter)
 export class Twitter extends BaseService {
-	constructor(_: Pipeline) {
+	private _twitter: TwitterApi;
+	private _pipeline: Pipeline;
+	
+	constructor(pipeline: Pipeline) {
 		super();
+		this._pipeline = pipeline;
+		this._twitter = new TwitterApi(pipeline.userData["Twitter"].accessToken);
 	}
 
-	private static _createTwitter() {
-		return new TwitterApi(); ///TODO Get API KEY
-	}
-
-	private static async _createStream(): Promise<TweetStream> {
-		const client: TwitterApi = this._createTwitter();
-		const stream = await client.v2.sampleStream();
-		stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
-		stream.on(ETwitterStreamEvent.ConnectionError, err => console.log('Connection error!', err));
-		stream.on(ETwitterStreamEvent.ConnectionClosed, () => console.log('Connection has been closed.'));
-		return stream;
-	}
+	// private async _createStream(): Promise<TweetStream> {
+	// 	const stream = await this._.v2.sampleStream();
+	// 	stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
+	// 	stream.on(ETwitterStreamEvent.ConnectionError, err => console.log('Connection error!', err));
+	// 	stream.on(ETwitterStreamEvent.ConnectionClosed, () => console.log('Connection has been closed.'));
+	// 	return stream;
+	// }
 
 
-	@action(PipelineType.OnTweet, [])
-	static listenTweet(params: any): Observable<PipelineEnv> {
-		return from(Twitter._createStream())
-			.pipe(
-				exhaustMap((stream: TweetStream) =>
-					fromEventPattern(
-						handler => stream.on(ETwitterStreamEvent.Data, handler),
-						() => stream.close()
-					)
-				)
-			);
-	}
+	// @action(PipelineType.OnTweet, [])
+	// listenTweet(params: any): Observable<PipelineEnv> {
+	// 	return from(Twitter._createStream())
+	// 		.pipe(
+	// 			exhaustMap((stream: TweetStream) =>
+	// 				fromEventPattern(
+	// 					handler => stream.on(ETwitterStreamEvent.Data, handler),
+	// 					() => stream.close()
+	// 				)
+	// 			)
+	// 		);
+	// }
 
-	@reaction(ReactionType.followUser, ['user_name'])
-	static async followUser(params: any): Promise<PipelineEnv> {
-		let client: TwitterApi = this._createTwitter();
-		let user = await client.v2.userByUsername(params['user_name']);
-		client.v2.follow((await client.currentUser()).id_str, user.data.id);
+	@reaction(ReactionType.FollowUser, ['user_name'])
+	async followUser(params: any): Promise<PipelineEnv> {
+		let user = await this._twitter.v2.userByUsername(params['user_name']);
+		const me = (await this._twitter.v2.me()).data.id;
+		this._twitter.v2.follow(me, user.data.id);
 		return {
 			FOLLOWED_ID: user.data.id,
 			FOLLOWED_NAME: user.data.name,
@@ -49,20 +49,18 @@ export class Twitter extends BaseService {
 		}
 	}
 
-	@reaction(ReactionType.postTweet, ['tweet_content'])
-	static async postTweet(params: any): Promise<PipelineEnv> {
-		let client: TwitterApi = this._createTwitter();
-		let tweet = await client.v2.tweet(params['tweet_content']);
+	@reaction(ReactionType.PostTweet, ['tweet_content'])
+	async postTweet(params: any): Promise<PipelineEnv> {
+		let tweet = await this._twitter.v2.tweet(params['tweet_content']);
 		return {
 			TWEET_ID: tweet.data.id,
 			TWEET_CONTENT: tweet.data.text,
 		}
 	}
 
-	@reaction(ReactionType.replyToTweet, ['tweet_id', 'reply_body'])
-	static async replyToTweet(params: any): Promise<PipelineEnv> {
-		let client: TwitterApi = this._createTwitter();
-		let reply = await client.v2.reply(
+	@reaction(ReactionType.ReplyToTweet, ['tweet_id', 'reply_body'])
+	async replyToTweet(params: any): Promise<PipelineEnv> {
+		let reply = await this._twitter.v2.reply(
 			params['reply_body'],
 			params['tweet_id'],
 		  );
@@ -73,10 +71,11 @@ export class Twitter extends BaseService {
 		}
 	}
 
-	@reaction(ReactionType.likeTweet, ['tweet_id'])
-	static async likeTweet(params: any): Promise<PipelineEnv> {
-		let client: TwitterApi = this._createTwitter();
-		let tweet = (await client.v2.tweets([params['tweet_id']])).data[0];
+	@reaction(ReactionType.LikeTweet, ['tweet_id'])
+	async likeTweet(params: any): Promise<PipelineEnv> {
+		const me = (await this._twitter.v2.me()).data.id;
+		await this._twitter.v2.like(me, params['tweet_id']);
+		let tweet = (await this._twitter.v2.tweets([params['tweet_id']])).data[0];
 		return {
 			TWEET_ID: tweet.id,
 			TWEET_CONTENT: tweet.text,
@@ -84,10 +83,9 @@ export class Twitter extends BaseService {
 		}
 	}
 
-	@reaction(ReactionType.retweet, ['tweet_id'])
-	static async retweet(params: any): Promise<PipelineEnv> {
-		let client: TwitterApi = this._createTwitter();
-		let tweet = await client.v2.retweet((await client.currentUser()).id_str, params['tweet_id']);
+	@reaction(ReactionType.Retweet, ['tweet_id'])
+	async retweet(params: any): Promise<PipelineEnv> {
+		let tweet = await this._twitter.v2.retweet((await this._twitter.v2.me()).data.id, params['tweet_id']);
 		return {
 			TWEET_ID: params['tweet_id']
 		}

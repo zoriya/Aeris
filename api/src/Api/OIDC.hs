@@ -57,7 +57,7 @@ urlHandler Twitter (Just r) = do
     clientId <- liftIO $ envAsString "TWITTER_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://twitter.com/i/oauth2/authorize?response_type=code&scope=like.write like.read follows.read follows.write offline.access tweet.read tweet.write users.read&code_challenge=challenge&code_challenge_method=plain&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Spotify (Just r) = do
     clientId <- liftIO $ envAsString "SPOTIFY_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
