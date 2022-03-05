@@ -4,9 +4,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 
 import { AccountCircle, Cookie, Lock } from "@mui/icons-material";
-import { InputAdornment } from "@mui/material";
+import {CardMedia, Divider, InputAdornment, Typography} from "@mui/material";
 
-import { API_ROUTE } from "../../utils/globals";
+import {API_ROUTE, AppServices} from "../../utils/globals";
 
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -20,6 +20,7 @@ import { setCookie, getCookie } from "../../utils/utils";
 
 import { useTranslation } from "react-i18next";
 import '../../i18n/config';
+import {AppServiceType} from "../../utils/types";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	container: {
@@ -91,6 +92,7 @@ export default function AuthComponent() {
 	const { t } = useTranslation();
 	const classes = useStyles();
 	const navigate = useNavigate();
+	const [servicesData, setServicesData] = useState<Array<AppServiceType>>(AppServices);
 	const [authData, setAuthData] = useState<AuthCompProps>({
 		username: "",
 		password: "",
@@ -252,6 +254,25 @@ export default function AuthComponent() {
 							className={classes.switchBtn}>
 							{authData.authMode === "login" ? t('signUp') : t('connectToAeris')}
 						</Button>
+					</CardActions>
+					<Divider variant="middle" sx={{ m: 1 }}/>
+					<Typography variant="body2" sx={{ mb: 1}}>
+						Or you can sign up with this services:
+					</Typography>
+					<CardActions>
+						{servicesData.map((elem, index) => {
+							if (elem.uid === "utils")
+								return (<div/>);
+							return (
+								<Button
+									onClick={() => (window.location.href = elem.urlAuth)}
+									variant="text"
+									style={{ borderRadius: "20px", width: "20px", height: "20px" }}
+								>
+									<img loading="lazy" width="20px" height="20px" src={elem.logo.imageSrc} alt={elem.logo.altText} />
+								</Button>
+							);
+						})}
 					</CardActions>
 				</Card>
 			</form>

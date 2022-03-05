@@ -1,8 +1,9 @@
-import { StrictMode } from "react";
+import {StrictMode, useState} from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 
 import App from "./App";
+import ServiceAuth from "./components/Authorizations/ServiceAuth";
 import GithubAuth from "./components/Authorizations/GithubAuth";
 import SpotifyAuth from "./components/Authorizations/SpotifyAuth";
 import GoogleAuth from "./components/Authorizations/YoutubeAuth";
@@ -15,11 +16,15 @@ import PipelinePage from "./pages/HomePage";
 import { ThemeProvider } from "@mui/material";
 
 import theme from "./Aeris.theme";
+import {AppServices} from "./utils/globals";
+import {AppServiceType} from "./utils/types";
 
 /**
  * Creates the routing tree.
  */
 function AerisRouter() {
+	const [possibleServices, setServices] = useState<Array<AppServiceType>>(AppServices)
+
 	return (
 		<ThemeProvider theme={theme}>
 			<div className="App">
@@ -29,12 +34,12 @@ function AerisRouter() {
 							<Route path="/" element={<App />} />
 							<Route path="/auth" element={<AuthComponent />} />
 							<Route path="/pipelines" element={<PipelinePage />} />
-							<Route path="/authorization/github" element={<GithubAuth />} />
-							<Route path="/authorization/spotify" element={<SpotifyAuth />} />
-							<Route path="/authorization/google" element={<GoogleAuth />} />
-							<Route path="/authorization/twitter" element={<TwitterAuth />} />
-							<Route path="/authorization/discord" element={<DiscordAuth />} />
-							<Route path="/authorization/anilist" element={<AnilistAuth />} />
+							{possibleServices.map((elem, index) => {
+								return (<Route path={`/authorization/${elem.uid}`} element={<ServiceAuth service={elem.uid} navigate_to="/pipelines" redirect_uri={`authorization/${elem.uid}`}/>} />);
+							})}
+							{/*{possibleServices.map((elem, index) => {*/}
+							{/*	return (<Route path={`/signin/${elem.uid}`} element={<ServiceAuth service={elem.uid} navigate_to="/pipelines" redirect_uri={`singin/${elem.uid}`}/>} />);*/}
+							{/*})}*/}
 						</Routes>
 					</BrowserRouter>
 				</header>
