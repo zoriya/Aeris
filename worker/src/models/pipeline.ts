@@ -132,7 +132,7 @@ export const pipelineFromApi = (data: any): Pipeline => {
 			{
 				accessToken: x.accessToken,
 				refreshToken: x.refreshToken,
-				expiresIn: x.expiresIn
+				expiresAt: x.expiresAt
 			} as Token
 		])),
 	};
