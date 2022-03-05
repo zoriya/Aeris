@@ -95,13 +95,12 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             onTap: () {
               Reaction newreaction = Reaction.template();
               showAerisCardPage(
-                      context, (_) => SetupActionPage(
+                  context,
+                  (_) => SetupActionPage(
                         action: newreaction,
                         parentTrigger: pipeline.trigger,
                         parentReactions: pipeline.reactions,
-                      )
-                    )
-                  .then((r) {
+                      )).then((r) {
                 if (newreaction != Reaction.template()) {
                   setState(() {
                     pipeline.reactions.add(newreaction);
@@ -140,7 +139,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionCard(
                 leading: pipeline.trigger.service.getLogo(logoSize: 50),
-                title: pipeline.trigger.displayName(),
+                title: pipeline.trigger.displayName,
                 trailing: ActionCardPopupMenu(
                     deletable: false,
                     parentTrigger: pipeline.trigger,
@@ -154,12 +153,12 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
             Text(AppLocalizations.of(context).reactions,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ReorderableReactionCardsList(
-              onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
-              reactionList: pipeline.reactions,
-              itemBuilder: (reaction) => ActionCard(
+                onReorder: () => GetIt.I<AerisAPI>().editPipeline(pipeline),
+                reactionList: pipeline.reactions,
+                itemBuilder: (reaction) => ActionCard(
                       key: ValueKey(pipeline.reactions.indexOf(reaction)),
                       leading: reaction.service.getLogo(logoSize: 50),
-                      title: reaction.displayName(),
+                      title: reaction.displayName,
                       trailing: ActionCardPopupMenu(
                           parentTrigger: pipeline.trigger,
                           parentReactions: pipeline.reactions,
@@ -174,8 +173,7 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
                             setState(() {});
                             GetIt.I<AerisAPI>().editPipeline(pipeline);
                           }),
-                    )
-            ),
+                    )),
             addReactionbutton,
             Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 5),
