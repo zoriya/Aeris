@@ -92,7 +92,7 @@ export class Spotify extends BaseService {
 	@reaction(ReactionType.AddToPlaylist, ['trackUri', 'playlistUri'])
 	async addToPlaylist(params: any): Promise<PipelineEnv> {
 		await this._refreshIfNeeded();
-		await this._spotify.addTracksToPlaylist(params.playlistUri, [params.trackUri]);
+		await this._spotify.addTracksToPlaylist(params.playlistUri, ["spotify:track:" + params.trackUri]);
 		return {};
 	}
 
