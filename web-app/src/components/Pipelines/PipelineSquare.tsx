@@ -20,25 +20,6 @@ import { useTranslation } from "react-i18next";
 import "../../i18n/config";
 import "./PipelineSquare.css";
 
-/*
-<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
-						<Typography
-							align="left"
-							variant="body1"
-							style={{
-								lineHeight: "1.5em",
-								overflow: "hidden",
-								textOverflow: "ellipsis",
-								display: "-webkit-box",
-								WebkitLineClamp: "2",
-								WebkitBoxOrient: "vertical",
-								maxHeight: "3",
-							}}>
-							{pipelineData.data.enabled && errorMode && pipelineData.data.status}
-						</Typography>
-					</div>
-*/
-
 export interface PipelineSquareProps {
 	pipelineData: AppPipelineType;
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
