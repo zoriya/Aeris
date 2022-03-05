@@ -154,7 +154,7 @@ class _ActionFormState extends State<ActionForm> {
                                 suggestion.item3.service.getLogo(logoSize: 30),
                             title: Text(suggestion.item2.name),
                             subtitle: Text(
-                                "${suggestion.item2.description}, from '${suggestion.item3.displayName}'")));
+                                "${suggestion.item2.description}, ${AppLocalizations.of(context).from} '${suggestion.item3.displayName}'")));
                   }),
                   ...[
                     ElevatedButton(

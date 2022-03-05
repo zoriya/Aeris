@@ -46,5 +46,6 @@
     "paramInheritTip": "Afin d'hériter de variables venant d'actions précedentes, entrez '{' dans un champ et choisissez la valeur",
     "authenticatedToNoService": "Aucun service n'est connecté",
     "connectService": "Connexion aux services",
-    "cantEnablePipeline": "Impossible d'activer la pipeline car elle dépend d'un service qui n'est pas connecté"
+    "cantEnablePipeline": "Impossible d'activer la pipeline car elle dépend d'un service qui n'est pas connecté",
+    "from": "de"
 }
