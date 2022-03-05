@@ -47,7 +47,7 @@ class ActionCardPopupMenu extends StatelessWidget {
           dynamic Function() callback = value! as dynamic Function();
           callback();
         },
-        icon: Icons.more_vert,
+        icon: Icons.more_horiz,
         itemBuilder: (context) => [
               AerisPopupMenuItem(
                   context: context,
