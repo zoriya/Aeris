@@ -16,11 +16,6 @@ export default function App() {
 
 	if (getCookie("aeris_jwt")) return <Navigate to="/pipelines" replace />;
 
-	const autoCompleteData = [
-		{ label: "The Godfather", id: 1 },
-		{ label: "Pulp Fiction", id: 2 },
-	];
-
 	return (
 		<div className="App">
 			<header className="App-header">
