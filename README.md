@@ -2,6 +2,13 @@
 
 # Professional, personnal action-reaction manager
 
+[![Build](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml)
+
+![API](https://img.shields.io/badge/API-Haskell-purple)
+![Worker](https://img.shields.io/badge/Worker-Typescript-blue)
+![Web Client](https://img.shields.io/badge/Web%20Client-React-turquoise)
+![Mobile Client](https://img.shields.io/badge/Mobile%20Client-Flutter-lightblue)
+
 ## What is Aeris
 
 Aeris is an Action-Reaction system manager. It lets its users create *Pipelines*.
@@ -44,6 +51,10 @@ The Aeris server is accessible on the host's 8080 port
 You can access the Web client through port 8081
 
 An Android APK can be downloaded via localhost:8081/client.apk
+
+## Documentation
+
+
 
 ## Why *Aeris* ?
 
