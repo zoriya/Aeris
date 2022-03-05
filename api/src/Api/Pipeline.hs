@@ -166,8 +166,9 @@ postPipelineHandler (Authenticated (User uid _ _)) x = do
     actionId <- createPipeline newPipeline
     liftIO $ informWorker "POST" actionId
     let newReactions = reactionDatasToReactions (reactions (x :: PostPipelineData)) actionId
+    let newPipelineWithId = newPipeline { pipelineId = actionId }
     createReactions newReactions
-    return $ formatGetPipelineResponse newPipeline newReactions
+    return $ formatGetPipelineResponse newPipelineWithId newReactions
   where
     p = action (x :: PostPipelineData)
 postPipelineHandler _ _ = throwError err401
