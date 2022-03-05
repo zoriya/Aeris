@@ -29,7 +29,6 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 	AREA = deepCopy(AREA);
 	const [formData, setFormData] = useState<{ [key: string]: ParamsType }>({});
 	const { t } = useTranslation();
-	console.log("params ", formData, AREA.params);
 	const languageUid = i18next.resolvedLanguage;
 
 	return (
@@ -54,8 +53,11 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 					e.preventDefault();
 
 					let paramsToSave: { [key: string]: ParamsType } = deepCopy(AREA.params);
+					console.log(paramsToSave);
 					for (let prop in paramsToSave) {
+						console.log("check", e.target[prop].value);
 						if (!(prop in formData)) return;
+						console.log("pass");
 						paramsToSave[prop].value = e.target[prop].value;
 					}
 					setParams({
@@ -96,7 +98,6 @@ export default function PipelineEditParams({ pipelineData, isAction, AREA, setPa
 						sx={{ marginTop: "30px" }}
 						color="secondary"
 						type="submit"
-						disabled={!checkIfValid(formData, AREA.params)}
 						loading={false}
 						loadingPosition="start"
 						startIcon={<Save />}
