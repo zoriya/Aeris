@@ -71,9 +71,13 @@ export default function HomePage() {
 	const [pipelinesData, setPipelinesData] = useState<Array<AppPipelineType>>([]);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
-		if (await requestCreatePipeline(pD, creation)) {
-			if (creation) setPipelinesData([...pipelinesData, pD]);
-			else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
+		let pDId = await requestCreatePipeline(pD, creation);
+		console.log(pDId);
+		if (pDId > 0) {
+			if (creation) {
+				pD.id = pDId;
+				setPipelinesData([...pipelinesData, pD]);
+			} else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
 			return setModalMode(ModalSelection.None);
 		}
 	};
