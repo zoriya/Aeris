@@ -266,7 +266,7 @@ export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType
 	for (const svc of services) {
 		if (!svc.linked && doesPipelineUseService(pD, svc)) {
 			pD.data.alertLevel = AlertLevel.Warning;
-			pD.data.status = "warning";
+			pD.data.status = "warning " + svc.label + " account";
 			//	t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
 		}
 	}
