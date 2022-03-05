@@ -43,5 +43,7 @@
     "tryToConnect": "Try to connect",
     "routeToApi": "Route to API",
     "setupAPIRoute": "Setup API Route",
-    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter"
+    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter",
+    "parameters": "Parameters",
+    "noParameter": "No parameter"
 }

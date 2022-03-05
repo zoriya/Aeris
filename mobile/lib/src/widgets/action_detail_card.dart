@@ -2,6 +2,7 @@ import 'package:aeris/src/models/action.dart' as aeris;
 import 'package:aeris/src/models/action_parameter.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActionDetailCard extends StatelessWidget {
   ///The source of information
@@ -58,14 +59,15 @@ class ActionDetailCard extends StatelessWidget {
                 children: [
                   Expanded(child: action.service.getLogo(logoSize: 50), flex: 2),
                   Expanded(
-                    child: Text(
+                    child: Padding(padding: const EdgeInsets.only(left: 10),
+                      child: Text(
                       action.displayName,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 15
                       ),
                       textAlign: TextAlign.center,
-                    ),
+                    )),
                     flex: 8
                   ),
                 ],
@@ -79,7 +81,7 @@ class ActionDetailCard extends StatelessWidget {
                   Padding(child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(action.parameters.isEmpty ? "No parameter": "Parameters:"), //TODO translta
+                      Text(action.parameters.isEmpty ? AppLocalizations.of(context).noParameter: "${AppLocalizations.of(context).parameters}:"),
                       popupMenu
                     ]),
                     padding: const EdgeInsets.only(bottom: 5)
