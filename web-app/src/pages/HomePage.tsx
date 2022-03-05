@@ -1,31 +1,28 @@
 import { PipelineSquaresLayout } from "../components/Pipelines/PipelineSquaresLayout";
-import type { PipelineBoxProps } from "../components/Pipelines/PipelineBox";
 import PipelineModal from "../components/Pipelines/PipelineModal";
 import PipelineEditPage from "./PipelineEdit/PipelineEditPage";
 import AddIcon from "@mui/icons-material/Add";
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import { Grid } from "@mui/material";
+import { useEffect } from "react";
+import { Box, Fab } from "@mui/material";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useState } from "react";
 import {
 	getCookie,
 	deSerializeServices,
-	deSerialisePipeline,
+	deSerializePipeline,
 	fetchWorkflows,
 	fetchLinkedServices,
 	deepCopy,
+	lintPipeline,
 } from "../utils/utils";
 import { requestCreatePipeline, deletePipeline, getAboutJson } from "../utils/CRUDPipeline";
-import { AppAREAType, AppPipelineType, AppServiceType } from "../utils/types";
+import { AppAREAType, AppPipelineType, AppServiceType, AlertLevel } from "../utils/types";
 import ServiceSetupModal from "./ServiceSetup";
-import { AppServices, AppServicesLogos, NoAREA, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
+import { AppServices, NewEmptyPipeline, API_ROUTE } from "../utils/globals";
 import AerisAppbar from "../components/AppBar";
-import MenuItem from "@mui/material/MenuItem";
 import { Navigate } from "react-router-dom";
-import { PipelineSquare } from "../components/Pipelines/PipelineSquare";
+import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
 	divHomePage: {
@@ -60,9 +57,10 @@ const getUserName = async (): Promise<string> => {
 export default function HomePage() {
 	if (!getCookie("aeris_jwt")) return <Navigate to="/auth" replace />;
 
+	const { t } = useTranslation();
 	const classes = useStyles();
 	const [username, setUsername] = useState<string>("");
-	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([]);
+	const [AREAs, setAREAs] = useState<Array<Array<AppAREAType>>>([[], []]);
 	const [modalMode, setModalMode] = useState<ModalSelection>(ModalSelection.None);
 	const [pipelineData, setPipelineData] = useState<AppPipelineType>(NewEmptyPipeline);
 	const [handleSavePipeline, setHandleSavePipeline] = useState<(pD: AppPipelineType) => any>(
@@ -73,9 +71,12 @@ export default function HomePage() {
 	const [pipelinesData, setPipelinesData] = useState<Array<AppPipelineType>>([]);
 
 	const homePagePipeLineSave = async (pD: AppPipelineType, creation: boolean) => {
-		if (await requestCreatePipeline(pD, creation)) {
-			if (creation) setPipelinesData([...pipelinesData, pD]);
-			else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
+		let pDId = await requestCreatePipeline(pD, creation);
+		if (pDId > 0) {
+			if (creation) {
+				pD.id = pDId;
+				setPipelinesData([...pipelinesData, pD]);
+			} else setPipelinesData(pipelinesData.map((iPd) => (iPd.id !== pD.id ? iPd : pD)));
 			return setModalMode(ModalSelection.None);
 		}
 	};
@@ -98,7 +99,7 @@ export default function HomePage() {
 				setServicesData(
 					servicesData.map((servData) => ({
 						...servData,
-						linked: services.includes(servData.uid),
+						linked: services.includes(servData.uid) || servData.uid === "utils",
 					}))
 				);
 			})
@@ -109,12 +110,15 @@ export default function HomePage() {
 
 	useEffect(() => {
 		refreshWorkflows();
-	}, [AREAs]);
+	}, [AREAs, servicesData]);
 
 	const refreshWorkflows = () => {
+		if (AREAs[0].length === 0 && AREAs[1].length === 0) return;
 		fetchWorkflows()
 			.then((workflows) => {
-				setPipelinesData(workflows.map((workflow: any) => deSerialisePipeline(workflow, AREAs)));
+				setPipelinesData(
+					workflows.map((workflow: any) => lintPipeline(deSerializePipeline(workflow, AREAs), servicesData))
+				);
 			})
 			.catch((error) => {
 				console.warn(error);
@@ -156,7 +160,7 @@ export default function HomePage() {
 					disableDeletion={!pipelineDeletion}
 					pipelineData={pipelineData}
 					handleSave={handleSavePipeline}
-					services={AppServices}
+					services={servicesData}
 					actions={AREAs[0]}
 					reactions={AREAs[1]}
 					handleDelete={async (pD: AppPipelineType) => {
