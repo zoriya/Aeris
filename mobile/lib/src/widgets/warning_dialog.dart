@@ -13,7 +13,7 @@ class WarningDialog extends StatelessWidget {
   ///The action to execute once the warning was accepted
   final void Function() onAccept;
   ///Color of the button that trigger the action
-  Color? actionButtonColor = Theme.of(Aeris.materialKey.currentContext!).colorScheme.error;
+  Color? actionButtonColor;
 
   WarningDialog(
       {Key? key,
@@ -21,7 +21,9 @@ class WarningDialog extends StatelessWidget {
       this.actionButtonColor,
       required this.onAccept,
       required this.warnedAction})
-      : super(key: key);
+      : super(key: key) {
+        actionButtonColor ??= Theme.of(Aeris.materialKey.currentContext!).colorScheme.error;
+      }
 
   @override
   Widget build(BuildContext context) {
