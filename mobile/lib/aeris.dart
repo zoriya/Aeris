@@ -1,8 +1,45 @@
 library aeris;
 
 export 'package:aeris/src/views/startup_page.dart';
-
 export 'package:aeris/src/widgets/overlayed_texts.dart';
-
 export 'package:aeris/src/widgets/background/anim_painter.dart';
 export 'package:aeris/src/widgets/background/custom_animation.dart';
+export "package:aeris/src/aeris_api.dart";
+export "package:aeris/src/providers/action_catalogue_provider.dart";
+export "package:aeris/src/providers/pipelines_provider.dart";
+export "package:aeris/src/providers/services_provider.dart";
+export "package:aeris/src/models/pipeline.dart";
+export "package:aeris/src/models/action_template.dart";
+export "package:aeris/src/models/action_parameter.dart";
+export "package:aeris/src/models/reaction.dart";
+export "package:aeris/src/models/trigger.dart";
+export "package:aeris/src/models/service.dart";
+export "package:aeris/src/models/action.dart";
+export "package:aeris/src/models/pipeline_collection.dart";
+export "package:aeris/src/constants.dart";
+export "package:aeris/src/views/pipeline_detail_page.dart";
+export "package:aeris/src/views/authorization_page.dart";
+export "package:aeris/src/views/setup_action_page.dart";
+export "package:aeris/src/views/service_page.dart";
+export "package:aeris/src/views/login_page.dart";
+export "package:aeris/src/views/home_page.dart";
+export "package:aeris/src/views/create_pipeline_page.dart";
+export "package:aeris/src/views/startup_page.dart";
+export "package:aeris/src/widgets/background/anim_painter.dart";
+export "package:aeris/src/widgets/background/custom_animation.dart";
+export "package:aeris/src/widgets/background/animated_background.dart";
+export "package:aeris/src/widgets/action_card_popup_menu.dart";
+export "package:aeris/src/widgets/reorderable_reaction_cards_list.dart";
+export "package:aeris/src/widgets/aeris_page.dart";
+export "package:aeris/src/widgets/aeris_popup_menu_item.dart";
+export "package:aeris/src/widgets/warning_dialog.dart";
+export "package:aeris/src/widgets/home_page_sort_menu.dart";
+export "package:aeris/src/widgets/aeris_popup_menu.dart";
+export "package:aeris/src/widgets/aeris_card_page.dart";
+export "package:aeris/src/widgets/colored_clickable_card.dart";
+export "package:aeris/src/widgets/action_form.dart";
+export "package:aeris/src/widgets/overlayed_texts.dart";
+export "package:aeris/src/widgets/clickable_card.dart";
+export "package:aeris/src/widgets/pipeline_card.dart";
+export "package:aeris/src/widgets/action_card.dart";
+export "package:aeris/src/widgets/setup_api_route.dart";
