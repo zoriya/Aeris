@@ -68,6 +68,8 @@ class AerisAPI {
     http.Response response = await _requestAPI(
         '/auth/${service.name.toLowerCase()}/signin?code=$code',
         AerisAPIRequestType.post, {});
+    print(response.body);
+    print(response.statusCode);
     if (!response.ok) {
       return false;
     }

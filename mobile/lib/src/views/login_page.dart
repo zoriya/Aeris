@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
@@ -73,7 +75,9 @@ class LoginPage extends StatelessWidget {
                 label: service.name,
                 callback: () async {
                   await launch(Uri.parse(service.authSignInUrl).toString(), forceSafariVC: false);
-                  return GetIt.I<AerisAPI>().isConnected ? null : AppLocalizations.of(context).cantSignInFromService;
+                  return Future.delayed(Duration(seconds: 3)).then((value) {
+                    return GetIt.I<AerisAPI>().isConnected ? null : AppLocalizations.of(context).cantSignInFromService;
+                  });
                 }
               )
             ],
