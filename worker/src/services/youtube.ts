@@ -40,12 +40,12 @@ export class Youtube extends BaseService {
 		});
 	}
 
-	@action(PipelineType.OnYtUpload, ["channel"])
+	@action(PipelineType.OnYtUpload, ["channel_id"])
 	listenChannel(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
-				part: ["snippet"],
-				channelId: params.channel,
+				part: ["snippet", "contentDetails"],
+				channelId: params.channel_id,
 				maxResults: 25,
 				publishedAfter: since.toISOString(),
 			}, {});
@@ -134,10 +134,12 @@ export class Youtube extends BaseService {
 	@reaction(ReactionType.YtAddToPlaylist, ["videoId", "playlistId"])
 	async reactPlaylist(params: any): Promise<PipelineEnv> {
 		await this._youtube.playlistItems.insert({
+			part: ["snippet"],
 			requestBody: {
 				snippet: {
 					resourceId: {
 						videoId: params.videoId,
+						kind: "youtube#video"
 					},
 					playlistId: params.playlistId,
 				},
