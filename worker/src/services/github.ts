@@ -64,17 +64,6 @@ export class Github extends BaseService {
 		);
 	}
 
-	@reaction(ReactionType.CommentPR, ['owner', 'repo', 'pull_number', 'body'])
-	async commentPR(params: any): Promise<PipelineEnv> {
-		let res = await this._github.pulls.createReviewComment({
-			owner: params['owner'], repo: params['repo'], 
-			pull_number: params['pull_number'], body: params['body']
-		});
-		return {
-			URL: res.url,
-		};
-	}
-
 	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
 	async closePR(params: any): Promise<PipelineEnv> {
 		await this._github.pulls.update({
