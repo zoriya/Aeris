@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import { createOAuthAppAuth, createOAuthUserAuth } from  "@octokit/auth-oauth-app"
 import { Pipeline, PipelineEnv, PipelineType, ReactionType, ServiceType } from "../models/pipeline";
 import { action, BaseService, reaction, service } from "../models/base-service";
 import { Webhooks, EmitterWebhookEventName } from "@octokit/webhooks";
@@ -12,8 +13,24 @@ export class Github extends BaseService {
 
 	constructor(pipeline: Pipeline) {
 		super();
-		if (!("Github" in pipeline.userData))
+	/*	if (!("Github" in pipeline.userData))
 			throw new Error("User not authenticated via github");
+
+			const auth = createOAuthAppAuth({
+				clientType: "oauth-app",
+				clientId: "1234567890abcdef1234",
+				clientSecret: "1234567890abcdef1234567890abcdef12345678",
+			  });
+
+			const Authorization = await auth({
+				type: "token",
+				tokenType: "oauth",
+				clientType: "oauth-app",
+				clientId: "clientId from the strategy options",
+				clientSecret: "clientsecret from strategy options",
+				token: "true access token",
+				scopes: "scopes of the token"
+			});*/
 		this._github = new Octokit({auth: pipeline.userData["Github"].accessToken});
 		this._websocket = new Webhooks({
 			secret: "bidibi"
