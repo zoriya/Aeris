@@ -3,142 +3,157 @@
 	"actions": [
 		{
 			"name": "Spotify_OnSpotifyAddToPlaylist",
-			"description": "Event triggered when a song is added to a Spotify playlist",
+			"description": {
+				"en": "Event triggered when a song is added to a Spotify playlist",
+				"fr": "Un évènement déclenché lorsqu'une musique est ajoutée à une playlist Spotify"
+			},
+			"label": {
+				"en": "Song added to playlist",
+				"fr": "Musique ajoutée à une playlist"
+			},
 			"params": [
 				{
 					"name": "playlistId",
 					"type": "string",
-					"description": "The Spotify ID of the playlist to watch"
+					"description": {
+						"en": "The Spotify ID of the playlist to watch",
+						"fr": "Identifiant de la playlist Spotify à regarder"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "ID of the added track"
+					"description": {
+						"en": "ID of the added track",
+						"fr": "Identifiant de la musique ajoutée"
+					}
 				},
 				{
 					"name": "NAME",
-					"description": "Name of the added track"
+					"description": {
+						"en": "Name of the added track",
+						"fr": "Nom de la musique ajoutée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Spotify_OnSpotifySaveToLibrary",
-			"description": "Event triggered when a song is added to a Spotify library",
+			"description": {
+				"en": "Event triggered when a song is added to your Spotify library",
+				"fr": "Un évènement déclenché lorsqu'une musique est ajoutée à votre librairie Spotify"
+			},
+			"label": {
+				"en": "Song added to Spotify library",
+				"fr": "Musique ajoutée à la librairie Spotify"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "ID of the added track"
+					"description": {
+						"en": "ID of the added track",
+						"fr": "Identifiant de la musique ajoutée"
+					}
 				},
 				{
 					"name": "NAME",
-					"description": "Name of the added track"
+					"description": {
+						"en": "Name of the added track",
+						"fr": "Nom de la musique ajoutée"
+					}
 				}
 			]
 		}
 	],
 	"reactions": [
 		{
-			"name": "PlayTrack",
-			"description": "Play a track",
+			"name": "Spotify_PlayTrack",
+			"description": {
+				"en": "Play a track",
+				"fr": "Joue une musique"
+			},
+			"label": {
+				"en": "Play a track",
+				"fr": "Joue une musique"
+			},
 			"params": [
 				{
-					"name": "artist",
+					"name": "trackUri",
 					"type": "string",
-					"description": "Artist of the song to play"
-				},
-				{
-					"name": "track",
-					"type": "string",
-					"description": "Title of the song to play"
+					"description": {
+						"en": "Url of a track",
+						"fr": "Url d'une musique'"
+					}
 				}
 			],
-			"returns": [
-				{
-					"name": "URL",
-					"description": "URL of the song"
-				},
-				{
-					"name": "ARTIST",
-					"description": "Artist of the song"
-				},
-				{
-					"name": "TRACK",
-					"description": "Title of the song"
-				}
-			]
+			"returns": []
 		},
 		{
 			"name": "Spotify_Pause",
-			"description": "Pause play",
+			"description": {
+				"en": "Pause the currently playing music",
+				"fr": "Mets la musique en cours de lecture en pause"
+			},
+			"label": {
+				"en": "Pause play",
+				"fr": "Mets pause"
+			},
 			"params": [],
 			"returns": []
 		},
 		{
-			"name": "AddTrackToLibrary",
-			"description": "Add a track to library",
+			"name": "Spotify_AddTrackToLibrary",
+			"description": {
+				"en": "Add a track to library",
+				"fr": "Ajoute une musique à votre librarie"
+			},
+			"label": {
+				"en": "Add a track to library",
+				"fr": "Ajoute une musique à votre librarie"
+			},
 			"params": [
 				{
-					"name": "artist",
+					"name": "trackUri",
 					"type": "string",
-					"description": "Artist of the song to add"
-				},
-				{
-					"name": "track",
-					"type": "string",
-					"description": "Title of the song to add"
+					"description": {
+						"en": "Url of a track",
+						"fr": "Url d'une musique'"
+					}
 				}
 			],
-			"returns": [
-				{
-					"name": "URL",
-					"description": "URL of the added song"
-				},
-				{
-					"name": "ARTIST",
-					"description": "Artist of the added song"
-				},
-				{
-					"name": "TRACK",
-					"description": "Title of the added song"
-				}
-			]
+			"returns": []
 		},
 		{
 			"name": "Spotify_AddToPlaylist",
-			"description": "Add a track to a playlist",
+			"description": {
+				"en": "Add a track to a given playlist",
+				"fr": "Ajoute une musique à une playlist donnée"
+			},
+			"label": {
+				"en": "Add a song to a playlist",
+				"fr": "Ajoute une musique à une playlist"
+			},
 			"params": [
 				{
-					"name": "artist",
+					"name": "trackUri",
 					"type": "string",
-					"description": "Artist of the song to add"
+					"description": {
+						"en": "Url of a track",
+						"fr": "Url d'une musique'"
+					}
 				},
 				{
-					"name": "track",
+					"name": "playlistUri",
 					"type": "string",
-					"description": "Title of the song to add"
-				},
-				{
-					"name": "playlist",
-					"type": "string",
-					"description": "Name of the playlist"
+					"description": {
+						"en": "Id of the playlist",
+						"fr": "Id de la playlist dans laquelle ajouter la musique"
+					}
 				}
 			],
-			"returns": [
-				{
-					"name": "URL",
-					"description": "URL of the added song"
-				},
-				{
-					"name": "ARTIST",
-					"description": "Artist of the added song"
-				},
-				{
-					"name": "TRACK",
-					"description": "Title of the added song"
-				}
-			]
+			"returns": []
 		}
 	]
 }

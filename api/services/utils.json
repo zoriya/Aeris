@@ -1,0 +1,19 @@
+{
+	"name": "Utils",
+	"actions": [
+		{
+			"name": "Utils_OnTrigger",
+			"label": {
+				"en": "Manual trigger",
+				"fr": "Déclencheur manuel"
+			},
+			"description": {
+				"en": "Trigger only on dev interactions with Aeris.",
+				"fr": "Action se déclenchant uniquement lors d'une interaction manuelle"
+			},
+			"params": [],
+			"returns": []
+		}
+	],
+	"reactions": []
+}

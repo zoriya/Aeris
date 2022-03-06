@@ -3,98 +3,173 @@
 	"actions": [
 		{
 			"name": "Youtube_OnYtUpload",
-			"description": "Event triggered on video upload",
+			"description": {
+				"en": "Event triggered on video upload",
+				"fr": "Un évènement déclenché lorsqu'une vidéo est mise en ligne"
+			},
+			"label": {
+				"en": "Video upload",
+				"fr": "Mise en ligne d'une vidéo"
+			},
 			"params": [
 				{
-					"name": "channel",
+					"name": "channel_id",
 					"type": "string",
-					"description": "Name of the channel to watch over"
+					"description": {
+						"en": "ID of the channel to watch over",
+						"fr": "L'ID de la chaîne à regarder"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "Youtube ID of the uploaded video"
+					"description": {
+						"en": "Youtube ID of the uploaded video",
+						"fr": "Identifiant de la vidéo mise en ligne"
+					}
 				},
 				{
 					"name": "CHANNEL_ID",
-					"description": "Youtube ID of the channel the video was uploaded to"
+					"description": {
+						"en": "Youtube ID of the channel the video was uploaded to",
+						"fr": "Identifiant de la chaîne YouTube sur laquelle la vidéo a été mise en ligne"
+					}
 				},
 				{
 					"name": "TITLE",
-					"description": "Title of the uploaded video"
+					"description": {
+						"en": "Title of the uploaded video",
+						"fr": "Titre de la vidéo mise en ligne"
+					}
 				},
 				{
 					"name": "DESCRIPTION",
-					"description": "Description of the uploaded video"
+					"description": {
+						"en": "Description of the uploaded video",
+						"fr": "Description de la vidéo mise en ligne"
+					}
 				},
 				{
 					"name": "PUBLISHED_AT",
-					"description": "Date of the release"
+					"description": {
+						"en": "Date of the release",
+						"fr": "Date de mise en ligne"
+					}
 				},
 				{
 					"name": "CHANNEL_TITLE",
-					"description": "Name of the channel the video was uploaded to"
+					"description": {
+						"en": "Name of the channel the video was uploaded to",
+						"fr": "Nom de la chaîne sur laquelle la vidéo a été mise en ligne"
+					}
 				}
 			]
 		},
 		{
 			"name": "Youtube_OnYtLike",
-			"description": "Event triggered on video like",
+			"description": {
+				"en": "Event triggered on video like",
+				"fr": "Un évènement déclenché lorsqu'une vidéo est likée"
+			},
+			"label": {
+				"en": "Video like",
+				"fr": "Like une vidéo"
+			},
 			"params": [],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "Youtube ID of the added video"
+					"description": {
+						"en": "Youtube ID of the liked video",
+						"fr": "Identifiant de la vidéo likée"
+					}
 				},
 				{
 					"name": "CHANNEL_ID",
-					"description": "Youtube ID of the channel the video was added to"
+					"description": {
+						"en": "Youtube ID of the channel the liked video",
+						"fr": "Identifiant de la chaîne YouTube de la vidéo likée"
+					}
 				},
 				{
 					"name": "TITLE",
-					"description": "Title of the added video"
+					"description": {
+						"en": "Title of the liked video",
+						"fr": "Titre de la vidéo likée"
+					}
 				},
 				{
 					"name": "DESCRIPTION",
-					"description": "Description of the added video"
+					"description": {
+						"en": "Description of the liked video",
+						"fr": "Description de la vidéo likée"
+					}
 				},
 				{
 					"name": "CHANNEL_TITLE",
-					"description": "Name of the channel the video belongs to"
+					"description": {
+						"en": "Name of the channel of the liked video",
+						"fr": "Nom de la chaîne de la vidéo likée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Youtube_OnYtPlaylistAdd",
-			"description": "Event triggered when a video is added to a playlist",
+			"description": {
+				"en": "Event triggered when a video is added to a playlist",
+				"fr": "Un évènement déclenché lorsqu'une vidéo est ajoutée à une playlist"
+			},
+			"label": {
+				"en": "Video added to a playlist",
+				"fr": "Vidéo ajoutée à une playlist"
+			},
 			"params": [
 				{
 					"name": "playlistId",
 					"type": "string",
-					"description": "ID of the playlist to watch over"
+					"description": {
+						"en": "ID of the playlist to watch over",
+						"fr": "Identifiant de la playlist à regarder"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "Youtube ID of the added video"
+					"description": {
+						"en": "Youtube ID of the added video",
+						"fr": "Identifiant de la vidéo ajoutée"
+					}
 				},
 				{
 					"name": "CHANNEL_ID",
-					"description": "Youtube ID of the channel the video was added to"
+					"description": {
+						"en": "Youtube ID of the channel of the added video",
+						"fr": "Identifiant de la chaîne YouTube de la vidéo ajoutée"
+					}
 				},
 				{
 					"name": "TITLE",
-					"description": "Title of the added video"
+					"description": {
+						"en": "Title of the added video",
+						"fr": "Titre de la vidéo ajoutée"
+					}
 				},
 				{
 					"name": "DESCRIPTION",
-					"description": "Description of the added video"
+					"description": {
+						"en": "Description of the added video",
+						"fr": "Description de la vidéo ajoutée"
+					}
 				},
 				{
 					"name": "CHANNEL_TITLE",
-					"description": "Name of the channel the video belongs to"
+					"description": {
+						"en": "Name of the channel of the added video",
+						"fr": "Nom de la chaîne à laquelle la vidéo appartient"
+					}
 				}
 			]
 		}
@@ -102,66 +177,114 @@
 	"reactions": [
 		{
 			"name": "Youtube_YtLike",
-			"description": "Like a Youtube video",
+			"description": {
+				"en": "Like a Youtube video",
+				"fr": "Like une vidéo YouTube"
+			},
+			"label": {
+				"en": "Like a video",
+				"fr": "Aime une vidéo"
+			},
 			"params": [
 				{
 					"name": "videoId",
 					"type": "string",
-					"description": "ID of the video to like"
+					"description": {
+						"en": "ID of the liked video",
+						"fr": "Identifiant de la vidéo likée"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "Youtube ID of the liked video"
+					"description": {
+						"en": "Youtube ID of the liked video",
+						"fr": "Identifiant de la vidéo YouTube likée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Youtube_YtComment",
-			"description": "Comment a Youtube video",
+			"description": {
+				"en": "Comment a Youtube video",
+				"fr": "Commente une vidéo YouTube"
+			},
+			"label": {
+				"en": "Comment a video",
+				"fr": "Commente une vidéo"
+			},
 			"params": [
 				{
 					"name": "videoId",
 					"type": "string",
-					"description": "ID of the video to comment"
+					"description": {
+						"en": "ID of the video to comment",
+						"fr": "Identifiant de la vidéo à commenter"
+					}
 				},
 				{
 					"name": "body",
 					"type": "string",
-					"description": "Content of the comment"
+					"description": {
+						"en": "Content of the comment",
+						"fr": "Contenu du commentaire"
+					}
 				}
 			],
 			"returns": [
 				{
 					"name": "ID",
-					"description": "Youtube ID of the commented video"
+					"description": {
+						"en": "Youtube ID of the commented video",
+						"fr": "Identifiant de la vidéo YouTube commentée"
+					}
 				}
 			]
 		},
 		{
 			"name": "Youtube_YtAddToPlaylist",
-			"description": "Add a Youtube video to a playlist",
+			"description": {
+				"en": "Add a Youtube video to a playlist",
+				"fr": "Ajoute une vidéo YouTube à une playlist"
+			},
+			"label": {
+				"en": "Add a video to a playlist",
+				"fr": "Ajoute une vidéo à une playlist"
+			},
 			"params": [
 				{
 					"name": "videoId",
 					"type": "string",
-					"description": "ID of the video to add"
+					"description": {
+						"en": "ID of the video to add",
+						"fr": "Identifiant de la vidéo à ajouter"
+					}
 				},
 				{
 					"name": "playlistId",
 					"type": "string",
-					"description": "ID of the playlist to add the video to"
+					"description": {
+						"en": "ID of the playlist to add the video to",
+						"fr": "Identifiant de la playlist dans laquelle ajouter la vidéo"
+					}
 				}
 			],
 			"returns": [
 				{
-					"name": "VIDEO_ID",
-					"description": "Youtube ID of the added video"
+					"name": "ID",
+					"description": {
+						"en": "Youtube ID of the added video",
+						"fr": "Identifiant de la vidéo YouTube ajoutée"
+					}
 				},
 				{
 					"name": "PLAYLIST_ID",
-					"description": "Youtube ID of the playlist"
+					"description": {
+						"en": "Youtube ID of the playlist",
+						"fr": "Identifiant de la playlist"
+					}
 				}
 			]
 		}

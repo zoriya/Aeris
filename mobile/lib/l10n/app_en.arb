@@ -42,5 +42,18 @@
     "invalidUrl": "Invalid URL",
     "tryToConnect": "Try to connect",
     "routeToApi": "Route to API",
-    "setupAPIRoute": "Setup API Route"
+    "setupAPIRoute": "Setup API Route",
+    "paramInheritTip": "To inherit parameters from previous actions, type '{' in the text field and tap on the choosen parameter",
+    "parameters": "Parameters",
+    "noParameter": "No parameter",
+    "authenticatedToNoService": "You are not authenticated to any services.",
+    "connectService": "Connect service",
+    "cantEnablePipeline": "You can't enable this pipeline because it depends on a service that is not connected",
+    "from": "from",
+    "cantSignInFromService": "Can't sign in using this service",
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "register": "Register",
+    "orLoginWith": "Or Login with"
 }

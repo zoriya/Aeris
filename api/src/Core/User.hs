@@ -20,12 +20,13 @@ import Servant (AuthProtect, FromHttpApiData)
 import Servant.API (FromHttpApiData (parseUrlPiece))
 import Servant.Server.Experimental.Auth (AuthServerData)
 import Servant.Auth.JWT (ToJWT, FromJWT)
+import Data.Time (UTCTime)
 
 newtype UserId = UserId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
     deriving stock (Generic)
 
-data Service = Github | Google | Spotify | Twitter | Discord | Anilist
+data Service = Github | Google | Spotify | Twitter | Reddit | Anilist
     deriving (Eq, Show, Generic, ToJSON, FromJSON)
 
 instance FromHttpApiData Service where
@@ -34,15 +35,16 @@ instance FromHttpApiData Service where
     parseUrlPiece "google" = Right Google
     parseUrlPiece "spotify" = Right Spotify
     parseUrlPiece "twitter" = Right Twitter
-    parseUrlPiece "discord" = Right Discord
+    parseUrlPiece "reddit" = Right Reddit
     parseUrlPiece "anilist" = Right Anilist
     parseUrlPiece _ = Left "not a service"
 
 data ExternalToken = ExternalToken
     { accessToken :: Text
     , refreshToken :: Text
-    , expiresIn :: Int64
+    , expiresAt :: UTCTime
     , service :: Service
+    , providerId :: Maybe Text 
     }
     deriving (Eq, Show, Generic)
     deriving anyclass (ToJSON, FromJSON)

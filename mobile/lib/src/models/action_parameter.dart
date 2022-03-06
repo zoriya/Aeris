@@ -14,7 +14,9 @@ class ActionParameter {
   ActionParameter(
       {Key? key, required this.name, this.description = "", this.value});
 
-  static List<ActionParameter> fromJSON(Map<String, Object> params) {
+  MapEntry<String, dynamic> toJson() => MapEntry(name, value);
+
+  static List<ActionParameter> fromJSON(Map<String, dynamic> params) {
     List<ActionParameter> actionParameters = [];
     params.forEach((key, value) =>
         actionParameters.add(ActionParameter(name: key, value: value)));

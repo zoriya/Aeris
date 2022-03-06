@@ -17,10 +17,12 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    services/discord.json
+    services/anilist.json
     services/github.json
+    services/reddit.json
     services/spotify.json
     services/twitter.json
+    services/utils.json
     services/youtube.json
 
 source-repository head

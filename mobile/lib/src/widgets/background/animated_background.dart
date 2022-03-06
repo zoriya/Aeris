@@ -87,7 +87,9 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with TickerProv
     });
 
     Timer(const Duration(milliseconds: 2500), () {
-      topAnimController.forward();
+      try {
+        topAnimController.forward();
+      } catch (e) {}
     });
 
     bottomAnimController.forward();

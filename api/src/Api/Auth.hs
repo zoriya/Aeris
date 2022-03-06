@@ -18,14 +18,18 @@ import Servant (
     Post,
     ReqBody,
     err401,
+    err400,
+    err403,
     throwError,
     type (:<|>) (..),
-    type (:>),
+    type (:>), Capture, QueryParam
  )
 
 import Control.Monad.IO.Class (liftIO)
+import Control.Monad.Trans.Maybe (MaybeT(runMaybeT))
+import Core.OIDC ( getOauthTokens )
 import Data.Aeson (FromJSON, ToJSON)
-import Db.User (User', UserDB (UserDB), password, toUser)
+import Db.User (User', UserDB (UserDB, userDBId), password, toUser)
 import GHC.Generics (Generic)
 import Servant.API.Generic (ToServantApi, (:-))
 import Servant.Auth.Server (CookieSettings, JWT, JWTSettings, SetCookie, ThrowAll (throwAll), acceptLogin, AuthResult (Authenticated), makeJWT)
@@ -34,10 +38,10 @@ import Servant.Server.Generic (AsServerT)
 import Data.ByteString.Lazy.Char8 ( unpack )
 import Api.OIDC (OauthAPI, oauth)
 import App (AppM)
-import Core.User (User, UserId (UserId))
+import Core.User (User, UserId (UserId), Service)
 import Data.Text (pack)
 import Password (hashPassword'', toPassword, validatePassword')
-import Repository (createUser, getUserByName')
+import Repository (createUser, getUserByName', getUserByToken, updateTokens)
 import Utils (UserAuth, AuthRes)
 
 data LoginUser = LoginUser
@@ -57,14 +61,15 @@ newtype LoginResponse = LoginResponse
     }
     deriving (Eq, Show, Read, Generic)
 
+
+instance ToJSON LoginResponse
+instance FromJSON LoginResponse
+
 instance ToJSON LoginUser
 instance FromJSON LoginUser
 
 instance ToJSON SignupUser
 instance FromJSON SignupUser
-
-instance ToJSON LoginResponse
-instance FromJSON LoginResponse
 
 type Protected =
     "me" :> Get '[JSON] User
@@ -80,6 +85,14 @@ type Unprotected =
     :<|> "signup"
         :> ReqBody '[JSON] SignupUser
         :> Post '[JSON] NoContent
+    :<|> Capture "service" Service :> "signin"
+        :> QueryParam "code" String
+        :> Post '[JSON] LoginResponse
+    :<|> Capture "service" Service :> "signup"
+        :> QueryParam "code" String
+        :> ReqBody '[JSON] SignupUser
+        :> Post '[JSON] LoginResponse
+ 
 
 loginHandler ::
     CookieSettings ->
@@ -95,11 +108,35 @@ loginHandler cs jwts (LoginUser username p) = do
             case etoken of
                 Left e -> throwError err401
                 Right v -> return $ LoginResponse $ unpack v
-            {--mApplyCookies <- liftIO $ acceptLogin cs jwts (toUser usr)
-            case mApplyCookies of
-                Nothing -> throwError err401
-                Just applyCookies -> return $ applyCookies NoContent
-        --}else throwError err401
+        else throwError err401
+
+loginOauthHandler :: JWTSettings -> Service -> Maybe String -> AppM LoginResponse
+loginOauthHandler jwts _ Nothing = throwError err400
+loginOauthHandler jwts service (Just code) = do
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
+    case tokens of
+        Nothing -> throwError err403 
+        Just t -> do
+            user <- getUserByToken t
+            etoken <- liftIO $ makeJWT (toUser user) jwts Nothing
+            case etoken of
+                Left e -> throwError err401
+                Right v -> return $ LoginResponse $ unpack v
+
+signupOauthHandler :: JWTSettings -> Service -> Maybe String -> SignupUser -> AppM LoginResponse 
+signupOauthHandler jwts service (Just code) (SignupUser name p) = do
+    hashed <- hashPassword'' $ toPassword $ pack p
+    user <- createUser $ UserDB (UserId 1) (pack name) hashed (pack name) []
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
+    case tokens of
+        Nothing -> throwError err403 
+        Just t -> do
+            updateTokens (userDBId user) t
+            etoken <- liftIO $ makeJWT (toUser user) jwts Nothing
+            case etoken of
+                Left e -> throwError err401
+                Right v -> return $ LoginResponse $ unpack v
+signupOauthHandler _ _ _ _ = throwError err400 
 
 signupHandler ::
     SignupUser ->
@@ -111,8 +148,10 @@ signupHandler (SignupUser name p) = do
 
 unprotected :: CookieSettings -> JWTSettings -> ServerT Unprotected AppM
 unprotected cs jwts =
-    loginHandler cs jwts
-        :<|> signupHandler
+         loginHandler cs jwts
+    :<|> signupHandler
+    :<|> loginOauthHandler jwts
+    :<|> signupOauthHandler jwts
 
 data AuthAPI mode = AuthAPI
     { protectedApi :: mode :- UserAuth :> Protected

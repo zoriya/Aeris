@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeris-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: worker
+        imagePullPolicy: Always
+        image: {{ .Values.WORKER_IMAGE }}
+        ports:
+        - containerPort: 5000
+        envFrom:
+        - secretRef:
+            name: secret-back
+        - configMapRef:
+            name: configmap-back

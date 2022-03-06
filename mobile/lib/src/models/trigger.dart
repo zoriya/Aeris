@@ -1,12 +1,13 @@
 // ignore_for_file: hash_and_equals
 
 import 'package:aeris/src/models/action_parameter.dart';
+import 'package:aeris/src/providers/action_catalogue_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:aeris/src/main.dart';
+import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/models/action.dart' as aeris_action;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:tuple/tuple.dart';
+import 'package:provider/provider.dart';
 
 ///Object representation of a pipeline trigger
 class Trigger extends aeris_action.Action {
@@ -16,23 +17,33 @@ class Trigger extends aeris_action.Action {
       {Key? key,
       required Service service,
       required String name,
+      required String displayName,
       List<ActionParameter> parameters = const [],
       this.last})
-      : super(service: service, name: name, parameters: parameters);
+      : super(service: service, name: name, parameters: parameters, displayName: displayName);
 
   /// Unserialize
   static Trigger fromJSON(Object action) {
-    var triggerJSON = action as Map<String, Object>;
-    Tuple2<Service, String> service =
-        aeris_action.Action.parseServiceAndName(triggerJSON['pType'] as String);
-    DateTime last = DateTime.parse(action['lastTrigger'] as String);
+    var triggerJSON = action as Map<String, dynamic>;
+    Service service =
+        aeris_action.Action.parseServiceInName(triggerJSON['pType'] as String);
+    var lastTriggerField = action['lastTrigger'];
+    DateTime? last = lastTriggerField == null
+      ? null
+      : DateTime.parse(lastTriggerField as String);
+    String pType = triggerJSON['pType'] as String;
 
     return Trigger(
-        service: service.item1,
-        name: service.item2,
-        last: last.year == 0 ? null : last,
-        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, Object>)['contents']
-            as Map<String, Object>));
+        displayName: aeris_action.Action.getForCurrentLang(triggerJSON['label'])
+          ?? Provider.of<ActionCatalogueProvider>(Aeris.materialKey.currentContext!, listen: false)
+            .triggerTemplates[service]!.firstWhere((template) {
+              return template.name == pType;
+            }).displayName,
+        service: service,
+        name: pType,
+        last: last,
+        parameters: ActionParameter.fromJSON((triggerJSON['pParams'] as Map<String, dynamic>))
+    );
   }
 
   String lastToString() {
@@ -47,7 +58,7 @@ class Trigger extends aeris_action.Action {
 
   /// Template trigger, used as an 'empty' trigger
   Trigger.template({Key? key, this.last})
-      : super(service: Service.all()[0], name: '', parameters: []);
+      : super(service: Service.all()[0], name: '', parameters: [], displayName: '');
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -56,6 +67,7 @@ class Trigger extends aeris_action.Action {
     return service.name == other.service.name &&
         name == other.name &&
         last == other.last &&
-        parameters.map((e) => e.name).toString() == other.parameters.map((e) => e.name).toString();
+        parameters.map((e) => e.name).toString() ==
+            other.parameters.map((e) => e.name).toString();
   }
 }

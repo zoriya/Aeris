@@ -1,0 +1,4 @@
+BACK_IMAGE: aeris.azurecr.io/back
+FRONT_IMAGE: aeris.azurecr.io/front
+WORKER_IMAGE: aeris.azurecr.io/worker
+DB_IMAGE: aeris.azurecr.io/postgres
