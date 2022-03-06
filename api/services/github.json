@@ -782,60 +782,6 @@
 			]
 		},
 		{
-			"name": "Github_CommentPR",
-			"description": {
-				"en": "Comments the numbered pull request of the given repository",
-				"fr": "Commente la pull request numérotée dans le répertoire donné"
-			},
-			"label": {
-				"en": "Comments a pull request",
-				"fr": "Commente une pull request"
-			},
-			"params": [
-				{
-					"name": "owner",
-					"type": "string",
-					"description": {
-						"en": "The user's username that owns the repository",
-						"fr": "Pseudo de l'utilisateur qui possède le répertoire"
-					}
-				},
-				{
-					"name": "repo",
-					"type": "string",
-					"description": {
-						"en": "The targeted repository's name",
-						"fr": "Nom du répertoire ciblé"
-					}
-				},
-				{
-					"name": "pull_number",
-					"type": "integer",
-					"description": {
-						"en": "The number assigned to the commented pull request",
-						"fr": "Numéro assignée à la pull request commentée"
-					}
-				},
-				{
-					"name": "body",
-					"type": "string",
-					"description": {
-						"en": "The body of the comment written under the pull request",
-						"fr": "Corps du commentaire écrit sous la pull request"
-					}
-				}
-			],
-			"returns": [
-				{
-					"name": "URL",
-					"description": {
-						"en": "The url to the comment",
-						"fr": "URL vers le commentaire"
-					}
-				}
-			]
-		},
-		{
 			"name": "Github_ClosePR",
 			"description": {
 				"en": "Closes the pull request given as parameter",
@@ -972,8 +918,8 @@
 				"fr": "Commente une issue donnée dans un répertoire donné"
 			},
 			"label": {
-				"en": "Comments an issue",
-				"fr": "Commente une issue"
+				"en": "Comments an issue or pull request",
+				"fr": "Commente une issue ou une pull request"
 			},
 			"params": [
 				{
@@ -996,8 +942,8 @@
 					"name": "issue_number",
 					"type": "integer",
 					"description": {
-						"en": "The number assigned to the issue to comment",
-						"fr": "Numéro assigné à l'issue à commenter"
+						"en": "The number assigned to the issue or pull request to comment",
+						"fr": "Numéro assigné à l'issue ou de la pull request à commenter"
 					}
 				},
 				{
@@ -1005,7 +951,7 @@
 					"type": "string",
 					"description": {
 						"en": "The body of the comment",
-						"fr": "Corps du commentaire écrit sous l'issue"
+						"fr": "Contenu du commentaire"
 					}
 				}
 			],

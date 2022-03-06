@@ -75,26 +75,6 @@ export class Github extends BaseService {
 		};
 	}
 
-	@action(PipelineType.OnCommentPR, ['owner', 'repo'])
-	listenCommentPR(params: any): Observable<PipelineEnv> {
-		return this.fromGitHubEvent(
-			"pull_request_review_comment.created",
-			(payload) => payload.repository.owner.login == params['owner']
-				&& payload.repository.name == params['repo'],
-			(payload) => ({
-				PR_NAME: payload.pull_request.title,
-				PR_BODY: payload.pull_request.body,
-				PR_OPENER: payload.sender.login,
-				PR_HEAD: payload.head.ref,
-				PR_BASE: payload.base.ref,
-				REPO_NAME: payload.repository.name,
-				REPO_OWNER: payload.repository.owner.login,
-				COMMENTER: payload.comment.user.login,
-				COMMENT_BODY: payload.comment.body
-			})
-		);
-	}
-
 	@reaction(ReactionType.ClosePR, ['owner', 'repo', 'pull_number'])
 	async closePR(params: any): Promise<PipelineEnv> {
 		await this._github.pulls.update({

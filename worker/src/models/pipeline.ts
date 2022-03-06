@@ -48,7 +48,6 @@ export enum ReactionType {
 	YtAddToPlaylist,
 	// Github reactions
 	OpenPR,
-	CommentPR,
 	ClosePR,
 	MergePR,
 	CreateIssue,
