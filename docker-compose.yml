@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
       args:
         - API_ROUTE=/api
+        - MOBILE_APK_LOCATION=https://github.com/AnonymusRaccoon/Aeris/releases/download/v0.0.2.1/aeris_android.apk
     ports:
       - "8081:80"
     depends_on:
