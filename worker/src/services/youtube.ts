@@ -134,10 +134,12 @@ export class Youtube extends BaseService {
 	@reaction(ReactionType.YtAddToPlaylist, ["videoId", "playlistId"])
 	async reactPlaylist(params: any): Promise<PipelineEnv> {
 		await this._youtube.playlistItems.insert({
+			part: ["snippet"],
 			requestBody: {
 				snippet: {
 					resourceId: {
 						videoId: params.videoId,
+						kind: "youtube#video"
 					},
 					playlistId: params.playlistId,
 				},
