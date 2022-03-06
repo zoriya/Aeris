@@ -30,7 +30,7 @@ class _PipelineCardState extends State<PipelineCard> {
     return Badge(
       showBadge: widget.pipeline.errorMessage != null,
       badgeContent: Icon(Icons.priority_high, color: Theme.of(context).colorScheme.surface),
-      position: const BadgePosition(end: 3, top: 0),
+      position: const BadgePosition(end: -3, top: -5),
       child: ClickableCard(
         onTap: () {
           showAerisCardPage(
