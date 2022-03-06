@@ -14,7 +14,7 @@
 			},
 			"params": [
 				{
-					"name": "sub_name",
+					"name": "sub_id",
 					"type": "string",
 					"description": {
 						"en": "The name of the subreddit",
@@ -53,11 +53,11 @@
 			},
 			"params": [
 				{
-					"name": "sub_name",
+					"name": "sub_id",
 					"type": "string",
 					"description": {
-						"en": "The name of the subreddit",
-						"fr": "Le nom du subreddit"
+						"en": "The ID of the subreddit",
+						"fr": "Le ID du subreddit"
 					}
 				}
 			],
@@ -92,11 +92,11 @@
 			},
 			"params": [
 				{
-					"name": "sub_name",
+					"name": "sub_id",
 					"type": "string",
 					"description": {
-						"en": "The name of the subreddit",
-						"fr": "Le nom du subreddit"
+						"en": "The ID of the subreddit",
+						"fr": "Le ID du subreddit"
 					}
 				},
 				{
