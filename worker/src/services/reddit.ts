@@ -6,15 +6,14 @@ import snoowrap, {Submission, Subreddit} from 'snoowrap';
 
 @service(ServiceType.Reddit)
 export class Reddit extends BaseService {
-	private _pipeline: Pipeline;
 	private _client: snoowrap;
 
 	constructor(pipeline: Pipeline) {
 		super();
 		this._client = new snoowrap({
 			userAgent: "Aeris",
-			accessToken: this._pipeline.userData["Reddit"].accessToken
-		});
+			accessToken: pipeline.userData["Reddit"].accessToken
+		})
 	}
 
 	@reaction(ReactionType.JoinSubreddit, ['sub_id'])

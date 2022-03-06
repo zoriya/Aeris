@@ -3,39 +3,21 @@ export enum ServiceType {
 	Youtube,
 	Github,
 	Spotify,
-	Discord,
+	Reddit,
 	Anilist,
 	Utils,
 };
 
-
 export enum PipelineType {
 	// Special value that will never emit an action. It is used for deleted pipelines.
 	Never,
-	OnTweet,
 
 	OnYtUpload,
 	OnYtLike,
 	OnYtPlaylistAdd,
 
-	OnOpenPR,
-	OnCommentPR,
-	OnClosePR,
-	OnMergePR,
-	OnCreateIssue,
-	OnCommentIssue,
-	OnCloseIssue,
-	OnForkRepo,
-	OnStarRepo,
-	OnWatchRepo,
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
-
-	OnDiscordMessage,
-	OnDiscordMessageFrom,
-	OnDiscordMention,
-	OnNewDiscordGuildMember,
-	OnDiscordGuildLeave,
 
 	OnTrigger,
 };
@@ -48,7 +30,6 @@ export enum ReactionType {
 	YtAddToPlaylist,
 	// Github reactions
 	OpenPR,
-	CommentPR,
 	ClosePR,
 	MergePR,
 	CreateIssue,
@@ -64,21 +45,23 @@ export enum ReactionType {
 	PlayTrack,
 	AddTrackToLibrary,
 	AddToPlaylist,
-	//Discord
-	SetDiscordStatus,
-	PostDiscordDM,
-	LeaveDiscordServer,
-	PostDiscordMessage,
+	//Reddit
+	JoinSubreddit,
+	LeaveSubreddit,
+	PostInSubreddit,
+	ReplyToPost,
+	Upvote,
+	Downvote,
 	Pause,
 	// Anilist
 	ToggleFavourite,
 	UpdateAbout,
 	// Twitter
-	followUser,
-	postTweet,
-	replyToTweet,
-	likeTweet,
-	retweet
+	FollowUser,
+	PostTweet,
+	ReplyToTweet,
+	LikeTweet,
+	Retweet
 };
 
 export class Pipeline {
@@ -96,7 +79,8 @@ export class Pipeline {
 export class Token {
 	accessToken: string;
 	refreshToken: string;
-	expiresIn: string;
+	expiresAt: string;
+	providerId: string;
 };
 
 export class Reaction {
@@ -132,7 +116,8 @@ export const pipelineFromApi = (data: any): Pipeline => {
 			{
 				accessToken: x.accessToken,
 				refreshToken: x.refreshToken,
-				expiresIn: x.expiresIn
+				expiresAt: x.expiresAt,
+				providerId: x.providerId,
 			} as Token
 		])),
 	};

@@ -86,6 +86,7 @@ data GetPipelineResponse = GetPipelineResponse
     }
 
 type PostPipelineResponse = GetPipelineResponse
+type PutPipelineResponse = GetPipelineResponse
 
 $(deriveJSON defaultOptions ''PipelineData)
 $(deriveJSON defaultOptions ''GetPipelineData)
@@ -99,7 +100,7 @@ data PipelineAPI mode = PipelineAPI
     , post  :: mode :- "workflow" :> UserAuth :>
         ReqBody '[JSON] PostPipelineData :> Post '[JSON] PostPipelineResponse
     , put   :: mode :- "workflow" :> UserAuth :>
-        Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineData
+        Capture "id" PipelineId :> ReqBody '[JSON] PutPipelineData :> Put '[JSON] PutPipelineResponse
     , del   :: mode :- "workflow" :> UserAuth :>
         Capture "id" PipelineId :> Delete '[JSON] Int64
     , all   :: mode :- "workflows" :> UserAuth
@@ -166,33 +167,34 @@ postPipelineHandler (Authenticated (User uid _ _)) x = do
     actionId <- createPipeline newPipeline
     liftIO $ informWorker "POST" actionId
     let newReactions = reactionDatasToReactions (reactions (x :: PostPipelineData)) actionId
+    let newPipelineWithId = newPipeline { pipelineId = actionId }
     createReactions newReactions
-    return $ formatGetPipelineResponse newPipeline newReactions
+    return $ formatGetPipelineResponse newPipelineWithId newReactions
   where
     p = action (x :: PostPipelineData)
 postPipelineHandler _ _ = throwError err401
 
-putPipelineHandler :: AuthRes -> PipelineId -> PutPipelineData -> AppM PutPipelineData
-putPipelineHandler (Authenticated (User uid _ _)) pipelineId x = do
-    oldPipeline <- getPipelineById' pipelineId
+putPipelineHandler :: AuthRes -> PipelineId -> PutPipelineData -> AppM PutPipelineResponse
+putPipelineHandler (Authenticated (User uid _ _)) pId x = do
+    oldPipeline <- getPipelineById' pId
     if pipelineUserId oldPipeline == uid then do
-        res <- putWorkflow pipelineId newPipeline r
+        res <- putWorkflow pId (lit newPipeline) r
         if res > 0 then do
-            liftIO $ informWorker "PUT" pipelineId
-            return x
+            liftIO $ informWorker "PUT" pId
+            return $ formatGetPipelineResponse (newPipeline { pipelineId = pId }) r
         else
             throwError err500
     else
         throwError err403
     where
         p = action (x :: PutPipelineData)
-        newPipeline = lit $ def {
+        newPipeline = def {
           pipelineName = name (p :: PipelineData)
         , pipelineType = pType (p :: PipelineData)
         , pipelineParams = pParams (p :: PipelineData)
         , pipelineUserId = uid
-        , pipelineEnabled = enabled (p :: PipelineData)}
-        r = reactionDatasToReactions (reactions (x :: PutPipelineData)) pipelineId
+        , pipelineEnabled = enabled (p :: PipelineData)} :: Pipeline Identity
+        r = reactionDatasToReactions (reactions (x :: PutPipelineData)) pId
 putPipelineHandler _ _ _ = throwError err401
 
 delPipelineHandler :: AuthRes -> PipelineId -> AppM Int64 

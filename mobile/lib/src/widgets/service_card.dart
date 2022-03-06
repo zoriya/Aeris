@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ActionCard extends StatelessWidget {
+class ServiceCard extends StatelessWidget {
   ///Leading widget (like an icon) on the left
   final Widget leading;
 
@@ -10,7 +10,7 @@ class ActionCard extends StatelessWidget {
   ///Widget on the right of the card
   final Widget trailing;
 
-  const ActionCard(
+  const ServiceCard(
       {Key? key,
       required this.leading,
       required this.title,

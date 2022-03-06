@@ -10,6 +10,8 @@ export interface AppServiceType {
 	uid: string;
 	logo: ImageProps;
 	urlAuth: string;
+	signinUrl: string;
+	signupUrl: string;
 	linked: boolean;
 }
 
@@ -33,25 +35,34 @@ export enum ReactionTypeEnum {
 
 export interface ParamsType {
 	value: string;
-	description: string;
+	description: { [key: string]: string };
 	type: ParamTypeEnum;
 }
 
 export interface AppAREAType {
 	type: ActionTypeEnum | ReactionTypeEnum | string;
+	label: { [key: string]: string };
 	params: { [key: string]: ParamsType };
-	returns: { [key: string]: string };
-	description?: string;
+	returns: { [key: string]: { [key: string]: string } };
+	description: { [key: string]: string };
 	service: AppServiceType;
+}
+
+export enum AlertLevel {
+	None = "none",
+	Info = "info",
+	Warning = "warning",
+	Error = "error",
+	Success = "success",
 }
 
 export interface AppPipelineInfoType {
 	enabled: boolean;
 	status: string;
-	error: boolean;
-	errorText: string;
 	triggerCount: number;
-	lastTrigger: Date;
+	lastTrigger?: Date;
+	alertLevel: AlertLevel;
+	caBeEnabled: boolean;
 }
 
 export interface AppPipelineType {

@@ -1,0 +1,364 @@
+swagger: "2.0"
+info:
+  description: "Aeris api"
+  version: "1.0.0"
+  title: "Swagger Aeris"
+host: "aeris.swagger.io"
+basePath: "/"
+tags:
+- name: "auth"
+  description: "Authentication related"
+- name: "workflow"
+  description: "Workflows of the user"
+- name: "about"
+  description: "about.json"
+  
+schemes:
+- "https"
+- "http"
+paths:
+  /about.json:
+    get:
+      tags:
+      - "about"
+      responses:
+        "200":
+          description: "LE JSON QUOI"
+  /auth/signup:
+    post:
+      tags:
+      - "auth"
+      summary: "Create a new account"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Workflow object with types and params of the action and reactions"
+        required: true
+        schema:
+          $ref: "#/definitions/AuthBody"
+      responses:
+        "200":
+          description: "Success"
+        "400":
+          description: "Failure"
+          
+  /auth/login:
+    post:
+      tags:
+      - "auth"
+      summary: "Login and get JWT"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Workflow object with types and params of the action and reactions"
+        required: true
+        schema:
+          $ref: "#/definitions/AuthBody"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: "object"
+            properties:
+              jwt:
+                type: "string"
+        "401":
+          description: "Wrong creds"
+
+  /auth/me:
+    get:
+      security:  
+      - JWT: []
+      tags:
+      - "auth"
+      summary: "Check JWT validity"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Connected"
+        "401":
+          description: "Wrong creds"
+  
+  /auth/services:
+    get:
+      security:  
+      - JWT: []
+      tags:
+      - "auth"
+      summary: "Get the connected services of user"
+      responses:
+        "200":
+          description: "Connected"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+              enum:
+              - "github"
+              - "twitter"
+              - "spotify"
+              - "discord"
+              - "google"
+        "401":
+          description: "Unauthorized"
+  
+  
+  /auth/{service}:
+    get:
+      security:  
+      - JWT: []
+      tags:
+      - "auth"
+      summary: "Add a service connection"
+      parameters:
+      - name: "service"
+        in: "path"
+        description: "Id of the workflow targeted"
+        required: true
+        type: "string"
+        enum:
+          - "github"
+          - "twitter"
+          - "spotify"
+          - "discord"
+          - "google"
+      - name: "code"
+        in: "query"
+        description: "oauth2 code"
+        type: "string"
+      responses:
+        "200":
+          description: "Added the service"
+        
+        "400":
+          description: "Service conn failed"
+        "401":
+          description: "Unauthorized"
+    delete:
+      security:  
+      - JWT: []
+      tags:
+      - "auth"
+      summary: "Remove a service connection"
+      parameters:
+      - name: "service"
+        in: "path"
+        description: "Id of the workflow targeted"
+        required: true
+        type: "string"
+        enum:
+          - "github"
+          - "twitter"
+          - "spotify"
+          - "discord"
+          - "google"
+      responses:
+        "200":
+          description: "Removed the service"
+        "400":
+          description: "Failed to remove this service"
+        "401":
+          description: "Unauthorized"
+  
+  /workflow:
+    post:
+      security:  
+      - JWT: []
+      tags:
+      - "workflow"
+      summary: "Add a new workflow"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Workflow object with types and params of the action and reactions"
+        required: true
+        schema:
+          $ref: "#/definitions/Workflow"
+      responses:
+        "200":
+          description: "Success"
+        "401":
+          description: "Unauthorized"
+        "400":
+          description: "Failure"
+  /workflow/{id}:
+    get:
+      security:  
+      - JWT: []
+      tags:
+      - "workflow"
+      summary: "Get workflow info"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of the workflow targeted"
+        required: true
+        type: "integer"
+      - name: "workflow"
+        in: "body"
+        description: "workflow values"
+        schema:
+          $ref: "#/definitions/Workflow"
+      responses:
+        "200":
+          description: "Workflow created"
+        "400":
+          description: "Workflow creation failed"
+        "401":
+          description: "Unauthorized"
+    put:
+      security:  
+      - JWT: []
+      tags:
+      - "workflow"
+      summary: "Update a workflow"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of the workflow targeted"
+        required: true
+        type: "integer"
+      - name: "workflow"
+        in: "body"
+        description: "workflow values"
+        schema:
+          $ref: "#/definitions/Workflow"
+      responses:
+        "200":
+          description: "Workflow updated"
+        "400":
+          description: "Workflow update failed"
+        "401":
+          description: "Unauthorized"
+    delete:
+      security:  
+      - JWT: []
+      tags:
+      - "workflow"
+      summary: "Delete a workflow"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of the workflow targeted"
+        required: true
+        type: "integer"
+      responses:
+        "200":
+          description: "Workflow created"
+        "400":
+          description: "Workflow creation failed"
+        "401":
+          description: "Unauthorized"
+  /workflows:
+    get:
+      security:  
+      - JWT: []
+      tags:
+      - "workflow"
+      summary: "Get all of the users workflow"
+      description: ""
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Workflow"
+        "401":
+          description: "Unauthorized"
+securityDefinitions:  
+  JWT:  
+    type: apiKey  
+    in: header  
+    name: Authorization
+definitions:
+  Workflow:
+    type: "object"
+    properties:
+      action:
+        $ref: "#/definitions/Action"
+      reactions:
+        $ref: "#/definitions/Reactions"
+  Action:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "doggie"
+      pType:
+        type: "string"
+        enum:
+        - "TwitterNewTweet"
+        - "ActionName"
+      pParams:
+        type: "object"
+        properties:
+          tag:
+            type: "string"
+            enum:
+            - "TwitterNewTweetP"
+            - "ActionName"
+          contents:
+            type: "object"
+  Reaction:
+    type: "object"
+    properties:
+      rType:
+        type: "string"
+        enum:
+        - "TwitterNewTweet"
+        - "ActionName"
+      rParams:
+        type: "object"
+        properties:
+          tag:
+            type: "string"
+            enum:
+            - "TwitterNewTweetP"
+            - "ActionName"
+          contents:
+            type: "object"
+  Reactions:
+    type: "array"
+    items:
+      $ref: "#/definitions/Reaction"
+  AuthBody:
+    type: "object"
+    properties:
+      username:
+        type: "string"
+      password:
+        type: "string"

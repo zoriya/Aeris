@@ -30,6 +30,7 @@ import Repository.User (updateTokens, getTokensByUserId, delTokens)
 import GHC.Generics (Generic)
 import Data.Int (Int64)
 import Data.Text (Text)
+import Data.Time (UTCTime)
 
 
 data WorkerUserData = WorkerUserData
@@ -47,7 +48,7 @@ newtype ErrorBody = ErrorBody { error :: Text }
 data RefreshBody = RefreshBody
     { accessToken :: Text
     , refreshToken :: Text
-    , expiresIn :: Int64
+    , expiresAt :: UTCTime
     }
 
 $(deriveJSON defaultOptions ''WorkerUserData)
@@ -63,7 +64,7 @@ data WorkerAPI mode = WorkerAPI
     , trigger :: mode :- "trigger" :> Capture "id" PipelineId :>
         QueryParam "WORKER_API_KEY" String :> Get '[JSON] NoContent
     , error :: mode :- "error" :> Capture "id" PipelineId :>
-        QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] ErrorBody :> Post '[JSON] NoContent
+        QueryParam "WORKER_API_KEY" String :> QueryParam "disable" Bool :> ReqBody '[JSON] ErrorBody :> Post '[JSON] NoContent
     , refresh :: mode :- "auth" :> Capture "service" Service :> "refresh" :> Capture "id" UserId :>
         QueryParam "WORKER_API_KEY" String :> ReqBody '[JSON] RefreshBody :> Post '[JSON] NoContent  
     }
@@ -100,20 +101,20 @@ triggerHandler pId (Just key) = do
 triggerHandler _ _ = throwError err403
 
 
-errorHandler ::  PipelineId -> Maybe String -> ErrorBody -> AppM NoContent 
-errorHandler pId (Just key) (ErrorBody msg) = do
+errorHandler ::  PipelineId -> Maybe String -> Maybe Bool -> ErrorBody -> AppM NoContent 
+errorHandler pId (Just key) maybeDisable (ErrorBody msg) = do
     k <- liftIO $ envAsString "WORKER_API_KEY" ""
     if k == key then do
-      errorPipeline' pId msg
+      errorPipeline' pId msg maybeDisable
       return NoContent 
     else throwError err403  
-errorHandler _ _ _ = throwError err403
+errorHandler _ _ _ _ = throwError err403
 
 refreshHandler :: Service -> UserId -> Maybe String -> RefreshBody -> AppM NoContent 
 refreshHandler service uid (Just key) (RefreshBody at rt ex) = do
     k <- liftIO $ envAsString "WORKER_API_KEY" ""
     if k == key then do
-        updateTokens uid $ ExternalToken at rt ex service
+        updateTokens uid $ ExternalToken at rt ex service Nothing
         return NoContent 
     else throwError err403  
 refreshHandler _ _ _ _ = throwError err403

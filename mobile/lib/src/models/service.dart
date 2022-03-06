@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 
 import 'package:get_it/get_it.dart';
+import 'package:line_icons/line_icon.dart';
 
 /// Data class used to store data about a service (logo, url, name)
 class Service {
@@ -29,6 +30,9 @@ class Service {
   /// Get full url for OAuth2
   String get authUrl => GetIt.I<AerisAPI>().getServiceAuthURL(this);
 
+    /// Get full url for OAuth2 to register
+  String get authSignInUrl => GetIt.I<AerisAPI>().getServiceSignInURL(this);
+
   const Service.spotify()
       : name = "Spotify",
         url = "https://www.spotify.com",
@@ -39,11 +43,11 @@ class Service {
         url = "https://anilist.co",
         logoUrl =
             "https://anilist.co/img/icons/android-chrome-512x512.png";
-  const Service.discord()
-      : name = "Discord",
-        url = "https://discord.com/app",
+  const Service.reddit()
+      : name = "Reddit",
+        url = "https://www.reddit.com",
         logoUrl =
-            "https://play-lh.googleusercontent.com/fbrWR4LbtB_1Ulgz3_rw8bY3tx_zPU7A9ZOB5WYG_QmqOUUjA6JEzE_20GA4YBDWMx4";
+            "https://www.elementaryos-fr.org/wp-content/uploads/2019/08/logo-reddit.png"; ///TODO Get icon
   const Service.twitter()
       : name = "Twitter",
         url = "https://twitter.com",
@@ -65,7 +69,7 @@ class Service {
 
   /// Returns a list of all the available services
   static List<Service> all() => const [
-        Service.discord(),
+        Service.reddit(),
         Service.github(),
         Service.anilist(),
         Service.youtube(),
@@ -78,9 +82,28 @@ class Service {
   static Service factory(String name) {
     if (name.toLowerCase() == "git") return const Service.github();
     if (name.toLowerCase() == "ani") return const Service.anilist();
+    if (name.toLowerCase() == "google") return const Service.youtube();
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }
     throw Exception("Unknown service");
+  }
+
+  IconData getIcon() {
+    switch (this) {
+      case Service.anilist():
+        return LineIcon.buysellads().icon!;
+      case Service.spotify():
+        return LineIcon.spotify().icon!;
+      case Service.github():
+        return LineIcon.alternateGithub().icon!;
+      case Service.youtube():
+        return LineIcon.youtube().icon!;
+      case Service.twitter():
+        return LineIcon.twitter().icon!;
+      case Service.reddit():
+        return LineIcon.redditLogo().icon!;
+    }
+    throw ("No icon available");
   }
 }

@@ -12,9 +12,10 @@ RUN flutter upgrade && flutter doctor
 
 RUN which flutter
 
-COPY . .
+COPY pubspec.yaml pubspec.lock ./
 RUN flutter pub get
 
+COPY . .
 # Generate traduction files
 RUN flutter gen-l10n
 # Generate launcher icon
