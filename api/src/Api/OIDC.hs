@@ -44,10 +44,10 @@ urlHandler Anilist (Just r) = do
     throwError $ err302 { errHeaders =
         [("Location", B8.pack $ "https://anilist.co/api/v2/oauth/authorize?client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
 urlHandler Reddit (Just r) = do
-    clientId <- liftIO $ envAsString "DISCORD_CLIENT_ID" ""
+    clientId <- liftIO $ envAsString "REDDIT_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify%20guilds%20messages.read%20activities.write%20webhook.incoming&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://www.reddit.com/api/v1/authorize?client_id=" ++ clientId ++ "&response_type=code&state=" ++ r ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&duration=permanent&scope=*")] } 
 urlHandler Google  (Just r) = do
     clientId <- liftIO $ envAsString "GOOGLE_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
@@ -63,7 +63,6 @@ urlHandler Spotify (Just r) = do
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
         [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read user-library-modify streaming playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-modify-playback-state user-read-private&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] }
-
 urlHandler Github  (Just r) = do
     clientId <- liftIO $ envAsString "GITHUB_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""

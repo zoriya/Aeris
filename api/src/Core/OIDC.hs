@@ -63,17 +63,17 @@ getGithubTokens code = do
             access <- lookupObjString obj "access_token"
             Just $ ExternalToken (pack access) "" currTime Github
 
--- DISCORD
-getDiscordConfig :: IO OAuth2Conf
-getDiscordConfig =
+-- Reddit
+getRedditConfig :: IO OAuth2Conf
+getRedditConfig =
     OAuth2Conf
-        <$> envAsString "DISCORD_CLIENT_ID" ""
-        <*> envAsString "DISCORD_SECRET" ""
-        <*> pure "https://discord.com/api/oauth2/token"
+        <$> envAsString "REDDIT_CLIENT_ID" ""
+        <*> envAsString "REDDIT_SECRET" ""
+        <*> pure "https://www.reddit.com/api/v1/access_token"
 
-getDiscordTokens :: String -> IO (Maybe ExternalToken)
-getDiscordTokens code = do
-    cfg <- getDiscordConfig
+getRedditTokens :: String -> IO (Maybe ExternalToken)
+getRedditTokens code = do
+    cfg <- getRedditConfig
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
@@ -246,7 +246,7 @@ getAnilistTokens code = do
 -- General
 getOauthTokens :: Service -> String -> IO (Maybe ExternalToken)
 getOauthTokens Github = getGithubTokens
-getOauthTokens Reddit = getDiscordTokens
+getOauthTokens Reddit = getRedditTokens
 getOauthTokens Spotify = getSpotifyTokens
 getOauthTokens Google = getGoogleTokens
 getOauthTokens Twitter = getTwitterTokens

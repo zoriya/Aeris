@@ -35,7 +35,7 @@ instance FromHttpApiData Service where
     parseUrlPiece "google" = Right Google
     parseUrlPiece "spotify" = Right Spotify
     parseUrlPiece "twitter" = Right Twitter
-    parseUrlPiece "discord" = Right Reddit
+    parseUrlPiece "reddit" = Right Reddit
     parseUrlPiece "anilist" = Right Anilist
     parseUrlPiece _ = Left "not a service"
 
