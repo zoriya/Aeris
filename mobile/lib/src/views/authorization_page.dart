@@ -13,7 +13,7 @@ class AuthorizationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final route = ModalRoute.of(context)!.settings.name!;
     final code = Uri.parse(route).queryParameters['code']!;
-    final segments = Uri.parse(route).pathSegments;
+    final segments = Uri.parse(route).pathSegments.toList();
     final serviceName = segments.removeLast();
     final service = Service.factory(serviceName);
 
