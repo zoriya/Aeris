@@ -53,47 +53,39 @@ export class Reddit extends BaseService {
 
 	@reaction(ReactionType.ReplyToPost, ['post_id', 'reply_body'])
 	async commentPost(params: any): Promise<PipelineEnv> {
-		return this._client.getSubmission(params['post_id']).
-		then((response) => {
-			return response.reply(params['reply_body']).then((res) => {
-				return {
-					SUB_NAME: response.subreddit.name,
-					SUB_ID: response.subreddit.id,
-					POST_ID: response.id,
-					REPLY_ID: res.id
-				};
-			})
+		let fetchedSubmission: Submission = this._client.getSubmission(params['post_id']);
+
+		return fetchedSubmission.reply(params['reply_body']).then((res) => {
+			return {
+				SUB_NAME: fetchedSubmission.subreddit.name,
+				SUB_ID: fetchedSubmission.subreddit.id,
+				POST_ID: params['post_id'],
+				REPLY_ID: res.id
+			};
 		});
 	}
 
 	@reaction(ReactionType.Upvote, ['post_id'])
 	async upvotePost(params: any): Promise<PipelineEnv> {
-		return this._client.getSubmission(params['post_id']).
-		then((response) => {
-			return response.upvote().then((res) => {
-				return {
-					SUB_NAME: response.subreddit.name,
-					SUB_ID: response.subreddit.id,
-					POST_ID: response.id,
-					UPVOTE_COUNT: res.ups
-				};
-			});
+		return this._client.getSubmission(params['post_id']).upvote().then((res) => {
+			return {
+				SUB_NAME: res.subreddit.name,
+				SUB_ID: res.subreddit.id,
+				POST_ID: params['post_id'],
+				UPVOTE_COUNT: res.ups
+			};
 		});
 	}
 
-
 	@reaction(ReactionType.Downvote, ['post_id'])
 	async downvotePost(params: any): Promise<PipelineEnv> {
-		return this._client.getSubmission(params['post_id']).
-		then((response) => {
-			return response.downvote().then((res) => {
-				return {
-					SUB_NAME: response.subreddit.name,
-					SUB_ID: response.subreddit.id,
-					POST_ID: response.id,
-					DOWNVOTE_COUNT: res.downs
-				};
-			});
+		return this._client.getSubmission(params['post_id']).downvote().then((res) => {
+			return {
+				SUB_NAME: res.subreddit.name,
+				SUB_ID: res.subreddit.id,
+				POST_ID: res.id,
+				DOWNVOTE_COUNT: res.downs
+			};
 		});
 	}
 }
