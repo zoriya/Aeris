@@ -1,3 +1,4 @@
+import 'package:aeris/src/widgets/action_detail_card.dart';
 import 'package:aeris/src/widgets/reorderable_reaction_cards_list.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -7,7 +8,6 @@ import 'package:aeris/src/models/trigger.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/views/pipeline_detail_page.dart';
 import 'package:aeris/src/views/setup_action_page.dart';
-import 'package:aeris/src/widgets/action_card.dart';
 import 'package:aeris/src/widgets/action_card_popup_menu.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -91,11 +91,9 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                                           reactions))
                                               .then((_) => setState(() {}));
                                         })
-                                    : ActionCard(
-                                        leading: trigger.service
-                                            .getLogo(logoSize: 50),
-                                        title: trigger.displayName,
-                                        trailing: ActionCardPopupMenu(
+                                    : ActionDetailCard(
+                                        action: trigger,
+                                        popupMenu: ActionCardPopupMenu(
                                             deletable: false,
                                             parentReactions: reactions,
                                             parentTrigger: trigger,
@@ -114,13 +112,11 @@ class _CreatePipelinePageState extends State<CreatePipelinePage> {
                                   child: ReorderableReactionCardsList(
                                     reactionList: reactions,
                                     onReorder: () {},
-                                    itemBuilder: (reaction) => ActionCard(
+                                    itemBuilder: (reaction) => ActionDetailCard(
                                         key: ValueKey(
                                             reactions.indexOf(reaction)),
-                                        leading: reaction.service
-                                            .getLogo(logoSize: 50),
-                                        title: reaction.displayName,
-                                        trailing: ActionCardPopupMenu(
+                                        action: reaction,
+                                        popupMenu: ActionCardPopupMenu(
                                             parentTrigger:
                                                 trigger == Trigger.template()
                                                     ? null

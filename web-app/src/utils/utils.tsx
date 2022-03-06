@@ -1,7 +1,6 @@
-import { pipeline } from "stream";
-import { API_ROUTE } from "./globals";
-import { AppServices } from "./globals";
-import { AppAREAType, AppPipelineType, AppServiceType, ParamsType } from "./types";
+import { API_ROUTE, AppServices } from "./globals";
+import { AppAREAType, AppPipelineType, AppServiceType, ParamsType, AlertLevel } from "./types";
+import { useTranslation } from "react-i18next";
 
 export function setCookie(cname: string, cvalue: string, exdays: number): void {
 	const d = new Date();
@@ -115,11 +114,12 @@ export const deSerializeServices = (
 	return [actions, reactions];
 };
 
-export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREAType>): AppAREAType => {
+export const deSerializeApiPipelineAction = (data: any, actions: Array<AppAREAType>): AppAREAType => {
 	const refAction = actions.filter((el) => el.type === data.pType);
 
 	let params: { [key: string]: ParamsType } = refAction[0].params;
 	Object.entries(data.pParams as { [key: string]: string }).forEach((paramData) => {
+		if (!(paramData[0] in params)) return;
 		params[paramData[0]].value = paramData[1];
 	});
 
@@ -129,39 +129,39 @@ export const deSerialiseApiPipelineAction = (data: any, actions: Array<AppAREATy
 	};
 };
 
-export const deSerialiseApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
-	const refReaction = reactions.filter((el) => el.type === data.rType);
+export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
+	const refReaction = deepCopy(reactions.filter((el) => el.type === data.rType)[0]);
 
-	let params: { [key: string]: ParamsType } = refReaction[0].params;
+	let params: { [key: string]: ParamsType } = refReaction.params;
 	Object.entries(data.rParams as { [key: string]: string }).forEach((paramData) => {
+		if (!(paramData[0] in params)) return;
 		params[paramData[0]].value = paramData[1];
 	});
 
 	return {
-		...refReaction[0],
+		...refReaction,
 		params: params,
 	};
 };
 
-export const deSerialisePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
+export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
-
 	for (const reaction of data.reactions) {
-		reactionList.push(deSerialiseApiPipelineReaction(reaction, AREAs[1]));
+		reactionList.push(deepCopy(deSerializeApiPipelineReaction(reaction, AREAs[1])));
 	}
 
 	return {
 		id: data["action"]["id"],
 		name: data["action"]["name"],
-		action: deSerialiseApiPipelineAction(data.action, AREAs[0]),
+		action: deepCopy(deSerializeApiPipelineAction(data.action, AREAs[0])),
 		reactions: reactionList,
 		data: {
 			enabled: data.action.enabled,
-			error: data.action.error !== null,
-			lastTrigger: new Date(),
+			caBeEnabled: true,
+			alertLevel: data.action.error !== null ? AlertLevel.Error : AlertLevel.None,
+			lastTrigger: data.action.lastTrigger === null ? undefined : new Date(data.action.lastTrigger),
 			triggerCount: data.action?.triggerCount ?? 0,
-			errorText: data.action.error !== null ? data.action.error : "",
-			status: "reaction(s): " + reactionList.length,
+			status: data.action.error !== null ? data.action.error : "",
 		},
 	} as AppPipelineType;
 };
@@ -250,4 +250,28 @@ export const deepCopy = (obj: any): any => {
 			return newObj;
 		}, {});
 	}
+};
+
+export const doesPipelineUseService = (pD: AppPipelineType, service: AppServiceType): boolean => {
+	const sUid = service.uid;
+
+	if (pD.action.service.uid === sUid) return true;
+	for (const rea of pD.reactions) {
+		if (rea.service.uid === sUid) return true;
+	}
+	return false;
+};
+
+export const lintPipeline = (pD: AppPipelineType, services: Array<AppServiceType>): AppPipelineType => {
+	//const { t } = useTranslation();
+	pD.data.caBeEnabled = true;
+	for (const svc of services) {
+		if (!svc.linked && doesPipelineUseService(pD, svc)) {
+			pD.data.alertLevel = AlertLevel.Warning;
+			pD.data.caBeEnabled = false;
+			pD.data.status = "no " + svc.label + " account";
+			//	t("pipeline_missing_service_account_part_1") + svc.label + t("pipeline_missing_service_account_part_2");
+		}
+	}
+	return pD;
 };

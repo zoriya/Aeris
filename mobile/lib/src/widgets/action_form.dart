@@ -94,7 +94,7 @@ class _ActionFormState extends State<ActionForm> {
     return suggestions;
   }
 
-  Map<String, String> values = {};
+  final Map<String, String> values = {};
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +112,16 @@ class _ActionFormState extends State<ActionForm> {
                     final textEditingController = TextEditingController(
                         text: values[param.name] ?? param.value?.toString());
                     return TypeAheadFormField<Suggestion>(
-                        key: Key(param.description),
+                        key: Key(param.name +
+                            param.value.toString() +
+                            param.description.toString()),
                         textFieldConfiguration: TextFieldConfiguration(
                           autofocus: true,
                           controller: textEditingController,
                           enableSuggestions: widget.candidate is Reaction,
+                          onChanged: (input) {
+                            values[param.name] = input;
+                          },
                           decoration: InputDecoration(
                               labelText: ReCase(param.name).titleCase,
                               helperText: param.description),
@@ -138,7 +143,9 @@ class _ActionFormState extends State<ActionForm> {
                         onSuggestionSelected: (suggestion) {
                           textEditingController.text += suggestion.toString();
                           textEditingController.text += "}";
-                          values[param.name] = textEditingController.text;
+                          setState(() {
+                            values[param.name] = textEditingController.text;
+                          });
                         },
                         itemBuilder: (context, suggestion) => ListTile(
                             isThreeLine: true,
@@ -147,7 +154,7 @@ class _ActionFormState extends State<ActionForm> {
                                 suggestion.item3.service.getLogo(logoSize: 30),
                             title: Text(suggestion.item2.name),
                             subtitle: Text(
-                                "${suggestion.item2.description}, from '${suggestion.item3.displayName}'")));
+                                "${suggestion.item2.description}, ${AppLocalizations.of(context).from} '${suggestion.item3.displayName}'")));
                   }),
                   ...[
                     ElevatedButton(
