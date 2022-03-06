@@ -20,7 +20,6 @@
   "dependencies": {
     "@discordjs/rest": "^0.3.0",
     "@googleapis/youtube": "^2.0.0",
-    "@octokit/auth-oauth-app": "^4.3.0",
     "@octokit/rest": "^18.12.0",
     "@octokit/webhooks": "^9.22.0",
     "@types/spotify-web-api-node": "^5.0.7",
