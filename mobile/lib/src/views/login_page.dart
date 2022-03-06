@@ -77,7 +77,7 @@ class LoginPage extends StatelessWidget {
                 label: service.name,
                 callback: () async {
                   await launch(Uri.parse(service.authSignInUrl).toString(), forceSafariVC: false);
-                  return Future.delayed(Duration(seconds: 3)).then((value) {
+                  return Future.delayed(Duration(seconds: 8)).then((value) {
                     return GetIt.I<AerisAPI>().isConnected ? null : AppLocalizations.of(context).cantSignInFromService;
                   });
                 }

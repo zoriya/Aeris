@@ -65,8 +65,11 @@ class AerisAPI {
   }
 
   Future<bool> createConnectionFromService(Service service, String code) async {
+    final serviceName = service == const Service.youtube()
+        ? "google"
+        : service.name.toLowerCase();
     http.Response response = await _requestAPI(
-        '/auth/${service.name.toLowerCase()}/signin?code=$code',
+        '/auth/$serviceName/signin?code=$code',
         AerisAPIRequestType.post, {});
     if (!response.ok) {
       return false;
@@ -220,7 +223,7 @@ class AerisAPI {
     if (_connected) {
       header.addAll({'Authorization': 'Bearer $_jwt'});
     }
-    const duration = Duration(seconds: 3);
+    const duration = Duration(seconds: 10);
     try {
       switch (requestType) {
         case AerisAPIRequestType.delete:
