@@ -40,26 +40,27 @@ class SetupActionPage extends StatefulWidget {
 }
 
 class _SetupActionPageState extends State<SetupActionPage> {
-  Service? serviceState;
+  late Service serviceState;
   List<ActionTemplate>? availableActions;
 
   @override
   void initState() {
     super.initState();
     serviceState = widget.action.service;
-    availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState!, widget.action);
+    var services = Provider.of<ServiceProvider>(context, listen: false).connectedServices;
+    availableActions = GetIt.I<AerisAPI>().getActionsFor(services.contains(serviceState) ? serviceState : services[0], widget.action);
   }
 
   Widget serviceDropdown(List<Service> services) {
     return DropdownButton<Service>(
-      value: serviceState,
+      value: services.contains(serviceState) ? serviceState : services[0],
       elevation: 8,
       underline: Container(),
       onChanged: (service) {
         setState(() {
-          serviceState = service;
+          serviceState = service!;
           availableActions =
-              GetIt.I<AerisAPI>().getActionsFor(service!, widget.action);
+              GetIt.I<AerisAPI>().getActionsFor(service, widget.action);
         });
       },
       items: services.map<DropdownMenuItem<Service>>((Service service) {
@@ -176,7 +177,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                               parameters:
                                   availableAction.parameters.map((param) {
                                 if (widget.action.service.name ==
-                                        serviceState!.name &&
+                                        serviceState.name &&
                                     widget.action.name ==
                                         availableAction.name) {
                                   var previousParams = widget.action.parameters
@@ -189,7 +190,7 @@ class _SetupActionPageState extends State<SetupActionPage> {
                                 return param;
                               }).toList(),
                               onValidate: (parameters) {
-                                widget.action.service = serviceState!;
+                                widget.action.service = serviceState;
                                 widget.action.parameters =
                                     ActionParameter.fromJSON(parameters);
                                 widget.action.name = availableAction.name;
