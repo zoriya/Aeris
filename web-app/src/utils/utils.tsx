@@ -37,6 +37,25 @@ export const sendServiceAuthToken = async (
 	return response.ok;
 };
 
+export const signInService = async (
+	authToken: string,
+	serviceEndpoint: string,
+	redirectUri: string
+): Promise<boolean> => {
+	const response = await fetch(`${API_ROUTE}${serviceEndpoint}?code=${authToken}&redirect_uri=${redirectUri}`, {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+			"Content-Type": "application/json"
+		}
+	});
+
+	if (!response.ok) return false;
+	let json = await response.json();
+	setCookie("aeris_jwt", json['jwt'], 365);
+	return response.ok;
+};
+
 export const PipelineParamsToApiParam = (pipelineParams: { [key: string]: ParamsType }) => {
 	return Object.fromEntries(Object.entries(pipelineParams).map((el) => [el[0], el[1].value]));
 };

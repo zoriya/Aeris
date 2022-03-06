@@ -10,6 +10,8 @@ export interface AppServiceType {
 	uid: string;
 	logo: ImageProps;
 	urlAuth: string;
+	signinUrl: string;
+	signupUrl: string;
 	linked: boolean;
 }
 
