@@ -6,6 +6,7 @@ import {
 	AppPipelineType,
 	ImageProps,
 	AppServiceType,
+	AlertLevel,
 } from "./types";
 
 export const API_ROUTE = process.env.REACT_APP_API_ROUTE ?? "";
@@ -92,7 +93,7 @@ export const AppServices: Array<AppServiceType> = [
 		uid: "utils",
 		logo: AppServicesLogos["utils"],
 		urlAuth: "",
-		linked: false,
+		linked: true,
 	},
 ];
 
@@ -111,11 +112,11 @@ export const NewEmptyPipeline: AppPipelineType = {
 	action: NoAREA,
 	reactions: [],
 	data: {
+		alertLevel: AlertLevel.None,
 		enabled: true,
 		status: "",
-		errorText: "",
-		error: false,
 		triggerCount: 0,
-		lastTrigger: new Date(),
+		lastTrigger: undefined,
+		caBeEnabled: true,
 	},
 };

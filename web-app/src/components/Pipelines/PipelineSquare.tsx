@@ -8,25 +8,56 @@ import {
 	Avatar,
 	Stack,
 	Box,
+	Alert,
+	AlertColor,
 } from "@mui/material";
-import { AppPipelineType } from "../../utils/types";
+import { AppPipelineType, AlertLevel } from "../../utils/types";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import TimerIcon from "@mui/icons-material/Timer";
 import LoopIcon from "@mui/icons-material/Loop";
 import CableIcon from "@mui/icons-material/Cable";
 import { useTranslation } from "react-i18next";
-import "../../i18n/config";
 import "./PipelineSquare.css";
+import moment from "moment";
+import "moment/locale/fr";
+import i18next from "i18next";
 
 export interface PipelineSquareProps {
 	pipelineData: AppPipelineType;
 	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
+const getAlert = (alertLvl: AlertLevel, text: string, enabled: boolean) => {
+	const brightness = "brightness(" + (enabled ? "100" : "80") + "%)";
+	return (
+		<Alert
+			variant={enabled ? "outlined" : "filled"}
+			sx={{
+				gridArea: "PipelineStatus",
+				width: "100%",
+				padding: "0px 16px",
+				filter: brightness,
+				"& .MuiAlert-message": {
+					width: "100%",
+					textOverflow: "ellipsis",
+					overflow: "hidden",
+					whiteSpace: "nowrap",
+					textAlign: "start",
+				},
+			}}
+			severity={alertLvl as AlertColor}>
+			{text}
+		</Alert>
+	);
+};
+
 export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) => {
 	const { t } = useTranslation();
-	const backgroundColor = pipelineData.data.enabled ? (pipelineData.data.error ? "#ffdddd" : null) : "#464646";
-	const textColor = pipelineData.data.enabled ? (pipelineData.data.error ? "red" : null) : "#adadad";
+	const pEnabled = pipelineData.data.enabled;
+	const errorMode: boolean = pipelineData.data.alertLevel === AlertLevel.Error;
+	const backgroundColor = pipelineData.data.enabled ? (errorMode ? "#ffdddd" : null) : "black";
+	const textColor = pipelineData.data.enabled ? (errorMode ? "red" : null) : "#adadad";
+	moment.locale(i18next.resolvedLanguage);
 	return (
 		<Card
 			sx={{
@@ -98,17 +129,24 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 					)}
 
 					<div style={{ gridArea: "PipelineTitle", width: "100%", alignSelf: "start", justifySelf: "start" }}>
-						<Typography sx={{ wordWrap: "break-word" }} align="left" variant="h3">
-							{pipelineData.name.length < 19 ? pipelineData.name : pipelineData.name.substring(0, 18) + "..."}
+						<Typography
+							sx={{
+								overflow: "hidden",
+								textOverflow: "ellipsis",
+								display: "-webkit-box",
+								WebkitLineClamp: "2",
+								WebkitBoxOrient: "vertical",
+								maxHeight: "3",
+								fontSize: "45px",
+							}}
+							align="left"
+							variant="h3">
+							{pipelineData.name}
 						</Typography>
 					</div>
-					<div style={{ gridArea: "PipelineStatus", alignSelf: "start", justifySelf: "start" }}>
-						<Typography align="left" variant="body1">
-							{pipelineData.data.enabled &&
-								pipelineData.data.error &&
-								t("pipeline_error_prefix") + pipelineData.data.errorText}
-						</Typography>
-					</div>
+					{pipelineData.data.alertLevel !== AlertLevel.None &&
+						getAlert(pipelineData.data.alertLevel, pipelineData.data.status, pEnabled)}
+
 					<div style={{ gridArea: "PipelineInfo", width: "100%", alignSelf: "start", justifySelf: "start" }}>
 						<Stack direction={"row"} spacing={1}>
 							<Box sx={{ display: "flex", flexFlow: "row", alignItems: "center" }}>
@@ -120,7 +158,9 @@ export const PipelineSquare = ({ pipelineData, onClick }: PipelineSquareProps) =
 							<Box sx={{ display: "flex", flexFlow: "row", alignItems: "center" }}>
 								<TimerIcon color="secondary" />
 								<Typography align="left" variant="subtitle2">
-									{pipelineData.data.lastTrigger.toDateString()}
+									{pipelineData.data.lastTrigger !== undefined
+										? moment(pipelineData.data.lastTrigger).fromNow()
+										: t("pipeline_no_last_trigger")}
 								</Typography>
 							</Box>
 							<Box sx={{ display: "flex", flexFlow: "row", alignItems: "center" }}>

@@ -74,11 +74,11 @@ export enum ReactionType {
 	ToggleFavourite,
 	UpdateAbout,
 	// Twitter
-	followUser,
-	postTweet,
-	replyToTweet,
-	likeTweet,
-	retweet
+	FollowUser,
+	PostTweet,
+	ReplyToTweet,
+	LikeTweet,
+	Retweet
 };
 
 export class Pipeline {
@@ -97,6 +97,7 @@ export class Token {
 	accessToken: string;
 	refreshToken: string;
 	expiresAt: string;
+	providerId: string;
 };
 
 export class Reaction {
@@ -132,7 +133,8 @@ export const pipelineFromApi = (data: any): Pipeline => {
 			{
 				accessToken: x.accessToken,
 				refreshToken: x.refreshToken,
-				expiresAt: x.expiresAt
+				expiresAt: x.expiresAt,
+				providerId: x.providerId,
 			} as Token
 		])),
 	};
