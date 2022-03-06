@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:aeris/src/models/service.dart';
 import 'package:aeris/src/providers/pipelines_provider.dart';
 import 'package:aeris/src/providers/services_provider.dart';
-import 'package:aeris/src/widgets/action_card.dart';
+import 'package:aeris/src/widgets/service_card.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
 import 'package:aeris/src/widgets/warning_dialog.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class ServicePage extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       for (var service in services)
-        ActionCard(
+        ServiceCard(
             leading: service.getLogo(logoSize: 50),
             title: service.name,
             trailing: IconButton(
@@ -67,11 +67,15 @@ class ServicePage extends StatelessWidget {
                         warnedAction: AppLocalizations.of(context).disconnect)),
                 context),
             ...getServiceGroup(
-                serviceProvider.availableServices,
+                serviceProvider.disconnectedServices,
                 AppLocalizations.of(context).available,
                 const Icon(Icons.connect_without_contact, color: Colors.green),
                 (Service service) {
-                      launch(Uri.parse(service.authUrl).toString(), forceSafariVC: false);
+                      if (service == const Service.utils()) {
+                        serviceProvider.addService(service, '');
+                      } else {
+                        launch(Uri.parse(service.authUrl).toString(), forceSafariVC: false);
+                      }
                     },
                 context),
           ],

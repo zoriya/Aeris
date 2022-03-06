@@ -22,20 +22,30 @@ export class Youtube extends BaseService {
 			refresh_token: pipeline.userData["Google"].refreshToken,
 			access_token: pipeline.userData["Google"].accessToken,
 		});
-		// client.on("tokens", x => {
-		// 	
-		// });
+		client.on("tokens", x => {
+			fetch(`${process.env["WORKER_API_URL"]}/google/${pipeline.userId}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					accessToken: x.access_token,
+					refreshToken: x.refresh_token,
+					expiresAt: x.expiry_date,
+				}),
+			});
+		});
 		this._youtube = new youtube_v3.Youtube({
 			auth: client,
 		});
 	}
 
-	@action(PipelineType.OnYtUpload, ["channel"])
+	@action(PipelineType.OnYtUpload, ["channel_id"])
 	listenChannel(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
-				part: ["snippet"],
-				channelId: params.channel,
+				part: ["snippet", "contentDetails"],
+				channelId: params.channel_id,
 				maxResults: 25,
 				publishedAfter: since.toISOString(),
 			}, {});
@@ -124,10 +134,12 @@ export class Youtube extends BaseService {
 	@reaction(ReactionType.YtAddToPlaylist, ["videoId", "playlistId"])
 	async reactPlaylist(params: any): Promise<PipelineEnv> {
 		await this._youtube.playlistItems.insert({
+			part: ["snippet"],
 			requestBody: {
 				snippet: {
 					resourceId: {
 						videoId: params.videoId,
+						kind: "youtube#video"
 					},
 					playlistId: params.playlistId,
 				},

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aeris-back
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: back
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: back
+        imagePullPolicy: Always
+        image: {{ .Values.BACK_IMAGE }}
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+          - mountPath: "/cache"
+            name: postgres-volume-claim
+        envFrom:
+        - configMapRef:
+            name: configmap-postgres
+        - configMapRef:
+            name: configmap-back
+        - secretRef:
+            name: secret-postgres
+        - secretRef:
+            name: secret-back
+      volumes:
+      - name: postgres-volume-claim
+        persistentVolumeClaim:
+          claimName: volume-claim-back

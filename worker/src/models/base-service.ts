@@ -54,7 +54,7 @@ export class BaseService {
 	getReaction(reaction: ReactionType): (params: any) => Promise<PipelineEnv> {
 		const metadata: ActionMetadata = BaseService._reactions[this.constructor.name][ReactionType[reaction]];
 		if (!metadata)
-			throw new TypeError(`Invalid reaction: ${action}`);
+			throw new TypeError(`Invalid reaction: ${reaction}`);
 		return this._runWithParamsCheck(metadata);
 	}
 

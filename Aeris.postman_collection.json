@@ -1,0 +1,392 @@
+{
+	"info": {
+		"_postman_id": "0e5ce60d-0d09-497d-a3ba-073c8106a175",
+		"name": "Aeris",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Signup",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"clément\",\n    \"password\": \"wow\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/auth/signup",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"user login\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    const json = pm.response.json();",
+									"    pm.expect(json.jwt);",
+									"    pm.collectionVariables.set(\"jwt\", json.jwt);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"clément\",\n    \"password\": \"wow\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/auth/login",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJkYXQiOnsidXNlck5hbWUiOiJjbMOpbWVudCIsInVzZXJJZCI6MSwidXNlclNsdWciOiJjbMOpbWVudCJ9fQ._rbp20IDz2SM-OxisFUH1Pk14jFem5HD6p-Z6rRKVJMnOWUneKNb5eX3OHLT22YIYP9CKijYgLbI-BLFTvFOZg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}/auth/me",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get services",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}/auth/services",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"auth",
+								"services"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pipelines",
+			"item": [
+				{
+					"name": "Create workflow no reactions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": {\n        \"enabled\": true,\n        \"name\": \"my workflow\",\n        \"pType\": \"dqwq\",\n        \"pParams\": {\n            \"author\": \"me\"\n        }\n    },\n    \"reactions\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/workflow",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create workflow with one reaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": {\n        \"name\": \"my workflow\",\n        \"pType\": \"TwitterNewPost\",\n        \"pParams\": {\n            \"tag\": \"TwitterNewPostP\",\n            \"contents\": {\n                \"author\": \"me\"\n            }\n        }\n    },\n    \"reactions\": [\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"tag\": \"TwitterTweetP\",\n                \"contents\": {\n                    \"body\": \"I love this tweet\"\n                }\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/workflow",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create workflow with one reaction Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": {\n        \"enabled\": false,\n        \"name\": \"my workflow\",\n        \"pType\": \"dqwq\",\n        \"pParams\": {\n            \"author\": \"me\"\n        }\n    },\n    \"reactions\": [\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"body\": \"I love this tweet even more\"\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/workflow/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create workflow with multiple reactions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"action\": {\n        \"enabled\": true,\n        \"name\": \"my workflow\",\n        \"pType\": \"dqwq\",\n        \"pParams\": {\n            \"author\": \"me\"\n        }\n    },\n    \"reactions\": [\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"body\": \"I love this tweet\"\n            }\n        },\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"body\": \"I love this tweet\"\n            }\n        },\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"body\": \"I love this tweet\"\n            }\n        },\n        {\n            \"rType\": \"TwitterTweet\",\n            \"rParams\": {\n                \"body\": \"I love this tweet\"\n            }\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST}}/workflow",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get workflow",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}/workflow/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete workflow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}/workflow/6",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflow",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get workflows",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}/workflows",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"path": [
+								"workflows"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{jwt}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "localhost/api",
+			"type": "string"
+		},
+		{
+			"key": "PORT",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "jwt",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
