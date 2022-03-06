@@ -46,8 +46,9 @@ class _SetupActionPageState extends State<SetupActionPage> {
   @override
   void initState() {
     super.initState();
-    serviceState = widget.action.service;
     var services = Provider.of<ServiceProvider>(context, listen: false).connectedServices;
+    widget.action.service = services.contains(widget.action.service) ? widget.action.service : services[0];
+    serviceState = widget.action.service;
     availableActions = GetIt.I<AerisAPI>().getActionsFor(services.contains(serviceState) ? serviceState : services[0], widget.action);
   }
 
