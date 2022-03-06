@@ -43,11 +43,11 @@ class AerisAPI {
   set baseRoute(value) => _baseRoute = value;
 
   AerisAPI() {
-    var scheme = "http";
-    if (Platform.isIOS) {
-      scheme = "aeris";
+    var route = "arthichaud.me";
+    if (Platform.isAndroid) {
+      route = "";
     }
-    deepLinkRoute = "$scheme://arthichaud.me";
+    deepLinkRoute = "aeris://$route";
   }
 
   ///ROUTES
