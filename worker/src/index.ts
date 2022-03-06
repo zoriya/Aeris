@@ -38,7 +38,7 @@ app.post("/workflow/:id", (req, res) => {
 app.delete("/workflow/:id", (req, res) => {
 	console.log(`delete pipeline ${req.params.id}`);
 	pipelineEvent.emit("event", {
-		id: req.params.id,
+		id: parseInt(req.params.id),
 		type: PipelineType.Never,
 	});
 	res.send()
