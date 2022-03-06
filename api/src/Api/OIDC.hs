@@ -11,18 +11,20 @@ import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spoti
 import Data.Text (pack)
 import Core.OIDC ( getOauthTokens )
 import Repository.User (updateTokens, getTokensByUserId, delTokens)
-import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302, Delete)
+import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302, Delete, Post)
 import Servant.API.Generic (type (:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (UserAuth, AuthRes)
 import qualified Data.ByteString.Char8 as B8
-import Servant.Auth.Server (AuthResult(Authenticated))
+import Servant.Auth.Server (AuthResult(Authenticated), makeJWT)
 import System.Environment.MrEnv (envAsString)
+import Control.Monad.Trans.Maybe (MaybeT(runMaybeT))
+import Db.User (toUser)
 
 oauthHandler :: AuthRes -> Service -> Maybe String -> AppM NoContent
 oauthHandler _ _ Nothing = throwError err400
 oauthHandler (Authenticated (User uid _ _)) service (Just code) = do
-    tokens <- liftIO $ getOauthTokens service code
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
     case tokens of
         Nothing -> throwError err403 
         Just t -> do
@@ -88,7 +90,7 @@ type OauthAPI = UserAuth :> Capture "service" Service :> QueryParam "code" Strin
             :<|> Capture "service" Service :> "url" :> QueryParam "redirect_uri" String :> Get '[JSON] NoContent
             :<|> UserAuth :> "services" :> Get '[JSON] [String]
             :<|> "redirect" :> QueryParam "code" String :> QueryParam "state" String :> Get '[JSON] NoContent
- 
+
 oauth :: ServerT OauthAPI AppM
 oauth = oauthHandler
     :<|> oauthDelHandler
