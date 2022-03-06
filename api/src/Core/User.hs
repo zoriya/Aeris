@@ -26,7 +26,7 @@ newtype UserId = UserId {toInt64 :: Int64}
     deriving newtype (DBEq, DBType, Eq, Show, Num, FromJSON, ToJSON, FromHttpApiData)
     deriving stock (Generic)
 
-data Service = Github | Google | Spotify | Twitter | Discord | Anilist
+data Service = Github | Google | Spotify | Twitter | Reddit | Anilist
     deriving (Eq, Show, Generic, ToJSON, FromJSON)
 
 instance FromHttpApiData Service where
@@ -35,7 +35,7 @@ instance FromHttpApiData Service where
     parseUrlPiece "google" = Right Google
     parseUrlPiece "spotify" = Right Spotify
     parseUrlPiece "twitter" = Right Twitter
-    parseUrlPiece "discord" = Right Discord
+    parseUrlPiece "reddit" = Right Reddit
     parseUrlPiece "anilist" = Right Anilist
     parseUrlPiece _ = Left "not a service"
 

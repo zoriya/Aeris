@@ -15,7 +15,7 @@ Aeris supports a variety of service, on which Pipelines are perfomed upon:
 - GitHub
 - Spotify
 - Youtube
-- Discord
+- Reddit
 - Anilist
 - Twitter
 
