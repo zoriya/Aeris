@@ -27,16 +27,19 @@ export class Spotify extends BaseService {
 		if (Date.parse(this._pipeline.userData["Spotify"].expiresAt) >= Date.now() + 100_000)
 			return;
 		const ret = await this._spotify.refreshAccessToken();
+		const data = this._pipeline.userData["Spotify"];
+		data.accessToken = ret.body.access_token;
+		if (ret.body.refresh_token)
+			data.refreshToken = ret.body.refresh_token;
+		data.expiresAt = new Date(Date.now() + ret.body.expires_in * 1000).toISOString();
+		this._spotify.setRefreshToken(data.refreshToken);
+		this._spotify.setAccessToken(data.accessToken);
 		fetch(`${process.env["WORKER_API_URL"]}/spotify/${this._pipeline.userId}?WORKER_API_KEY=${process.env["WORKER_API_KEY"]}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({
-				accessToken: ret.body.access_token,
-				refreshToken: ret.body.refresh_token,
-				expiresAt: new Date(Date.now() + ret.body.expires_in),
-			}),
+			body: JSON.stringify(data),
 		});
 	}
 

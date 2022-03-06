@@ -1,4 +1,4 @@
-import { AppAREAType, AppPipelineType } from "../../utils/types";
+import { AlertLevel, AppAREAType, AppPipelineType } from "../../utils/types";
 import {
 	Button,
 	ButtonGroup,
@@ -8,6 +8,8 @@ import {
 	IconButton,
 	Switch,
 	TextField,
+	Alert,
+	AlertColor,
 	Typography,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -22,7 +24,6 @@ import { PipelineAREACard } from "../../components/PipelineAREACard";
 import { deepCopy } from "../../utils/utils";
 
 import { useTranslation } from "react-i18next";
-import "../../i18n/config";
 import { NoAREA } from "../../utils/globals";
 import { useState } from "react";
 
@@ -42,6 +43,14 @@ interface PipelineEditPipelineProps {
 	setEditReactionIndex: any;
 	disableDeletion: boolean;
 }
+
+const getAlert = (alertLvl: AlertLevel, text: string) => {
+	return (
+		<Alert style={{ width: "95%" }} severity={alertLvl as AlertColor}>
+			{text}
+		</Alert>
+	);
+};
 
 export default function PipelineEditPipeline({
 	pipelineData,
@@ -79,9 +88,10 @@ export default function PipelineEditPipeline({
 				style={{
 					display: "grid",
 					gridTemplateColumns: "25vw 5vw 12vw 13vw",
-					gridTemplateRows: "100px 1fr auto 3fr 1fr",
+					gridTemplateRows: "100px auto 1fr auto 3fr 1fr",
 					gridTemplateAreas: `
 							'pipelineTitle  pipelineTitle   pipelineTitle       enabledStatus'
+							'pipelineAlert  pipelineAlert   pipelineAlert       pipelineAlert'
 							'actionTitle    .               reactionTitle       reactionTitle'
 							'actionData     arrow           reactionData        reactionData'
 							'.              .               buttonAddReaction   buttonAddReaction'
@@ -120,6 +130,7 @@ export default function PipelineEditPipeline({
 					<FormControlLabel
 						control={
 							<Switch
+								disabled={!pipelineData.data.caBeEnabled}
 								color="secondary"
 								checked={pipelineData.data.enabled}
 								onChange={(e) => {
@@ -130,6 +141,13 @@ export default function PipelineEditPipeline({
 						label={t(pipelineData.data.enabled ? "activated" : "deactivated") as string}
 					/>
 				</FormGroup>
+				{pipelineData.data.alertLevel !== AlertLevel.None && (
+					<Alert
+						style={{ gridArea: "pipelineAlert", width: "95%" }}
+						severity={pipelineData.data.alertLevel as AlertColor}>
+						{pipelineData.data.status}
+					</Alert>
+				)}
 
 				<Typography style={{ gridArea: "actionTitle", justifySelf: "left" }} variant="h5" noWrap align="left">
 					{t("actionCaps")}
