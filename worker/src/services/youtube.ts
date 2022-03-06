@@ -44,8 +44,8 @@ export class Youtube extends BaseService {
 	listenChannel(params: any): Observable<PipelineEnv> {
 		return Utils.longPulling(async (since) => {
 			const ret = await this._youtube.activities.list({
-				part: ["snippet"],
-				channelId: params.channel,
+				part: ["snippet", "contentDetails"],
+				channelId: params.channel_id,
 				maxResults: 25,
 				publishedAfter: since.toISOString(),
 			}, {});
