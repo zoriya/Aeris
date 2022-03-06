@@ -44,6 +44,11 @@ To install Aeris, run the following commands at the root of the repository:
 - `docker-compose -f docker-compose.yml build` (grab a snack, it might take some time)
 - `docker-compose -f docker-compose.yml up`
 
+## Documentation
+
+- [Mobile Client Documentation](https://anonymusraccoon.github.io/Aeris/)
+- [API](https://github.com/AnonymusRaccoon/Aeris/blob/master/swagger.yaml)
+
 ## How to use it ?
 
 The Aeris server is accessible on the host's 8080 port
