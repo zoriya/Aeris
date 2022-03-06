@@ -148,9 +148,45 @@ class _PipelineDetailPageState extends State<PipelineDetailPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 30),
               child: cardHeader,
             ),
+            pipeline.errorMessage != null
+            ? Padding(
+              child: Card(
+                elevation: 0,
+                color: Theme.of(context).colorScheme.errorContainer.withAlpha(100),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Theme.of(context).colorScheme.error
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(flex: 2,
+                        child: Icon(
+                          Icons.warning,
+                          color: Theme.of(context).colorScheme.onErrorContainer
+                        )
+                      ),
+                      Expanded(flex: 8, child: Text(
+                        pipeline.errorMessage!,
+                        maxLines: 5, overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onErrorContainer
+                        ),
+                      ))
+                    ]
+                  )
+                ),
+              ),
+              padding: const EdgeInsets.only(bottom: 20),
+            )
+            : Container(),
             Text(AppLocalizations.of(context).action,
                 style: const TextStyle(fontWeight: FontWeight.w500)),
             ActionDetailCard(

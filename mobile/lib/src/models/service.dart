@@ -39,11 +39,11 @@ class Service {
         url = "https://anilist.co",
         logoUrl =
             "https://anilist.co/img/icons/android-chrome-512x512.png";
-  const Service.discord()
-      : name = "Discord",
-        url = "https://discord.com/app",
+  const Service.reddit()
+      : name = "Reddit",
+        url = "https://www.reddit.com",
         logoUrl =
-            "https://play-lh.googleusercontent.com/fbrWR4LbtB_1Ulgz3_rw8bY3tx_zPU7A9ZOB5WYG_QmqOUUjA6JEzE_20GA4YBDWMx4";
+            "https://www.elementaryos-fr.org/wp-content/uploads/2019/08/logo-reddit.png"; ///TODO Get icon
   const Service.twitter()
       : name = "Twitter",
         url = "https://twitter.com",
@@ -65,7 +65,7 @@ class Service {
 
   /// Returns a list of all the available services
   static List<Service> all() => const [
-        Service.discord(),
+        Service.reddit(),
         Service.github(),
         Service.anilist(),
         Service.youtube(),
