@@ -145,7 +145,7 @@ export const deSerializeApiPipelineReaction = (data: any, refReaction: AppAREATy
 export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
 	for (const reaction of data.reactions) {
-		const refReaction = deepCopy(AREAs[1].filter((el) => el.type === data.rType)[0]);
+		const refReaction = deepCopy(AREAs[1].filter((el) => el.type === reaction.rType)[0]);
 		if (refReaction !== undefined) reactionList.push(deepCopy(deSerializeApiPipelineReaction(reaction, refReaction)));
 	}
 

@@ -17,7 +17,7 @@ export class Github extends BaseService {
 			throw new Error("User not authenticated via github");
 		this._github = new Octokit({auth: pipeline.userData["Github"].accessToken});
 		this._websocket = new Webhooks({
-			secret: "bidibi"
+			secret: pipeline.userData["Github"].accessToken
 		});
 	}
 	
