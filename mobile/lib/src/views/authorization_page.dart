@@ -19,12 +19,12 @@ class AuthorizationPage extends StatelessWidget {
 
     if (segments.removeLast() == 'signin') {
       GetIt.I<AerisAPI>().createConnectionFromService(service, code).then((value) => Navigator.pop(context));
-    } else {
-      Provider.of<ServiceProvider>(context, listen: false).addService(service, code).then((_) {
-        Provider.of<ServiceProvider>(context, listen: false).notifyListeners();
-        Navigator.pop(context);
-      });
-    }
+      return Container();
+    } 
+    Provider.of<ServiceProvider>(context, listen: false).addService(service, code).then((_) {
+      Provider.of<ServiceProvider>(context, listen: false).notifyListeners();
+      Navigator.pop(context);
+    });
     return Container(
         alignment: Alignment.center,
         child: LoadingIndicator(
