@@ -253,6 +253,27 @@ export default function AuthComponent() {
 							{authData.authMode === "login" ? t('signUp') : t('connectToAeris')}
 						</Button>
 					</CardActions>
+					<Divider variant="middle" sx={{ m: 1 }}/>
+					<Typography variant="body2" sx={{ mb: 1}}>
+						{authData.authMode === 'login' ? t('loginWithServices') : t('signUpWithServices')}
+					</Typography>
+					<CardActions>
+						{servicesData.map((elem, index) => {
+							if (elem.uid === "utils")
+								return (<div/>);
+							return (
+								<Button
+									onClick={() => {
+										authData.authMode === 'login' ? (window.location.href = elem.signinUrl) : (window.location.href = elem.signupUrl);
+									}}
+									variant="text"
+									style={{ borderRadius: "20px", width: "20px", height: "20px" }}
+								>
+									<img loading="lazy" width="20px" height="20px" src={elem.logo.imageSrc} alt={elem.logo.altText} />
+								</Button>
+							);
+						})}
+					</CardActions>
 				</Card>
 			</form>
 		</div>
