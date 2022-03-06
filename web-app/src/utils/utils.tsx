@@ -129,9 +129,7 @@ export const deSerializeApiPipelineAction = (data: any, actions: Array<AppAREATy
 	};
 };
 
-export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAREAType>): AppAREAType => {
-	const refReaction = deepCopy(reactions.filter((el) => el.type === data.rType)[0]);
-
+export const deSerializeApiPipelineReaction = (data: any, refReaction: AppAREAType): AppAREAType => {
 	let params: { [key: string]: ParamsType } = refReaction.params;
 	Object.entries(data.rParams as { [key: string]: string }).forEach((paramData) => {
 		if (!(paramData[0] in params)) return;
@@ -147,7 +145,8 @@ export const deSerializeApiPipelineReaction = (data: any, reactions: Array<AppAR
 export const deSerializePipeline = (data: any, AREAs: Array<Array<AppAREAType>>): AppPipelineType => {
 	let reactionList: AppAREAType[] = [];
 	for (const reaction of data.reactions) {
-		reactionList.push(deepCopy(deSerializeApiPipelineReaction(reaction, AREAs[1])));
+		const refReaction = deepCopy(AREAs[1].filter((el) => el.type === data.rType)[0]);
+		if (refReaction !== undefined) reactionList.push(deepCopy(deSerializeApiPipelineReaction(reaction, refReaction)));
 	}
 
 	return {
