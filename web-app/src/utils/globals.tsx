@@ -30,7 +30,7 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 	},
 	discord: {
 		imageSrc: "https://upload.wikimedia.org/wikipedia/fr/4/4f/Discord_Logo_sans_texte.svg",
-		altText: "Discord logo",
+		altText: "Reddit logo",
 	},
 	anilist: {
 		imageSrc: "https://anilist.co/img/icons/safari-pinned-tab.svg",
@@ -75,7 +75,7 @@ export const AppServices: Array<AppServiceType> = [
 		linked: false,
 	},
 	{
-		label: "Discord",
+		label: "Reddit",
 		uid: "discord",
 		logo: AppServicesLogos["discord"],
 		urlAuth: getServiceUrl("discord"),

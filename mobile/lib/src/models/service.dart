@@ -40,7 +40,7 @@ class Service {
         logoUrl =
             "https://anilist.co/img/icons/android-chrome-512x512.png";
   const Service.discord()
-      : name = "Discord",
+      : name = "Reddit",
         url = "https://discord.com/app",
         logoUrl =
             "https://play-lh.googleusercontent.com/fbrWR4LbtB_1Ulgz3_rw8bY3tx_zPU7A9ZOB5WYG_QmqOUUjA6JEzE_20GA4YBDWMx4";

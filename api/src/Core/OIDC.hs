@@ -6,7 +6,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken, expiresAt), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
+import Core.User (ExternalToken (ExternalToken, expiresAt), Service (Github, Reddit, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded)
@@ -96,7 +96,7 @@ getDiscordTokens code = do
             refresh <- lookupObjString obj "refresh_token"
             expiresIn <- lookupObjInt obj "expires_in"
             let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
-            Just $ ExternalToken (pack access) (pack refresh) expiresAt Discord
+            Just $ ExternalToken (pack access) (pack refresh) expiresAt Reddit
 
 -- GOOGLE
 getGoogleConfig :: IO OAuth2Conf
@@ -246,7 +246,7 @@ getAnilistTokens code = do
 -- General
 getOauthTokens :: Service -> String -> IO (Maybe ExternalToken)
 getOauthTokens Github = getGithubTokens
-getOauthTokens Discord = getDiscordTokens
+getOauthTokens Reddit = getDiscordTokens
 getOauthTokens Spotify = getSpotifyTokens
 getOauthTokens Google = getGoogleTokens
 getOauthTokens Twitter = getTwitterTokens

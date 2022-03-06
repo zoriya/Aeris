@@ -7,7 +7,7 @@ module Api.OIDC where
 
 import App (AppM)
 import Control.Monad.IO.Class (liftIO)
-import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spotify, Twitter, Google, Anilist, Discord), UserId (UserId), User (User))
+import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spotify, Twitter, Google, Anilist, Reddit), UserId (UserId), User (User))
 import Data.Text (pack)
 import Core.OIDC ( getOauthTokens )
 import Repository.User (updateTokens, getTokensByUserId, delTokens)
@@ -43,7 +43,7 @@ urlHandler Anilist (Just r) = do
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
         [("Location", B8.pack $ "https://anilist.co/api/v2/oauth/authorize?client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
-urlHandler Discord (Just r) = do
+urlHandler Reddit (Just r) = do
     clientId <- liftIO $ envAsString "DISCORD_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
