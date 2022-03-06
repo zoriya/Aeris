@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:aeris/src/models/pipeline.dart';
 import 'package:aeris/src/views/pipeline_detail_page.dart';
 import 'package:aeris/src/widgets/clickable_card.dart';
-
+import 'package:badges/badges.dart';
 import 'aeris_card_page.dart';
 
 /// Widget for Action-reaction card on home page
@@ -27,7 +27,11 @@ class _PipelineCardState extends State<PipelineCard> {
             (array, logo) =>
                 array + [logo, const SizedBox(height: 5)]).toList();
     reactionLogos.removeLast();
-    return ClickableCard(
+    return Badge(
+      showBadge: widget.pipeline.errorMessage != null,
+      badgeContent: Icon(Icons.priority_high, color: Theme.of(context).colorScheme.surface),
+      position: const BadgePosition(end: 3, top: 0),
+      child: ClickableCard(
         onTap: () {
           showAerisCardPage(
             context,
@@ -76,6 +80,6 @@ class _PipelineCardState extends State<PipelineCard> {
                         const SizedBox(width: 10),
                         Column(children: reactionLogos)
                       ])),
-            ])));
+            ]))));
   }
 }

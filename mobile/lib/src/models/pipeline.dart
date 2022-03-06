@@ -17,6 +17,9 @@ class Pipeline {
   /// Is the pipeline enabled
   bool enabled;
 
+  /// An error trace, if exists
+  String? errorMessage;
+
   ///The pipeline's reactions
   final List<Reaction> reactions;
 
@@ -27,6 +30,7 @@ class Pipeline {
       required this.name,
       required this.triggerCount,
       required this.enabled,
+      this.errorMessage,
       required this.trigger,
       required this.reactions});
 
@@ -36,6 +40,7 @@ class Pipeline {
     var reactions = data['reactions'] as List<dynamic>;
 
     return Pipeline(
+        errorMessage: action['error'],
         name: action['name'] as String,
         enabled: action['enabled'] as bool,
         id: action['id'] as int,
