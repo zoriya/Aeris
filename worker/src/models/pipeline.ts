@@ -3,7 +3,7 @@ export enum ServiceType {
 	Youtube,
 	Github,
 	Spotify,
-	Discord,
+	Reddit,
 	Anilist,
 	Utils,
 };
@@ -30,12 +30,6 @@ export enum PipelineType {
 	OnWatchRepo,
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
-
-	OnDiscordMessage,
-	OnDiscordMessageFrom,
-	OnDiscordMention,
-	OnNewDiscordGuildMember,
-	OnDiscordGuildLeave,
 
 	OnTrigger,
 };
@@ -64,11 +58,13 @@ export enum ReactionType {
 	PlayTrack,
 	AddTrackToLibrary,
 	AddToPlaylist,
-	//Discord
-	SetDiscordStatus,
-	PostDiscordDM,
-	LeaveDiscordServer,
-	PostDiscordMessage,
+	//Reddit
+	JoinSubreddit,
+	LeaveSubreddit,
+	PostInSubreddit,
+	ReplyToPost,
+	Upvote,
+	Downvote,
 	Pause,
 	// Anilist
 	ToggleFavourite,
