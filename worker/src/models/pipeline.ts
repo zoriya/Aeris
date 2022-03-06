@@ -8,34 +8,16 @@ export enum ServiceType {
 	Utils,
 };
 
-
 export enum PipelineType {
 	// Special value that will never emit an action. It is used for deleted pipelines.
 	Never,
-	OnTweet,
 
 	OnYtUpload,
 	OnYtLike,
 	OnYtPlaylistAdd,
 
-	OnOpenPR,
-	OnCommentPR,
-	OnClosePR,
-	OnMergePR,
-	OnCreateIssue,
-	OnCommentIssue,
-	OnCloseIssue,
-	OnForkRepo,
-	OnStarRepo,
-	OnWatchRepo,
 	OnSpotifyAddToPlaylist,
 	OnSpotifySaveToLibrary,
-
-	OnDiscordMessage,
-	OnDiscordMessageFrom,
-	OnDiscordMention,
-	OnNewDiscordGuildMember,
-	OnDiscordGuildLeave,
 
 	OnTrigger,
 };
