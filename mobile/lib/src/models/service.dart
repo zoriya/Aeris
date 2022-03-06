@@ -47,7 +47,7 @@ class Service {
       : name = "Reddit",
         url = "https://www.reddit.com",
         logoUrl =
-            "https://www.elementaryos-fr.org/wp-content/uploads/2019/08/logo-reddit.png"; ///TODO Get icon
+            "https://www.elementaryos-fr.org/wp-content/uploads/2019/08/logo-reddit.png";
   const Service.twitter()
       : name = "Twitter",
         url = "https://twitter.com",
@@ -101,8 +101,8 @@ class Service {
         return LineIcon.youtube().icon!;
       case Service.twitter():
         return LineIcon.twitter().icon!;
-      case Service.discord():
-        return LineIcon.discord().icon!;
+      case Service.reddit():
+        return LineIcon.redditLogo().icon!;
     }
     throw ("No icon available");
   }
