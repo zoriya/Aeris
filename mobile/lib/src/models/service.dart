@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 
 import 'package:get_it/get_it.dart';
+import 'package:line_icons/line_icon.dart';
 
 /// Data class used to store data about a service (logo, url, name)
 class Service {
@@ -28,6 +29,9 @@ class Service {
 
   /// Get full url for OAuth2
   String get authUrl => GetIt.I<AerisAPI>().getServiceAuthURL(this);
+
+    /// Get full url for OAuth2 to register
+  String get authSignInUrl => GetIt.I<AerisAPI>().getServiceSignInURL(this);
 
   const Service.spotify()
       : name = "Spotify",
@@ -78,9 +82,28 @@ class Service {
   static Service factory(String name) {
     if (name.toLowerCase() == "git") return const Service.github();
     if (name.toLowerCase() == "ani") return const Service.anilist();
+    if (name.toLowerCase() == "google") return const Service.youtube();
     for (Service service in Service.all()) {
       if (service.name.toLowerCase() == name.toLowerCase()) return service;
     }
     throw Exception("Unknown service");
+  }
+
+  IconData getIcon() {
+    switch (this) {
+      case Service.anilist():
+        return LineIcon.buysellads().icon!;
+      case Service.spotify():
+        return LineIcon.spotify().icon!;
+      case Service.github():
+        return LineIcon.alternateGithub().icon!;
+      case Service.youtube():
+        return LineIcon.youtube().icon!;
+      case Service.twitter():
+        return LineIcon.twitter().icon!;
+      case Service.discord():
+        return LineIcon.discord().icon!;
+    }
+    throw ("No icon available");
   }
 }

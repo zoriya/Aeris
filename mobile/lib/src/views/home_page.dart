@@ -1,4 +1,5 @@
 import 'package:aeris/src/aeris_api.dart';
+import 'package:aeris/src/providers/services_provider.dart';
 import 'package:aeris/src/views/create_pipeline_page.dart';
 import 'package:aeris/src/views/service_page.dart';
 import 'package:aeris/src/widgets/aeris_card_page.dart';
@@ -44,7 +45,8 @@ class _HomePageState extends State<HomePage> {
               },
               warnedAction: AppLocalizations.of(context).logout)),
     );
-    return Consumer<PipelineProvider>(
+    return Consumer<ServiceProvider>(
+      builder: (_, __, ___) => Consumer<PipelineProvider>(
         builder: (context, provider, _) => AerisPage(
               floatingActionButton: FloatingActionButton(
                 onPressed: () => showAerisCardPage(
@@ -93,6 +95,6 @@ class _HomePageState extends State<HomePage> {
                           pipeline: provider.getPipelineAt(index),
                         ),
                       )),
-            ));
+            )));
   }
 }
