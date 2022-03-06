@@ -6,7 +6,7 @@ import qualified Data.ByteString.Char8 as B8
 import qualified Data.HashMap.Strict as HM
 
 import App (AppM)
-import Core.User (ExternalToken (ExternalToken, accessToken, providerId, expiresAt), Service (Github, Discord, Spotify, Google, Twitter, Anilist))
+import Core.User (ExternalToken (ExternalToken, accessToken, providerId, expiresAt), Service (Github, Reddit, Spotify, Google, Twitter, Anilist))
 import Data.Aeson.Types (Object, Value (String))
 import Data.Text (Text, pack, unpack)
 import Network.HTTP.Simple (JSONException, addRequestHeader, getResponseBody, httpJSONEither, parseRequest, setRequestMethod, setRequestQueryString, setRequestBodyURLEncoded, setRequestBodyJSON, setRequestBodyLBS)
@@ -90,28 +90,28 @@ getGithubId t = MaybeT $ do
             Just githubId -> return $ Just $ pack $ show githubId
             _ -> return Nothing
 
--- DISCORD
-getDiscordConfig :: IO OAuth2Conf
-getDiscordConfig =
+-- Reddit
+getRedditConfig :: IO OAuth2Conf
+getRedditConfig =
     OAuth2Conf
-        <$> envAsString "DISCORD_CLIENT_ID" ""
-        <*> envAsString "DISCORD_SECRET" ""
-        <*> pure "https://discord.com/api/oauth2/token"
+        <$> envAsString "REDDIT_CLIENT_ID" ""
+        <*> envAsString "REDDIT_SECRET" ""
+        <*> pure "https://www.reddit.com/api/v1/access_token"
 
-getDiscordTokens :: String -> MaybeT IO ExternalToken
-getDiscordTokens code = MaybeT $ do
-    cfg <- getDiscordConfig
+getRedditTokens :: String -> MaybeT IO ExternalToken
+getRedditTokens code = MaybeT $ do
+    cfg <- getRedditConfig
     backUrl <- envAsString "BACK_URL" ""
+    let basicAuth = encodeBase64 $ B8.pack $ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
             setRequestMethod "POST" $
             addRequestHeader "Accept" "application/json" $
+            addRequestHeader "User-Agent" "Aeris" $ 
+            addRequestHeader "Authorization" (B8.pack $ "Basic " ++ unpack basicAuth) $
             setRequestBodyURLEncoded
-                [ ("client_id", B8.pack . oauthClientId $ cfg)
-                , ("client_secret", B8.pack . oauthClientSecret $ cfg)
-                , ("code", B8.pack code)
-                , ("grant_type", "authorization_code")
+                [ ("grant_type", "authorization_code")
                 , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 ]
             request'
@@ -119,22 +119,20 @@ getDiscordTokens code = MaybeT $ do
     let (Right obj) = (getResponseBody response :: Either JSONException Object)
     access <- liftMaybe $ lookupObjString obj "access_token"
     refresh <- liftMaybe $ lookupObjString obj "refresh_token"
-
     currTime <- getCurrentTime
-
     expiresIn <- liftMaybe $ lookupObjInt obj "expires_in"
     let expiresAt = addUTCTime (fromInteger . fromIntegral $ expiresIn) currTime
-    let t = ExternalToken access refresh expiresAt Discord Nothing
-    discordId <- runMaybeT $ getDiscordId t
-    return $ Just $ t { providerId = discordId }
+    let t = ExternalToken access refresh expiresAt Reddit Nothing
+    id <- runMaybeT $ getRedditId t
+    return $ Just $ t { providerId = id }
 
-
-getDiscordId :: ExternalToken -> MaybeT IO Text
-getDiscordId t = MaybeT $ do
-    let endpoint = "https://discord.com/api/users/@me"
+getRedditId :: ExternalToken -> MaybeT IO Text
+getRedditId t = MaybeT $ do
+    let endpoint = "https://oauth.reddit.com/api/v1/me"
     request' <- parseRequest endpoint
     let request =
             addRequestHeader "Accept" "application/json" $
+            addRequestHeader "User-Agent" "Aeris" $ 
             addRequestHeader "Authorization" (B8.pack $ "Bearer " ++ unpack (accessToken t))
             request'
     response <- httpJSONEither request
@@ -352,7 +350,7 @@ getAnilistId t = MaybeT $ do
 -- General
 getOauthTokens :: Service -> String -> MaybeT IO ExternalToken
 getOauthTokens Github = getGithubTokens
-getOauthTokens Discord = getDiscordTokens
+getOauthTokens Reddit = getRedditTokens
 getOauthTokens Spotify = getSpotifyTokens
 getOauthTokens Google = getGoogleTokens
 getOauthTokens Twitter = getTwitterTokens

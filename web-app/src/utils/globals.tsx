@@ -28,9 +28,9 @@ export const AppServicesLogos: { [key: string]: ImageProps } = {
 		imageSrc: "https://upload.wikimedia.org/wikipedia/sco/9/9f/Twitter_bird_logo_2012.svg",
 		altText: "Twitter logo",
 	},
-	discord: {
-		imageSrc: "https://upload.wikimedia.org/wikipedia/fr/4/4f/Discord_Logo_sans_texte.svg",
-		altText: "Discord logo",
+	reddit: {
+		imageSrc: "https://cdn.worldvectorlogo.com/logos/reddit-4.svg",
+		altText: "Reddit logo",
 	},
 	anilist: {
 		imageSrc: "https://anilist.co/img/icons/safari-pinned-tab.svg",
@@ -83,12 +83,12 @@ export const AppServices: Array<AppServiceType> = [
 		linked: false,
 	},
 	{
-		label: "Discord",
-		uid: "discord",
-		logo: AppServicesLogos["discord"],
-		urlAuth: getServiceUrl("discord"),
-		signinUrl: getServiceUrl("discord", "signin"),
-		signupUrl: getServiceUrl("discord", "signup"),
+		label: "Reddit",
+		uid: "reddit",
+		logo: AppServicesLogos["reddit"],
+		urlAuth: getServiceUrl("reddit"),
+		signinUrl: getServiceUrl("reddit", "signin"),
+		signupUrl: getServiceUrl("reddit", "signup"),
 		linked: false,
 	},
 	{
