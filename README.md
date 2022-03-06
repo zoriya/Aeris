@@ -34,7 +34,7 @@ Make sure the following softwares are installed on your machine:
 
 To setup Aeris, you need to provide the building system some information:
 
-- Client ID and Client Secrets for EACH services (fill the `.env.example`provided at the root of the repository and rename it `.env`)
+- Client ID and Client Secrets for EACH services (fill the `.env.example` provided at the root of the repository and rename it `.env`)
 - A Host name, to let clients know how to call the API (usually localhost:8080)
 
 ## How to install it ?
@@ -51,10 +51,6 @@ The Aeris server is accessible on the host's 8080 port
 You can access the Web client through port 8081
 
 An Android APK can be downloaded via localhost:8081/client.apk
-
-## Documentation
-
-
 
 ## Why *Aeris* ?
 
