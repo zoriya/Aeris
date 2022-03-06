@@ -13,11 +13,11 @@
 			},
 			"params": [
 				{
-					"name": "channel",
+					"name": "channel_id",
 					"type": "string",
 					"description": {
-						"en": "Name of the channel to watch over",
-						"fr": "Le nom de la chaîne à regarder"
+						"en": "ID of the channel to watch over",
+						"fr": "L'ID de la chaîne à regarder"
 					}
 				}
 			],
