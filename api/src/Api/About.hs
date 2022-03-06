@@ -44,8 +44,8 @@ $(deriveJSON defaultOptions ''ServerAbout)
 $(deriveJSON defaultOptions ''About)
 
 servicesDir :: [(FilePath, S.ByteString)]
--- servicesDir = $(embedDir "./services/")
-servicesDir = undefined
+servicesDir = $(embedDir "./services/")
+-- servicesDir = undefined
 
 about :: SockAddr -> AppM About
 about host = do

@@ -7,7 +7,7 @@ import GithubAuth from "./components/Authorizations/GithubAuth";
 import SpotifyAuth from "./components/Authorizations/SpotifyAuth";
 import GoogleAuth from "./components/Authorizations/YoutubeAuth";
 import TwitterAuth from "./components/Authorizations/TwitterAuth";
-import DiscordAuth from "./components/Authorizations/DiscordAuth";
+import RedditAuth from "./components/Authorizations/RedditAuth";
 import AnilistAuth from "./components/Authorizations/AnilistAuth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthComponent from "./pages/Login/LoginPage";
@@ -33,7 +33,7 @@ function AerisRouter() {
 							<Route path="/authorization/spotify" element={<SpotifyAuth />} />
 							<Route path="/authorization/google" element={<GoogleAuth />} />
 							<Route path="/authorization/twitter" element={<TwitterAuth />} />
-							<Route path="/authorization/discord" element={<DiscordAuth />} />
+							<Route path="/authorization/reddit" element={<RedditAuth />} />
 							<Route path="/authorization/anilist" element={<AnilistAuth />} />
 						</Routes>
 					</BrowserRouter>

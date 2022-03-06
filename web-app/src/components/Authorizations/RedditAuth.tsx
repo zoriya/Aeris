@@ -3,14 +3,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { API_ROUTE } from "../../utils/globals";
 
-export default function DiscordAuth() {
+export default function RedditAuth() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const navigate = useNavigate();
 
 	const authToken = searchParams.get("code") as string;
 
 	useEffect(() => {
-		sendServiceAuthToken(authToken, "/auth/discord", `${window.location.origin}/authorization/discord`).then((ok) => {
+		sendServiceAuthToken(authToken, "/auth/reddit", `${window.location.origin}/authorization/reddit`).then((ok) => {
 			navigate('/pipelines');
 		});
 	}, []);

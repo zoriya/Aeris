@@ -74,16 +74,16 @@ getRedditConfig =
 getRedditTokens :: String -> IO (Maybe ExternalToken)
 getRedditTokens code = do
     cfg <- getRedditConfig
+    let basicAuth = encodeBase64 $ B8.pack $ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
             setRequestMethod "POST" $
             addRequestHeader "Accept" "application/json" $
+            addRequestHeader "User-Agent" "Aeris" $ 
+            addRequestHeader "Authorization" (B8.pack $ "Basic " ++ unpack basicAuth) $
             setRequestBodyURLEncoded
-                [ ("client_id", B8.pack . oauthClientId $ cfg)
-                , ("client_secret", B8.pack . oauthClientSecret $ cfg)
-                , ("code", B8.pack code)
-                , ("grant_type", "authorization_code")
+                [ ("grant_type", "authorization_code")
                 , ("redirect_uri", "http://localhost:8080/auth/redirect")
                 ]
             request'
