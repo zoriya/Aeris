@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aeris-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - aeris.westeurope.cloudapp.azure.com
+    secretName: tls-secret
+  rules:
+  - host: aeris.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: front-cluster
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aeris-ingress-static
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /static/$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  tls:
+  - hosts:
+    - aeris.westeurope.cloudapp.azure.com
+    secretName: tls-secret
+  rules:
+  - host: aeris.westeurope.cloudapp.azure.com
+    http:
+      paths:
+      - path:
+        pathType: Prefix
+        backend:
+          service:
+            name: front-cluster
+            port: 
+              number: 80
+        path: /static(/|$)(.*)

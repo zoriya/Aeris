@@ -45,7 +45,7 @@ export default function AerisAppbar({ username, onClickOnServices, onClickRefres
 						startIcon={<DownloadIcon />}
 						color="secondary"
 						size="small"
-						href="/client.apk"
+						href={process.env.REACT_APP_MOBILE_APK_LOCATION ?? "/client.apk"}
 						download>
 						{t("get_mobile_app")}
 					</Button>

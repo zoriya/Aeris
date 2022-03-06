@@ -21,9 +21,13 @@ class ServiceProvider extends ChangeNotifier {
   /// Adds a service into the Provider
   addService(Service service, String code) async {
     _connectedServices.add(service);
-    GetIt.I<AerisAPI>()
-        .connectService(service, code)
-        .then((value) => notifyListeners());
+    if (service != const Service.utils()) {
+      GetIt.I<AerisAPI>()
+          .connectService(service, code)
+          .then((value) => notifyListeners());
+    } else {
+      notifyListeners();
+    }
   }
 
   /// Refresh services from API

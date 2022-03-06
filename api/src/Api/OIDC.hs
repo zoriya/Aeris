@@ -7,22 +7,24 @@ module Api.OIDC where
 
 import App (AppM)
 import Control.Monad.IO.Class (liftIO)
-import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spotify, Twitter, Google, Anilist, Discord), UserId (UserId), User (User))
+import Core.User (ExternalToken (ExternalToken, service), Service (Github, Spotify, Twitter, Google, Anilist, Reddit), UserId (UserId), User (User))
 import Data.Text (pack)
 import Core.OIDC ( getOauthTokens )
 import Repository.User (updateTokens, getTokensByUserId, delTokens)
-import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302, Delete)
+import Servant (Capture, Get, GetNoContent, JSON, NoContent (NoContent), QueryParam, ServerT, err400, throwError, type (:<|>) ((:<|>)), type (:>), err401, err403, ServerError (errHeaders), err302, Delete, Post)
 import Servant.API.Generic (type (:-))
 import Servant.Server.Generic (AsServerT)
 import Utils (UserAuth, AuthRes)
 import qualified Data.ByteString.Char8 as B8
-import Servant.Auth.Server (AuthResult(Authenticated))
+import Servant.Auth.Server (AuthResult(Authenticated), makeJWT)
 import System.Environment.MrEnv (envAsString)
+import Control.Monad.Trans.Maybe (MaybeT(runMaybeT))
+import Db.User (toUser)
 
 oauthHandler :: AuthRes -> Service -> Maybe String -> AppM NoContent
 oauthHandler _ _ Nothing = throwError err400
 oauthHandler (Authenticated (User uid _ _)) service (Just code) = do
-    tokens <- liftIO $ getOauthTokens service code
+    tokens <- liftIO $ runMaybeT $ getOauthTokens service code
     case tokens of
         Nothing -> throwError err403 
         Just t -> do
@@ -43,11 +45,11 @@ urlHandler Anilist (Just r) = do
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
         [("Location", B8.pack $ "https://anilist.co/api/v2/oauth/authorize?client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
-urlHandler Discord (Just r) = do
-    clientId <- liftIO $ envAsString "DISCORD_CLIENT_ID" ""
+urlHandler Reddit (Just r) = do
+    clientId <- liftIO $ envAsString "REDDIT_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
-        [("Location", B8.pack $ "https://discord.com/api/oauth2/authorize?response_type=code&scope=identify%20guilds%20messages.read%20activities.write%20webhook.incoming&client_id=" ++ clientId ++ "&response_type=code&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] } 
+        [("Location", B8.pack $ "https://www.reddit.com/api/v1/authorize?client_id=" ++ clientId ++ "&response_type=code&state=" ++ r ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&duration=permanent&scope=*")] } 
 urlHandler Google  (Just r) = do
     clientId <- liftIO $ envAsString "GOOGLE_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
@@ -63,7 +65,6 @@ urlHandler Spotify (Just r) = do
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
     throwError $ err302 { errHeaders =
         [("Location", B8.pack $ "https://accounts.spotify.com/authorize?response_type=code&scope=user-library-read user-library-modify streaming playlist-modify-private playlist-read-collaborative playlist-read-private playlist-modify-public user-modify-playback-state user-read-private&client_id=" ++ clientId ++ "&redirect_uri=" ++ backRedirect ++ "auth/redirect" ++ "&state=" ++ r)] }
-
 urlHandler Github  (Just r) = do
     clientId <- liftIO $ envAsString "GITHUB_CLIENT_ID" ""
     backRedirect <- liftIO $ envAsString "BACK_URL" ""
@@ -89,7 +90,7 @@ type OauthAPI = UserAuth :> Capture "service" Service :> QueryParam "code" Strin
             :<|> Capture "service" Service :> "url" :> QueryParam "redirect_uri" String :> Get '[JSON] NoContent
             :<|> UserAuth :> "services" :> Get '[JSON] [String]
             :<|> "redirect" :> QueryParam "code" String :> QueryParam "state" String :> Get '[JSON] NoContent
- 
+
 oauth :: ServerT OauthAPI AppM
 oauth = oauthHandler
     :<|> oauthDelHandler

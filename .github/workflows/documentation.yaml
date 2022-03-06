@@ -3,49 +3,46 @@ on:
   push:
     branches:
       - master
-      - workflows
+      - mobile_client*
+  workflow_dispatch:
 jobs:
-  DeployBackDocumentation:
-    runs-on: ubuntu-20.04
+  DeployDocumentation:
+    name: "Generate ${{ matrix.run_name }}'s documentation"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project_dir: mobile
+            run_name: 'Mobile client'
+            doc_dir: 'doc/api'
+            use: 'subosito/flutter-action@v1.5.3'
+            warm_up: flutter pub global activate dartdoc; rm -rf doc ; flutter gen-l10n
+            doc_generation: dartdoc;
+    defaults:
+      run:
+        working-directory: ${{ matrix.project_dir }}
     steps:
       - uses: actions/checkout@v2.3.4
-      - name: Install stack
-        run: curl -sSL https://get.haskellstack.org/ | sh -s - -f
-      - name: Generate Haddock documentation
-        run: stack haddock --haddock-arguments --odir="docs"
+      - uses: subosito/flutter-action@v2.2.0
+        with:
+          channel: 'dev'
+        if: matrix.project_dir == 'mobile'
+      - name: Warmup
+        run: ${{ matrix.warm_up }} ; ls -l
+      - name: Generate documentation
+        run: ${{ matrix.doc_generation }}
       - name: Deploy
         run: |
-          cd docs
+          cd "${{ matrix.doc_dir }}"
           git config --global user.email "${GITHUB_ACTOR}@github.com";
           git config --global user.name "${GITHUB_ACTOR}";
           git init
           git add -A;
-          git commit -m "Deploying the back-end's documentation";
+          git commit -m "Deploying the ${{ matrix.run_name }}'s documentation";
           git remote add origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@${GITHUB_REPO};
-          git checkout -b documentation-back
-          git push --force origin documentation-back;
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPO: "github.com/AnonymusRaccoon/Aeris"
-  DeployMobileAppDocumentation:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: subosito/flutter-action@v1.5.3
-      - name: Update Documentation
-        run: |
-          flutter pub global activate dartdoc
-          rm -rf doc
-          dartdoc
-          cd doc/api
-          git config --global user.email "${GITHUB_ACTOR}@github.com";
-          git config --global user.name "${GITHUB_ACTOR}";
-          git init
-          git add -A;
-          git commit -m "Deploying the mobile client documentation";
-          git remote add origin https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@${GITHUB_REPO};
-          git checkout -b documentation-mobile
-          git push --force origin documentation-mobile;
+          git checkout -b documentation-${{ matrix.project_dir }}
+          git push --force origin documentation-${{ matrix.project_dir }};
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: "github.com/AnonymusRaccoon/Aeris"
