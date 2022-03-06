@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aeris/src/aeris_api.dart';
 import 'package:aeris/main.dart';
 import 'package:aeris/src/models/service.dart';

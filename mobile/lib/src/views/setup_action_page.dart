@@ -48,9 +48,8 @@ class _SetupActionPageState extends State<SetupActionPage> {
     super.initState();
     var services = Provider.of<ServiceProvider>(context, listen: false).connectedServices;
     if (services.isNotEmpty) {
-      widget.action.service = services.contains(widget.action.service) ? widget.action.service : services[0];
-      serviceState = widget.action.service;
-      availableActions = GetIt.I<AerisAPI>().getActionsFor(services.contains(serviceState) ? serviceState : services[0], widget.action);
+      serviceState = services.contains(widget.action.service) ? widget.action.service : services[0];
+      availableActions = GetIt.I<AerisAPI>().getActionsFor(serviceState, widget.action);
     }
   }
 
