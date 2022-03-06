@@ -1,0 +1,320 @@
+{
+	"name": "Reddit",
+	"actions": [],
+	"reactions": [
+		{
+			"name": "Reddit_JoinSubreddit",
+			"description": {
+				"en": "Subscribe to a Subbreddit",
+				"fr": "S'abonner à un Subreddit"
+			},
+			"label": {
+				"en": "Join a Subbreddit",
+				"fr": "Rejoindre un Subreddit"
+			},
+			"params": [
+				{
+					"name": "sub_name",
+					"type": "string",
+					"description": {
+						"en": "The name of the subreddit",
+						"fr": "Le nom du subreddit"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the subreddit",
+						"fr": "Le nom du subreddit"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the subreddit",
+						"fr": "L'ID du subreddit"
+					}
+				}
+			]
+		},
+		{
+			"name": "Reddit_LeaveSubreddit",
+			"description": {
+				"en": "Unsubscribe to a Subbreddit",
+				"fr": "Se désabonner à un Subreddit"
+			},
+			"label": {
+				"en": "Leave a Subbreddit",
+				"fr": "Quitter un Subreddit"
+			},
+			"params": [
+				{
+					"name": "sub_name",
+					"type": "string",
+					"description": {
+						"en": "The name of the subreddit",
+						"fr": "Le nom du subreddit"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the subreddit",
+						"fr": "Le nom du subreddit"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the subreddit",
+						"fr": "L'ID du subreddit"
+					}
+				}
+			]
+		},
+		{
+			"name": "Reddit_PostInSubreddit",
+			"description": {
+				"en": "Post in a Subbreddit",
+				"fr": "Créer un post dans un Subreddit"
+			},
+			"label": {
+				"en": "Create a post",
+				"fr": "Créer un post"
+			},
+			"params": [
+				{
+					"name": "sub_name",
+					"type": "string",
+					"description": {
+						"en": "The name of the subreddit",
+						"fr": "Le nom du subreddit"
+					}
+				},
+				{
+					"name": "title",
+					"type": "string",
+					"description": {
+						"en": "The title of the post",
+						"fr": "Le titre du post"
+					}
+				},
+				{
+					"name": "body",
+					"type": "string",
+					"description": {
+						"en": "The content of the post",
+						"fr": "Le contenu du post"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the parent subreddit",
+						"fr": "Le nom du subreddit parent"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the subreddit parent",
+						"fr": "L'ID du subreddit parent"
+					}
+				},
+				{
+					"name": "POST_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the post",
+						"fr": "L'ID du post"
+					}
+				}
+			]
+		},
+		{
+			"name": "Reddit_ReplyToPost",
+			"description": {
+				"en": "Reply to Post in a Subbreddit",
+				"fr": "Créer un réponse à un post dans un Subreddit"
+			},
+			"label": {
+				"en": "Reply to a post",
+				"fr": "Répondre à un post"
+			},
+			"params": [
+				{
+					"name": "post_id",
+					"type": "string",
+					"description": {
+						"en": "The ID of the post",
+						"fr": "L'ID du post"
+					}
+				},
+				{
+					"name": "reply_body",
+					"type": "string",
+					"description": {
+						"en": "The content of the reply",
+						"fr": "Le contenu de la réponse"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the parent subreddit",
+						"fr": "Le nom du subreddit parent"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the parent subreddit",
+						"fr": "L'ID du subreddit parent"
+					}
+				},
+				{
+					"name": "POST_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the post",
+						"fr": "L'ID du post"
+					}
+				},
+				{
+					"name": "REPLY_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the reply",
+						"fr": "L'ID de la réponse"
+					}
+				}
+			]
+		},
+		{
+			"name": "Reddit_Upvote",
+			"description": {
+				"en": "Upvote a Post in a Subbreddit",
+				"fr": "Liker un un post dans un Subreddit"
+			},
+			"label": {
+				"en": "Upvote to a post",
+				"fr": "Liker un post"
+			},
+			"params": [
+				{
+					"name": "post_id",
+					"type": "string",
+					"description": {
+						"en": "The ID of the post",
+						"fr": "L'ID du post"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the parent subreddit",
+						"fr": "Le nom du subreddit parent"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the parent subreddit",
+						"fr": "L'ID du subreddit parent"
+					}
+				},
+				{
+					"name": "POST_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the upvoted post",
+						"fr": "L'ID du post liké"
+					}
+				},
+				{
+					"name": "UPVOTE_COUNT",
+					"type": "integer",
+					"description": {
+						"en": "The count of upvote of the post",
+						"fr": "Le nombre d'upvote sur le post"
+					}
+				}
+			]
+		},
+		{
+			"name": "Reddit_Downvote",
+			"description": {
+				"en": "Downvote a Post in a Subbreddit",
+				"fr": "Disliker un un post dans un Subreddit"
+			},
+			"label": {
+				"en": "Downvote to a post",
+				"fr": "Disliker un post"
+			},
+			"params": [
+				{
+					"name": "post_id",
+					"type": "string",
+					"description": {
+						"en": "The ID of the post",
+						"fr": "L'ID du post"
+					}
+				}
+			],
+			"returns": [
+				{
+					"name": "SUB_NAME",
+					"type": "string",
+					"description": {
+						"en": "The name of the parent subreddit",
+						"fr": "Le nom du subreddit parent"
+					}
+				},
+				{
+					"name": "SUB_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the parent subreddit",
+						"fr": "L'ID du subreddit parent"
+					}
+				},
+				{
+					"name": "POST_ID",
+					"type": "string",
+					"description": {
+						"en": "The ID of the downvoted post",
+						"fr": "L'ID du post disliké"
+					}
+				},
+				{
+					"name": "DOWNVOTE_COUNT",
+					"type": "integer",
+					"description": {
+						"en": "The count of downvote of the post",
+						"fr": "Le nombre de downvote sur le post"
+					}
+				}
+			]
+		}
+	]
+}
