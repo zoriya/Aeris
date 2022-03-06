@@ -74,6 +74,7 @@ getDiscordConfig =
 getDiscordTokens :: String -> IO (Maybe ExternalToken)
 getDiscordTokens code = do
     cfg <- getDiscordConfig
+    backUrl <- envAsString "BACK_URL" ""
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
@@ -84,7 +85,7 @@ getDiscordTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:8080/auth/redirect")
+                , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 ]
             request'
     response <- httpJSONEither request
@@ -109,6 +110,7 @@ getGoogleConfig =
 getGoogleTokens :: String -> IO (Maybe ExternalToken)
 getGoogleTokens code = do
     cfg <- getGoogleConfig
+    backUrl <- envAsString "BACK_URL" ""
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
@@ -119,7 +121,7 @@ getGoogleTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:8080/auth/redirect")
+                , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 ]
             request'
     response <- httpJSONEither request
@@ -144,7 +146,7 @@ getSpotifyConfig =
 getSpotifyTokens :: String -> IO (Maybe ExternalToken)
 getSpotifyTokens code = do
     cfg <- getSpotifyConfig
-
+    backUrl <- envAsString "BACK_URL" ""
     let basicAuth = encodeBase64 $ B8.pack $ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
@@ -155,7 +157,7 @@ getSpotifyTokens code = do
             setRequestBodyURLEncoded
                 [ ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:8080/auth/redirect")
+                , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 ]
             request'
     response <- httpJSONEither request
@@ -180,6 +182,7 @@ getTwitterConfig =
 getTwitterTokens :: String -> IO (Maybe ExternalToken)
 getTwitterTokens code = do
     cfg <- getTwitterConfig
+    backUrl <- envAsString "BACK_URL" ""
     let basicAuth = encodeBase64 $ B8.pack $ "Basic " ++ oauthClientId cfg ++ ":" ++ oauthClientSecret cfg
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
@@ -190,7 +193,7 @@ getTwitterTokens code = do
             setRequestBodyURLEncoded
                 [ ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:8080/auth/redirect")
+                , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 , ("code_verifier", "challenge")
                 ]
             request'
@@ -216,6 +219,7 @@ getAnilistConfig =
 getAnilistTokens :: String -> IO (Maybe ExternalToken)
 getAnilistTokens code = do
     cfg <- getAnilistConfig
+    backUrl <- envAsString "BACK_URL" ""
     let endpoint = tokenEndpoint code cfg
     request' <- parseRequest endpoint
     let request =
@@ -226,7 +230,7 @@ getAnilistTokens code = do
                 , ("client_secret", B8.pack . oauthClientSecret $ cfg)
                 , ("code", B8.pack code)
                 , ("grant_type", "authorization_code")
-                , ("redirect_uri", "http://localhost:8080/auth/redirect")
+                , ("redirect_uri", B8.pack $ backUrl ++ "auth/redirect")
                 ]
             request'
     response <- httpJSONEither request
