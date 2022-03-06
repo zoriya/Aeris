@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
       args:
         - API_ROUTE=/api
+        - MOBILE_APK_LOCATION=/client.apk
     ports:
       - "8081:80"
     depends_on:
