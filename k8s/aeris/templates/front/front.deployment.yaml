@@ -16,6 +16,5 @@ spec:
       - name: front
         imagePullPolicy: Always
         image: {{ .Values.FRONT_IMAGE }}
-        #args: ["/api"]
         ports:
         - containerPort: 80

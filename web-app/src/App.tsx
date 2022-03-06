@@ -40,7 +40,12 @@ export default function App() {
 							onClick={pushToLogin}>
 							{t("goToApp")}
 						</Button>
-						<Button variant="text" startIcon={<DownloadIcon />} href="/client.apk" download color="secondary">
+						<Button
+							variant="text"
+							startIcon={<DownloadIcon />}
+							href={process.env.REACT_APP_MOBILE_APK_LOCATION ?? "/client.apk"}
+							download
+							color="secondary">
 							{t("get_mobile_app")}
 						</Button>
 					</Box>
