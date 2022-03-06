@@ -60,7 +60,11 @@ class LoginPage extends StatelessWidget {
             onSignup: _signupUser,
             userType: LoginUserType.name,
             userValidator: (input) {
-              if (input == null || input.trim().length < 4) return "Must be at least 4 chars long";
+              if (input == null || input.trim().isEmpty) return "Must be at least 1 char long";
+              return null;
+            },
+            passwordValidator: (input) {
+              if (input == null || input.trim().isEmpty) return "Must be at least 1 char long";
               return null;
             },
             onSubmitAnimationCompleted: () {
