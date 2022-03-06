@@ -128,10 +128,11 @@ getRedditTokens code = MaybeT $ do
 
 getRedditId :: ExternalToken -> MaybeT IO Text
 getRedditId t = MaybeT $ do
-    let endpoint = "https://discord.com/api/users/@me" -- todo fix this
+    let endpoint = "https://oauth.reddit.com/api/v1/me"
     request' <- parseRequest endpoint
     let request =
             addRequestHeader "Accept" "application/json" $
+            addRequestHeader "User-Agent" "Aeris" $ 
             addRequestHeader "Authorization" (B8.pack $ "Bearer " ++ unpack (accessToken t))
             request'
     response <- httpJSONEither request
