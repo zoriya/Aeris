@@ -2,12 +2,12 @@
 
 # Professional, personnal action-reaction manager
 
-[![Build](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml)
-
 ![API](https://img.shields.io/badge/API-Haskell-purple)
 ![Worker](https://img.shields.io/badge/Worker-Typescript-blue)
 ![Web Client](https://img.shields.io/badge/Web%20Client-React-turquoise)
 ![Mobile Client](https://img.shields.io/badge/Mobile%20Client-Flutter-lightblue)
+
+[![Build](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml)
 
 ## What is Aeris
 
