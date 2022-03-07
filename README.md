@@ -2,6 +2,13 @@
 
 # Professional, personnal action-reaction manager
 
+![API](https://img.shields.io/badge/API-Haskell-purple)
+![Worker](https://img.shields.io/badge/Worker-Typescript-blue)
+![Web Client](https://img.shields.io/badge/Web%20Client-React-turquoise)
+![Mobile Client](https://img.shields.io/badge/Mobile%20Client-Flutter-lightblue)
+
+[![Build](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/AnonymusRaccoon/Aeris/actions/workflows/build.yml)
+
 ## What is Aeris
 
 Aeris is an Action-Reaction system manager. It lets its users create *Pipelines*.
@@ -27,7 +34,7 @@ Make sure the following softwares are installed on your machine:
 
 To setup Aeris, you need to provide the building system some information:
 
-- Client ID and Client Secrets for EACH services (fill the `.env.example`provided at the root of the repository and rename it `.env`)
+- Client ID and Client Secrets for EACH services (fill the `.env.example` provided at the root of the repository and rename it `.env`)
 - A Host name, to let clients know how to call the API (usually localhost:8080)
 
 ## How to install it ?
@@ -37,6 +44,11 @@ To install Aeris, run the following commands at the root of the repository:
 - `docker-compose -f docker-compose.yml build` (grab a snack, it might take some time)
 - `docker-compose -f docker-compose.yml up`
 
+## Documentation
+
+- [Mobile Client Documentation](https://anonymusraccoon.github.io/Aeris/)
+- [API](https://github.com/AnonymusRaccoon/Aeris/blob/master/swagger.yaml)
+
 ## How to use it ?
 
 The Aeris server is accessible on the host's 8080 port
@@ -44,6 +56,24 @@ The Aeris server is accessible on the host's 8080 port
 You can access the Web client through port 8081
 
 An Android APK can be downloaded via localhost:8081/client.apk
+
+## Mobile client
+
+<img src="./assets/mobile/startup.jpg" width=200>
+<img src="./assets/mobile/home_screen.jpg" width=200>
+<img src="./assets/mobile/pipeline.jpg" width=200>
+<img src="./assets/mobile/auto_completion.jpg" width=200>
+
+More screenshots [here](https://github.com/AnonymusRaccoon/Aeris/tree/master/assets/mobile)
+
+## Web Client
+
+<img src="./assets/web-app/home_screen.png" height=250>
+<img src="./assets/web-app/pipeline.png" height=250>
+
+<img src="./assets/web-app/setup_action.png" height=250>
+
+More screenshots [here](https://github.com/AnonymusRaccoon/Aeris/tree/master/assets/web-app)
 
 ## Why *Aeris* ?
 
