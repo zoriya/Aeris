@@ -57,6 +57,24 @@ You can access the Web client through port 8081
 
 An Android APK can be downloaded via localhost:8081/client.apk
 
+## Mobile client
+
+<img src="./assets/mobile/startup.jpg" width=200>
+<img src="./assets/mobile/home_screen.jpg" width=200>
+<img src="./assets/mobile/pipeline.jpg" width=200>
+<img src="./assets/mobile/auto_completion.jpg" width=200>
+
+More screenshots [here](https://github.com/AnonymusRaccoon/Aeris/tree/master/assets/mobile)
+
+## Web Client
+
+<img src="./assets/web-app/home_screen.png" height=250>
+<img src="./assets/web-app/pipeline.png" height=250>
+
+<img src="./assets/web-app/setup_action.png" height=250>
+
+More screenshots [here](https://github.com/AnonymusRaccoon/Aeris/tree/master/assets/web-app)
+
 ## Why *Aeris* ?
 
 This project's name is inspired by [Aergia]( https://en.wikipedia.org/wiki/Aergia), the goddess of sloth.
